@@ -1,27 +1,35 @@
 import {
   Input,
+  Card,
   Checkbox,
   Button,
   Typography,
 } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
-
+import Navbar from "../widgets/layout/navbar";
 
 export function SignUp() {
   return (
-    <section className="m-8 flex">
-            <div className="w-2/5 h-full hidden lg:block">
-        <img
-          src="/img/pattern.png"
-          className="h-full w-full object-cover rounded-3xl"
-        />
-      </div>
-      <div className="w-full lg:w-3/5 flex flex-col items-center justify-center">
+    <>
+    <section className="m-8 flex items-center">
+            <div className="w-3/5 h-full hidden lg:block">
+            <img
+            src="/img/opp.png"
+            className="mx-auto mt-40 w-full h-auto max-h-full"
+            style={{ maxHeight: "100%", maxWidth: "100%" }}
+            alt="Opportunify"
+          />
+        </div>
+
+      <div className="w-full lg:w-2/5 flex flex-col items-center justify-center">
         <div className="text-center">
-          <Typography variant="h2" className="font-bold mb-4">Join Us Today</Typography>
+          <Typography variant="h1" className="font-bold mb-4">Join Us</Typography>
           <Typography variant="paragraph" color="blue-gray" className="text-lg font-normal">Enter your email and password to register.</Typography>
         </div>
-        <form className="mt-8 mb-2 mx-auto w-80 max-w-screen-lg lg:w-1/2">
+
+
+        <Card className="mt-8 ml-auto mr-auto mb-2 w-60 max-w-screen-lg lg:w-5/6 rounded-lg p-6 bg-gray-200 bg-opacity-90">
+        <form className="mt-8 mb-2 mx-auto w-80 max-w-screen-lg ">
           <div className="mb-1 flex flex-col gap-6">
             <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
               Your email
@@ -35,26 +43,9 @@ export function SignUp() {
               }}
             />
           </div>
-          <Checkbox
-            label={
-              <Typography
-                variant="small"
-                color="gray"
-                className="flex items-center justify-start font-medium"
-              >
-                I agree the&nbsp;
-                <a
-                  href="#"
-                  className="font-normal text-black transition-colors hover:text-gray-900 underline"
-                >
-                  Terms and Conditions
-                </a>
-              </Typography>
-            }
-            containerProps={{ className: "-ml-2.5" }}
-          />
-          <Button className="mt-6" fullWidth>
-            Register Now
+     
+          <Button className="mt-6 bg-red-800 " fullWidth>
+          Register Now
           </Button>
 
           <div className="space-y-4 mt-8">
@@ -84,9 +75,11 @@ export function SignUp() {
             <Link to="/sign-in" className="text-gray-900 ml-1">Sign in</Link>
           </Typography>
         </form>
-
+        </Card>
       </div>
+    
     </section>
+    </>
   );
 }
 
