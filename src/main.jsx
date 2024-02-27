@@ -16,6 +16,7 @@ import App from "./App";
 import { BrowserRouter } from "react-router-dom";
 import { ThemeProvider } from "@material-tailwind/react";
 import "../public/css/tailwind.css";
+import ApplyForm from "./pages/applyForm";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
 
@@ -23,6 +24,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     <BrowserRouter>
       <ThemeProvider>
         <App />
+        
       </ThemeProvider>
     </BrowserRouter>
   </React.StrictMode>

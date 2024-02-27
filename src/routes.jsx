@@ -1,4 +1,5 @@
 import { Home, Profile, SignIn, SignUp } from "@/pages";
+import ApplyForm from "./pages/applyForm";
 
 export const routes = [
   {
@@ -26,6 +27,11 @@ export const routes = [
     href: "https://www.material-tailwind.com/docs/react/installation",
     target: "_blank",
     element: "",
+  },
+  {
+    name: "Apply",
+    path: "/apply",
+    element: <ApplyForm />,
   },
 ];
 
