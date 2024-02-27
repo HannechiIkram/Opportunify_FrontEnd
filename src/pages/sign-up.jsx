@@ -9,30 +9,70 @@ import { Link } from "react-router-dom";
 import Navbar from "../widgets/layout/navbar";
 import { useState } from "react";
 import axios from "axios";
-
 export function SignUp() {
+  const [data, setData] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
 
-  const[data,setData]=useState({
-    name:"",
-    email:"",
-    password:"",
-  })
+  const [errors, setErrors] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
+
   const registerUser = async (e) => {
     e.preventDefault();
+
+    // Validate form fields before submitting
+    let formIsValid = true;
+
+    if (!data.name) {
+      setErrors({ ...errors, name: "Please enter your name" });
+      formIsValid = false;
+    } else if (data.name.length > 10) {
+      setErrors({ ...errors, name: "Name must be less than 10 characters" });
+      formIsValid = false;
+    }
+
+    if (!data.email) {
+      setErrors({ ...errors, email: "Please enter your email" });
+      formIsValid = false;
+    } else {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(data.email)) {
+        setErrors({ ...errors, email: "Invalid email format" });
+        formIsValid = false;
+      } else {
+        setErrors({ ...errors, email: "" }); // Reset email error if valid
+      }
+    }
+    if (!data.password) {
+      setErrors({ ...errors, password: "Please enter your password" });
+      formIsValid = false;
+    } else {
+      // Password must contain at least one uppercase letter, one number, and one special character
+      const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d!@#$%^&*()_+]{5,}$/;
+      if (!passwordRegex.test(data.password)) {
+        setErrors({ ...errors, password: "Password must contain at least one uppercase letter, one number, and one special character and contains a min of 5 characters" });
+        formIsValid = false;
+      }
+    }
+    if (!formIsValid) {
+      // If form is not valid, prevent submission
+      return;
+    }
+
     try {
       const response = await axios.post('/users/register', data);
-      // Assuming successful registration, you can redirect the user or display a success message
       console.log('Registration successful:', response.data);
       // Redirect user to login page or any other appropriate page
     } catch (error) {
-      // Handle registration errors
       console.error('Registration failed:', error.response.data);
-      // Display error message to the user
-      // For example, set state to show error message to the user
+      // Handle registration errors
     }
   };
-  
-  
 
   return (
     <>
@@ -69,7 +109,11 @@ export function SignUp() {
               }}
               value={data.name}
               onChange={(e)=>setData({...data,name:e.target.value})}
+              
             />
+             
+    {errors.name && <Typography variant="small" color="red">{errors.name}</Typography>}
+    
           </div>
 
           <div className="mb-1 flex flex-col gap-6">
@@ -86,6 +130,8 @@ export function SignUp() {
               value={data.email}
               onChange={(e)=>setData({...data,email:e.target.value})}
             />
+                {errors.email && <Typography variant="small" color="red">{errors.email}</Typography>}
+
           </div>
 
           <div className="mb-1 flex flex-col gap-6">
@@ -102,6 +148,8 @@ export function SignUp() {
               value={data.password}
               onChange={(e)=>setData({...data,password:e.target.value})}
             />
+                {errors.password && <Typography variant="small" color="red">{errors.password}</Typography>}
+
           </div>
      
           <Button className="mt-6 bg-red-800 " fullWidth type="submit">
