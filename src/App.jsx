@@ -1,7 +1,9 @@
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { Navbar } from "@/widgets/layout";
 import routes from "@/routes";
-
+import axios from "axios";
+axios.defaults.baseURL="http://127.0.0.1:3000"
+axios.defaults.withCredentials=true
 
 function App() {
   const { pathname } = useLocation();
