@@ -1,15 +1,8 @@
 import React, { useState } from "react";
-import { ReactTyped } from "react-typed";
-import company from "./company.png";
-import jobseeker from "./jobseeker.png";
-import staff from "./staff.png";
+
 import Footer from "./Footer.jsx";
 import 'react-day-picker/dist/style.css';
-import { motion } from 'framer-motion';
-import Banner from "./Banner.png";
-import {fadeIn} from "./variants.jsx";
-import opportunify from "./opportunify.jpg"
-import Select from "react-select";
+
 
 import {
   Card,
@@ -73,178 +66,17 @@ export function Job_offer() {
   return (
     
     <>
-     <div className='max-w-[800px] mt-[-96px] w-full h-20 mx-auto text-center flex flex-col justify-center'>
-        {/* ... Autres éléments existants ... */}
-        <div className="absolute left-0 top-0 p-2">
-          <Select
-            value={selectedLanguage}
-            onChange={handleLanguageChange}
-            options={languageOptions}
-            placeholder="Select Language"
-            className="w-20" // Ajustez la largeur selon vos besoins
-          />
-        </div>
-      </div>
-<div className='max-w-[800px] mt-[-96px] w-full h-screen mx-auto text-center flex flex-col justify-center'>  
-        <div>
-    <ReactTyped className='text-[#555555] font-bold p-2  text-5xl' strings={["GROW WITH OPPORTUNIFY"]} typeSpeed={40} />
-    <br />
-
-    <ReactTyped className='mx-auto py-3 text-black w-full text-4xl' 
-      strings={[
-   
-        "Searching for internships?",
-        "Searching for job offers?",
-        "Searching for expanding your profesionnal network ",
-      ]}
-      typeSpeed={40}
-      backSpeed={50}
-      attr="placeholder"
-      loop
-    >
-
-
-      <input type="text" />
-    </ReactTyped>
-  </div>  
-  <button className='bg-[#d63939] w-[200px] rounded-md font-medium my-6 mx-auto py-3 text-white'>Get Started</button>
-
-</div>
-
-
-
-
-
-<div className="relative w-full">
-  <div>
-    <motion.div
-      variants={fadeIn("down", 0, 2)}
-      initial="hidden"
-      whileInView={"show"}
-      viewport={{ once: false, amount: 0.7 }}
-    >
-      <img src={Banner} alt="Banner" className='w-full lg:h-[383px]'/>
-      </motion.div>
-      <motion.div
-         variants={fadeIn("up", 0, 2)}
-         initial="hidden"
-         whileInView={"show"}
-         viewport={{ once: false, amount: 0.7 }}
-          className="absolute top-1/2 left-0 transform -translate-y-1/2 text-white text-6xl font-bold mb-4 font-sans">
-        Welcome to OPPORTUNIFY
-        <div className=" mt-4">
-        <div className="text-2xl">Explore Limitless Opportunities:Your </div>
-        <div className="text-2xl"> Gateway to Professional Growth</div>
-        </div>
-      </motion.div >
-      
-   
-  </div>
-</div>
-
-<div className='w-full py-[10rem] px-4 bg-gray-100'>
-
-      <div className='max-w-[1240px] mx-auto grid md:grid-cols-3 gap-8'>
-          <div className='w-full shadow-xl flex flex-col p-4 my-4 rounded-lg hover:scale-105 duration-300'>
-              <img className='  w-20 mx-auto mt-[-3rem] bg-white' src={jobseeker} alt="/" />
-              <h2 className='text-[#2b2b2b] text-2xl font-bold text-center py-8'>JOB SEEKER</h2>
-              <div className='text-center font-medium'>
-                  <p className='py-2 border-b mx-8 mt-8'>;;;;;</p>
-            
-              </div>
-              <button className='bg-[#d63939] w-[200px] rounded-md font-medium my-6 mx-auto px-6 py-3 text-white'>Start Trial</button>
-              </div>
-          <div className='w-full shadow-xl bg-[#f5f5f5] flex flex-col p-4 md:my-0 my-8 rounded-lg hover:scale-105 duration-300'>
-              <img className='  w-20 mx-auto mt-[-3rem] bg-transparent' src={company} alt="/" />
-              <h2 className='text-[#2b2b2b] text-2xl font-bold text-center py-8'>COMPANY</h2>
-              <div className='text-center font-medium'>
-                  <p className='py-2 border-b mx-8 mt-8'>;;;;;;</p>
-              
-              </div>
-              <button className='bg-black text-white w-[200px] rounded-md font-medium my-6 mx-auto px-6 py-3'>Start Trial</button>
-          </div>
-          <div className='w-full shadow-xl flex flex-col p-4 my-4 rounded-lg hover:scale-105 duration-300'>
-              <img className='w-20 mx-auto mt-[-3rem] bg-gray-100' src={staff} alt="/" />
-              <h2 className='text-[#2b2b2b]  text-2xl font-bold text-center py-8'>STAFF</h2>
-              <div className='text-center font-medium'>
-                  <p className='py-2 border-b mx-8 mt-8'>;;;;;</p>
+        <div className="h-1/4 container relative mx-auto">
+  <div className="relative flex h-screen content-center items-center justify-center pt-16 pb-32">
+        <div className="absolute top-0  w-full bg-[url('/img/background-3.png')] bg-cover bg-center" />
+        <div className="absolute top-0 h-full w-full bg-[#555555] bg-cover bg-center" />
+        <div className="max-w-8xl container relative mx-auto">
+          <div className="flex flex-wrap items-center">
            
-              </div>
-              <button className='bg-[#d63939] w-[200px] rounded-md font-medium my-6 mx-auto px-6 py-3 text-white'>Start Trial</button>
           </div>
-      </div>
-
-    </div>
-
-
-
-
-
-
-
-    <div className='text-[#1d1c1c]'>
-      <div className='max-w-[800px] mt-[-96px] w-full h-screen mx-auto text-center flex flex-col justify-center'>
-        <p className='text-[#555555] font-bold p-2'>
-        Embark on a Journey of Professional Growth        </p>
-        <h1 className='md:text-7xl sm:text-6xl text-4xl font-bold md:py-6'>
-        A Pioneering Platform.
-        </h1>
-        <div className='flex justify-center items-center'>
-          <p className='md:text-5xl sm:text-4xl text-xl font-bold py-4'>
-          Explore, Apply, Succeed. 
-          </p>
-        </div>
-        <p className='Lato md:text-xl text-xl font-bold text-gray-500'>At Opportunify, we envision a future where the recruitment process is not just a transaction but a transformative experience.</p>
-        <p className='Lato md:text-xl text-xl font-bold text-gray-500'> We believe in conscious and collaborative opportunities that contribute positively to both individuals and organizations.
-.</p>
-
-        <button className='bg-[#f85252] w-[200px] rounded-md font-medium my-6 mx-auto py-3 text-white'>Get Started</button>
-      </div>
-    </div>
-
-
-
-
-
-
-
-
-
-    <div className='bg-[#f5f5f5]    w-full py-16 text-black px-4'>
-      <div className='max-w-[1240px] mx-auto grid lg:grid-cols-3'>
-        <div className='lg:col-span-2 my-4'>
-        <img className='w-11   font-bold mb-4 bg-transparent' src={opportunify} alt="opportunify" />
-          <h1 className='Lato md:text-4xl sm:text-3xl text-2xl font-bold py-2'>
-
-          Ready to brainstorm?
-          </h1>
-          <p className="Lato md:text-xl text-grey">let's talk</p>
-        </div>
-        <div className='my-4'>
-          <div className='flex flex-col sm:flex-row items-center justify-between w-full'>
-            <input
-              className='p-3 flex w-full rounded-md text-black'
-              type='email'
-              placeholder='Enter Email'
-            />
-            <button className='bg-[#d63939] text-white rounded-md font-medium w-[200px] ml-4 my-6 px-6 py-3'>
-              Notify Me
-            </button>
-          </div>
-          <p>
-            We care bout the protection of your data. Read our{' '}
-            <span className='text-[#c23939]'>Privacy Policy.</span>
-          </p>
         </div>
       </div>
-    </div>
-    
-
-
-
-
-
-
+</div>
      <section className="relative ml-10 mr-10 mt-4 lg:mt-8 flex gap-4 items-center">
   <div className="absolute top-0 h-full w-full bg-[url('/img/background-3.png')] bg-cover bg-center" />
 
