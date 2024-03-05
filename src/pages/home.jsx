@@ -19,7 +19,7 @@ export function Home() {
   return (
     <>
       <div className=" relative flex h-screen content-center items-center justify-center pt-16 pb-32">
-        <div className="absolute top-0 h-full w-full bg-[url('/img/bg-4.jpg')] opacity-70 bg-cover bg-center" />
+        <div className="absolute top-0 h-full w-full bg-[url('/img/design.png')] opacity-70 bg-cover bg-center" />
         <div className="absolute top-0 h-full w-full bg-black opacity-40 bg-cover bg-center"/>
         <div className="max-w-8xl container relative mx-auto">
           <div className="flex flex-wrap items-center">

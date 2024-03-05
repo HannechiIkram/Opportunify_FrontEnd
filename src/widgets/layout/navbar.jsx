@@ -2,10 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
-
 import {
   Navbar as MTNavbar,
-  MobileNav,
+  Collapse,
   Typography,
   Button,
   IconButton,
@@ -63,12 +62,9 @@ export function Navbar({ brandName, routes, action }) {
   );
 
   return (
-
-    
-    <MTNavbar color="transparent"  className="p-3">
+    <MTNavbar color="transparent" className="p-3">
       <div className="container mx-auto mt-1 flex items-center justify-between text-white">
-  
-      <Link to="/">
+        <Link to="/">
           <img
             src="/img/opportunify.png"
             alt="Logo"
@@ -108,11 +104,8 @@ export function Navbar({ brandName, routes, action }) {
           )}
         </IconButton>
       </div>
-      <MobileNav
-        className="rounded-xl bg-white px-4 pt-2 pb-4 text-white"
-        open={openNav}
-      >
-        <div className="container mx-auto">
+      <Collapse open={openNav}>
+        <div className="rounded-xl bg-white px-4 pt-2 pb-4 text-white container mx-auto">
           {navList}
           <a
             href="https://www.material-tailwind.com/blocks/react?ref=mtkr"
@@ -127,13 +120,12 @@ export function Navbar({ brandName, routes, action }) {
             className: "w-full block",
           })}
         </div>
-      </MobileNav>
+      </Collapse>
     </MTNavbar>
   );
 }
 
 Navbar.defaultProps = {
-  
   action: (
     <a
       href="https://www.creative-tim.com/product/material-tailwind-kit-react"
