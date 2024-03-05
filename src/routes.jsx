@@ -1,4 +1,5 @@
-import { Home, Profile, SignIn, SignUp,Job_offer} from "@/pages";
+import { Home, Profile, SignIn, SignUp,Job_offer, ResetPassword} from "@/pages";
+
 
 export const routes = [
   {
@@ -32,6 +33,11 @@ export const routes = [
     target: "_blank",
     element: "",
   },
+  {
+    name: "Password Reset",
+    path: "/passwordreset",
+    element: <ResetPassword/>,
+  }
 ];
 
 export default routes;
