@@ -7,8 +7,9 @@ import {
 } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+/*
 import PhoneInput from 'react-phone-input-2';
-import 'react-phone-input-2/lib/style.css';
+import 'react-phone-input-2/lib/style.css';*/
 
 
 
@@ -209,25 +210,7 @@ export function SignUp() {
                 {errors.email && <Typography variant="small" color="red">{errors.email}</Typography>}
               </div>
 
-              <div className="mb-1 flex flex-col gap-6">
-                <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
-                  Your Phone Number
-                </Typography>
-                <PhoneInput
-                  country={'TN'} // Default country
-                  size="lg"
-                  placeholder="+216-12 345 6789"
-                  className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
-                  labelProps={{
-                    className: "before:content-none after:content-none",
-                  }}
-                 
-                  value={data.phone}
-                  onChange={(phone) => setData({ ...data, phone })}
 
-                />
-                {errors.phone && <Typography variant="small" color="red">{errors.phone}</Typography>}
-              </div>
               <div className="mb-1 flex flex-col gap-6">
                 <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
                   Your Adress
@@ -246,6 +229,23 @@ export function SignUp() {
               </div>
 
              
+        <div className="mb-1 flex flex-col gap-6">
+          <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
+            Your Phone Number
+          </Typography>
+          <Input
+            type="tel"
+            placeholder="+216-12 345 6789"
+            size="lg"
+            className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
+            labelProps={{
+              className: "before:content-none after:content-none",
+            }}
+            value={data.phone}
+            onChange={(e) => setData({ ...data, phone: e.target.value })}
+          />
+          {errors.phone && <Typography variant="small" color="red">{errors.phone}</Typography>}
+        </div>
 
               <div className="mb-1 flex flex-col gap-6">
                 <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
