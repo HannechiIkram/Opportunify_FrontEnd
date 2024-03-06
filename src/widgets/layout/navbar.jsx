@@ -61,8 +61,9 @@ export function Navbar({ brandName, routes, action }) {
   );
 
   return (
-    <MTNavbar color="transparent" className="p-3">
-      <div className="container mx-auto flex items-center justify-between text-white">
+    <MTNavbar color="transparent" className="p-3 bg-blue-gray-50">
+      <div className="container mx-auto flex items-center justify-between text-gray-800">
+        
         <Link to="/">
           <Typography className="mr-4 ml-2 cursor-pointer py-1.5 font-bold">
             {brandName}
@@ -70,14 +71,7 @@ export function Navbar({ brandName, routes, action }) {
         </Link>
         <div className="hidden lg:block">{navList}</div>
         <div className="hidden gap-2 lg:flex">
-          <a
-            href="https://www.material-tailwind.com/blocks?ref=mtkr"
-            target="_blank"
-          >
-            <Button variant="text" size="sm" color="white" fullWidth>
-              pro version
-            </Button>
-          </a>
+        
           {React.cloneElement(action, {
             className: "hidden lg:inline-block",
           })}
@@ -100,17 +94,9 @@ export function Navbar({ brandName, routes, action }) {
         className="rounded-xl bg-white px-4 pt-2 pb-4 text-blue-gray-900"
         open={openNav}
       >
-        <div className="container mx-auto">
+        <div className="container mx-auto hover:text-red-800">
           {navList}
-          <a
-            href="https://www.material-tailwind.com/blocks/react?ref=mtkr"
-            target="_blank"
-            className="mb-2 block"
-          >
-            <Button variant="text" size="sm" fullWidth>
-              pro version
-            </Button>
-          </a>
+         
           {React.cloneElement(action, {
             className: "w-full block",
           })}
@@ -121,14 +107,14 @@ export function Navbar({ brandName, routes, action }) {
 }
 
 Navbar.defaultProps = {
-  brandName: "Material Tailwind React",
+  brandName: "OpporTunify",
   action: (
     <a
-      href="https://www.creative-tim.com/product/material-tailwind-kit-react"
+      href="/dashboard"
       target="_blank"
     >
       <Button variant="gradient" size="sm" fullWidth>
-        free download
+        Dashboard
       </Button>
     </a>
   ),

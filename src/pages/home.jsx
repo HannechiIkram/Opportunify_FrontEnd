@@ -41,24 +41,12 @@ export function Home() {
     <>
     <div className="h-1/4 container relative mx-auto">
   <div className="relative flex h-screen content-center items-center justify-center pt-16 pb-32">
-        <div className="absolute top-0  w-full bg-[url('/img/background-3.png')] bg-cover bg-center" />
-        <div className="absolute top-0 h-full w-full bg-[#555555] bg-cover bg-center" />
-        <div className="max-w-8xl container relative mx-auto">
-          <div className="flex flex-wrap items-center">
+
            
-          </div>
-        </div>
-      </div>
-</div>
-   
-
-
-
-
-   
-<div className='max-w-[800px] mt-[-96px] w-full h-screen mx-auto text-center flex flex-col justify-center'>  
+<div className='max-w-[800px] mt-[-96px] w-full h-screen mx-auto text-center flex flex-col justify-center mt-50'>  
         <div>
-    <ReactTyped className='Lato  text-[#555555] font-bold p-2 text-5xl' strings={["GROW WITH OPPORTUNIFY"]} typeSpeed={40} />
+          <br></br>
+    <ReactTyped className='Lato  text-gray-800 font-bold p-2 text-5xl' strings={["GROW WITH OPPORTUNIFY"]} typeSpeed={40} />
     <br />
 
     <ReactTyped className='Lato  mx-auto py-3 text-black w-full text-4xl ' 
@@ -66,7 +54,6 @@ export function Home() {
    
         "Searching for internships?",
         "Searching for job offers?",
-        "Searching for expanding your profesionnal network ",
       ]}
       typeSpeed={40}
       backSpeed={50}
@@ -78,9 +65,18 @@ export function Home() {
       <input type="text" />
     </ReactTyped>
   </div>  
-  <button className='bg-[#d63939] w-[200px] rounded-md font-medium my-6 mx-auto py-3 text-white'>Get Started</button>
+  <a
+      href="/sign-up"
+      target="_blank"
+    >
+      <button className='bg-red-800 w-[200px] rounded-md font-medium my-6 mx-auto py-3 text-white'>Get Started</button>
+    </a>
 
 </div>
+      </div>
+</div>
+   
+
 
 
 
@@ -113,7 +109,7 @@ export function Home() {
   </div>
 </div>
 
-<div className='w-full py-[10rem] px-4 bg-gray-100'>
+<div className='w-full py-[10rem] px-4 bg-gray-100 justify-content-center'>
 
       <div className='max-w-[1240px] mx-auto grid md:grid-cols-3 gap-8'>
           <div className='w-full shadow-xl flex flex-col p-4 my-4 rounded-lg hover:scale-105 duration-300'>
@@ -141,13 +137,6 @@ export function Home() {
           </div>
       </div>
 
- 
-
-
-
-
-
-
 
     <div className='text-[#1d1c1c]'>
       <div className='max-w-[800px] mt-[-96px] w-full h-screen mx-auto text-center flex flex-col justify-center'>
@@ -165,7 +154,7 @@ export function Home() {
         <p className='Lato md:text-xl text-xl font-bold text-gray-500'> We believe in conscious and collaborative opportunities that contribute positively to both individuals and organizations.
 .</p>
 
-        <button className='bg-[#f85252] w-[200px] rounded-md font-medium my-6 mx-auto py-3 text-white'>Get Started</button>
+        
       </div>
     </div>
 
@@ -249,16 +238,7 @@ export function Home() {
    </div>
 
 
-
-
-
-
-
 <Footer/>
-      
-   
-  
-     
       
     </>
   );
