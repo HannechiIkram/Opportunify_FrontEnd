@@ -1,4 +1,4 @@
-import { Home, Profile, SignIn, SignUp ,ResetPassword} from "@/pages";
+import { Home, Profile, SignIn, SignUp ,ResetPassword ,RegisterJobseeker} from "@/pages";
 import Forgot from "./pages/passwordForget";
 
 export const routes = [
@@ -22,6 +22,11 @@ export const routes = [
     path: "/sign-up",
     element: <SignUp />,
   },
+
+  {name: "Sign UpJob Seeker", // Updated route name
+    path: "/sign-upjs",
+    element: <RegisterJobseeker />
+},
   {
     name: "Offers",
     href: "https://www.material-tailwind.com/docs/react/installation",

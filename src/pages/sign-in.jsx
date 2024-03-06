@@ -14,7 +14,7 @@ export function SignIn() {
   {
     e.preventDefault();
     try {
-      const response = await axios.post('/users/login', data);
+      const response = await axios.post('/user/login', data);
       // Assuming successful registration, you can redirect the user or display a success message
       console.log('Authentification successful:', response.data);
       window.alert('Authentification successful:');

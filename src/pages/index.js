@@ -3,3 +3,4 @@ export * from "@/pages/profile";
 export * from "@/pages/sign-in";
 export * from "@/pages/sign-up";
 export * from "@/pages/passwordReset";
+export * from "@/pages/register-jobseeker";

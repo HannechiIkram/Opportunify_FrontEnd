@@ -10,8 +10,10 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 
 
+
 export function SignUp() {
   const navigate = useNavigate();
+  
   const [data, setData] = useState({
     name: "",
     email: "",
@@ -309,10 +311,12 @@ export function SignUp() {
             />
             {errors.phoneNumber && <Typography variant="small" color="red">{errors.phoneNumber}</Typography>}
           </div>
+          
 
           <Button className="mt-6 bg-red-800" fullWidth type="submit">
             Register Now
           </Button>
+          
 
           <Typography variant="paragraph" className="text-center text-blue-gray-500 font-medium mt-4">
             Already have an account?
