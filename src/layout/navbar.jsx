@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import {
   Navbar as MTNavbar,
-  MobileNav,
+  Collapse,
   Typography,
   Button,
   IconButton,
@@ -21,65 +21,45 @@ export function Navbar({ brandName, routes, action }) {
   }, []);
 
   const navList = (
-    <ul className="mb-4 mt-2 flex flex-col gap-2 text-inherit lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
-      {routes.map(({ name, path, icon, href, target }) => (
+    <ul className="mb-4 mt-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
+      {routes.map(({ name, path, icon }) => (
         <Typography
           key={name}
           as="li"
           variant="small"
-          color="inherit"
+          color="blue-gray"
           className="capitalize"
         >
-          {href ? (
-            <a
-              href={href}
-              target={target}
-              className="flex items-center gap-1 p-1 font-bold"
-            >
-              {icon &&
-                React.createElement(icon, {
-                  className: "w-[18px] h-[18px] opacity-75 mr-1",
-                })}
-              {name}
-            </a>
-          ) : (
-            <Link
-              to={path}
-              target={target}
-              className="flex items-center gap-1 p-1 font-bold"
-            >
-              {icon &&
-                React.createElement(icon, {
-                  className: "w-[18px] h-[18px] opacity-75 mr-1",
-                })}
-              {name}
-            </Link>
-          )}
+          <Link to={path} className="flex items-center gap-1 p-1 font-normal">
+            {icon &&
+              React.createElement(icon, {
+                className: "w-[18px] h-[18px] opacity-50 mr-1",
+              })}
+            {name}
+          </Link>
         </Typography>
       ))}
     </ul>
   );
 
   return (
-    <MTNavbar color="transparent" className="p-3 bg-blue-gray-50">
-      <div className="container mx-auto flex items-center justify-between text-gray-800">
-        
+    <MTNavbar className="p-3">
+      <div className="container mx-auto flex items-center justify-between text-blue-gray-900">
         <Link to="/">
-          <Typography className="mr-4 ml-2 cursor-pointer py-1.5 font-bold">
+          <Typography
+            variant="small"
+            className="mr-4 ml-2 cursor-pointer py-1.5 font-bold"
+          >
             {brandName}
           </Typography>
         </Link>
         <div className="hidden lg:block">{navList}</div>
-        <div className="hidden gap-2 lg:flex">
-        
-          {React.cloneElement(action, {
-            className: "hidden lg:inline-block",
-          })}
-        </div>
+        {React.cloneElement(action, {
+          className: "hidden lg:inline-block",
+        })}
         <IconButton
           variant="text"
           size="sm"
-          color="white"
           className="ml-auto text-inherit hover:bg-transparent focus:bg-transparent active:bg-transparent lg:hidden"
           onClick={() => setOpenNav(!openNav)}
         >
@@ -90,31 +70,27 @@ export function Navbar({ brandName, routes, action }) {
           )}
         </IconButton>
       </div>
-      <MobileNav
-        className="rounded-xl bg-white px-4 pt-2 pb-4 text-blue-gray-900"
-        open={openNav}
-      >
-        <div className="container mx-auto hover:text-red-800">
+      <Collapse open={openNav}>
+        <div className="container mx-auto">
           {navList}
-         
           {React.cloneElement(action, {
-            className: "w-full block",
+            className: "w-full block lg:hidden",
           })}
         </div>
-      </MobileNav>
+      </Collapse>
     </MTNavbar>
   );
 }
 
 Navbar.defaultProps = {
-  brandName: "OpporTunify",
+  brandName: "",
   action: (
     <a
       href="/dashboard"
       target="_blank"
     >
       <Button variant="gradient" size="sm" fullWidth>
-        Dashboard
+        ***
       </Button>
     </a>
   ),

@@ -1,5 +1,11 @@
+
 import { Home, Profile, SignIn, SignUp ,ResetPassword ,RegisterJobseeker} from "@/pages";
 import Forgot from "./pages/passwordForget";
+
+import { Home, Profile, SignIn, SignUp,Job_offer, ResetPassword} from "@/pages";
+import HomeDashboard from "./pages/dashboard/homeDashboard";
+
+
 
 export const routes = [
   {
@@ -11,6 +17,11 @@ export const routes = [
     name: "profile",
     path: "/profile",
     element: <Profile />,
+  },
+  {
+    name: "Job_offer",
+    path: "/Job_offer",
+    element: <Job_offer />,
   },
   {
     name: "Sign In",
@@ -28,21 +39,22 @@ export const routes = [
     element: <RegisterJobseeker />
 },
   {
-    name: "Offers",
-    href: "https://www.material-tailwind.com/docs/react/installation",
-    target: "_blank",
-    element: "",
+    name: "Dashboard",
+    path: "/dashboard",
+    element: <HomeDashboard/>,
   },
   {
     name: "Password Reset",
     path: "/passwordreset",
     element: <ResetPassword/>,
+
   },
   {
     name: "Forgot",
     path: "/Forgot",
     element: <Forgot/>,
   },
+
 ];
 
 export default routes;
