@@ -1,4 +1,5 @@
-import { Home, Profile, SignIn, SignUp } from "@/pages";
+import { Home, Profile, SignIn, SignUp ,ResetPassword} from "@/pages";
+import Forgot from "./pages/passwordForget";
 
 export const routes = [
   {
@@ -26,6 +27,16 @@ export const routes = [
     href: "https://www.material-tailwind.com/docs/react/installation",
     target: "_blank",
     element: "",
+  },
+  {
+    name: "Password Reset",
+    path: "/passwordreset",
+    element: <ResetPassword/>,
+  },
+  {
+    name: "Forgot",
+    path: "/Forgot",
+    element: <Forgot/>,
   },
 ];
 

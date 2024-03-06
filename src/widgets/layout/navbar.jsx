@@ -1,6 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
+
+
 import {
   Navbar as MTNavbar,
   MobileNav,
@@ -21,7 +23,7 @@ export function Navbar({ brandName, routes, action }) {
   }, []);
 
   const navList = (
-    <ul className="mb-4 mt-2 flex flex-col gap-2 text-inherit lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
+    <ul className=" mb-4 mt-1 flex flex-col gap-2 text-inherit lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
       {routes.map(({ name, path, icon, href, target }) => (
         <Typography
           key={name}
@@ -61,10 +63,20 @@ export function Navbar({ brandName, routes, action }) {
   );
 
   return (
-    <MTNavbar color="transparent" className="p-3">
-      <div className="container mx-auto flex items-center justify-between text-white">
+
+    
+    <MTNavbar color="transparent"  className="p-3">
+      <div className="container mx-auto mt-1 flex items-center justify-between text-white">
+  
+      <Link to="/">
+          <img
+            src="/img/opportunify.png"
+            alt="Logo"
+            className="mr-2 ml-2 w-64 h-auto fill-current "
+          />
+        </Link>
         <Link to="/">
-          <Typography className="mr-4 ml-2 cursor-pointer py-1.5 font-bold">
+          <Typography className="mr-2 ml-2 cursor-pointer py-1.5 font-bold">
             {brandName}
           </Typography>
         </Link>
@@ -97,7 +109,7 @@ export function Navbar({ brandName, routes, action }) {
         </IconButton>
       </div>
       <MobileNav
-        className="rounded-xl bg-white px-4 pt-2 pb-4 text-blue-gray-900"
+        className="rounded-xl bg-white px-4 pt-2 pb-4 text-white"
         open={openNav}
       >
         <div className="container mx-auto">
@@ -121,14 +133,14 @@ export function Navbar({ brandName, routes, action }) {
 }
 
 Navbar.defaultProps = {
-  brandName: "Material Tailwind React",
+  
   action: (
     <a
       href="https://www.creative-tim.com/product/material-tailwind-kit-react"
       target="_blank"
     >
       <Button variant="gradient" size="sm" fullWidth>
-        free download
+        Support
       </Button>
     </a>
   ),
