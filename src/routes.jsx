@@ -1,4 +1,5 @@
 import { Home, Profile, SignIn, SignUp,Job_offer, ResetPassword} from "@/pages";
+import HomeDashboard from "./pages/dashboard/homeDashboard";
 
 
 export const routes = [
@@ -28,10 +29,9 @@ export const routes = [
     element: <SignUp />,
   },
   {
-    name: "Offers",
-    href: "https://www.material-tailwind.com/docs/react/installation",
-    target: "_blank",
-    element: "",
+    name: "Dashboard",
+    path: "/dashboard",
+    element: <HomeDashboard/>,
   },
   {
     name: "Password Reset",
