@@ -10,7 +10,7 @@ function App() {
 
   return (
     <>
-      {!(pathname == '/sign-in' || pathname == '/signup-jobseeker')
+      {!(pathname == '/sign-in' || pathname == '/sign-up')
       }
       <Routes>
         {routes.map(
