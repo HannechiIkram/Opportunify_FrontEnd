@@ -30,6 +30,9 @@ import {
 } from "@/data/index.js";
 import { CheckCircleIcon, ClockIcon } from "@heroicons/react/24/solid";
 
+//samar
+import { useUser } from "..";
+import { useNavigate } from 'react-router-dom';
 export function HomeDashboard() {
   const [users, setUsers] = useState([]);
   useEffect(() => {
@@ -44,8 +47,16 @@ export function HomeDashboard() {
 
     fetchUsers();
   }, []);
-  return (
 
+////////////////permissions 
+  const { userRole } = useUser();
+  const navigate = useNavigate();
+  if (userRole === 'job_seeker') {
+   
+    navigate('/unauthorized');
+    
+  }
+   return(  
  <>
 
     <div className="mt-12">

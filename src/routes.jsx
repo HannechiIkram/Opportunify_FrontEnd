@@ -1,5 +1,5 @@
 
-import { Home, Profile, SignIn, SignUp ,ResetPassword ,RegisterJobseeker,Job_offer} from "@/pages";
+import { Home, Profile, SignIn, SignUp ,ResetPassword ,RegisterJobseeker,Job_offer,Unauthorized} from "@/pages";
 import Forgot from "./pages/passwordForget";
 
 import HomeDashboard from "./pages/dashboard/homeDashboard";
@@ -53,7 +53,11 @@ export const routes = [
     path: "/Forgot",
     element: <Forgot/>,
   },
-
+  {
+    name: "Unauthorized",
+    path: "/unauthorized",
+    element: <Unauthorized/>
+  },
 ];
 
 export default routes;

@@ -1,33 +1,45 @@
 import React from "react";
 import { Card, Input, Checkbox, Button, Typography } from "@material-tailwind/react";
-import { Link } from "react-router-dom";////////////////////////////
 import Navbar from "../widgets/layout/navbar";
-import { useState } from "react";///////////////////////////////////////
+import { useState } from "react";
 import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
+import { Job_offer } from ".";
 export function SignIn() {
+  const Navigate = useNavigate();
+
   const[data,setData]=useState({
     
     email:"",
-    password:"",////////////////////
+    password:"",
+    role:"",
   })
-  const loginUser  = async (e) =>
-  {
+
+  const loginUser = async (e) => {
     e.preventDefault();
     try {
       const response = await axios.post('/user/login', data);
-      // Assuming successful registration, you can redirect the user or display a success message
-      console.log('Authentification successful:', response.data);
-      window.alert('Authentification successful:');
-      // Redirect user to login page or any other appropriate page
-    } catch (error) {
-      // Handle registration errors
-      console.error('Authentification failed:', error.response.data);
-      window.alert('Authentification failed:');
-      // Display error message to the user
-      // For example, set state to show error message to the user
-    }
-  }
+      console.log('Authentication successful:', response.data);
 
+////roles for permissions
+    const userRole = response.data.user.role;
+  
+    //////
+      if (userRole === 'admin') {
+        Navigate("/dashboard");
+      } else if (userRole === 'company') {
+        Navigate("/Job_offer");
+      
+    } else if (userRole === 'job_seeker') {
+      Navigate("/home");
+    }
+      
+    } catch (error) {
+      console.error('Authentication failed:', error.response.data);
+      window.alert('Authentication failed:');
+    }
+  };
+  
   return (
     <>
       
