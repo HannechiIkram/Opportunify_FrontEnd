@@ -1,8 +1,8 @@
 
 import { Home, Profile, SignIn, SignUp ,ResetPassword ,RegisterJobseeker,Job_offer} from "@/pages";
 import Forgot from "./pages/passwordForget";
-
 import HomeDashboard from "./pages/dashboard/homeDashboard";
+
 
 
 
@@ -37,11 +37,7 @@ export const routes = [
     path: "/sign-upjs",
     element: <RegisterJobseeker />
 },
-  {
-    name: "Dashboard",
-    path: "/dashboard",
-    element: <HomeDashboard/>,
-  },
+  
   {
     name: "Password Reset",
     path: "/passwordreset",
@@ -53,6 +49,12 @@ export const routes = [
     path: "/Forgot",
     element: <Forgot/>,
   },
+  {
+    name: "Dashboard",
+    path: "/dashboard",
+    element: <HomeDashboard />, // Render the LogoutComponent for the logout route
+  },
+
 
 ];
 

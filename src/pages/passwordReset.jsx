@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Card, Input, Button, Typography } from "@material-tailwind/react";
 import axios from 'axios';
+import { Link, useNavigate } from "react-router-dom";
 
 export function ResetPassword() {
     const [data, setData] = useState({
@@ -8,6 +9,7 @@ export function ResetPassword() {
         password1: "",
         password2: ""
     });
+    const navigate = useNavigate();
 
     const handleFormSubmit = async (e) => {
         e.preventDefault();
@@ -19,6 +21,8 @@ export function ResetPassword() {
             });
 
             console.log(response.data);  // Handle the response as needed, e.g., show success message
+            navigate("/login");
+
         } catch (error) {
             console.error('Error:', error.response.data);
             // Handle the error, e.g., show an error message to the user
