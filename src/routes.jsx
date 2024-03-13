@@ -6,6 +6,7 @@ import HomeDashboard from "./pages/dashboard/homeDashboard";
 
 
 
+
 export const routes = [
   {
     name: "home",
@@ -58,6 +59,7 @@ export const routes = [
     path: "/unauthorized",
     element: <Unauthorized/>
   },
+  
 ];
 
 export default routes;

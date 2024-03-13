@@ -4,16 +4,13 @@ import Navbar from "../widgets/layout/navbar";
 import { useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-import { Job_offer } from ".";
 export function SignIn() {
   const Navigate = useNavigate();
-
-  const[data,setData]=useState({
-    
-    email:"",
-    password:"",
-    role:"",
-  })
+  const [data, setData] = useState({
+    email: "",
+    password: "",
+    role: "",
+  });
 
   const loginUser = async (e) => {
     e.preventDefault();
@@ -21,24 +18,30 @@ export function SignIn() {
       const response = await axios.post('/user/login', data);
       console.log('Authentication successful:', response.data);
 
-////roles for permissions
-    const userRole = response.data.user.role;
-  
-    //////
+      // Extract user role from response
+      const userRole = response.data.user.role;
+
+      // Store user role in session storage
+      setUserRole(userRole);
+
+      // Redirect based on user role
       if (userRole === 'admin') {
         Navigate("/dashboard");
       } else if (userRole === 'company') {
         Navigate("/Job_offer");
-      
-    } else if (userRole === 'job_seeker') {
-      Navigate("/home");
-    }
-      
+      } else if (userRole === 'job_seeker') {
+        Navigate("/home");
+      }
     } catch (error) {
       console.error('Authentication failed:', error.response.data);
-      window.alert('Authentication failed:');
+      window.alert('Authentication failed.');
     }
   };
+
+  // Function to set user role in session storage
+  function setUserRole(userRole) {
+    sessionStorage.setItem('userRole', userRole);
+  }
   
   return (
     <>

@@ -8,7 +8,6 @@ import {
 } from "@material-tailwind/react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-import { useContext } from 'react';
 
 export function RegisterJobseeker() {
     const navigate = useNavigate();
@@ -27,7 +26,7 @@ export function RegisterJobseeker() {
     address:"",
     password: "",
     confirmPassword: '',
-    role_jobseeker: roles[0].value, // Set the default role_jobseeker value
+    role_jobseeker: roles[0].value, 
   });
   const [errors, setErrors] = useState({
     name: "",
@@ -49,7 +48,7 @@ export function RegisterJobseeker() {
   
     let formIsValid = true;
       if (!formIsValid) {
-        // If form is not valid, prevent submission
+        
         return;
       }
 
