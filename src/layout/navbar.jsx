@@ -1,5 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
+import axios from 'axios'; // Import axios for making HTTP requests
+
+
 import { Link } from "react-router-dom";
 import {
   Navbar as MTNavbar,
@@ -11,6 +14,21 @@ import {
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 
 export function Navbar({ brandName, routes, action }) {
+  const logout = () => {
+    useEffect(() => {
+      const logout = async () => {
+        try {
+          await axios.post("/user/logout"); // Send a POST request to the backend logout endpoint
+          console.log("Logout successful");
+          // Optionally, redirect the user to another page after logout
+        } catch (error) {
+          console.error("Logout Error:", error);
+          // Handle logout error
+        }
+      };
+  
+      logout(); // Call the logout function when the component mounts
+    }, []);}
   const [openNav, setOpenNav] = React.useState(false);
 
   React.useEffect(() => {
@@ -70,6 +88,10 @@ export function Navbar({ brandName, routes, action }) {
           )}
         </IconButton>
       </div>
+      
+
+<img className='w-11   font-bold mb-4 bg-transparent' src={télécharger} alt="télécharger" />
+
       <Collapse open={openNav}>
         <div className="container mx-auto">
           {navList}
@@ -78,9 +100,11 @@ export function Navbar({ brandName, routes, action }) {
           })}
         </div>
       </Collapse>
+      <Button onClick={handleLogout}>Déconnexion</Button>
     </MTNavbar>
   );
 }
+
 
 Navbar.defaultProps = {
   brandName: "",

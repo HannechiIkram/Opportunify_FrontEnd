@@ -408,13 +408,18 @@ if (!data.phoneNumber) {
       className: "before:content-none after:content-none",
     }}
     value={data.socialMedia.twitter}
-    onChange={(e) => setData({
-      ...data,
-      socialMedia: {
-        ...data.socialMedia,
-        twitter: e.target.value,
-      },
-    })}
+    onChange={(e) => {
+      setData({
+        ...data,
+        socialMedia: {
+          ...data.socialMedia,
+          twitter: e.target.value,
+        },
+      });setErrors({
+        ...errors,
+        socialMedia: { ...errors.socialMedia, twitter: "" }, // Clear the error for Facebook
+      });
+    }}
   />
   {errors.socialMedia && errors.socialMedia.twitter && <Typography variant="small" color="red">{errors.socialMedia.twitter}</Typography>}
 </div>
@@ -432,13 +437,18 @@ if (!data.phoneNumber) {
       className: "before:content-none after:content-none",
     }}
     value={data.socialMedia.linkedin}
-    onChange={(e) => setData({
-      ...data,
-      socialMedia: {
-        ...data.socialMedia,
-        linkedin: e.target.value,
-      },
-    })}
+    onChange={(e) => {
+      setData({
+        ...data,
+        socialMedia: {
+          ...data.socialMedia,
+          linkedin: e.target.value,
+        },
+      });setErrors({
+        ...errors,
+        socialMedia: { ...errors.socialMedia, linkedin: "" }, // Clear the error for Facebook
+      });
+    }}
   />
   {errors.socialMedia && errors.socialMedia.linkedin && <Typography variant="small" color="red">{errors.socialMedia.linkedin}</Typography>}
 </div>

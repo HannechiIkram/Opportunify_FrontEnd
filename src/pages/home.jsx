@@ -37,6 +37,21 @@ import Select from "react-select";
 
 
 export function Home() {
+  const [recentlySaved, setRecentlySaved] = useState([]); // État pour stocker les éléments récemment enregistrés
+
+  const handleLogout = async () => {
+    try {
+      await axios.post("/logout"); // Envoyer une requête POST à votre endpoint de déconnexion
+      // Une fois la déconnexion réussie, vous pouvez effectuer des actions supplémentaires ici, comme rediriger l'utilisateur vers la page de connexion ou afficher un message de déconnexion réussie
+    } catch (error) {
+      console.error("Erreur lors de la déconnexion :", error);
+      // Gérer les erreurs ici, par exemple afficher un message d'erreur à l'utilisateur
+    }};
+    
+  // Fonction pour enregistrer un élément et le mettre à jour dans l'état
+  const handleSave = (item) => {
+    setRecentlySaved([...recentlySaved, item]);
+  };
   return (
     <>
     <div className="h-1/4 container relative mx-auto">
@@ -231,6 +246,9 @@ export function Home() {
          <Button variant="gradient" size="lg" className="mt-8" fullWidth>
            Send Message
          </Button>
+        
+      <button onClick={handleLogout}>Déconnexion</button>
+   
        </form>
    </section>
    <div className="bg-white">
