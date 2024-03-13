@@ -3,6 +3,8 @@ import { Home, Profile, SignIn, SignUp ,ResetPassword ,RegisterJobseeker,Job_off
 import Forgot from "./pages/passwordForget";
 
 import HomeDashboard from "./pages/dashboard/homeDashboard";
+import Apply from "./pages/apply";
+import Applications from "./pages/applications";
 
 
 
@@ -33,7 +35,7 @@ export const routes = [
     element: <SignUp />,
   },
 
-  {name: "Sign UpJob Seeker", // Updated route name
+  {name: "Sign UpJob Seeker", 
     path: "/sign-upjs",
     element: <RegisterJobseeker />
 },
@@ -52,6 +54,17 @@ export const routes = [
     name: "Forgot",
     path: "/Forgot",
     element: <Forgot/>,
+  },
+  {
+    name: "apply",
+    path: "/apply",
+    element: <Apply/>,
+  },
+  ,
+  {
+    name: "applications",
+    path: "/applications",
+    element: <Applications/>,
   },
 
 ];

@@ -2,7 +2,6 @@ import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { Navbar } from "@/widgets/layout";
 import routes from "@/routes";
 import axios from "axios";
-
 import { Toaster } from "react-hot-toast";
 axios.defaults.baseURL = 'http://localhost:3000';
 axios.defaults.withCredentials = true ;
@@ -31,6 +30,7 @@ function App() {
             element && <Route key={key} exact path={path} element={element} />
         )}
         <Route path="*" element={<Navigate to="/home" replace />} />
+        
       </Routes>
     </>
   );

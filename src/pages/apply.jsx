@@ -1,0 +1,115 @@
+import React, { useState } from 'react';
+import axios from 'axios';
+import {
+    Card,
+    CardBody,
+    CardHeader,
+    Typography,
+    Button,
+    Input,
+  } from "@material-tailwind/react";
+
+const Apply = () => {
+    const [formData, setFormData] = useState({
+        userName: '',
+        userSurname: '',
+        email: '',
+        phone: '',
+        education: '',
+        cv: null,
+        coverLetter: null,
+        emailError: ''
+    });
+
+    const handleChange = e => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+
+    const handleEmailBlur = () => {
+        const { email } = formData;
+        const re = /\S+@\S+\.\S+/;
+        if (!re.test(email)) {
+            setFormData({ ...formData, emailError: 'Invalid email' });
+        } else {
+            setFormData({ ...formData, emailError: '' });
+        }
+    };
+
+    const handleFileChange = e => {
+        setFormData({ ...formData, [e.target.name]: e.target.files[0] });
+    };
+
+    const handleSubmit = async e => {
+        e.preventDefault();
+        const postData = new FormData();
+        for (const key in formData) {
+            postData.append(key, formData[key]);
+        }
+
+        try {
+            await axios.post('http://localhost:3000/applications/apply', postData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+            alert('Application submitted successfully!');
+        } catch (error) {
+            console.error('Error submitting application:', error);
+            alert('Failed to submit application. Please try again.');
+        }
+    };
+
+    return (
+        <div className="container relative mx-auto">
+            <div className="relative flex content-center justify-center pt-24 pb-32">
+                <div className="container mx-auto mt-8 max-w-screen-md w-1/2">
+                    <Card className='mt-8 bg-gray-400 bg-opacity-20 rounded-lg shadow-l'>
+                        <CardHeader className='bg-red-800' contentPosition="none">
+                            <Typography color="white" variant="h5">
+                                Your Form
+                            </Typography>
+                        </CardHeader>
+                        <CardBody>
+                            <form onSubmit={handleSubmit} className="px-4 py-8 grid grid-cols-1 gap-6 md:grid-cols-2">
+                                <div>
+                                    <label htmlFor="userName" className="block text-sm font-medium text-gray-900 dark:text-white">First Name</label>
+                                    <Input type="text" name="userName" placeholder="First Name" value={formData.userName} onChange={handleChange} className="input-style" required />
+                                </div>
+                                <div>
+                                    <label htmlFor="userSurname" className="block text-sm font-medium text-gray-900 dark:text-white">Last Name</label>
+                                    <Input type="text" name="userSurname" placeholder="Last Name" value={formData.userSurname} onChange={handleChange} className="input-style" required />
+                                </div>
+                                <div>
+                                    <label htmlFor="email" className="block text-sm font-medium text-gray-900 dark:text-white">Email</label>
+                                    <Input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange} onBlur={handleEmailBlur} className="input-style" required />
+                                    {formData.emailError && <Typography color="red">{formData.emailError}</Typography>}
+                                </div>
+                                <div>
+                                    <label htmlFor="phone" className="block text-sm font-medium text-gray-900 dark:text-white">Phone Number</label>
+                                    <Input type="text" name="phone" placeholder="Phone" value={formData.phone} onChange={handleChange} className="input-style" required />
+                                </div>
+                                <div>
+                                    <label htmlFor="education" className="block text-sm font-medium text-gray-900 dark:text-white">Education</label>
+                                    <Input type="text" name="education" placeholder="Education" value={formData.education} onChange={handleChange} className="input-style" required />
+                                </div>
+                                <div>
+                                    <label htmlFor="cv" className="block text-sm font-medium text-gray-900 dark:text-white">Upload Resume</label>
+                                    <input type="file" name="cv" onChange={handleFileChange} className="input-style" required />
+                                </div>
+                                <div>
+                                    <label htmlFor="coverLetter" className="block text-sm font-medium text-gray-900 dark:text-white">Upload Cover Letter</label>
+                                    <input type="file" name="coverLetter" onChange={handleFileChange} className="input-style" required />
+                                </div>
+                                <div className="col-span-2 mt-8 flex justify-center">
+                                    <Button type="submit" color="red" className="bg-red-800">Submit Application</Button>
+                                </div>
+                            </form>
+                        </CardBody>
+                    </Card>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default Apply;
