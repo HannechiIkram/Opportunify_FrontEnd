@@ -14,6 +14,7 @@ import {
   Progress,
 } from "@material-tailwind/react";
 import  { useState, useEffect } from "react";
+
 import  axios  from "axios";
 import {
   EllipsisVerticalIcon,
@@ -31,6 +32,10 @@ import {
 import { CheckCircleIcon, ClockIcon } from "@heroicons/react/24/solid";
 
 export function HomeDashboard() {
+  const [searchTerm, setSearchTerm] = useState("");
+const [sortBy, setSortBy] = useState("name"); // Par défaut, trier par nom
+
+
   const [users, setUsers] = useState([]);
   useEffect(() => {
     const fetchUsers = async () => {
@@ -41,12 +46,29 @@ export function HomeDashboard() {
         console.error("Error fetching users:", error);
       }
     };
-
+///
     fetchUsers();
   }, []);
+  const handleSearch = (e) => {
+    setSearchTerm(e.target.value);
+  };
+  
+  
+
+  const filteredUsers = users.filter((user) => {
+    const { name, role, email } = user;
+    const searchLowerCase = searchTerm.toLowerCase();
+    return (
+      name.toLowerCase().includes(searchLowerCase) ||
+      role.toLowerCase().includes(searchLowerCase) ||
+      email.toLowerCase().includes(searchLowerCase)
+    );
+  });
+
   return (
 
  <>
+ 
 
     <div className="mt-12">
       <div className="mb-12 grid gap-y-10 gap-x-6 md:grid-cols-2 xl:grid-cols-4">
@@ -98,6 +120,16 @@ export function HomeDashboard() {
       color="transparent"
       className="m-0 flex items-center justify-between p-6"
     >
+      
+ <div className="mb-4">
+        <input
+          type="text"
+          placeholder="Search users..."
+          value={searchTerm}
+          onChange={handleSearch}
+          className="p-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-400"
+        />
+      </div>
       <Typography variant="h6" color="blue-gray" className="mb-1 w-10">
         Users
       </Typography>
@@ -106,7 +138,7 @@ export function HomeDashboard() {
       <table className="w-full min-w-[640px] table-auto">
         <thead>
           <tr>
-            {["_id", "name", "role", "email"].map((col) => (
+          {[ "name", "role", "email"].map((col) => (
               <th key={col} className="border-b border-blue-gray-50 py-3 px-6 text-left">
                 <Typography variant="small" className="text-[11px] font-medium uppercase text-blue-gray-400">
                   {col}
@@ -116,14 +148,14 @@ export function HomeDashboard() {
           </tr>
         </thead>
         <tbody>
-          {users.map((user) => (
-            <tr key={user._id}>
-              <td className="border-b border-gray-50 py-3 px-6 text-left">{user._id}</td>
-              <td className="border-b border-gray-50 py-3 px-6 text-left">{user.name}</td>
-              <td className="border-b border-gray-50 py-3 px-6 text-left">{user.role}</td>
-              <td className="border-b border-gray-50 py-3 px-6 text-left">{user.email}</td>
-            </tr>
-          ))}
+        {filteredUsers.map((user) => (
+  <tr key={user._id}>
+    <td className="border-b border-gray-50 py-3 px-6 text-left">{user.name}</td>
+    <td className="border-b border-gray-50 py-3 px-6 text-left">{user.role}</td>
+    <td className="border-b border-gray-50 py-3 px-6 text-left">{user.email}</td>
+  </tr>
+))}
+
         </tbody>
       </table>
     </CardBody>

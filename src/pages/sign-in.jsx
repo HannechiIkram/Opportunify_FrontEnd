@@ -27,7 +27,17 @@ export function SignIn() {
       // For example, set state to show error message to the user
     }
   }
-
+  const handleFacebookLogin = async () => {
+    try {
+      // Faire une requête POST vers l'endpoint d'authentification Facebook de votre backend
+      const response = await axios.get('/auth/facebook');
+      // Gérer la réponse en fonction de votre logique métier (redirection, mise à jour de l'état, etc.)
+      console.log('Réponse de l\'authentification Facebook:', response.data);
+    } catch (error) {
+      // Gérer les erreurs potentielles ici
+      console.error('Erreur lors de l\'authentification Facebook:', error);
+    }
+  };
   return (
     <>
       
@@ -102,6 +112,8 @@ export function SignIn() {
               </svg>
               <span>Sign in With Google</span>
             </Button>
+            <Button onClick={handleFacebookLogin}>Se connecter avec Facebook</Button>
+
             <Button size="lg" color="white" className="flex items-center gap-2 justify-center shadow-md" fullWidth>
               <img src="/img/twitter-logo.svg" height={24} width={24} alt="" />
               <span>Sign in With Twitter</span>
