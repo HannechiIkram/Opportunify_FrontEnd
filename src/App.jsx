@@ -5,8 +5,6 @@ import axios from "axios";
 import { Toaster } from "react-hot-toast";
 axios.defaults.baseURL = 'http://localhost:3000';
 axios.defaults.withCredentials = true ;
-axios.defaults.baseURL="http://127.0.0.1:3000"
-axios.defaults.withCredentials=true
 
 
 function App() {
@@ -17,7 +15,7 @@ function App() {
 
       {!(pathname == '/sign-in' || pathname == '/sign-up') }
 
-      {!(pathname == '/sign-in' || pathname == '/sign-up' || pathname == '/passwordreset') && (
+      {!(pathname == '/sign-in' || pathname == '/sign-up' || pathname == '/passwordreset'|| pathname=='/sign-upjs') && (
         <div className="container absolute left-2/4 z-10 mx-auto -translate-x-2/4 p-4">
           <Navbar routes={routes} />
         </div>
