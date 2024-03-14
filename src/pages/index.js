@@ -8,4 +8,7 @@ export * from "@/pages/register-jobseeker";
 
 export * from "@/pages/job_offer";
 export * from "@/pages/passwordReset";
-
+export * from "@/pages/dashboard/homeDashboard";
+export * from "@/context/usercontext";
+import ProtectedRoute from '@/context/ProtectedRoute';
+ export { default as Unauthorized } from "@/pages/unauthorized";

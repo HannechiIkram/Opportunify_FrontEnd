@@ -31,6 +31,8 @@ import {
 } from "@/data/index.js";
 import { CheckCircleIcon, ClockIcon } from "@heroicons/react/24/solid";
 
+//samar
+import { useNavigate } from 'react-router-dom';
 export function HomeDashboard() {
   const [searchTerm, setSearchTerm] = useState("");
 const [sortBy, setSortBy] = useState("name"); // Par défaut, trier par nom
@@ -49,6 +51,7 @@ const [sortBy, setSortBy] = useState("name"); // Par défaut, trier par nom
 ///
     fetchUsers();
   }, []);
+
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
   };
@@ -65,8 +68,10 @@ const [sortBy, setSortBy] = useState("name"); // Par défaut, trier par nom
     );
   });
 
-  return (
+  
 
+
+   return(  
  <>
  
 
