@@ -1,4 +1,4 @@
-import { Home, Profile, SignIn,RegisterJobseeker } from "@/pages";
+import { Home, Profile, SignIn,RegisterJobseeker,RedirectComapny } from "@/pages";
 
 export const routes = [
   {
@@ -20,6 +20,11 @@ export const routes = [
     name: "Sign Up", // Updated route name
     path: "/sign-up",
     element: <RegisterJobseeker />,
+  },
+  {
+    name: "Redirect Company", // Updated route name
+    path: "/redirect-company",
+    element: <RedirectComapny />,
   },
   {
     name: "Offers",
