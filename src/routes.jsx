@@ -1,5 +1,5 @@
 
-import { Home, Profile, SignIn, SignUp ,ResetPassword ,RegisterJobseeker,Job_offer,Unauthorized} from "@/pages";
+import { Home, Profile, SignIn, SignUp ,ResetPassword ,RegisterJobseeker,Job_offer,Unauthorized,RedirectCompany} from "@/pages";
 import Forgot from "./pages/passwordForget";
 import HomeDashboard from "./pages/dashboard/homeDashboard";
 import Apply from "./pages/apply";
@@ -78,7 +78,12 @@ export const routes = [
     element: <Unauthorized/>
   },
   
-
+  {
+    name: "Rediect Company",
+    path: "/rediect-company",
+    element: <RedirectCompany/>
+  },
+  
 ];
 
 export default routes;
