@@ -14,3 +14,4 @@ import ProtectedRoute from '@/context/ProtectedRoute';
  export { default as Unauthorized } from "@/pages/unauthorized";
 
 export { default as RedirectCompany } from "@/pages/redirect-company";
+export {default as RedirectSignUp} from "@/pages/redirect-sign-up";

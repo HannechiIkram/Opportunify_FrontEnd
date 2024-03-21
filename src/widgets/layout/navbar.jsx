@@ -12,8 +12,8 @@ import {
   Card,
   IconButton,
 } from "@material-tailwind/react";
-
-import {
+import { Link } from 'react-router-dom'
+;import {
   CubeTransparentIcon,
   UserCircleIcon,
   CodeBracketSquareIcon,
@@ -33,6 +33,8 @@ const profileMenuItems = [
   {
     label: "My Profile",
     icon: UserCircleIcon,
+    path:""
+
   },
   {
     label: "Edit Profile",
@@ -42,14 +44,20 @@ const profileMenuItems = [
   {
     label: "Inbox",
     icon: InboxArrowDownIcon,
+    path:""
+
   },
   {
     label: "Help",
     icon: LifebuoyIcon,
+    path:""
+
   },
   {
     label: "Sign Out",
     icon: PowerIcon,
+    path:""
+
   },
 ];
  
@@ -82,7 +90,7 @@ function ProfileMenu() {
         </Button>
       </MenuHandler>
       <MenuList className="p-1">
-        {profileMenuItems.map(({ label, icon }, key) => {
+        {profileMenuItems.map(({ label, icon,path }, key) => {
           const isLastItem = key === profileMenuItems.length - 1;
           return (
             <MenuItem
@@ -94,6 +102,7 @@ function ProfileMenu() {
                   : ""
               }`}
             >
+              <Link to={path} className="flex items-center gap-2"></Link>
               {React.createElement(icon, {
                 className: `h-4 w-4 ${isLastItem ? "text-red-500" : ""}`,
                 strokeWidth: 2,
@@ -220,7 +229,7 @@ const navListItems = [
   {
     label: "Sign up",
     icon: UserCircleIcon,
-    path:"/sign-up"
+    path:"/redirect-sign-up"
   },
   {
     label: "Sign In",
@@ -280,7 +289,7 @@ export function Navbar() {
 <img
   src="img/opportunify.png"
   alt="logo"
-  style={{ width:'5', height: '5' }}
+ 
 />
         </Typography>
         <div className="hidden lg:block">

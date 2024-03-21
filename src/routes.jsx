@@ -1,5 +1,5 @@
 
-import { Home, Profile, SignIn, SignUp ,ResetPassword ,RegisterJobseeker,Job_offer,Unauthorized,RedirectCompany} from "@/pages";
+import { Home, Profile, SignIn, SignUp ,ResetPassword ,RegisterJobseeker,Job_offer,Unauthorized,RedirectCompany,RedirectSignUp} from "@/pages";
 import Forgot from "./pages/passwordForget";
 import HomeDashboard from "./pages/dashboard/homeDashboard";
 import Apply from "./pages/apply";
@@ -19,6 +19,11 @@ export const routes = [
     name: "profile",
     path: "/profile",
     element: <Profile />,
+  },
+  {
+    name: "Choose Sign up",
+    path: "/redirect-sign-up",
+    element: <RedirectSignUp/>,
   },
   {
     name: "Job_offer",
