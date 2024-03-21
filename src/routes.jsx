@@ -79,8 +79,8 @@ export const routes = [
   },
   
   {
-    name: "Rediect Company",
-    path: "/rediect-company",
+    name: "Redirect Company",
+    path: "/redirect-company",
     element: <RedirectCompany/>
   },
   

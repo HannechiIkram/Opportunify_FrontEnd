@@ -30,7 +30,7 @@ export function SignIn() {
       if (userRole === 'admin') {
         Navigate("/dashboard");
       } else if (userRole === 'company') {
-        Navigate("/Job_offer");
+        Navigate("/redirect-company");
       } else if (userRole === 'job_seeker') {
         Navigate("/home");
       }

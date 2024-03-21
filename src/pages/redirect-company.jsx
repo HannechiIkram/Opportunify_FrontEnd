@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from 'react-router-dom';
 import applicationlist from "/public/img/app list.webp";
 import joboffer from "/public/img/posting job offer.jpeg";
 import 'react-day-picker/dist/style.css';
