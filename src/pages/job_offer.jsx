@@ -2,12 +2,14 @@
 import 'react-day-picker/dist/style.css';
 import { Card, Typography, Button, Input, Textarea,TabPanel} from "@material-tailwind/react";
 import axios from "axios";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect  } from "react";
 import { FaAngleRight } from "react-icons/fa6";
 
 import { Breadcrumbs } from "@material-tailwind/react";
-
+import { Link } from 'react-router-dom';
 import { Tooltip } from "@material-tailwind/react";
+import {Job_offerConsult} from "./job-offerConsult.jsx";
+import {Job_offerUpdate} from "./job-offerUpdate.jsx";
 
 
 import {
@@ -25,7 +27,7 @@ export function Job_offer() {
     responsibilities: "",
     Lieu:"",
     langue:"",
-    status: "",
+    workplace_type: "",
     field: "",
     salary_informations: "",
     deadline: "",
@@ -37,7 +39,7 @@ export function Job_offer() {
     responsibilities: "",
     Lieu: "",
     langue: "",
-    status: "",
+    workplace_type: "",
     field: "",
     salary_informations: "",
     deadline: "",
@@ -47,7 +49,7 @@ export function Job_offer() {
     const [showSuccessPopover, setShowSuccessPopover] = useState(false);
   const [jobOffers, setJobOffers] = useState([]);
   const [expandedOfferId, setExpandedOfferId] = useState(null);
-  const [searchtitle, setSearchtitle] = useState(""); // New state for search status
+  const [searchtitle, setSearchtitle] = useState(""); // New state for search workplace_type
 
   const [selectedOfferId, setSelectedOfferId] = useState(null); // New state for selected job offer
 
@@ -99,8 +101,8 @@ export function Job_offer() {
       setErrors((prevErrors) => ({ ...prevErrors, responsibilities: "" }));
     }
     
-    if (e.target.name === "status" && errors.status) {
-      setErrors((prevErrors) => ({ ...prevErrors, status: "" }));
+    if (e.target.name === "workplace_type" && errors.workplace_type) {
+      setErrors((prevErrors) => ({ ...prevErrors, workplace_type: "" }));
     }
     
     if (e.target.name === "deadline" && errors.deadline) {
@@ -115,29 +117,18 @@ export function Job_offer() {
       setErrors((prevErrors) => ({ ...prevErrors, salary_informations: "" }));
     }
   };
-//
-
-
-/*
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-   try {
-      const response = await axios.post('/job_offer/add', formData);
-     console.log('Job offer added successfully:', response.data);
-     window.alert('Job offer added successfully');
-    
-      // Fetch updated job offers after adding a new one
-      const updatedJobOffers = await axios.get('/job_offer/getall');
-      setJobOffers(updatedJobOffers.data);
-    } catch (error) {
-      console.error('Failed to add job offer:', error.response ? error.response.data : error.message);
-      window.alert('Failed to add job offer');
-    }
-  };*/
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+
+
+    const currentDate = new Date();
+    // Format the date for sending to the backend
+    const formattedDate = currentDate.toISOString();
+
+    // Add the creation date to formData
+    const formDataWithDate = { ...formData, createdAt: formattedDate };
 
     //
     let formIsValid = true;
@@ -180,8 +171,8 @@ if (!formData.responsibilities.trim()) {
   formIsValid = false;
 }
 
-if (!formData.status.trim()) {
-  newErrors.status = "Please enter the job status";
+if (!formData.workplace_type.trim()) {
+  newErrors.workplace_type = "Please enter the workplace_type";
   formIsValid = false;
 }
 
@@ -215,10 +206,11 @@ if (!formData.salary_informations.trim()) {
       const response = await axios.post('/job_offer/add', formData);
       console.log('Job offer added successfully:', response.data);
       window.alert('Job offer added successfully');
-
       // Fetch updated job offers after adding a new one
+
       const updatedJobOffers = await axios.get('/job_offer/getall');
       setJobOffers(updatedJobOffers.data);
+window.location.href = "/Job_offerConsult";
     } catch (error) {
       console.error('Failed to add job offer:', error.response ? error.response.data : error.message);
       window.alert('Failed to add job offer');
@@ -307,493 +299,177 @@ if (!formData.salary_informations.trim()) {
 
 
  
-
   return (
     <>
- 
-
-<div className="h-1/4 container relative mx-auto">
-  <div className="flex h-screen items-center justify-center pt-1 pb-1">
-    
-    </div>
-</div>
-<div>
-                 {/*   <EmojiPicker />  mt-[-96px] w-full h-auto mx-auto text-center flex flex-col justify-center */}
-    </div>
-
-
-    <div className="max-w-[600px] w-full h-auto mx-auto  ">
-<Breadcrumbs separator={<FaAngleRight className="h-4 w-4 " strokeWidth={2.5}/>}>
-
-        <div className="flex items-center">
-        <Tooltip content="in order to add a job offer :)">
-          <a 
-           className={`rounded-full bg-blue-grey px-6 py-1 font-medium text-black  ${
-            selectedBreadcrumb === 'HOME' ? 'text-blue-500' : 'text-black'
-          }`}
-            onClick={() => handleBreadcrumbClick('HOME')}
-          >
-            Add a job offer
-          </a >
-         </Tooltip>
-        </div>
-        <a
-          className={`rounded-full bg-blue-grey px-6 py-1 font-medium text-black  ${
-            selectedBreadcrumb === 'view' ? 'text-blue-500' : 'text-black'
-          }`}
-          onClick={() => handleBreadcrumbClick('view')}
-        >
-          View the offers created
-        </a>
-        <a
-          className={`rounded-full bg-blue-grey px-6 py-1 font-medium text-black ${
-            selectedBreadcrumb === 'UPDATE' ? 'text-blue-500' : 'text-black'
-          }`}
-          onClick={() => handleBreadcrumbClick('UPDATE')}
-        >
-          Update
-        </a>
-     
-     </Breadcrumbs>
-
+     <div className="container relative mx-auto">
+            <div className="relative flex content-center justify-center pt-24 pb-8">
+                
+   </div>
+   </div>
    
-
-
-
-     {selectedBreadcrumb === 'HOME' && (
-        <div>     
-
-
-
-
       <section className="ml-10 mr-10 flex gap-4 items-center">
-     
         <div className="w-full ">
-        <div className='mt-4' > Enter the information below to create the offer</div>
+        <div style={{ fontSize: '24px', fontWeight: 'bold' }} className="mt-4 bg-red-800 rounded-lg p-3  text-white  border border-red-700">Enter the information below to create the offer</div>
           <Card className="mt-8 ml-auto mr-auto mb-2 w-80 max-w-screen-lg lg:w-5/6 rounded-lg p-6 bg-gray-100 bg-opacity-90">
             <form className="space-y-4" onSubmit={handleSubmit}>
-
-
-
-
-            <div className="flex flex-col gap-6">
-                <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
-                  Title
-                </Typography>
-                <Input
-                  size="regular"
-                  placeholder="Enter title"
-                  name="title"
-                  value={formData.title}
-                  onChange={handleInputChange}
-                />
-  {errors.title && <Typography variant="small" color="red">{errors.title}</Typography>}
-
-              </div>
-
-
-              <div className="flex flex-col gap-6">
-                <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
-                Enter job location
-                </Typography>
-                <Input
-                  size="regular"
-                  placeholder="Enter job location"
-                  name="lieu"
-                  value={formData.lieu}
-                  onChange={handleInputChange}
-                />
+              <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                <div className="flex flex-col gap-6">
+                  <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
+                    Title
+                  </Typography>
+                  <Input
+                    size="regular"
+                    placeholder="Enter title"
+                    name="title"
+                    value={formData.title}
+                    onChange={handleInputChange}
+                    className="input-style" required
+                  />
+                  {errors.title && <Typography variant="small" color="red">{errors.title}</Typography>}
+                </div>
+                <div className="flex flex-col gap-6">
+                  <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
+                    Enter job location
+                  </Typography>
+                  <Input
+                    size="regular"
+                    placeholder="Enter job location"
+                    name="lieu"
+                    value={formData.lieu}
+                    onChange={handleInputChange}
+                    className="input-style" required
+                  />
                   {errors.lieu && <Typography variant="small" color="red">{errors.lieu}</Typography>}
-
-              </div>
-              <div className="flex flex-col gap-6">
-                <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
-                language required
-                </Typography>
-                <Input
-                  size="regular"
-                  placeholder="Enter  language required"
-                  name="langue"
-                  value={formData.langue}
-                  onChange={handleInputChange}
-                />
+                </div>
+                <div className="flex flex-col gap-6">
+                  <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
+                    Language required
+                  </Typography>
+                  <Input
+                    size="regular"
+                    placeholder="Enter language required"
+                    name="langue"
+                    value={formData.langue}
+                    onChange={handleInputChange}
+                    className="input-style" required
+                  />
                   {errors.langue && <Typography variant="small" color="red">{errors.langue}</Typography>}
-
-              </div>
-
-              <div className="flex flex-col gap-6">
-                <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
-                description
-                </Typography>
-                <Input
-                  size="regular"
-                  placeholder="Enter job descriptions"
-                  name="description"
-                  value={formData.description}
-                  onChange={handleInputChange}
-                />
+                </div>
+                <div className="flex flex-col gap-6">
+                  <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
+                    Description
+                  </Typography>
+                  <Input
+                    size="regular"
+                    placeholder="Enter job descriptions"
+                    name="description"
+                    value={formData.description}
+                    onChange={handleInputChange}
+                    className="input-style" required
+                  />
                   {errors.description && <Typography variant="small" color="red">{errors.description}</Typography>}
-
-              </div>
-
-
-
-       
-
-
-              <div className="flex flex-col gap-6">
-                <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
-                  Qualifications
-                </Typography>
-                <Input
-                  size="regular"
-                  placeholder="Enter job qualifications"
-                  name="qualifications"
-                  value={formData.qualifications}
-                  onChange={handleInputChange}
-                />
+                </div>
+                <div className="flex flex-col gap-6">
+                  <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
+                    Qualifications
+                  </Typography>
+                  <Input
+                    size="regular"
+                    placeholder="Enter job qualifications"
+                    name="qualifications"
+                    value={formData.qualifications}
+                    onChange={handleInputChange}
+                    className="input-style" required
+                  />
                   {errors.qualifications && <Typography variant="small" color="red">{errors.qualifications}</Typography>}
-
-              </div>
-
-              <div className="flex flex-col gap-6">
-                <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
-                  Responsibilities
-                </Typography>
-                <Input
-                  size="regular"
-                  placeholder="Enter job responsibilities"
-                  name="responsibilities"
-                  value={formData.responsibilities}
-                  onChange={handleInputChange}
-                />
+                </div>
+                <div className="flex flex-col gap-6">
+                  <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
+                    Responsibilities
+                  </Typography>
+                  <Input
+                    size="regular"
+                    placeholder="Enter job responsibilities"
+                    name="responsibilities"
+                    value={formData.responsibilities}
+                    onChange={handleInputChange}
+                    className="input-style" required
+                  />
                   {errors.responsibilities && <Typography variant="small" color="red">{errors.responsibilities}</Typography>}
-
-              </div>
-
-              <div className="flex flex-col gap-6">
-                <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
-                  Status
-                </Typography>
-                <Input
-                  size="lg"
-                  type="text"
-                  placeholder="Enter job status"
-                  name="status"
-                  value={formData.status}
-                  onChange={handleInputChange}
-                />
-                  {errors.status && <Typography variant="small" color="red">{errors.status}</Typography>}
-
-              </div>
-
-              <div className="flex flex-col gap-6">
+                </div>
+                <div className="flex flex-col gap-6">
   <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
-    Deadline
+    Workplace Type
   </Typography>
-  <Input
-    size="lg"
-    type="date"  // Use type="date" for date input
-    placeholder="YYYY-MM-DD"
-    name="deadline"
-    value={formData.deadline}
+  <select
+    name="workplace_type"
+    value={formData.workplace_type}
     onChange={handleInputChange}
-    className="!border-t-blue-gray-200 focus:!border-t-gray-900"  // Add your custom styling if needed
-  />
-  {errors.deadline && <Typography variant="small" color="red">{errors.deadline}</Typography>}
+    className="input-style  block w-full bg-gray-100  border border-gray-400 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500 py-3 " required
+
+  >
+    <option value="">Select workplace type</option>
+    <option value="Remote">Remote</option>
+    <option value="On-site">On-site</option>
+    <option value="Hybrid">Hybrid</option>
+  </select>
+  {errors.workplace_type && <Typography variant="small" color="red">{errors.workplace_type}</Typography>}
 </div>
-
-              <div className="flex flex-col gap-6">
-                <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
-                  Field
-                </Typography>
-                <Input
-                  size="lg"
-                  type="text"
-                  placeholder="Enter job field"
-                  name="field"
-                  value={formData.field}
-                  onChange={handleInputChange}
-                />
+                <div className="flex flex-col gap-6">
+                  <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
+                    Deadline
+                  </Typography>
+                  <Input
+                    size="lg"
+                    type="date"
+                    placeholder="YYYY-MM-DD"
+                    name="deadline"
+                    value={formData.deadline}
+                    onChange={handleInputChange}
+                    className=" !border-t-blue-gray-200 focus:!border-t-gray-900 input-style"  required
+                  />
+                  {errors.deadline && <Typography variant="small" color="red">{errors.deadline}</Typography>}
+                </div>
+                <div className="flex flex-col gap-6">
+                  <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
+                    Field
+                  </Typography>
+                  <Input
+                    size="lg"
+                    type="text"
+                    placeholder="Enter job field"
+                    name="field"
+                    value={formData.field}
+                    onChange={handleInputChange}
+                    className="input-style" required
+                  />
                   {errors.field && <Typography variant="small" color="red">{errors.field}</Typography>}
-
-              </div>
-
-              <div className="flex flex-col gap-6">
-                <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
-                  Salary Informations
-                </Typography>
-                <Input
-                  size="lg"
-                  type="text"
-                  placeholder="Enter job salary informations"
-                  name="salary_informations"
-                  value={formData.salary_informations}
-                  onChange={handleInputChange}
-                />
+                </div>
+                <div className="flex flex-col gap-6">
+                  <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
+                    Salary Informations
+                  </Typography>
+                  <Input
+                    size="lg"
+                    type="text"
+                    placeholder="Enter job salary informations"
+                    name="salary_informations"
+                    value={formData.salary_informations}
+                    onChange={handleInputChange}
+                    className="input-style" required
+                  />
                   {errors.salary_informations && <Typography variant="small" color="red">{errors.salary_informations}</Typography>}
-
+                </div>
               </div>
-
               {/* Add input fields for other attributes as needed */}
-              
               <Button type="submit" className="mt-6 bg-red-800" fullWidth>
                 Create Job Offer
               </Button>
-              <Popover>
-        <PopoverHandler>
-          <div className="hidden">{/* This div is needed for PopoverHandler */}</div>
-        </PopoverHandler>
-        {showSuccessPopover && (
-          <PopoverContent>
-            Job offer added successfully!
-          </PopoverContent>
-        )}
-      </Popover>
             </form>
           </Card>
         </div>
       </section>
-
-    
-
-</div>
-      )}
-
-{selectedBreadcrumb === 'view' && (
-        <div>
-      <div className="flex flex-row items-center  gap-2 w-1/4"> {/* Set the width to 1/4 of the page */}
-  <Typography variant="medium" color="blue-gray" className="mr-2 mt-4 font-medium">
-    Search by title
-  </Typography>
-  <Input
-    type="text"
-    placeholder="Enter job title to search"
-    name="searchtitle"
-    value={searchtitle}
-    onChange={(e) => setSearchtitle(e.target.value)}
-  />
-
-  <Button onClick={handleSearch} className="mt-2 text-black bg-gray-300" fullWidth>
-    Search
-  </Button>
-
-  </div>
-
-
-      <section className="ml-10  flex gap-4">
-        <div className="w-full ">
-          <Card className="mt-8 ml-auto mr-auto mb-2 w-80 max-w-screen-lg lg:w-5/6 rounded-lg p-6">
-            <Typography variant="paragraph" color="blue-gray" className="text-lg font-normal mb-4">
-              All Job Offers  created by your company
-            </Typography>
-            <ul  >
-              {jobOffers.map((jobOffer) => (
-                <li key={jobOffer._id} className="shadow-xl bg-[#f5f5f5] p-4  ml-auto mr-auto mb-10 rounded-lg hover:scale-105 duration-300">
-                  <Typography variant="title" color="blue-gray" className="mb-2">
-                   Title: {jobOffer.title}
-                  </Typography>
-                  <Typography variant="paragraph" color="blue-gray" className="mb-2">
-                    Salary: {jobOffer.salary_informations}
-                  </Typography>
-                  <Typography variant="paragraph" color="blue-gray" className="mb-2">
-                    Deadline: {jobOffer.deadline}
-                    <Typography variant="paragraph" color="blue-gray" className="mb-2">
-                    Lieu: {jobOffer.lieu}
-                  </Typography>
-                  </Typography>
-                  {expandedOfferId === jobOffer._id && (
-                    <div>
-                      <Typography variant="paragraph" color="blue-gray">
-                        Description: {jobOffer.description}
-                      </Typography>
-                      <Typography variant="paragraph" color="blue-gray">
-                        Qualifications: {jobOffer.qualifications}
-                      </Typography>
-                      <Typography variant="paragraph" color="blue-gray">
-                        Field: {jobOffer.field}
-                      </Typography>
-
-                      <Typography variant="paragraph" color="blue-gray">
-                        Status: {jobOffer.status}
-                      </Typography>
-                      <Typography variant="paragraph" color="blue-gray">
-                        Field: {jobOffer.langue}
-                      </Typography>
-                      {/* Add more fields as needed */}
-                   </div>
-
-
-
-                  )}
-                  <Button color="blue-grey" onClick={() => handleSeeMore(jobOffer._id)}>
-                    {expandedOfferId === jobOffer._id ? "See Less" : "See More"}
-                  </Button>
-                  <Button color="red" onClick={() => handleDelete(jobOffer._id)}>
-              Delete
-            </Button>
-          
-
-
-
-                </li>
-              ))}
-            </ul>
-          </Card>
-        </div>
-        
-      </section>
-        </div>
-      )}
-
-
-{selectedBreadcrumb === 'UPDATE' && (
-               <div>
-               {jobOffers.map((jobOffer) => (
-                 <Card key={jobOffer._id} className="mt-8 ml-auto mr-auto mb-2 w-80 max-w-screen-lg lg:w-5/6 rounded-lg p-6">
-                   <Typography variant="title" color="blue-gray" className="mb-2">
-                     Title: {jobOffer.title}
-                   </Typography>
-                   {/* ... (other details) */}
-                   <div>
-                     <form
-                       onSubmit={(e) => {
-                         e.preventDefault();
-                         handleUpdate(jobOffer._id);
-                       }}
-                     >
-                       {/* Render input fields with corresponding values */}
-                       <Input
-                         size="regular"
-                         placeholder="Enter title"
-                         name="title"
-                         value={updatedFormDataMap[jobOffer._id]?.title || jobOffer.title}
-                         onChange={(e) =>
-                           setUpdatedFormDataMap((prevMap) => ({
-                             ...prevMap,
-                             [jobOffer._id]: { ...prevMap[jobOffer._id], title: e.target.value },
-                           }))
-                         }
-                       />
-     
-                         <Input
-                         size="regular"
-                         placeholder="Enter status"
-                         name="status"
-                         value={updatedFormDataMap[jobOffer._id]?.status || jobOffer.status}
-                         onChange={(e) =>
-                           setUpdatedFormDataMap((prevMap) => ({
-                             ...prevMap,
-                             [jobOffer._id]: { ...prevMap[jobOffer._id], status: e.target.value },
-                           }))
-                         }
-                       />
-
-
-
-                       <Input
-                         size="regular"
-                         placeholder="Enter lieu"
-                         name="lieu"
-                         value={updatedFormDataMap[jobOffer._id]?.lieu || jobOffer.lieu}
-                         onChange={(e) =>
-                           setUpdatedFormDataMap((prevMap) => ({
-                             ...prevMap,
-                             [jobOffer._id]: { ...prevMap[jobOffer._id], lieu: e.target.value },
-                           }))
-                         }
-                       />
-     
-                       <Input
-                         size="regular"
-                         placeholder="Enter langue"
-                         name="langue"
-                         value={updatedFormDataMap[jobOffer._id]?.langue || jobOffer.langue}
-                         onChange={(e) =>
-                           setUpdatedFormDataMap((prevMap) => ({
-                             ...prevMap,
-                             [jobOffer._id]: { ...prevMap[jobOffer._id], langue: e.target.value },
-                           }))
-                         }
-                       />
-     
-                     
-                       <Input
-                         size="regular"
-                         placeholder="Enter salary information"
-                         name="salary_informations"
-                         value={updatedFormDataMap[jobOffer._id]?.salary_informations || jobOffer.salary_informations}
-                         onChange={(e) =>
-                           setUpdatedFormDataMap((prevMap) => ({
-                             ...prevMap,
-                             [jobOffer._id]: { ...prevMap[jobOffer._id], salary_informations: e.target.value },
-                           }))
-                         }
-                       /> 
-                         <Input
-                         size="regular"
-                         placeholder="Enter qualifications"
-                         name="qualifications"
-                         value={updatedFormDataMap[jobOffer._id]?.qualifications || jobOffer.qualifications}
-                         onChange={(e) =>
-                           setUpdatedFormDataMap((prevMap) => ({
-                             ...prevMap,
-                             [jobOffer._id]: { ...prevMap[jobOffer._id], qualifications: e.target.value },
-                           }))
-                         }
-                       /> 
-                         <Input
-                         size="regular"
-                         placeholder="Enter field"
-                         name="field"
-                         value={updatedFormDataMap[jobOffer._id]?.field || jobOffer.field}
-                         onChange={(e) =>
-                           setUpdatedFormDataMap((prevMap) => ({
-                             ...prevMap,
-                             [jobOffer._id]: { ...prevMap[jobOffer._id], field: e.target.value },
-                           }))
-                         }
-                       />
-                           <Input
-                         size="regular"
-                         placeholder="Enter deadline"
-                         name="deadline"
-                         value={updatedFormDataMap[jobOffer._id]?.deadline || jobOffer.deadline}
-                         onChange={(e) =>
-                           setUpdatedFormDataMap((prevMap) => ({
-                             ...prevMap,
-                             [jobOffer._id]: { ...prevMap[jobOffer._id], deadline: e.target.value },
-                           }))
-                         }
-                       />
-     
-                       <Button type="submit" className="mt-6 bg-red-800" fullWidth>
-                         Update Job Offer
-                       </Button>
-                     </form>
-                   </div>
-                   
-                   {successMessage && (
-                <Typography variant="paragraph" color="green" className="mt-4">
-                  {successMessage}
-                </Typography>
-              )}
-
-                  
-                   {/* ... (other details) */}
-                 </Card>
-               ))}
-             </div>
-           )}
-     
-
-     
-      </div>
-     
-
-
-
-</>
+    </>
   );
 }
 
