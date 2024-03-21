@@ -16,6 +16,7 @@ import { UserProvider, useUser } from './context/usercontext';
 function App() {
   const { pathname } = useLocation();
   return (
+  
     <UserProvider>
 
 

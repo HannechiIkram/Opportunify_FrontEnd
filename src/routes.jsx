@@ -1,5 +1,5 @@
 
-import { Home, Profile, SignIn, SignUp ,ResetPassword ,RegisterJobseeker,Job_offer,Unauthorized} from "@/pages";
+import { Home, Profile, SignIn, SignUp ,ResetPassword ,RegisterJobseeker,Job_offer,Unauthorized,Job_offerConsult,Job_offerUpdate} from "@/pages";
 import Forgot from "./pages/passwordForget";
 import HomeDashboard from "./pages/dashboard/homeDashboard";
 import Apply from "./pages/apply";
@@ -25,6 +25,7 @@ export const routes = [
     path: "/Job_offer",
     element: <Job_offer />,
   },
+  
   {
     name: "Sign In",
     path: "/sign-in",
@@ -70,7 +71,16 @@ export const routes = [
     path: "/dashboard",
     element: <HomeDashboard />, // Render the LogoutComponent for the logout route
   }
-,
+,  {
+  name: "Job_offerConsult",
+  path: "/Job_offerConsult",
+  element: <Job_offerConsult />,
+},
+{
+  name: "Job_offerUpdate",
+  path: "/Job_offerUpdate/:id",
+  element: <Job_offerUpdate />,
+},
 
 {
     name: "Unauthorized",
