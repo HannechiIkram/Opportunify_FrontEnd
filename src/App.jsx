@@ -39,7 +39,6 @@ function App() {
         <Route path="/unauthorized" component={Unauthorized} />
         <Route path="/dashboard" element={<ProtectedRoute element={<HomeDashboard />} requiredRole="admin" />} />
   <Route path="/job_offer" element={<ProtectedRoute element={<Job_offer />} requiredRole="company" />} />
-
       </Routes>
       
      

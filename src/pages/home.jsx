@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom"; // Import useNavigate hook
+import axios from "axios"; // Import Axios for making HTTP requests
 
 import {
   Card,
@@ -37,20 +39,31 @@ import Select from "react-select";
 
 
 export function Home() {
-  const [recentlySaved, setRecentlySaved] = useState([]); // État pour stocker les éléments récemment enregistrés
+  const navigate = useNavigate(); // Initialize useNavigate hook
 
+  const [recentlySaved, setRecentlySaved] = useState([]); // État pour stocker les éléments récemment enregistrés
   const handleLogout = async () => {
     try {
-      await axios.post("/logout"); // Envoyer une requête POST à votre endpoint de déconnexion
-      // Une fois la déconnexion réussie, vous pouvez effectuer des actions supplémentaires ici, comme rediriger l'utilisateur vers la page de connexion ou afficher un message de déconnexion réussie
+      await axios.post("/user/logout", {}, { 
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        withCredentials: true 
+      });
+      // Rediriger l'utilisateur vers la page de connexion ou une autre page appropriée
+      navigate("/sign-in");
     } catch (error) {
-      console.error("Erreur lors de la déconnexion :", error);
-      // Gérer les erreurs ici, par exemple afficher un message d'erreur à l'utilisateur
-    }};
-    
-  // Fonction pour enregistrer un élément et le mettre à jour dans l'état
-  const handleSave = (item) => {
-    setRecentlySaved([...recentlySaved, item]);
+      console.error("Logout error:", error);
+      // Gérer les erreurs de déconnexion
+    }
+};
+  
+  const handleStartTrial = () => {
+    navigate("/sign-upjs"); // Navigate to the signup page using navigate function
+  };
+  const handleStartTrial1 = () => {
+    navigate("/sign-up"); // Navigate to the signup page using navigate function
   };
   return (
     <>
@@ -81,7 +94,7 @@ export function Home() {
     </ReactTyped>
   </div>  
   <a
-      href="/sign-up"
+      href="/redirect-sign-up"
       target="_blank"
     >
       <button className='bg-red-800 w-[200px] rounded-md font-medium my-6 mx-auto py-3 text-white'>Get Started</button>
@@ -136,7 +149,7 @@ export function Home() {
                   
 
               </div>
-              <button className='Lato bg-[#d63939] w-[200px] rounded-md font-medium my-6 mx-auto px-6 py-3 text-white'>Start Trial</button>
+              <button className='Lato bg-[#d63939] w-[200px] rounded-md font-medium my-6 mx-auto px-6 py-3 text-white'onClick={handleStartTrial}>Start Trial</button>
               </div>
           <div className='w-full shadow-xl bg-[#f5f5f5] flex flex-col p-4 md:my-0 my-8 rounded-lg hover:scale-105 duration-300'>
               <img className='  w-20 mx-auto mt-[-3rem] bg-transparent' src={company} alt="/" />
@@ -146,7 +159,7 @@ export function Home() {
                   <p className='Lato py-2 border-b mx-8 mt-8'>Discover the Best Professionals for Your Team</p>
               
               </div>
-              <button className='Lato bg-black text-white w-[200px] rounded-md font-medium my-6 mx-auto px-6 py-3'>Start Trial</button>
+              <button className='Lato bg-black text-white w-[200px] rounded-md font-medium my-6 mx-auto px-6 py-3'onClick={handleStartTrial1}>Start Trial</button>
           </div>
          
           </div>
@@ -247,7 +260,7 @@ export function Home() {
            Send Message
          </Button>
         
-      <button onClick={handleLogout}>Déconnexion</button>
+         <Button onClick={handleLogout}>Déconnexion</Button>
    
        </form>
    </section>

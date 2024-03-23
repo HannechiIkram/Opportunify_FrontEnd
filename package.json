@@ -30,6 +30,7 @@
     "react-phone-input-2": "^2.15.1",
     "react-phone-number-input": "^3.3.9",
     "react-select": "^5.8.0",
+    "react-toastify": "^10.0.5",
     "react-typed": "^2.0.12",
     "redux": "^5.0.1"
   },

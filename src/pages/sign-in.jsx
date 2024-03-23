@@ -1,9 +1,9 @@
-import React from "react";
-import { Card, Input, Checkbox, Button, Typography } from "@material-tailwind/react";
-import Navbar from "../widgets/layout/navbar";
-import { useState } from "react";
-import axios from "axios";
+import React, { useState } from "react";
+import { Card, Input, Button, Typography } from "@material-tailwind/react";
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 export function SignIn() {
   const Navigate = useNavigate();
   const [data, setData] = useState({
@@ -36,10 +36,18 @@ export function SignIn() {
       }
     } catch (error) {
       console.error('Authentication failed:', error.response.data);
-      window.alert('Authentication failed.');
+      if (error.response.status === 429) {
+        // Display too many login attempts notification
+        toast.error('Too many login attempts, please try again later.');
+      } else if (error.response.status === 401) {
+        // Display email or password wrong notification
+        toast.error('Email or password is incorrect.');
+      } else {
+        // Display generic authentication failed notification
+        toast.error('Authentication failed.');
+      }
     }
   };
-
   const handleFacebookLogin = async () => {
     try {
       // Faire une requête POST vers l'endpoint d'authentification Facebook de votre backend
@@ -59,7 +67,7 @@ export function SignIn() {
   
   return (
     <>
-      
+       <ToastContainer position="top-center" autoClose={5000} />
       <section className="ml-10 mr-10 mt-4 lg:mt-8 flex gap-4 items-center">
         <div className="w-full lg:w-2/5">
           <div className="text-center">

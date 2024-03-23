@@ -1,3 +1,5 @@
+import axios from 'axios'; // Import Axios library
+
 import React from "react";
 import {
   Navbar as TNavbar,
@@ -56,16 +58,32 @@ const profileMenuItems = [
   {
     label: "Sign Out",
     icon: PowerIcon,
-    path:""
+    path:"/user/logout"
 
   },
 ];
- 
 function ProfileMenu() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
- 
+
+  const handleSignOut = async () => {
+    try {
+      await axios.post("/user/logout", {}, {
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        withCredentials: true
+      });
+      // Redirect the user to the sign-in page or another appropriate page
+      navigate("/sign-in");
+    } catch (error) {
+      console.error("Logout error:", error);
+      // Handle logout errors
+    }
+  };
+
   const closeMenu = () => setIsMenuOpen(false);
- 
+
   return (
     <Menu open={isMenuOpen} handler={setIsMenuOpen} placement="bottom-end">
       <MenuHandler>
@@ -90,31 +108,32 @@ function ProfileMenu() {
         </Button>
       </MenuHandler>
       <MenuList className="p-1">
-        {profileMenuItems.map(({ label, icon,path }, key) => {
+        {profileMenuItems.map(({ label, icon, path }, key) => {
           const isLastItem = key === profileMenuItems.length - 1;
           return (
             <MenuItem
               key={label}
-              onClick={closeMenu}
+              onClick={label === "Sign Out" ? handleSignOut : closeMenu}
               className={`flex items-center gap-2 rounded ${
                 isLastItem
                   ? "hover:bg-red-500/10 focus:bg-red-500/10 active:bg-red-500/10"
                   : ""
               }`}
             >
-              <Link to={path} className="flex items-center gap-2"></Link>
-              {React.createElement(icon, {
-                className: `h-4 w-4 ${isLastItem ? "text-red-500" : ""}`,
-                strokeWidth: 2,
-              })}
-              <Typography
-                as="span"
-                variant="small"
-                className="font-normal"
-                color={isLastItem ? "red" : "inherit"}
-              >
-                {label}
-              </Typography>
+              <Link to={path} className="flex items-center gap-2">
+                {React.createElement(icon, {
+                  className: `h-4 w-4 ${isLastItem ? "text-red-500" : ""}`,
+                  strokeWidth: 2,
+                })}
+                <Typography
+                  as="span"
+                  variant="small"
+                  className="font-normal"
+                  color={isLastItem ? "red" : "inherit"}
+                >
+                  {label}
+                </Typography>
+              </Link>
             </MenuItem>
           );
         })}
@@ -122,7 +141,6 @@ function ProfileMenu() {
     </Menu>
   );
 }
- 
 // nav list menu
 const navListMenuItems = [
  

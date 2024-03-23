@@ -98,6 +98,11 @@ export const routes = [
     path: "/redirect-company",
     element: <RedirectCompany/>
   },
+  {
+    name: "Logout",
+    path: "/logout",
+    element: <SignIn />, // Remplacez <Logout /> par le composant de déconnexion approprié
+  }
   
 ];
 
