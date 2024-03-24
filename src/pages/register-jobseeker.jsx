@@ -13,6 +13,10 @@ import 'react-phone-input-2/lib/style.css';
 
 
 export function RegisterJobseeker() {
+  const handleImageChange1 = (e) => {
+    const file = e.target.files[0];
+    setData({ ...data, image: file });
+  };
   const navigate = useNavigate();
   const [termsChecked, setTermsChecked] = useState(false);
 
@@ -26,6 +30,8 @@ export function RegisterJobseeker() {
     password: "",
     confirmPassword: '',
     role_jobseeker: "",
+    image: null, // Store the selected image file
+
   });
   const [errors, setErrors] = useState({
     name: "",
@@ -164,6 +170,7 @@ export function RegisterJobseeker() {
       }
     
   };
+
 
   return (
     <>
@@ -356,6 +363,31 @@ export function RegisterJobseeker() {
           )}
         </div>
         <div className="mb-1 flex flex-col gap-6">
+        <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
+          </Typography>
+  <div className="relative">
+    <input
+      type="file"
+      id="fileInput"
+      className="hidden"
+      onChange={handleImageChange1}
+    />
+       <label
+    htmlFor="fileInput"
+    className={`w-full border rounded-md p-3 text-sm text-white cursor-pointer hover:bg-black focus:outline-none focus:border-black ${
+      data.image ? 'bg-black border-black' : 'bg-red-800 border-red-800'
+    }`}
+  >
+    {data.image ? 'Image Uploaded' : 'Upload Your Photo'}
+  </label>
+  </div>
+</div>
+
+
+
+        <div className="mb-1 flex flex-col gap-6">
+        <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
+          </Typography>
   <label htmlFor="terms" className="flex items-center">
     <input
       type="checkbox"
@@ -384,6 +416,7 @@ export function RegisterJobseeker() {
                 Already have an account?
                 <Link to="/sign-in" className="text-gray-900 ml-1">Sign in</Link>
               </Typography>
+              
             </form>
           </Card>
        

@@ -10,9 +10,34 @@ export function SignIn() {
     email: "",
     password: "",
     role: "",
+  }); const [errors, setErrors] = useState({
+    email: "",
+    password: "",
   });
 
+  const validateForm = () => {
+    let valid = true;
+    const errorsCopy = { ...errors };
+
+    if (!data.email) {
+      errorsCopy.email = "Email is required";
+      valid = false;
+    } else {
+      errorsCopy.email = "";
+    }
+
+    if (!data.password) {
+      errorsCopy.password = "Password is required";
+      valid = false;
+    } else {
+      errorsCopy.password = "";
+    }
+
+    setErrors(errorsCopy);
+    return valid;
+  };
   const loginUser = async (e) => {
+    if (validateForm()) {
     e.preventDefault();
     try {
       const response = await axios.post('/user/login', data);
@@ -35,7 +60,7 @@ export function SignIn() {
         Navigate("/home");
       }
     } catch (error) {
-      console.error('Authentication failed:', error.response.data);
+      console.error('Email or password is wrong', error.response.data);
       if (error.response.status === 429) {
         // Display too many login attempts notification
         toast.error('Too many login attempts, please try again later.');
@@ -44,9 +69,9 @@ export function SignIn() {
         toast.error('Email or password is incorrect.');
       } else {
         // Display generic authentication failed notification
-        toast.error('Authentication failed.');
+        toast.error('Email or password is wrong');
       }
-    }
+    }}
   };
   const handleFacebookLogin = async () => {
     try {
@@ -93,6 +118,11 @@ export function SignIn() {
                     setData({ ...data, email: e.target.value })
                   }
                 />
+                 {errors.email && (
+                  <Typography variant="small" color="red">
+                    {errors.email}
+                  </Typography>
+                )}
               </div>
               <div className="flex flex-col gap-6">
                 <Typography
@@ -111,6 +141,11 @@ export function SignIn() {
                     setData({ ...data, password: e.target.value })
                   }
                 />
+                  {errors.password && (
+                  <Typography variant="small" color="red">
+                    {errors.password}
+                  </Typography>
+                )}
               </div>
               <Button type="submit" className="mt-6 bg-red-800" fullWidth>
                 Sign In

@@ -203,7 +203,21 @@ if (!formData.salary_informations.trim()) {
     }
     //
     try {
-      const response = await axios.post('/job_offer/add', formData);
+      const accessToken = localStorage.getItem('accessToken'); // Change this if you store the token differently
+
+      // Include the access token in the request headers
+      const config = {
+        headers: {
+          'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c'
+        }
+      };
+      
+      
+
+
+
+  
+      const response = await axios.post('/job_offer/add', formData, config     );
       console.log('Job offer added successfully:', response.data);
       window.alert('Job offer added successfully');
       // Fetch updated job offers after adding a new one
@@ -220,6 +234,12 @@ window.location.href = "/Job_offerConsult";
   const handleDelete = async (offerId) => {
     try {
       const response = await axios.delete(`/job_offer/delete/${offerId}`);
+
+
+
+
+
+
       console.log(response.data);
 
       // Fetch updated job offers after deleting one

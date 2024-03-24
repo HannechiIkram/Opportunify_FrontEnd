@@ -1,4 +1,5 @@
 import axios from 'axios'; // Import Axios library
+import { Link, useNavigate } from "react-router-dom";
 
 import React from "react";
 import {
@@ -14,8 +15,7 @@ import {
   Card,
   IconButton,
 } from "@material-tailwind/react";
-import { Link } from 'react-router-dom'
-;import {
+import {
   CubeTransparentIcon,
   UserCircleIcon,
   CodeBracketSquareIcon,
@@ -64,6 +64,7 @@ const profileMenuItems = [
 ];
 function ProfileMenu() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  const navigate = useNavigate(); // Add this line to use the navigate function
 
   const handleSignOut = async () => {
     try {
