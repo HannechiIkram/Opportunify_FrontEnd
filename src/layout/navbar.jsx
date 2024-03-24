@@ -283,17 +283,9 @@ export function Navbar() {
   return (
     <TNavbar className="mx-auto max-w-screen-xl p-2 lg:rounded-full lg:pl-6">
       <div className="relative mx-auto flex items-center justify-between text-blue-gray-900">
-        <Typography
-          as="a"
-          href="#"
-          className="mr-4 ml-2 cursor-pointer py-1.5 font-medium"
-        >
-<img
-  src="img/opportunify.png"
-  alt="logo"
- 
-/>
-        </Typography>
+
+          <img src="/img/navbar logo.png" alt="logo"  style={{ width: '170px', height: '45px' }}  />
+
         <div className="hidden lg:block">
           <NavList />
         </div>

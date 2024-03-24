@@ -15,6 +15,10 @@ import {
 } from "@material-tailwind/react";
 import  { useState, useEffect } from "react";
 
+//// integration du sidebar
+import { MaterialTailwindControllerProvider } from "@/context"; // Import MaterialTailwindControllerProvider
+import { Sidenav } from ".";
+
 import  axios  from "axios";
 import {
   EllipsisVerticalIcon,
@@ -31,8 +35,6 @@ import {
 } from "@/data/index.js";
 import { CheckCircleIcon, ClockIcon } from "@heroicons/react/24/solid";
 
-//samar
-import { useNavigate } from 'react-router-dom';
 export function HomeDashboard() {
   const [searchTerm, setSearchTerm] = useState("");
 const [sortBy, setSortBy] = useState("name"); // Par défaut, trier par nom
@@ -55,8 +57,7 @@ const [sortBy, setSortBy] = useState("name"); // Par défaut, trier par nom
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
   };
-  
-  
+
 
   const filteredUsers = users.filter((user) => {
     const { name, role, email } = user;
@@ -68,12 +69,10 @@ const [sortBy, setSortBy] = useState("name"); // Par défaut, trier par nom
     );
   });
 
-  
-
-
    return(  
- <>
- 
+     <MaterialTailwindControllerProvider >
+      
+           <Sidenav/>
 
     <div className="mt-12">
       <div className="mb-12 grid gap-y-10 gap-x-6 md:grid-cols-2 xl:grid-cols-4">
@@ -169,8 +168,9 @@ const [sortBy, setSortBy] = useState("name"); // Par défaut, trier par nom
 
 
 
- 
-    </>
+   
+    </MaterialTailwindControllerProvider>
+
   );
 }
 

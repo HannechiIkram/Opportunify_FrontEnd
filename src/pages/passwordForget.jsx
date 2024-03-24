@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Card, Input, Button, Typography } from "@material-tailwind/react";
 import axios from 'axios';
 import { Link, useNavigate } from "react-router-dom";
+import { Navbar0 } from "@/widgets/layout";
 
 export function Forgot() {
     const [data, setData] = useState({
@@ -28,6 +29,7 @@ export function Forgot() {
 
     return (
         <>
+                <Navbar0/>
             <section className="flex justify-center items-center h-screen bg-white">
                 <div className="w-full lg:w-2/5">
                     <div className="flex justify-center items-center mb-8">

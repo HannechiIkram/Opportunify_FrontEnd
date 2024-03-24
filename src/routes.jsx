@@ -4,12 +4,22 @@ import Forgot from "./pages/passwordForget";
 import HomeDashboard from "./pages/dashboard/homeDashboard";
 import Apply from "./pages/apply";
 import Applications from "./pages/applications";
-
-
-
+import SideNav from "@/pages/dashboard/sidenav";
+import Nav0 from "@/layout/navbar0";
+import Nav1 from "@/widgets/layout/navbar1";
 
 
 export const routes = [
+  {
+    name: "navbar0",
+    path: "/nav0",
+    element: <Nav0/>,
+  },
+  {
+    name: "navbar1",
+    path: "/nav1",
+    element: <Nav1/>,
+  },
   {
     name: "home",
     path: "/home",
@@ -97,6 +107,11 @@ export const routes = [
     name: "Redirect Company",
     path: "/redirect-company",
     element: <RedirectCompany/>
+  },
+  {
+    name: "Sidenav",
+    path: "/sidebar",
+    element: <SideNav/>
   },
   
 ];

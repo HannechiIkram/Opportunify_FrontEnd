@@ -10,6 +10,7 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
+import { Navbar1 } from '@/widgets/layout';
 
 
 export function RegisterJobseeker() {
@@ -167,6 +168,7 @@ export function RegisterJobseeker() {
 
   return (
     <>
+    <Navbar1/>
           <div className="text-center">
       <Typography variant="h1" className="font-bold mb-4">
         Join Opportunify!
