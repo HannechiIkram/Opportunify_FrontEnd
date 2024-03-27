@@ -11,9 +11,14 @@ import { Link, useNavigate } from "react-router-dom";
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import { Navbar1 } from '@/widgets/layout';
-
+import TermsAndConditions from './TermsAndConditions';
 
 export function RegisterJobseeker() {
+  const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
+
+const handleTermsAndConditionsClick = () => {
+  Navigate('/terms-and-conditions');
+};
   const navigate = useNavigate();
   const [termsChecked, setTermsChecked] = useState(false);
 
@@ -357,6 +362,7 @@ export function RegisterJobseeker() {
             <Typography variant="small" color="red">Passwords do not match</Typography>
           )}
         </div>
+        
         <div className="mb-1 flex flex-col gap-6">
   <label htmlFor="terms" className="flex items-center">
     <input
@@ -366,10 +372,20 @@ export function RegisterJobseeker() {
       onChange={(e) => setTermsChecked(e.target.checked)}
       className="mr-2"
     />
-    <Typography variant="small" color="blue-gray">
-      I accept the <Link to="/terms" className="text-blue-500">terms and conditions</Link>
-    </Typography>
+   <Typography variant="small" color="blueGray">
+        I accept{' '}
+        <Link
+          onClick={() => setIsConfirmationOpen(prevState => !prevState)}
+          underline="always" 
+          style={{ color: '#007bff' }} 
+        >
+          Opportunify terms and conditions
+        </Link>
+      </Typography>
+
   </label>
+  <TermsAndConditions isOpen={isConfirmationOpen} onClose={() => setIsConfirmationOpen(false)} onConfirm={setIsConfirmationOpen}/>
+
 </div>
 {!termsChecked && (
   <Typography variant="small" color="red">
@@ -389,7 +405,7 @@ export function RegisterJobseeker() {
             </form>
           </Card>
        
-      
+
     </>
   );
 }

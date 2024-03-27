@@ -1,6 +1,6 @@
 
 import { Home, Profile, SignIn, SignUp ,ResetPassword ,RegisterJobseeker,
-  Job_offer,Unauthorized,RedirectCompany,RedirectSignUp,Job_offerConsult,Job_offerUpdate} from "@/pages";
+  Job_offer,Unauthorized,RedirectCompany,RedirectSignUp,Job_offerConsult,Job_offerUpdate,TermsAndConditions} from "@/pages";
 import Forgot from "./pages/passwordForget";
 import HomeDashboard from "./pages/dashboard/homeDashboard";
 import Apply from "./pages/apply";
@@ -15,6 +15,11 @@ export const routes = [
     name: "navbar0",
     path: "/nav0",
     element: <Nav0/>,
+  },
+  {
+    name: "terms and conditions",
+    path: "/terms-and-conditions",
+    element: <TermsAndConditions/>,
   },
 
   {

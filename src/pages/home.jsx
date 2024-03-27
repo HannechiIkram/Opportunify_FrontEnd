@@ -314,18 +314,12 @@ const handleSignupClick = () => {
 <div>
                
                 <div className="flex items-center justify-center">
-                <Button className="bg-gray-800 text-white px-4 py-2 rounded mr-4" onClick={() => setIsConfirmationOpen(prevState => !prevState)}>Offer details</Button>
+ <Button className="bg-gray-800 text-white px-4 py-2 rounded mr-4" onClick={() => setIsConfirmationOpen(prevState => !prevState)}>Offer details</Button>
 
-</div>
-
-               
-              </div>
-
-                  </li>
-                   
-                ))}
-            
-              </ul>
+</div> </div>
+ </li>  
+))}
+ </ul>
   <ShowDetailSignUP isOpen={isConfirmationOpen} onClose={() => setIsConfirmationOpen(false)} onConfirm={handleSignupClick} />
 
           

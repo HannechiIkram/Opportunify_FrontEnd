@@ -19,3 +19,4 @@ import { fromJSON } from "postcss";
 
 export { default as RedirectCompany } from "@/pages/redirect-company";
 export {default as RedirectSignUp} from "@/pages/redirect-sign-up";
+export {default as TermsAndConditions} from "@/pages/TermsAndConditions";
