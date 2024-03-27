@@ -1,42 +1,71 @@
-import React, { useState } from "react";
 
-import {
-  Card,
-  CardBody,
-  CardHeader,
-  Typography,
-  Button,
-  IconButton,
-  Input,
-  Textarea,
-  Checkbox,
-} from "@material-tailwind/react";
-import { FingerPrintIcon, UsersIcon } from "@heroicons/react/24/solid";
 import { PageTitle, Footer, Navbar1 } from "@/widgets/layout";
-import { FeatureCard, TeamCard } from "@/widgets/cards";
-import { featuresData, teamData, contactData } from "@/data";
-
 import { ReactTyped } from "react-typed";
 import company from "./company.png";
 import jobseeker from "./jobseeker.png";
-import staff from "./staff.png";
 import 'react-day-picker/dist/style.css';
 import { motion } from 'framer-motion';
 import Banner from "./Banner.png";
 import {fadeIn} from "./variants.jsx";
 import opportunify from "./opportunify.jpg"
-import Select from "react-select";
+import React, { useState, useEffect } from "react";
+import 'react-day-picker/dist/style.css';
+import { Card, Typography, Checkbox,Button,Input, Textarea, TabPanel } from "@material-tailwind/react";
+import axios from "axios";
+import { FiMapPin } from "react-icons/fi";
+import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { GrScheduleNew } from "react-icons/gr";
+import {formatDistanceToNow } from "date-fns";
+import { GrAid } from "react-icons/gr";
+import { GrCurrency } from "react-icons/gr";
+import { FaArrowRightLong } from "react-icons/fa6";
+import { FaSquareArrowUpRight } from "react-icons/fa6";
 
-
-
-
-
-
+import { FaTimes } from 'react-icons/fa';
+import ShowDetailSignUP from "./showdetailsSignup";
+import { SignIn } from ".";
 
 
 
 
 export function Home() {
+  /////for notification mtaa show details
+  const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
+  const Navigate=useNavigate();
+
+const handleSignupClick = () => {
+  Navigate('/redirect-sign-up');
+};
+
+  const [formData, setFormData] = useState({
+      title: "",
+      description: "",
+      qualifications: "",
+      responsibilities: "",
+      Lieu:"",
+      langue:"",
+      workplace_type: "",
+      field: "",
+      salary_informations: "",
+      deadline: "",
+  });
+
+  const [jobOffers, setJobOffers] = useState([]);
+  useEffect(() => {
+    // Fetch all job offers when the component mounts
+    const fetchJobOffers = async () => {
+      try {
+        const response = await axios.get('/job_offer/getall');
+        setJobOffers(response.data);
+      } catch (error) {
+        console.error('Failed to fetch job offers:', error.response.data);
+      }
+    };
+
+    fetchJobOffers();
+  }, []); 
+  
+
   const [recentlySaved, setRecentlySaved] = useState([]); // État pour stocker les éléments récemment enregistrés
 
   const handleLogout = async () => {
@@ -52,6 +81,8 @@ export function Home() {
   const handleSave = (item) => {
     setRecentlySaved([...recentlySaved, item]);
   };
+  /////////
+ 
   return (
     <>
     <Navbar1/>
@@ -210,8 +241,100 @@ export function Home() {
         </div>
       </div>
     </div>
-    
+    <br>
+  </br>
+  <br>
+  </br>
+  <br>
+  </br>
+  <br>
+  </br>
+  <br>
+  </br>
+  {/*samarrrrrr*/}
+  <div className='max-w-[800px] mx-auto mt-[-96px] h-[80vh] flex flex-col justify-center items-center border-4 border-red-800 rounded-lg  animate-spin-slow'>
+     
+    <ReactTyped 
+      className='Lato text-black-800 font-bold text-3xl mb-10' 
+      strings={["Browse job offers on Opportunify!"]} 
+      typeSpeed={40} 
+      loop
+    />
+     
 
+
+
+
+              <ul>
+                {jobOffers.slice(0, 4).map((jobOffer) => (
+                  <li key={jobOffer._id} className="shadow-xl bg-[#f5f5f5] p-4 ml-auto mr-auto mb-10 rounded-lg hover:scale-105 duration-300">
+                    <div className="flex justify-between items-center"> {/* Utilize Flexbox with justify-content: space-between */}
+                      <Typography variant="title" color="#ff6666" className="mb-2 " style={{ fontSize: '24px', fontWeight: 'bold' }}>
+                        {jobOffer.title} 
+                      </Typography>
+                      
+                      <div>
+                        
+                        <Typography variant="paragraph" color="blue-gray">
+                          Created: {formatDistanceToNow(new Date(jobOffer.createdAt), { addSuffix: true })}
+                        </Typography>
+                      </div>
+                    </div>
+                    <div className="flex items-center mb-2">
+                      <Typography variant="paragraph" color="blue-gray" className="mr-2">
+                        <FiMapPin />
+                      </Typography>
+                      <Typography variant="paragraph" color="blue-gray" className="mr-8">
+                        {jobOffer.lieu}
+                      </Typography>
+                      <Typography variant="paragraph" color="blue-gray" className="mr-2">
+                        <GrAid />
+                      </Typography>
+                      <Typography variant="paragraph" color="blue-gray" className="mr-8">
+                        {jobOffer.workplace_type}
+                      </Typography>
+                      <Typography variant="paragraph" color="blue-gray" className="mr-2">
+                        <GrCurrency />
+                      </Typography>
+                      <Typography variant="paragraph" color="blue-gray" className="mr-8">
+                        {jobOffer.salary_informations}
+                      </Typography>
+                      <Typography variant="paragraph" color="blue-gray">
+                        <GrScheduleNew />
+                      </Typography>
+                      <Typography variant="paragraph" color="blue-gray" className="mr-2">
+                        deadline: {jobOffer.deadline}
+                      </Typography>
+                    </div>
+                    <div className="flex items-center"> {/* Nouveau div pour les boutons */}
+                    <Typography variant="paragraph" color="#ff6666" className="mb-2">
+  {jobOffer.description}
+</Typography>
+</div> 
+<div>
+               
+                <div className="flex items-center justify-center">
+                <Button className="bg-gray-800 text-white px-4 py-2 rounded mr-4" onClick={() => setIsConfirmationOpen(prevState => !prevState)}>Offer details</Button>
+
+</div>
+
+               
+              </div>
+
+                  </li>
+                   
+                ))}
+            
+              </ul>
+  <ShowDetailSignUP isOpen={isConfirmationOpen} onClose={() => setIsConfirmationOpen(false)} onConfirm={handleSignupClick} />
+
+          
+  <a href="/redirect-sign-up" target="_blank" className="mt-6">
+    <button className='bg-red-800 w-[200px] rounded-md font-medium py-3 text-white hover:bg-red-900 transition duration-300 ease-in-out'>
+      Show more
+</button>
+</a>
+</div>
 
 
     <section className="relative bg-white py-24 px-4">
