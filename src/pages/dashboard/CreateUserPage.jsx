@@ -7,14 +7,35 @@ import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
 
-
 import {
   Typography,
-
 } from "@material-tailwind/react";
+
 function CreateUserPage() {
   const navigate = useNavigate(); 
-  
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    role: "user",
+    image: null,
+    imageUrl: null, // Added imageUrl state for preview
+    voiceRecording: null,
+  });
+
+  const [errors, setErrors] = useState({}); // State for validation errors
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: "", // Clear error when user starts typing again
+    }));
+  };
 
   const generateRandomString = (length) => {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -25,38 +46,11 @@ function CreateUserPage() {
     return result;
   };
 
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    password: "",
-    role: "user",
-    image: null,
-    voiceRecording: null, // Nouveau champ pour l'enregistrement vocal
-
-  });
-
-  const [errors, setErrors] = useState({
-    name: "",
-    email: "",
-    password: "",
-  });
-  
+  // Appel à generateRandomString après sa définition
   const [captcha, setCaptcha] = useState(generateRandomString(6));
-  const [translatedContent, setTranslatedContent] = useState("");
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-    setErrors((prevErrors) => ({
-      ...prevErrors,
-      [name]: "",
-    }));
-  };
  
-
+ 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     setFormData((prevData) => ({
@@ -69,38 +63,8 @@ function CreateUserPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Reset errors
-    setErrors({
-      name: "",
-      email: "",
-      password: "",
-    });
-
-    // Validate form data
-    let formIsValid = true;
-    if (formData.name === "") {
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        name: "Name is required",
-      }));
-      formIsValid = false;
-    }
-    if (formData.email === "") {
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        email: "Email is required",
-      }));
-      formIsValid = false;
-    }
-    if (formData.password === "") {
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        password: "Password is required",
-      }));
-      formIsValid = false;
-    }
-
-    if (!formIsValid) {
+    // Vérifier les validations avant la soumission
+    if (!formIsValid()) {
       return;
     }
 
@@ -116,37 +80,61 @@ function CreateUserPage() {
   const regenerateCaptcha = () => {
     setCaptcha(generateRandomString(6));
   };
-// Fonction pour traduire le contenu en français
-async function translateToFrench(content) {
-  try {
-      const translatedContent = await translate(content, { to: 'fr' });
-      return translatedContent.text;
-  } catch (error) {
-      console.error('Error translating content:', error);
-      throw error;
+
+  // Fonction pour valider le formulaire
+  const formIsValid = () => {
+    let errors = {};
+
+    if (!formData.name.trim()) {
+      errors.name = "Name is required";
+    }
+
+    if (!formData.email.trim()) {
+      errors.email = "Email is required";
+    }
+    if (!formData.email.trim()) {
+      errors.email = "Email is required";
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      errors.email = "Invalid email address";
+    }
+  
+ if (!formData.password.trim()) {
+    errors.password = "Password is required";
+  } else if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+}{"':;?/>.<, ]).{8,}/.test(formData.password)) {
+    errors.password = "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character";
   }
-}
+  
+    if (!formData.password.trim()) {
+      errors.password = "Password is required";
+    } else if (formData.password.length < 8) {
+      errors.password = "Password must be at least 8 characters long";
+    }
+  
+    if (!formData.image) {
+      errors.image = "Image is required";
+    }
+    setErrors(errors);
 
-
+    return Object.keys(errors).length === 0; // Si aucune erreur, retourne true
+  };
 
   return (
     <MaterialTailwindControllerProvider>
       <Sidenav />
       <div className="ml-80 mr-200 mb-20" style={{ position: 'absolute', bottom: '20px', left: '1000px' }}>
-  <img
-    src="img/logoesprit.png"
-    alt="logo"
-    style={{ width: 'auto', height: '50px' }}
-  />
-</div>
-
+        <img
+          src="img/logoesprit.png"
+          alt="logo"
+          style={{ width: 'auto', height: '50px' }}
+        />
+      </div>
 
       <div className="container mx-auto mt-9 mb-20">
         <h1 className="text-4xl mb-8 text-center text-red-700 transition-opacity duration-500 transform hover:scale-105">
           Create account for admin
         </h1>
         <div className="card mx-auto mb-30 mt-5" style={{ maxWidth: '500px', backgroundColor: '#F3F4F6', padding: '50px', borderRadius: '5px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', transition: 'box-shadow 0.3s ease' }}>
-          <form onSubmit={handleSubmit} >
+        <form onSubmit={handleSubmit} noValidate>
             <div className="mb-8">
               <input
                 type="text"
@@ -154,14 +142,13 @@ async function translateToFrench(content) {
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
-                className={`w-full px-4 py-3 rounded-lg border focus:outline-none focus:border-blue-500 ${errors.name ? "border-red-500" : "border-gray-300"}`}
+                className={`w-full px-4 py-3 rounded-lg border focus:outline-none focus:border-blue-500 }`}
                 placeholder="Name"
                 required
               />
-              {errors.name && (
-                <p className="text-red-500 mt-1">{errors.name}</p>
-              )}
+              {errors.name && <p className="text-red-500">{errors.name}</p>}
             </div>
+
             <div className="mb-8">
               <input
                 type="email"
@@ -169,13 +156,11 @@ async function translateToFrench(content) {
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                className={`w-full px-4 py-3 rounded-lg border focus:outline-none focus:border-blue-500 ${errors.email ? "border-red-500" : "border-gray-300"}`}
+                className={`w-full px-4 py-3 rounded-lg border focus:outline-none focus:border-blue-500 }`}
                 placeholder="Email"
                 required
               />
-              {errors.email && (
-                <p className="text-red-500 mt-1">{errors.email}</p>
-              )}
+              {errors.email && <p className="text-red-500">{errors.email}</p>}
             </div>
             <div className="mb-8">
               <input
@@ -184,13 +169,11 @@ async function translateToFrench(content) {
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
-                className={`w-full px-4 py-3 rounded-lg border focus:outline-none focus:border-blue-500 ${errors.password ? "border-red-500" : "border-gray-300"}`}
+                className={`w-full px-4 py-3 rounded-lg border focus:outline-none focus:border-blue-500 `}
                 placeholder="Password"
                 required
               />
-              {errors.password && (
-                <p className="text-red-500 mt-1">{errors.password}</p>
-              )}
+              {errors.password && <p className="text-red-500">{errors.password}</p>}
             </div>
             <div className="mb-8 flex justify-center">
               <select

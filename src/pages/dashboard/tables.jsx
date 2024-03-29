@@ -8,7 +8,11 @@ import { MaterialTailwindControllerProvider } from "@/context";
 import { Sidenav } from ".";
 import { useParams  } from 'react-router-dom';
 import axios from 'axios';
-
+import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
+import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined';
+import FileCopyOutlinedIcon from '@mui/icons-material/FileCopyOutlined';
+import ThumbDownAltOutlinedIcon from '@mui/icons-material/ThumbDownAltOutlined';
+import ThumbDownAltIcon from '@mui/icons-material/ThumbDownAlt';
 import { io } from 'socket.io-client';
 import {
  
@@ -64,7 +68,6 @@ export function Tables() {
   const [error, setError] = useState(null);
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
-  const SERVER_URL = 'http://localhost:5000'; // ou toute autre URL où votre serveur WebSocket est en cours d'exécution
 
   const totalUsers = users.length;
   const activeUsers = users.filter(user => !user.isBlocked).length;
@@ -75,6 +78,9 @@ export function Tables() {
     { title: 'Blocked Users', value: blockedUsers }
   ];
   
+  const [dislikedApplications, setDislikedApplications] = useState([]);
+  const [likedApplications, setLikedApplications] = useState([]);
+  const [copiedText, setCopiedText] = useState('');
   useEffect(() => {
     const fetchUsers = async () => {
       try {
@@ -111,6 +117,38 @@ export function Tables() {
   const indexOfLastUser = currentPage * usersPerPage;
   const indexOfFirstUser = indexOfLastUser - usersPerPage;
   const currentUsers = filteredUsers.slice(indexOfFirstUser, indexOfLastUser);
+  const handleLike = (id) => {
+    if (!likedApplications.includes(id)) {
+      setLikedApplications([...likedApplications, id]);}else{
+      setLikedApplications([...likedApplications.filter(appId => appId !== id)]);
+    }
+  };
+  const handleDislike = (id) => {
+    if (!dislikedApplications.includes(id)) {
+      setDislikedApplications([...dislikedApplications, id]);
+    } else {
+      setDislikedApplications(dislikedApplications.filter(appId => appId !== id));
+    }
+  };
+  
+  
+  // Au chargement du composant, restaurer les applications "likées" depuis le stockage local
+  useEffect(() => {
+    const likedAppsFromStorage = localStorage.getItem('likedApplications');
+    if (likedAppsFromStorage) {
+      setLikedApplications(JSON.parse(likedAppsFromStorage));
+    }
+  }, []);
+
+  // Lorsque les applications "likées" changent, mettre à jour le stockage local
+  useEffect(() => {
+    localStorage.setItem('likedApplications', JSON.stringify(likedApplications));
+  }, [likedApplications]);
+  const handleCopyText = (text, event) => {
+    event.stopPropagation(); // Empêcher la propagation de l'événement
+    navigator.clipboard.writeText(text);
+    setCopiedText(text);
+  };
   
   return (
     <MaterialTailwindControllerProvider>
@@ -167,6 +205,28 @@ export function Tables() {
 
        
       </div>
+     
+                <div className="flex">
+                <div className="flex justify-between ml-5">
+                <button onClick={() => handleDislike(user.id)}>
+            {dislikedApplications.includes(user.id) ? <ThumbDownAltIcon style={{ color: 'red' }} /> : <ThumbDownAltOutlinedIcon />}
+          </button>
+                <button onClick={(e) => handleCopyText(user.email, e)}>
+  <FileCopyOutlinedIcon />
+</button>
+
+
+</div>
+
+
+                <button 
+ 
+
+  onClick={() => handleLike(user.id)}
+>
+  {likedApplications.includes(user.id) ? <FavoriteOutlinedIcon /> : <FavoriteBorderOutlinedIcon />}
+</button>
+</div>
     </CardBody>
   </Card>
 ))}

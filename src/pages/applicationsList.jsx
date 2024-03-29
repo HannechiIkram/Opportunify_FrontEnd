@@ -12,7 +12,7 @@ import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlin
 import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined';
 import FileCopyOutlinedIcon from '@mui/icons-material/FileCopyOutlined';
 import ThumbDownAltOutlinedIcon from '@mui/icons-material/ThumbDownAltOutlined';
-
+import ThumbDownAltIcon from '@mui/icons-material/ThumbDownAlt';
 const ApplicationsList = () => {
   const Navigate = useNavigate();
   const [applications, setApplications] = useState([]);
@@ -25,7 +25,8 @@ const ApplicationsList = () => {
   const [showBadResponse, setShowBadResponse] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const applicationsPerPage = 5;
-  
+  const [dislikedApplications, setDislikedApplications] = useState([]);
+
   useEffect(() => {
     const fetchApplications = async () => {
       try {
@@ -88,9 +89,18 @@ const handleDelete = async () => {
   const currentApplications = (searchResults.length > 0 ? searchResults : applications).slice(indexOfFirstApplication, indexOfLastApplication);
   const handleLike = (id) => {
     if (!likedApplications.includes(id)) {
-      setLikedApplications([...likedApplications, id]);
+      setLikedApplications([...likedApplications, id]);}else{
+      setLikedApplications([...likedApplications.filter(appId => appId !== id)]);
     }
   };
+  const handleDislike = (id) => {
+    if (!dislikedApplications.includes(id)) {
+      setDislikedApplications([...dislikedApplications, id]);
+    } else {
+      setDislikedApplications(dislikedApplications.filter(appId => appId !== id));
+    }
+  };
+  
   
   // Au chargement du composant, restaurer les applications "likées" depuis le stockage local
   useEffect(() => {
@@ -104,15 +114,13 @@ const handleDelete = async () => {
   useEffect(() => {
     localStorage.setItem('likedApplications', JSON.stringify(likedApplications));
   }, [likedApplications]);
-
-  const handleDislike = () => {
-    // Ajoutez ici la logique pour gérer le "Dislike"
-    // Par exemple, vous pouvez changer la couleur de l'icône ou effectuer toute autre action désirée
-  };
-  const handleCopyText = (text) => {
+  const handleCopyText = (text, event) => {
+    event.stopPropagation(); // Empêcher la propagation de l'événement
     navigator.clipboard.writeText(text);
     setCopiedText(text);
   };
+  
+  
 
   return (
     
@@ -180,17 +188,17 @@ const handleDelete = async () => {
                 </button>
 
 
+                <button onClick={() => handleDislike(application._id)}>
+            {dislikedApplications.includes(application._id) ? <ThumbDownAltIcon style={{ color: 'red' }} /> : <ThumbDownAltOutlinedIcon />}
+          </button>
+                <div className="flex">
+                <button onClick={(e) => handleCopyText(application.email, e)}>
+  <FileCopyOutlinedIcon />
+</button>
 
-                <button onClick={handleDislike}>
-                  <ThumbDownAltOutlinedIcon />
-                </button>
-
-                <div className="flex justify-center">
-  <button onClick={() => handleCopyText(application.email)}>
-    <FileCopyOutlinedIcon />
-  </button>
 
 </div>
+
 
                 <button
  
