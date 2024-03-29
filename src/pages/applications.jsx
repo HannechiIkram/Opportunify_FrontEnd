@@ -2,13 +2,20 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import ModalConfirmation from './ModalConfirmation';
-
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import FacebookIcon from '@mui/icons-material/Facebook';
+import InstagramIcon from '@mui/icons-material/Instagram';
 const Applications = () => {
   const [applications, setApplications] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [selectedApplication, setSelectedApplication] = useState(null);
   const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
+  
+  // Applications sur la page actuelle
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [applicationsPerPage] = useState(5); // Nombre d'applications par page
 
   useEffect(() => {
     const fetchApplications = async () => {
@@ -56,6 +63,20 @@ const Applications = () => {
     }
     setIsConfirmationOpen(false);
   };
+  
+  // Index de la dernière application sur la page actuelle
+  const indexOfLastApplication = currentPage * applicationsPerPage;
+  // Index de la première application sur la page actuelle
+  const indexOfFirstApplication = indexOfLastApplication - applicationsPerPage;
+  // Applications sur la page actuelle
+  const currentApplications = applications.slice(indexOfFirstApplication, indexOfLastApplication);
+
+  // Changer de page
+  const paginate = (pageNumber) => {
+    if (pageNumber > 0 && pageNumber <= Math.ceil(applications.length / applicationsPerPage)) {
+      setCurrentPage(pageNumber);
+    }
+  };
 
   return (
     <div className="container relative mx-auto">
@@ -81,7 +102,7 @@ const Applications = () => {
           </div>
 
           <div className="flex flex-wrap justify-center">
-            {(searchResults.length > 0 ? searchResults : applications).map(application => (
+          {(searchResults.length > 0 ? searchResults : currentApplications).map(application => (
               <div key={application._id} className="m-4 bg-gray-200 rounded-md w-96 shadow-lg overflow-hidden h-auto">
                 <div className="flex items-center justify-center mt-2">
                   {getStatusBadge(application.status)}
@@ -101,10 +122,59 @@ const Applications = () => {
               </div>
             ))}
           </div>
-        </div>
+        
       </div>
       <ModalConfirmation isOpen={isConfirmationOpen} onClose={() => setIsConfirmationOpen(false)} onConfirm={handleDelete} />
     </div>
+    <div className="flex justify-center mt-4">
+          <ul className="flex list-none">
+            {/* Bouton Précédent */}
+            {currentPage > 1 && (
+              <li>
+                <button
+                  onClick={() => paginate(currentPage - 1)}
+                  className={`px-3 py-1 rounded-md mx-1 bg-gray-200 text-black`}
+                >
+                  
+                </button>
+              </li>
+            )}
+            {/* Boutons de pagination */}
+            {Array.from({ length: Math.ceil(applications.length / applicationsPerPage) }).map((_, index) => (
+              <li key={index}>
+                <button
+                  onClick={() => paginate(index + 1)}
+                  className={`px-3 py-1 rounded-md mx-1 ${currentPage === index + 1 ? 'bg-red-700 text-white' : 'bg-gray-200 text-black'}`}
+                >
+                  {index + 1}
+                </button>
+              </li>
+            ))}
+            {/* Bouton Suivant */}
+            {currentPage < Math.ceil(applications.length / applicationsPerPage) && (
+              <li>
+                <button 
+                  onClick={() => paginate(currentPage + 1)}
+                  className={`px-3 py-1 mb-10 rounded-md mx-1  text-black`}
+                >
+                </button>
+              </li>
+            )}
+          </ul>
+        </div>
+    <div className="useful-links mb-10  ml-80">
+  <a href="https://www.linkedin.com/esprit/">
+    <LinkedInIcon fontSize="large" /> LinkedIn
+  </a>
+  <a href="https://www.facebook.com/esprit/">
+    <FacebookIcon fontSize="large" /> Facebook
+  </a>
+  <a href="https://www.instagram.com/esprit/">
+    <InstagramIcon fontSize="large" /> Instagram
+  </a>
+</div>
+</div>
+
   );
 };
 

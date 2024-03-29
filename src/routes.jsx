@@ -1,26 +1,43 @@
 
-import { Home, Profile, SignIn, SignUp ,ResetPassword ,RegisterJobseeker,Job_offer,Unauthorized,RedirectCompany,RedirectSignUp,Job_offerConsult,Job_offerUpdate} from "@/pages";
+import { Home, Profile,SignIn, SignUp ,ResetPassword ,RegisterJobseeker,Job_offer,Unauthorized,RedirectCompany,RedirectSignUp,Job_offerConsult,Job_offerUpdate} from "@/pages";
 import Forgot from "./pages/passwordForget";
-import HomeDashboard from "./pages/dashboard/homeDashboard";
+import HomeDashboard from "./pages/dashboard/home";
 import Apply from "./pages/apply";
 import Applications from "./pages/applications";
 import ApplicationsList from "./pages/applicationsList";
 import ApplicationDetails from "./pages/applicationsDetails";
-
-
-
-
+import RatingComponent from "./pages/Rating";
+import CreateUserPage from "./pages/dashboard/CreateUserPage";
+import UserDetailsPage from "./pages/dashboard/UserDetailsPage"
+import Notifications from "./pages/dashboard/notifications";
+import { Tables } from "./pages/dashboard/tables";
 export const routes = [
+  {
+    name: "UserDetailsPage",
+    path: "/user/:id", // Define the path with a dynamic parameter ":id"
+    element: <UserDetailsPage />, // Render the UserDetailsPage component
+  },
+  
+  //UserDetailsPage
   {
     name: "home",
     path: "/home",
     element: <Home />,
   },
+  //Details
   {
     name: "profile",
     path: "/profile",
     element: <Profile />,
   },
+  //CreateUserPage
+  {
+    name: "creation",
+    path: "/create",
+    element: <CreateUserPage />,
+  },
+
+
   {
     name: "Choose Sign up",
     path: "/redirect-sign-up",
@@ -31,12 +48,14 @@ export const routes = [
     path: "/Job_offer",
     element: <Job_offer />,
   },
-  
+
+
+
   {
     name: "Sign In",
     path: "/sign-in",
     element: <SignIn />,
-  },
+  }, 
   {
     name: "Sign Up",
     path: "/sign-up",
@@ -66,6 +85,25 @@ export const routes = [
     path: "/apply",
     element: <Apply/>,
   },
+
+  {
+    name:"notif",
+    path:"/notification",
+    element:<Notifications/>,
+  }
+  ,{
+
+
+    name: "tables",
+    path: "/tables",
+    element: <Tables/>,
+  },
+
+  {
+    name:"rate",
+    path:"/rate",
+    element:<RatingComponent/>,
+  }
   ,
   {
     name: "applications",
@@ -110,6 +148,7 @@ export const routes = [
     path: "/redirect-company",
     element: <RedirectCompany/>
   },
+ 
   {
     name: "Logout",
     path: "/logout",

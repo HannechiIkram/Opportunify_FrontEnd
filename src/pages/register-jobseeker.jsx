@@ -10,7 +10,9 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
-
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import FacebookIcon from '@mui/icons-material/Facebook';
+import InstagramIcon from '@mui/icons-material/Instagram';
 
 export function RegisterJobseeker() {
   const handleImageChange1 = (e) => {
@@ -170,7 +172,11 @@ export function RegisterJobseeker() {
       }
     
   };
-
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    setData({ ...data, image: file });
+  };
+  
 
   return (
     <>
@@ -366,12 +372,13 @@ export function RegisterJobseeker() {
         <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
           </Typography>
   <div className="relative">
-    <input
-      type="file"
-      id="fileInput"
-      className="hidden"
-      onChange={handleImageChange1}
-    />
+  <input
+  type="file"
+  id="fileInput"
+  className="hidden"
+  onChange={handleImageChange} // This line is important
+/>
+
        <label
     htmlFor="fileInput"
     className={`w-full border rounded-md p-3 text-sm text-white cursor-pointer hover:bg-black focus:outline-none focus:border-black ${
@@ -419,7 +426,17 @@ export function RegisterJobseeker() {
               
             </form>
           </Card>
-       
+          <div className="useful-links ml-80">
+  <a href="https://www.linkedin.com/esprit/">
+    <LinkedInIcon fontSize="large" /> LinkedIn
+  </a>
+  <a href="https://www.facebook.com/esprit/">
+    <FacebookIcon fontSize="large" /> Facebook
+  </a>
+  <a href="https://www.instagram.com/esprit/">
+    <InstagramIcon fontSize="large" /> Instagram
+  </a>
+</div>
       
     </>
   );

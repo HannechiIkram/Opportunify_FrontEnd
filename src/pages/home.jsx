@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom"; // Import useNavigate hook
 import axios from "axios"; // Import Axios for making HTTP requests
-
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import FacebookIcon from '@mui/icons-material/Facebook';
+import InstagramIcon from '@mui/icons-material/Instagram';
 import {
   Card,
   CardBody,
@@ -139,7 +141,7 @@ export function Home() {
 
 <div className='w-full py-[10rem] px-4 bg-gray-100 justify-content-center'>
 
-      <div className='max-w-[1240px] mx-auto grid md:grid-cols-3 gap-8'>
+<div className="mb-4 grid grid-cols-1 gap-4 xl:grid-cols-4 ml-80 ">
       <div className='w-full shadow-xl flex flex-col p-4 my-4 rounded-lg hover:scale-105 duration-300 ml-40 mt-10'>
               <img className='  w-20 mx-auto mt-[-3rem] bg-white' src={jobseeker} alt="/" />
               <h2 className=' Lato text-[#2b2b2b] text-2xl  text-center py-8'>JOB SEEKER</h2>
@@ -261,7 +263,17 @@ export function Home() {
          </Button>
         
          <Button onClick={handleLogout}>Déconnexion</Button>
-   
+         <div className="useful-links ml-80">
+  <a href="https://www.linkedin.com/esprit/">
+    <LinkedInIcon fontSize="large" /> LinkedIn
+  </a>
+  <a href="https://www.facebook.com/esprit/">
+    <FacebookIcon fontSize="large" /> Facebook
+  </a>
+  <a href="https://www.instagram.com/esprit/">
+    <InstagramIcon fontSize="large" /> Instagram
+  </a>
+</div>
        </form>
    </section>
    <div className="bg-white">

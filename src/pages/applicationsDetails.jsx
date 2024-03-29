@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { useParams , Link } from 'react-router-dom';
 import { Card, Input , Button } from "@material-tailwind/react";
 import Rating from 'react-rating-stars-component';
 import Modal from 'react-modal';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
-
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import FacebookIcon from '@mui/icons-material/Facebook';
+import InstagramIcon from '@mui/icons-material/Instagram';
 
 import {
   Popover,
@@ -16,6 +17,7 @@ import {
  
 } from "@material-tailwind/react";
 const ApplicationDetails = () => {
+  const [ratingText, setRatingText] = useState('');
   const { id } = useParams();
   const [applications, setApplications] = useState(null);
   const [status, setStatus] = useState(null);
@@ -53,43 +55,73 @@ const ApplicationDetails = () => {
       setStatus('accepted');
       setShowAcceptConfirmation(false);
       toast.error('Application accepted successfully'); 
-      
-      // Send SMS notification
-      await axios.post('http://localhost:3000/applications/send-sms', {
-        to: '+21620037070', // Replace with the recipient's phone number
-        body: 'Your application has been accepted. Congratulations!' // Replace with your message content
-      });
+  
+      // Fetch updated application data after accepting
+      const response = await axios.get(`http://localhost:3000/applications/${id}`);
+      setApplications(response.data);
+  
     } catch (error) {
       console.error('Error accepting application:', error);
     }
   };
-  
   
   const handleConfirmReject = async () => {
     try {
       await axios.put(`http://localhost:3000/applications/reject/${id}`);
       setStatus('rejected');
       setShowRejectConfirmation(false);
-      toast.success('Application rejected successfully');  } catch (error) {
+      toast.success('Application rejected successfully'); 
+  
+      // Fetch updated application data after rejecting
+      const response = await axios.get(`http://localhost:3000/applications/${id}`);
+      setApplications(response.data);
+  
+    } catch (error) {
       console.error('Error rejecting application:', error);
     }
   };
+  
   const handleRatingChange = (newRating) => {
     // You can perform any action with the new rating value here
     console.log('New rating:', newRating);
+  
+    let ratingText = '';
+    switch (newRating) {
+      case 1:
+        ratingText = 'Poor';
+        break;
+      case 2:
+        ratingText = 'Acceptable';
+        break;
+      case 3:
+        ratingText = 'Good';
+        break;
+      case 4:
+        ratingText = 'Very Good';
+        break;
+      case 5:
+        ratingText = 'Excellent';
+        break;
+      default:
+        ratingText = '';
+        break;
+    }
+  
     setRating(newRating);
+    setRatingText(ratingText);
   };
+  
+  
 
-
-  const handleCommentChange = (e) => {
-    setComment(e.target.value);
-  };
-
+ 
   const handleAddComment = () => {
     setComments([...comments, comment]);
     setComment('');
   };
-
+  const handleCommentChange = (e) => {
+    setComment(e.target.value);
+  };
+  
   
   if (!applications) {
    return <div>Loading...</div>;
@@ -100,7 +132,7 @@ const ApplicationDetails = () => {
       <ToastContainer position="top-center" autoClose={5000} />
 
           {/* Modal container at the bottom of the page */}
-  <div className=' center text-center mt-40 ml-10' style={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 999 }}>
+  <div className=' center text-center mt-40 ml-10 ' style={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 999 }}>
     <div className='center text-center mt-40 ml-10' style={{ display: 'flex', justifyContent: 'center' }}>
       <Modal isOpen={showRejectConfirmation || showAcceptConfirmation} onRequestClose={() => setShowRejectConfirmation(false) || setShowAcceptConfirmation(false)} className="custom-modal center text-center mt-40 ml-10">
         <div className="modal-content center text-center mt-40 ml-10">
@@ -133,10 +165,19 @@ const ApplicationDetails = () => {
 
       <section className="ml-10 mr-10 flex gap-4 items-center">
         <div className="w-full ">
-          <div style={{ fontSize: '24px', fontWeight: 'bold' }} className="mt-4 bg-red-800 rounded-lg p-3 text-white border border-red-700 text-center">Here there are the details of application</div>
+       
+       <div style={{ fontSize: '24px', fontWeight: 'bold' }} className="mt-4 bg-red-800 rounded-lg p-3 text-white border border-red-700 text-center">Here there are the details of application</div>
+
+       <div className="mt-8">
+      {/* Link to navigate back to the applications list */}
+      <Link to="/applicationsList" className="text-blue-600 hover:underline ml-40">
+        did you want to back to list?
+      </Link>
+    </div>
+ 
+
           <Card className="mt-8 ml-auto mr-auto mb-2 w-80 max-w-screen-lg lg:w-5/6 rounded-lg p-6 bg-gray-200 bg-opacity-90 text-center">
             <div>
-            <h2>Application Details</h2>
     <p>Job Field: {applications.jobField}</p>
     <p>Date: {applications.applicationDate}</p>
     <p> {applications.applicationId}</p>
@@ -150,43 +191,63 @@ const ApplicationDetails = () => {
   <p>
     Cover Letter: <a href={`http://localhost:3000/${applications.coverLetter}`}>Download Cover Letter</a>
   </p>
+  
     {/* Add more application attributes here */}
     <>
-                  <Button color="gray-200" onClick={handleAccept} disabled={status !== null}>Accept</Button>
+                  <Button color="gray" onClick={handleAccept} disabled={status !== null}>Accept</Button>
                   <Button color="red" onClick={handleReject} disabled={status !== null}>Reject</Button>
                 </>
                  {/* Step 2: Render a UI component for rating */}
-                 <Rating
-                count={5}
-                value={rating}
-                onChange={handleRatingChange}
-                size={24}
-                activeColor="#ffd700"
-              />
+                 <div>
+      <Rating
+        count={5} // Adjust count to the number of rating levels you want
+        value={rating}
+        onChange={handleRatingChange}
+        size={24}
+        activeColor="#ffd700"
+      />
+      <p>{ratingText}</p>
+    </div>
             </div>
+         
 
           </Card>
-          <input
-  type="text"
-  placeholder="Add a comment..."
-  value={comment}
-  onChange={handleCommentChange}
-/>
-              <Button  className="bg-gray-600" color="gray" onClick={handleAddComment}>Add Comment</Button>
+           {/* Input field for adding comments */}
+           <div className=' center text-center mt-40 ml-10  mb-4 ' style={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 999 }}>
+           <input className='  mb-4 '
+              type="text"
+              placeholder="Add a comment..."
+              value={comment} // Ensure that this is bound to the comment state
+              onChange={handleCommentChange}
+            />
+            {/* Button to add comment */}
+            <Button className="bg-gray-600  mb-1 " color="black" onClick={handleAddComment}>Add Comment</Button>
 
-              <div>
-                <h3>Comments:</h3>
-                <ul>
-                  {comments.map((comment, index) => (
-                    <li key={index}>{comment}</li>
-                  ))}
-                </ul>
-              </div>
-
-
+            <div className=''>
+              <h1></h1>
+              <ul>
+                {comments.map((comment, index) => (
+                  <li key={index}>{comment}</li>
+                ))}
+              </ul>
+            </div>
+          
+            </div>
         </div>
+       
       </section>
- 
+      <div className="useful-links ml-80">
+  <a href="https://www.linkedin.com/esprit/">
+    <LinkedInIcon fontSize="large" /> LinkedIn
+  </a>
+  <a href="https://www.facebook.com/esprit/">
+    <FacebookIcon fontSize="large" /> Facebook
+  </a>
+  <a href="https://www.instagram.com/esprit/">
+    <InstagramIcon fontSize="large" /> Instagram
+  </a>
+</div>
+     
     </>
     
   );

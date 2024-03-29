@@ -2,7 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { Input, Button,Typography } from "@material-tailwind/react";
-
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import FacebookIcon from '@mui/icons-material/Facebook';
+import InstagramIcon from '@mui/icons-material/Instagram';
 export function Job_offerUpdate() {
   // Récupérer l'ID de l'offre d'emploi depuis les paramètres d'URL
   const { id } = useParams();
@@ -143,6 +145,17 @@ export function Job_offerUpdate() {
           <Button onClick={handleUpdate} className="w-60 bg-red-800">Update</Button>
         </div>
       </div>
+      <div className="useful-links ml-80">
+  <a href="https://www.linkedin.com/esprit/">
+    <LinkedInIcon fontSize="large" /> LinkedIn
+  </a>
+  <a href="https://www.facebook.com/esprit/">
+    <FacebookIcon fontSize="large" /> Facebook
+  </a>
+  <a href="https://www.instagram.com/esprit/">
+    <InstagramIcon fontSize="large" /> Instagram
+  </a>
+</div>
     </>
   );
 }

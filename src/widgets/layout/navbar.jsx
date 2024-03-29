@@ -82,6 +82,7 @@ function ProfileMenu() {
       // Handle logout errors
     }
   };
+  
 
   const closeMenu = () => setIsMenuOpen(false);
 

@@ -10,7 +10,9 @@ import { Link } from 'react-router-dom';
 import { Tooltip } from "@material-tailwind/react";
 import {Job_offerConsult} from "./job-offerConsult.jsx";
 import {Job_offerUpdate} from "./job-offerUpdate.jsx";
-
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import FacebookIcon from '@mui/icons-material/Facebook';
+import InstagramIcon from '@mui/icons-material/Instagram';
 
 import {
   Popover,
@@ -116,208 +118,43 @@ export function Job_offer() {
     if (e.target.name === "salary_informations" && errors.salary_informations) {
       setErrors((prevErrors) => ({ ...prevErrors, salary_informations: "" }));
     }
-  };
-
-  const handleSubmit = async (e) => {
+  };const handleSubmit = async (e) => {
     e.preventDefault();
-
-
-
-    const currentDate = new Date();
-    // Format the date for sending to the backend
-    const formattedDate = currentDate.toISOString();
-
-    // Add the creation date to formData
-    const formDataWithDate = { ...formData, createdAt: formattedDate };
-
-    //
-    let formIsValid = true;
-
-    let newErrors = { ...errors };
-
-    // Add validation for each field
-    if (!formData.title.trim()) {
-      newErrors.title = "Please enter the job title";
-      formIsValid = false;
-    }
-
-    // Add similar validation for other fields if needed
-    if (!formData.lieu.trim()) {
-      newErrors.lieu = "Please enter the job location";
-      formIsValid = false;
-    }
-    
-    if (!formData.langue.trim()) {
-      newErrors.langue = "Please enter the required language";
-      formIsValid = false;
-    }
-
-
-
-
-    
-if (!formData.description.trim()) {
-  newErrors.description = "Please enter the job description";
-  formIsValid = false;
-}
-
-if (!formData.qualifications.trim()) {
-  newErrors.qualifications = "Please enter the job qualifications";
-  formIsValid = false;
-}
-
-if (!formData.responsibilities.trim()) {
-  newErrors.responsibilities = "Please enter the job responsibilities";
-  formIsValid = false;
-}
-
-if (!formData.workplace_type.trim()) {
-  newErrors.workplace_type = "Please enter the workplace_type";
-  formIsValid = false;
-}
-
-if (!formData.deadline.trim()) {
-  newErrors.deadline = "Please enter the job deadline";
-  formIsValid = false;
-}
-
-if (!formData.field.trim()) {
-  newErrors.field = "Please enter the job field";
-  formIsValid = false;
-}
-
-if (!formData.salary_informations.trim()) {
-  newErrors.salary_informations = "Please enter the job salary information";
-  formIsValid = false;
-}
   
-  
-
-
-
-    setErrors(newErrors);
-
-    if (!formIsValid) {
-      // If form is not valid, prevent submission
-      return;
-    }
-    //
     try {
-      const accessToken = localStorage.getItem('accessToken'); // Change this if you store the token differently
-
+      const accessToken = localStorage.getItem("accessToken");
+  
+      if (!accessToken) {
+        throw new Error("Access token not found");
+      }
+  
       // Include the access token in the request headers
       const config = {
         headers: {
-          'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c'
-        }
+          Authorization: `Bearer ${accessToken}`,
+        },
       };
-      
-      
-
-
-
+      const response = await axios.post(
+        "/job_offer/add",
+        formData,
+        config
+      );
+      console.log("Job offer added successfully:", response.data);
+      window.alert("Job offer added successfully");
   
-      const response = await axios.post('/job_offer/add', formData, config     );
-      console.log('Job offer added successfully:', response.data);
-      window.alert('Job offer added successfully');
       // Fetch updated job offers after adding a new one
-
-      const updatedJobOffers = await axios.get('/job_offer/getall');
+      const updatedJobOffers = await axios.get("/job_offer/getall");
       setJobOffers(updatedJobOffers.data);
-window.location.href = "/Job_offerConsult";
+      window.location.href = "/Job_offerConsult";
     } catch (error) {
-      console.error('Failed to add job offer:', error.response ? error.response.data : error.message);
-      window.alert('Failed to add job offer');
-    }
-  };
-
-  const handleDelete = async (offerId) => {
-    try {
-      const response = await axios.delete(`/job_offer/delete/${offerId}`);
-
-
-
-
-
-
-      console.log(response.data);
-
-      // Fetch updated job offers after deleting one
-      const updatedJobOffers = await axios.get('/job_offer/getall');
-      setJobOffers(updatedJobOffers.data);
-    } catch (error) {
-      console.error('Failed to delete job offer:', error.response ? error.response.data : error.message);
-      window.alert('Failed to delete job offer');
-    }
-  };
-
-  const handleSeeMore = (offerId) => {
-    // Toggle expanded state
-    setExpandedOfferId((prevId) => (prevId === offerId ? null : offerId));
-  };
-
-
-  const handleSearch = async () => {
-    try {
-      const response = await axios.get(`/job_offer/search/title/${searchtitle}`);
-      setJobOffers(response.data);
-    } catch (error) {
-      console.error('Failed to fetch job offers based on title:', error.response.data);
+      console.error(
+        "Failed to add job offer:",
+        error.response ? error.response.data : error.message
+      );
+      window.alert("Failed to add job offer");
     }
   };
   
-  
-  const [updatedFormDataMap, setUpdatedFormDataMap] = useState({});
-  const [successMessage, setSuccessMessage] = useState('');
-
-  const handleUpdate = async (offerId) => {
-    try {
-      const selectedOffer = jobOffers.find((offer) => offer._id === offerId);
-
-      if (selectedOffer) {
-        const response = await axios.put(`/job_offer/update/${offerId}`, updatedFormDataMap[offerId]);
-        console.log('Job offer updated successfully:', response.data);
-
-        const updatedJobOffers = await axios.get('/job_offer/getall');
-        setJobOffers(updatedJobOffers.data);
-
-        // Clear the selected job offer after update
-        setSelectedOfferId(null);
-
-        // Clear the updated form data for the specific job offer
-        setUpdatedFormDataMap((prevMap) => {
-          const newMap = { ...prevMap };
-          delete newMap[offerId];
-          return newMap;
-        });
-        setSuccessMessage('Job offer updated successfully');
-
-      }
-    } catch (error) {
-      console.error('Failed to update job offer:', error.response ? error.response.data : error.message);
-      window.alert('Failed to update job offer');
-    }
-  };
-
-
-
-
-
-  const [selectedBreadcrumb, setSelectedBreadcrumb] = useState(null);
-
-
-  const handleBreadcrumbClick = (breadcrumb) => {
-    setSelectedBreadcrumb(breadcrumb);
-  };
-
-
-
-
-
-
-
-
-
  
   return (
     <>
@@ -487,6 +324,17 @@ window.location.href = "/Job_offerConsult";
               </Button>
             </form>
           </Card>
+          <div className="useful-links ml-80">
+  <a href="https://www.linkedin.com/esprit/">
+    <LinkedInIcon fontSize="large" /> LinkedIn
+  </a>
+  <a href="https://www.facebook.com/esprit/">
+    <FacebookIcon fontSize="large" /> Facebook
+  </a>
+  <a href="https://www.instagram.com/esprit/">
+    <InstagramIcon fontSize="large" /> Instagram
+  </a>
+</div>
         </div>
       </section>
     </>

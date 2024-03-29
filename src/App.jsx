@@ -7,7 +7,7 @@ axios.defaults.baseURL = 'http://localhost:3000';
 axios.defaults.withCredentials = true ;
 
 // teb3in user roles and permissions
-import HomeDashboard from "./pages/dashboard/homeDashboard";
+import Home from "./pages/dashboard/home";
 import Unauthorized from "./pages/unauthorized";
 import { Job_offer } from "./pages";
 import ProtectedRoute from '@/context/ProtectedRoute';
@@ -19,15 +19,16 @@ function App() {
   
     <UserProvider>
 
+{!(pathname === '/create' || 
+   pathname === '/tables' || 
+   pathname === '/passwordreset' || 
+   pathname.startsWith('/user/') ||
+   pathname === "/dashboard") && (
+  <div className="container absolute left-2/4 z-10 mx-auto -translate-x-2/4 p-4">
+    <Navbar routes={routes} />
+  </div>
+)}
 
-      {!(pathname == '/sign-in' || pathname == '/sign-up' || pathname == '/passwordreset'|| pathname=='/sign-upjs'||pathname=="/dashboard") && (
-        <div className="container absolute left-2/4 z-10 mx-auto -translate-x-2/4 p-4">
-          <Navbar routes={routes} />
-        </div>
-      )
-
-      }
-      
       <Routes>
         {routes.map(
           ({ path, element }, key) =>
@@ -37,7 +38,9 @@ function App() {
 
 
         <Route path="/unauthorized" component={Unauthorized} />
-        <Route path="/dashboard" element={<ProtectedRoute element={<HomeDashboard />} requiredRole="admin" />} />
+        <Route path="/create" element={<ProtectedRoute element={<Home />} requiredRole="admin" />} />
+
+        <Route path="/dashboard" element={<ProtectedRoute element={<Home />} requiredRole="admin" />} />
   <Route path="/job_offer" element={<ProtectedRoute element={<Job_offer />} requiredRole="company" />} />
       </Routes>
       

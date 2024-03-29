@@ -10,7 +10,9 @@ import { GrAid } from "react-icons/gr";
 import { GrCurrency } from "react-icons/gr";
 import { FaArrowRightLong } from "react-icons/fa6";
 import { FaSquareArrowUpRight } from "react-icons/fa6";
-
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import FacebookIcon from '@mui/icons-material/Facebook';
+import InstagramIcon from '@mui/icons-material/Instagram';
 export function Job_offerConsult() {
     const [expandedOfferId, setExpandedOfferId] = useState(null);
     const [selectedOffer, setSelectedOffer] = useState(null);
@@ -222,6 +224,17 @@ return (
 
             </Card>
           )}
+            <div className="useful-links ml-80">
+  <a href="https://www.linkedin.com/esprit/">
+    <LinkedInIcon fontSize="large" /> LinkedIn
+  </a>
+  <a href="https://www.facebook.com/esprit/">
+    <FacebookIcon fontSize="large" /> Facebook
+  </a>
+  <a href="https://www.instagram.com/esprit/">
+    <InstagramIcon fontSize="large" /> Instagram
+  </a>
+</div>
         </div>
       </div>
     </>

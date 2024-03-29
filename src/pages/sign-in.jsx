@@ -3,6 +3,9 @@ import { Card, Input, Button, Typography } from "@material-tailwind/react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import FacebookIcon from '@mui/icons-material/Facebook';
+import InstagramIcon from '@mui/icons-material/Instagram';
 import "react-toastify/dist/ReactToastify.css";
 export function SignIn() {
   const Navigate = useNavigate();
@@ -41,6 +44,12 @@ export function SignIn() {
     e.preventDefault();
     try {
       const response = await axios.post('/user/login', data);
+      
+      // Extract the access token from the response
+      const accessToken = response.data.accessToken;
+
+      // Store the access token securely
+      localStorage.setItem('accessToken', accessToken);
       // Assuming successful registration, you can redirect the user or display a success message
       console.log('Authentification successful:', response.data);
       console.log('Authentication successful:', response.data);
@@ -197,6 +206,17 @@ export function SignIn() {
           />
         </div>
       </section>
+      <div className="useful-links ml-80">
+  <a href="https://www.linkedin.com/esprit/">
+    <LinkedInIcon fontSize="large" /> LinkedIn
+  </a>
+  <a href="https://www.facebook.com/esprit/">
+    <FacebookIcon fontSize="large" /> Facebook
+  </a>
+  <a href="https://www.instagram.com/esprit/">
+    <InstagramIcon fontSize="large" /> Instagram
+  </a>
+</div>
     </>
   );
 }
