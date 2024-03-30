@@ -1,9 +1,9 @@
 
-<<<<<<< HEAD
-import { Home, Profile, SignIn, SignUp ,ResetPassword ,RegisterJobseeker,Job_offer,Unauthorized,RedirectCompany,RedirectSignUp} from "@/pages";
-=======
-import { Home, Profile, SignIn, SignUp ,ResetPassword ,RegisterJobseeker,Job_offer,Unauthorized,Job_offerConsult,Job_offerUpdate} from "@/pages";
->>>>>>> job-offer-aftercorrection
+
+import { Home, Profile, SignIn, SignUp ,ResetPassword ,RegisterJobseeker,Job_offer,Unauthorized,RedirectCompany,RedirectSignUp,Job_offerConsult,Job_offerUpdate,Profilecompany} from "@/pages";
+
+
+
 import Forgot from "./pages/passwordForget";
 import HomeDashboard from "./pages/dashboard/homeDashboard";
 import Apply from "./pages/apply";
@@ -21,8 +21,13 @@ export const routes = [
   },
   {
     name: "profile",
-    path: "/profile",
+    path: "/profile/:userId",
     element: <Profile />,
+  },
+  {
+    name: "Profilecompany",
+    path: "/Profilecompany/:pId", // Corrected path definition
+    element: <Profilecompany/>,
   },
   {
     name: "Choose Sign up",

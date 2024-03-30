@@ -5,10 +5,56 @@ import {
   BuildingLibraryIcon,
 } from "@heroicons/react/24/solid";
 import { Footer } from "@/widgets/layout";
+import React, { useState, useEffect } from "react";
+import axios from 'axios';
+import { useParams } from 'react-router-dom';
+import { AiTwotonePhone } from "react-icons/ai";
+import Modal from "./Modal.jsx";
 
-export function Profile() {////////////////////
+import  "./Modal.css";
+
+
+
+export function Profile() {
+ // const userData = JSON.parse(localStorage.getItem('userData'));
+// Fonction pour formater le numéro de téléphone
+const formatPhoneNumber = (phoneNumber) => {
+  // Supprimer tout ce qui n'est pas un chiffre
+  const cleaned = ('' + phoneNumber).replace(/\D/g, '');
+  // Appliquer le formatage en ajoutant un espace après chaque groupe de trois chiffres
+  const formatted = cleaned.replace(/(\d{3})(\d{2})(\d{3})(\d{3})/,'$1 $2 $3 $4');
+  return formatted;
+};
+const [openModal, setOpenModal] = useState(false);
+
+  const { userId } = useParams();
+  const [profile, setprofile] = useState(null);
+
+  useEffect(() => {
+    const fetchprofile = async () => {
+      try {
+        const response = await axios.get(`/user/getProfileJobSeekerById/${userId}`);
+        setprofile(response.data.profile); // Assuming response.data contains user information
+      } catch (error) {
+        console.error('Error fetching user:', error);
+      }
+    };
+
+    fetchprofile();
+  }, [userId]);
   return (
     <>
+
+    <div>
+    {profile ? (
+          <div>
+          
+
+
+
+            {/* Display other user information     <p>: {user.role_jobseeker} </p> */}
+         
+         
       <section className="relative block h-[50vh]">
         <div className="bg-profile-background absolute top-0 h-full w-full bg-[url('/img/background-3.png')] bg-cover bg-center scale-105" />
         <div className="absolute top-0 h-full w-full bg-black/60 bg-cover bg-center" />
@@ -27,10 +73,11 @@ export function Profile() {////////////////////
                   />
                 </div>
                 <div className="flex flex-col mt-2">
-                  <Typography variant="h4" color="blue-gray">
-                    Jenna Stones
+                   <Typography variant="h4" color="blue-gray">
+                   {profile.name}    {profile.lastname}
+ 
                   </Typography>
-                  <Typography variant="paragraph" color="gray" className="!mt-0 font-normal">jena@mail.com</Typography>
+                  <Typography variant="paragraph" color="gray" className="!mt-0 font-normal">{profile.email}  </Typography>
                 </div>
               </div>
 
@@ -79,6 +126,8 @@ export function Profile() {////////////////////
                       variant="small"
                       className="font-normal text-blue-gray-500"
                     >
+                  
+
                       Comments
                     </Typography>
                   </div>
@@ -90,19 +139,20 @@ export function Profile() {////////////////////
               <div className="flex items-center gap-2">
                 <MapPinIcon className="-mt-px h-4 w-4 text-blue-gray-500" />
                 <Typography className="font-medium text-blue-gray-500">
-                  Los Angeles, California
+                {profile.address}
                 </Typography>
               </div>
               <div className="flex items-center gap-2">
                 <BriefcaseIcon className="-mt-px h-4 w-4 text-blue-gray-500" />
                 <Typography className="font-medium text-blue-gray-500">
-                  Solution Manager - Creative Tim Officer
+                {profile.role_jobseeker}
                 </Typography>
               </div>
               <div className="flex items-center gap-2">
-                <BuildingLibraryIcon className="-mt-px h-4 w-4 text-blue-gray-500" />
+                <AiTwotonePhone className="-mt-px h-4 w-4 text-blue-gray-500" />
                 <Typography className="font-medium text-blue-gray-500">
-                  University of Computer Science
+                +{formatPhoneNumber(profile.phone)}
+ 
                 </Typography>
               </div>
             </div>
@@ -114,6 +164,9 @@ export function Profile() {////////////////////
                   performs and records all of his own music, giving it a
                   warm, intimate feel with a solid groove structure. An
                   artist of considerable range.
+                  birthdate: {profile.birthdate}
+               {/* <img src={profile.image} alt="Profile Image" className="h-40 w-40 rounded-full" />   */}
+                 {profile.image}
                 </Typography>
                 <Button variant="text">Show more</Button>
               </div>
@@ -123,8 +176,36 @@ export function Profile() {////////////////////
 
         </div>
       </section>
+
+      </div>
+        ) : (
+          <p>Loading...</p>
+        )}
+
+
+
+<div>
+      <button 
+      onClick={() => setOpenModal(true)} 
+      className='modalButton'>
+        update
+      </button>
+      <Modal 
+      open={openModal} 
+      onClose={() => setOpenModal(false)} />
+      </div>
+
       <div className="bg-white">
         <Footer />
+      </div>
+     <div>
+
+  
+
+
+
+      </div>
+
       </div>
 
     </>

@@ -10,7 +10,7 @@ import { GrAid } from "react-icons/gr";
 import { GrCurrency } from "react-icons/gr";
 import { FaArrowRightLong } from "react-icons/fa6";
 import { FaSquareArrowUpRight } from "react-icons/fa6";
-
+import {Appap} from "./createPieChart.jsx";
 export function Job_offerConsult() {
     const [expandedOfferId, setExpandedOfferId] = useState(null);
     const [selectedOffer, setSelectedOffer] = useState(null);
@@ -224,6 +224,7 @@ return (
           )}
         </div>
       </div>
+      <div><Appap/></div>
     </>
 );
 
