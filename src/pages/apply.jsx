@@ -9,6 +9,9 @@ import {
     Input,
   } from "@material-tailwind/react";
 
+  import { useLocation, useParams } from "react-router-dom";
+
+
 const Apply = () => {
     const [formData, setFormData] = useState({
         userName: '',
@@ -20,6 +23,29 @@ const Apply = () => {
         coverLetter: null,
         emailError: ''
     });
+  // Obtenir l'ID de l'offre d'emploi à partir de la propriété location.state
+  const location = useLocation();
+  const { offerId } = useParams();
+ 
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const offerId = formData.get('offerId'); // Récupérer l'ID de l'offre à partir du champ caché
+  
+    try {
+      await axios.post('http://localhost:3000/applications/apply', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      alert('Application submitted successfully!');
+    } catch (error) {
+      console.error('Error submitting application:', error);
+      alert('Failed to submit application. Please try again.');
+    }
+  };
+  
 
     const handleChange = e => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -39,7 +65,7 @@ const Apply = () => {
         setFormData({ ...formData, [e.target.name]: e.target.files[0] });
     };
 
-    const handleSubmit = async e => {
+  /*  const handleSubmit = async e => {
         e.preventDefault();
         const postData = new FormData();
         for (const key in formData) {
@@ -57,7 +83,7 @@ const Apply = () => {
             console.error('Error submitting application:', error);
             alert('Failed to submit application. Please try again.');
         }
-    };
+    };*/
 
     return (
         <div className="container relative mx-auto">
@@ -70,7 +96,14 @@ const Apply = () => {
                             </Typography>
                         </CardHeader>
                         <CardBody>
+                        <div>
+      
+     
+     
+    </div>
                             <form onSubmit={handleSubmit} className="px-4 py-8 grid grid-cols-1 gap-6 md:grid-cols-2">
+
+                            <input type="hidden" name="offerId" value={offerId} />
                                 <div>
                                     <label htmlFor="userName" className="block text-sm font-medium text-gray-900 dark:text-white">First Name</label>
                                     <Input type="text" name="userName" placeholder="First Name" value={formData.userName} onChange={handleChange} className="input-style" required />
@@ -79,6 +112,7 @@ const Apply = () => {
                                     <label htmlFor="userSurname" className="block text-sm font-medium text-gray-900 dark:text-white">Last Name</label>
                                     <Input type="text" name="userSurname" placeholder="Last Name" value={formData.userSurname} onChange={handleChange} className="input-style" required />
                                 </div>
+
                                 <div>
                                     <label htmlFor="email" className="block text-sm font-medium text-gray-900 dark:text-white">Email</label>
                                     <Input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange} onBlur={handleEmailBlur} className="input-style" required />

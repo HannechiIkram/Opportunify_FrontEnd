@@ -12,6 +12,10 @@ import Unauthorized from "./pages/unauthorized";
 import { Job_offer } from "./pages";
 import ProtectedRoute from '@/context/ProtectedRoute';
 import { UserProvider, useUser } from './context/usercontext';
+import ApplicationDetails from "./pages/ApplicationDetails";
+import UpdateApplication from "./pages/UpdateApplication";
+import Apply from "./pages/apply";
+import Quiz from "./pages/test";
 // redirection_roles samarr
 function App() {
   const { pathname } = useLocation();
@@ -39,6 +43,12 @@ function App() {
         <Route path="/unauthorized" component={Unauthorized} />
         <Route path="/dashboard" element={<ProtectedRoute element={<HomeDashboard />} requiredRole="admin" />} />
   <Route path="/job_offer" element={<ProtectedRoute element={<Job_offer />} requiredRole="company" />} />
+  <Route path="/applicationDetails/:id" element={<ApplicationDetails />} />
+  <Route path="/updateApplication/:id" element={<UpdateApplication/>} />
+  <Route path="/apply/:offerId" element={<Apply/>} />
+  <Route path="/quiz/:quizId" element={<Quiz/>} />
+
+
 
       </Routes>
       

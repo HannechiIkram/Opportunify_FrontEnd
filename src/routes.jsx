@@ -4,6 +4,8 @@ import Forgot from "./pages/passwordForget";
 import HomeDashboard from "./pages/dashboard/homeDashboard";
 import Apply from "./pages/apply";
 import Applications from "./pages/applications";
+import EvaluationList from "./pages/Evaluation";
+import QuizList from "./pages/Quiz";
 
 
 
@@ -71,7 +73,16 @@ export const routes = [
     path: "/applications",
     element: <Applications/>,
   },
-
+  {
+    name: "evaluation",
+    path: "/evaluation",
+    element: <EvaluationList/>,
+  },
+  {
+    name: "Evaluation",
+    path: "/quizss",
+    element: <QuizList/>,
+  },
   {  name: "Dashboard",
     path: "/dashboard",
     element: <HomeDashboard />, // Render the LogoutComponent for the logout route
