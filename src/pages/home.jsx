@@ -361,12 +361,11 @@ const handleSignupClick = () => {
            }
            containerProps={{ className: "-ml-2.5" }}
          />
-         <Button variant="gradient" size="lg" className="mt-8" fullWidth>
-           Send Message
+         <Button variant="gradient" size="lg" className="bg-red-800 mt-8 text-white px-4 py-2 rounded mr-4"  fullWidth>
+         Send Message
          </Button>
         
-      <button onClick={handleLogout}>Déconnexion</button>
-   
+
        </form>
    </section>
    <div className="bg-white">

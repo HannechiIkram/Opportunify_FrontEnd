@@ -1,9 +1,10 @@
 import React from "react";
 import applicationlist from "/public/img/app list.webp";
 import joboffer from "/public/img/posting job offer.jpeg";
-import joboffer2 from "/public/img/job-offer.png"
+import joboffer2 from "/public/img/browse.jpeg"
 import 'react-day-picker/dist/style.css';
 import { useNavigate } from "react-router-dom";
+import { Navbar1 } from "@/widgets/layout";
 export function RedirectCompany() {
   const navigate = useNavigate(); 
    const handleClick1 = () => {
@@ -13,11 +14,13 @@ export function RedirectCompany() {
     navigate("/applications");
   };
   const handleClick3 = () => {
-    navigate("/Job_offerConsult");
+    navigate("/Job_offerConsultCopy");
   };
 
  
   return (
+    <>
+<Navbar1/>  
     <div className='w-full py-[10rem] px-4 bg-gray-15 justify-content-center'>
       <div className="w-full py-[10rem] px-4 bg-gray-100">
         <div className="max-w-[1240px] mx-auto grid md:grid-cols-3 gap-8">
@@ -56,6 +59,8 @@ export function RedirectCompany() {
         </div>
       </div>
     </div>
+    </>
+
     
   );
 }

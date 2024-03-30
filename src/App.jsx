@@ -12,6 +12,7 @@ import Unauthorized from "./pages/unauthorized";
 import { Job_offer } from "./pages";
 import ProtectedRoute from '@/context/ProtectedRoute';
 import { UserProvider, useUser } from './context/usercontext';
+
 // redirection_roles samarr
 function App() {
   const { pathname } = useLocation();
@@ -20,8 +21,8 @@ function App() {
     <UserProvider>
 
 
-      {!( pathname=='/nav0' || pathname=='/nav1' ||pathname == '/sign-in' || pathname == '/sign-up' || pathname == '/passwordreset'||pathname == '/Forgot'||
-       pathname=='/sign-upjs'||pathname=="/dashboard"|| pathname=='/home') && (
+      {!( pathname=='/nav0' || pathname=='/redirect-company' || pathname=='/navbar' || pathname=='/nav1' ||pathname == '/sign-in' || pathname == '/sign-up' || pathname == '/passwordreset'||pathname == '/Forgot'||
+       pathname=='/sign-upjs'||pathname=="/dashboard"|| pathname=='/home'|| pathname=='redirect-sign-up') && (
         <div className="container absolute left-2/4 z-10 mx-auto -translate-x-2/4 p-4">
           <Navbar routes={routes} />
         </div>

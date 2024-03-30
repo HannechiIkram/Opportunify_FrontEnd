@@ -153,6 +153,12 @@ const navListMenuItems = [
 
   },
   {
+    label: "Evaluation",
+    icon: KeyIcon,
+    path:"/quizss"
+
+  },
+  {
     title: "Reset Password",
     description:
       "",
