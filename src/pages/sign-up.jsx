@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+
 import { useNavigate } from "react-router-dom";
 import {
   Input,
@@ -12,6 +13,12 @@ import axios from "axios";
 
 
 export function SignUp() {
+  const [showMessage, setShowMessage] = useState(false); // State to control message visibility
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    setData({ ...data, image: file });
+  };
   const navigate = useNavigate();
 
   const [data, setData] = useState({
@@ -28,6 +35,8 @@ export function SignUp() {
     address: "",
     phoneNumber: "",
     domainOfActivity: "",
+    image: null, // Store the selected image file
+
   });
 
   const [errors, setErrors] = useState({
@@ -53,7 +62,16 @@ export function SignUp() {
 
     let formIsValid = true;
     let newErrors = { ...errors };
+      if (!formIsValid) {
+        setErrors(newErrors);
+        setGeneralError("Please fix the errors in the form.");
 
+        // Faire défiler jusqu'au conteneur du formulaire en cas d'erreur
+        const formContainer = document.querySelector('.form-container');
+        formContainer.scrollIntoView({ behavior: 'smooth' });
+
+        return;
+    }
     // Validate name
     if (!data.name) {
       newErrors.name = "Please enter your name";
@@ -216,23 +234,49 @@ if (!data.phoneNumber) {
       console.error('Registration failed:', error.response.data);
       setGeneralError("Registration failed. Please try again.");
     }
-  };
+  };  useEffect(() => {
+    // Show the message letters one by one with a delay
+    const message = "Please Enter your information to register as a Company.";
+    let currentIndex = 0;
+    const interval = setInterval(() => {
+      if (currentIndex < message.length) {
+        setShowMessage(prevMessage => prevMessage + message[currentIndex]);
+        currentIndex++;
+      } else {
+        clearInterval(interval);
+      }
+    }, 500); // Adjust the delay between letters as needed
 
+    // Cleanup function to clear the interval
+    return () => clearInterval(interval);
+  }, []);
 
-  return (
-    <>
-      <div className="text-center">
-        <Typography variant="h1" className="font-bold mb-4">Join Opportunify!</Typography>
-        <Typography variant="paragraph" color="blue-gray" className="text-lg font-normal">Enter your information to register as a Company.</Typography>
+  return (     <div className="form-container mt-40 mb-40 ml-40 mr-40">
+  <div className="flex justify-center items-center h-screen">
+    <div className="w-full max-w-screen-lg">
+      <div className="text-center mb-1">
+        <Typography variant="h2" className="font-bold text-red-800 mb-1">Join Us!</Typography>
+        <div className={`text-center ${showMessage ? 'opacity-100 transition-opacity duration-500' : 'opacity-0'}`}>
+          <Typography variant="paragraph" color="blue-gray" className="text-sm font-normal transition-opacity duration-500 ease-in">
+            Please Enter your information to register as a Company.
+          </Typography>
+        </div>
       </div>
 
-      <Card className="mt-8 ml-auto mr-auto mb-2 w-60 max-w-screen-lg lg:w-5/6 rounded-lg p-6 bg-gray-200 bg-opacity-90">
-        <form onSubmit={registerJobseeker} className="mt-8 mb-2 mx-auto w-80 max-w-screen-lg ">
+      <Card className="mt-1 rounded-lg p-1 bg-gray-200 bg-opacity-90">
+        <form onSubmit={registerJobseeker} className="mt-1 mb-0.5 mx-auto w-full max-w-screen-md flex flex-wrap justify-between form-container">
+          {/* Form fields */}
+          
+            {/* Right Column - 5 Fields */}
+            <div className="w-full md:w-1/2 mb-4">
 
-          <div className="mb-1 flex flex-col gap-6">
-            <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
-              Your name
-            </Typography>
+            <div className="w-full md:w-1/2 mb-4">
+              <div className="mb-1 flex flex-col gap-6">
+              <div className="mb-1 flex flex-col gap-6">
+
+              <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
+                Company Name
+              </Typography>
             <Input
               size="lg"
               placeholder="Foulen"
@@ -248,10 +292,9 @@ if (!data.phoneNumber) {
             />
             {errors.name && <Typography variant="small" color="red">{errors.name}</Typography>}
           </div>
-
           <div className="mb-1 flex flex-col gap-6">
             <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
-              Your Email
+              Company Email
             </Typography>
             <Input
               size="lg"
@@ -267,14 +310,13 @@ if (!data.phoneNumber) {
               }}/>
             {errors.email && <Typography variant="small" color="red">{errors.email}</Typography>}
           </div>
-
           <div className="mb-1 flex flex-col gap-6">
             <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
               Choose a password
             </Typography>
             <Input
               size="lg"
-              placeholder="*******"
+              placeholder="*****"
               className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
               labelProps={{
                 className: "before:content-none after:content-none",
@@ -288,11 +330,9 @@ if (!data.phoneNumber) {
             />
             {errors.password && <Typography variant="small" color="red">{errors.password}</Typography>}
           </div>
-
           <div className="mb-1 flex flex-col gap-6">
             <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
-              Your Matricule Fiscale
-            </Typography>
+            Company Tax Number            </Typography>
             <Input
               size="lg"
               placeholder="123456789"
@@ -308,10 +348,9 @@ if (!data.phoneNumber) {
             />
             {errors.matriculeFiscale && <Typography variant="small" color="red">{errors.matriculeFiscale}</Typography>}
           </div>
-
           <div className="mb-1 flex flex-col gap-6">
             <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
-              Your Description
+            Company Description
             </Typography>
             <Input
               size="lg"
@@ -331,7 +370,7 @@ if (!data.phoneNumber) {
 
           <div className="mb-1 flex flex-col gap-6">
             <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
-              Your Domain of Activity
+               Domain of Activity
             </Typography>
             <Input
               size="lg"
@@ -349,9 +388,26 @@ if (!data.phoneNumber) {
             {errors.domainOfActivity && <Typography variant="small" color="red">{errors.domainOfActivity}</Typography>}
           </div>
 
+            </div>
+</div>
+</div>
+
+            <div className="mb-6"></div>
+
+
+
+
+
+            {/* Right Column - 5 Fields */}
+            <div className="w-full md:w-1/2 mb-4">
+
+            <div className="w-full md:w-1/2 mb-4">
+              <div className="mb-1 flex flex-col gap-6">
+                {/* Add fields here */}
+                
           <div className="mb-1 flex flex-col gap-6">
             <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
-              Your Address
+              Address
             </Typography>
             <Input
               size="lg"
@@ -367,7 +423,8 @@ if (!data.phoneNumber) {
               }}
             />
             {errors.address && <Typography variant="small" color="red">{errors.address}</Typography>}
-          </div>{/* Facebook */}
+            
+{/* Twitter */}
 <div className="mb-1 flex flex-col gap-6">
   <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
     Facebook
@@ -395,10 +452,9 @@ if (!data.phoneNumber) {
   {errors.socialMedia && errors.socialMedia.facebook && <Typography variant="small" color="red">{errors.socialMedia.facebook}</Typography>}
 </div>
 
-{/* Twitter */}
 <div className="mb-1 flex flex-col gap-6">
   <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
-    Twitter
+    Twitter Link
   </Typography>
   <Input
     size="lg"
@@ -423,11 +479,10 @@ if (!data.phoneNumber) {
   />
   {errors.socialMedia && errors.socialMedia.twitter && <Typography variant="small" color="red">{errors.socialMedia.twitter}</Typography>}
 </div>
-
 {/* LinkedIn */}
 <div className="mb-1 flex flex-col gap-6">
   <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
-    LinkedIn
+    LinkedIn Link
   </Typography>
   <Input
     size="lg"
@@ -453,10 +508,9 @@ if (!data.phoneNumber) {
   {errors.socialMedia && errors.socialMedia.linkedin && <Typography variant="small" color="red">{errors.socialMedia.linkedin}</Typography>}
 </div>
 
-
-          <div className="mb-1 flex flex-col gap-6">
+<div className="mb-1 flex flex-col gap-6">
             <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
-              Your Phone Number
+             Company Number
             </Typography>
             <Input
               type="tel"
@@ -474,23 +528,54 @@ if (!data.phoneNumber) {
             />
             {errors.phoneNumber && <Typography variant="small" color="red">{errors.phoneNumber}</Typography>}
           </div>
-          
-
-          <Button className="mt-6 bg-red-800" fullWidth type="submit">
-            Register Now
-          </Button>
-          {generalError && <Typography variant="small" color="red">{generalError}</Typography>}
 
 
-          <Typography variant="paragraph" className="text-center text-blue-gray-500 font-medium mt-4">
-            Already have an account?
-            <Link to="/sign-in" className="text-gray-900 ml-1">Sign in</Link>
-          </Typography>
+          </div>{/* Facebook */}
+          <div className="w-full mb-4">
+              <div className="relative center mx-auto">
+                <input
+                  type="file"
+                  id="fileInput"
+                  className="hidden"
+                  onChange={handleImageChange}
+                />
+                <label
+                  htmlFor="fileInput"
+                  className={`w-full border rounded-md p-3 text-sm text-white cursor-pointer hover:bg-black focus:outline-none focus:border-black ${
+                    data.image ? 'bg-red-800 border-red-800' : 'bg-black border-black'
+                  }`}
+                >
+                  {data.image ? 'Image Uploaded' : 'Upload Company Logo'}
+                </label>
+              </div>
+            </div>
 
-        </form>
+              </div>
+            </div>
+            </div>
+
+            {/* File Input */}
+            
+  
+            {/* Button */}
+            <div className="w-full">
+              <Button className="mt-1 bg-red-800" fullWidth type="submit">
+                Register Now
+              </Button>
+              {generalError && <Typography variant="small" color="red">{generalError}</Typography>}
+  
+              <Typography variant="paragraph" className="text-center text-blue-gray-500 font-medium mt-4">
+                Already have an account? <Link to="/sign-in" className="text-gray-900 ml-1">Sign in</Link>
+              </Typography>
+            </div>
+            </form>
       </Card>
-    </>
+    </div>
+    </div>
+
+  </div>
   );
+  
 }
 
 export default SignUp;

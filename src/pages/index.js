@@ -9,7 +9,7 @@ export * from "@/pages/register-jobseeker";
 export * from "@/pages/job_offer";
 export * from "@/pages/job-offerConsult";
 export * from "@/pages/job-offerUpdate";
-
+export * from "@/pages/profilecompany";
 export * from "@/pages/passwordReset";
 export * from "@/pages/dashboard/homeDashboard";
 export * from "@/context/usercontext";
