@@ -57,7 +57,7 @@ function UserDetailsPage({ userId }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [editableField, setEditableField] = useState(null);
-  const [isSensitiveInfoVisible, setIsSensitiveInfoVisible] = useState(false); // Nouvel état pour suivre la visibilité des informations sensibles
+  const [isSensitiveInfoVisible, setIsSensitiveInfoVisible] = useState(true); // Nouvel état pour suivre la visibilité des informations sensibles
 
   const [user, setUser] = useState(null);
   const [isBlocked, setIsBlocked] = useState(false);
@@ -72,22 +72,38 @@ function UserDetailsPage({ userId }) {
     setRating(value);
     // Mettre à jour la note dans la base de données ou effectuer d'autres actions nécessaires
   };
-    
-
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await axios.get(`/user/${id}`);
+        // Check if the access token exists in localStorage
+        const accessToken = localStorage.getItem("accessToken");
+  
+        // If the access token does not exist, throw an error
+        if (!accessToken) {
+          throw new Error("Access token not found");
+        }
+  
+        const config = {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        };
+  
+        // Fetch user details with the access token included in the headers
+        const response = await axios.get(`/user/${id}`, config);
         setUser(response.data);
         setLoading(false);
       } catch (error) {
+        // Handle error appropriately (e.g., display error message to user)
         setError('Error fetching user details');
         setLoading(false);
       }
     };
-
+  
+    // Call the fetchUser function
     fetchUser();
   }, [userId]);
+  
   const handleExportToPDF = () => {
     if (user) {
       const pdf = new jsPDF();
@@ -136,14 +152,34 @@ function UserDetailsPage({ userId }) {
 
   const handleSaveChanges = async () => {
     try {
-      await axios.put(`/user/${id}`, user); // Send PUT request to update user data
+      // Check if the access token exists in localStorage
+      const accessToken = localStorage.getItem("accessToken");
+  
+      // If the access token does not exist, throw an error
+      if (!accessToken) {
+        throw new Error("Access token not found");
+      }
+  
+      const config = {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      };
+  
+      // Send the PUT request to update user data with the access token included in the headers
+      await axios.put(`/user/${id}`, user, config);
+      
+      // If the request is successful, set editableField to null
       setEditableField(null);
+      
       // Fetch updated user data after saving changes
       await fetchUser();
     } catch (error) {
       // Handle error appropriately (e.g., display error message to user)
+      console.error("Error saving changes:", error);
     }
   };
+  
   const toggleSensitiveInfoVisibility = () => {
     setIsSensitiveInfoVisible(prevState => !prevState); // Inverser la visibilité des informations sensibles
   };
@@ -152,25 +188,64 @@ function UserDetailsPage({ userId }) {
 
   const handleBlockUser = async () => {
     try {
-      await axios.put(`/user/block/${id}`);
-      setIsBlocked(true); // Mettre à jour l'état pour refléter que l'utilisateur est bloqué
-      toast.success('User Blocked successfully'); 
-
+      // Check if the access token exists in localStorage
+      const accessToken = localStorage.getItem("accessToken");
+  
+      // If the access token does not exist, throw an error
+      if (!accessToken) {
+        throw new Error("Access token not found");
+      }
+  
+      const config = {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      };
+  
+      // Send the PUT request to block the user with the access token included in the headers
+      await axios.put(`/user/block/${id}`, null, config);
+      
+      // If the request is successful, set isBlocked to true to reflect that the user is blocked
+      setIsBlocked(true);
+      
+      // Display success message
+      toast.success('User Blocked successfully');
     } catch (error) {
+      // Handle error appropriately (e.g., display error message to user)
       console.error('Error blocking user:', error);
     }
   };
   
   const handleUnblockUser = async () => {
     try {
-      await axios.put(`/user/unblock/${id}`);
-      setIsBlocked(false); // Mettre à jour l'état pour refléter que l'utilisateur est débloqué
-      toast.error('User unblocked successfully'); 
-
+      // Check if the access token exists in localStorage
+      const accessToken = localStorage.getItem("accessToken");
+  
+      // If the access token does not exist, throw an error
+      if (!accessToken) {
+        throw new Error("Access token not found");
+      }
+  
+      const config = {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      };
+  
+      // Send the PUT request to unblock the user with the access token included in the headers
+      await axios.put(`/user/unblock/${id}`, null, config);
+      
+      // If the request is successful, set isBlocked to false to reflect that the user is unblocked
+      setIsBlocked(false);
+      
+      // Display success message
+      toast.success('User unblocked successfully');
     } catch (error) {
+      // Handle error appropriately (e.g., display error message to user)
       console.error('Error unblocking user:', error);
     }
   };
+  
   const startRecording = async () => {
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
     const recorder = new MediaRecorder(stream);
@@ -254,6 +329,7 @@ USER DETAILS        </h1>
               <p className="mb-6 ml-20 mr-5 text-3xl ">{user.description}</p>
               <p className="mb-6 ml-20 mr-5 text-3xl ">{user.lastname}</p>
               <p className="mb-6 ml-20 mr-5 text-3xl  ">{user.phoneNumber}</p>
+              
             <strong>
 
 

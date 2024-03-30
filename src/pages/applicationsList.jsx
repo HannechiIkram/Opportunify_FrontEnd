@@ -30,16 +30,28 @@ const ApplicationsList = () => {
   useEffect(() => {
     const fetchApplications = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/applications/getall');
+        const accessToken = localStorage.getItem("accessToken");
+        // Check if the access token exists in localStorage
+        if (!accessToken) {
+          console.error("Access token not found");
+          return;
+        }
+  
+        const config = {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        };
+  
+        const response = await axios.get('http://localhost:3000/applications/getall', config);
         setApplications(response.data);
       } catch (error) {
         console.error('Error fetching applications:', error);
       }
     };
-
+  
     fetchApplications();
   }, []);
-
 
 
   // Other functions and JSX code...
@@ -56,26 +68,55 @@ const ApplicationsList = () => {
       return <span className="bg-gray-300 text-black px-2 py-1 rounded-full">Unknown</span>;
   }
 };
-
 const handleDelete = async () => {
   try {
-    const response = await axios.get('http://localhost:3000/applications/getall');
+    const accessToken = localStorage.getItem("accessToken");
+    // Check if the access token exists in localStorage
+    if (!accessToken) {
+      console.error("Access token not found");
+      // Handle the absence of access token as needed
+      return;
+    }
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    };
+
+    const response = await axios.get('http://localhost:3000/applications/getall', config);
     setApplications(response.data);
   } catch (error) {
     console.error('Error deleting application:', error);
   }
   setIsConfirmationOpen(false);
 };
-  const handleViewMore = async (id) => {
-    try {
-      const response = await axios.get(`http://localhost:3000/applications/${id}`);
-      console.log(response.data); // Handle application details data
-      Navigate(`/applications/${id}`); // Use backticks for dynamic route
 
-    } catch (error) {
-      console.error('Error fetching application details:', error);
+const handleViewMore = async (id) => {
+  try {
+    const accessToken = localStorage.getItem("accessToken");
+    // Check if the access token exists in localStorage
+    if (!accessToken) {
+      console.error("Access token not found");
+      // Handle the absence of access token as needed
+      return;
     }
-  };const handleSearch = (e) => {
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    };
+
+    const response = await axios.get(`http://localhost:3000/applications/${id}`, config);
+    console.log(response.data); // Handle application details data
+    Navigate(`/applications/${id}`); // Use backticks for dynamic route
+
+  } catch (error) {
+    console.error('Error fetching application details:', error);
+  }
+};
+const handleSearch = (e) => {
     const searchTerm = e.target.value.toLowerCase();
     const filteredApplications = applications.filter(application => {
       return application.email.toLowerCase().includes(searchTerm);
@@ -166,16 +207,18 @@ const handleDelete = async () => {
       {showBadResponse && (
         <p className="text-red-600">Bad response!</p>
       )}
-
-        {currentApplications.map(application => (
-          <div key={application._id} className="bg-white rounded-lg shadow-lg overflow-hidden">
-            <div className="p-4">
-
-            <p className="text-center mb-2"> {application.email}</p>
-
-              <p className="text-center mb-2"> {application.jobField}</p>
-              <p className="text-center mb-4">accepted !: {String(application.accepted)}</p>
-              <p className="text-center mb-4">rejected ! : {String(application.rejected)}</p>
+{currentApplications.map(application => (
+  <div key={application._id} className="bg-white rounded-lg shadow-lg overflow-hidden">
+    <div className="p-4">
+      {/* Display application email */}
+      <p className="text-center mb-2">Email: {application.job_seeker.email}</p>
+      {/* Display job seeker name if available */}
+      {application.job_seeker && (
+        <p className="text-center mb-2">Name: {application.job_seeker.name}</p>
+      )}
+      <p className="text-center mb-4">Accepted: {String(application.accepted)}</p>
+      <p className="text-center mb-4">Rejected: {String(application.rejected)}</p>
+      {/* Other application details */}
 
               
               <div className="flex justify-center">

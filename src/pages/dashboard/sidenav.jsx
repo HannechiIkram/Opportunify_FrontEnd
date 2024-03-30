@@ -27,17 +27,35 @@ export function Sidenav({ brandName }) {
     transparent: "bg-transparent",
   };
   const handleLogout = async () => {
-    try {
-      // Effectuez une requête HTTP POST ou GET vers le backend pour déconnecter l'utilisateur
-      await axios.post("/user/logout"); // Assurez-vous que l'URL correspond au point de terminaison de déconnexion de votre backend
-      // Après la déconnexion réussie, vous pouvez rediriger l'utilisateur vers la page de connexion ou effectuer d'autres actions nécessaires
-      // Rediriger l'utilisateur vers la page de connexion, par exemple :
-      // window.location.href = "/login";
-    } catch (error) {
-      console.error("Logout Error:", error);
-      // Gérez les erreurs de déconnexion ici, par exemple afficher un message d'erreur à l'utilisateur
-    }
-  };
+    
+
+      try {
+        // Retrieve the access token from local storage
+        const accessToken = localStorage.getItem('accessToken');
+    
+        // Set up headers with the access token
+        const headers = {
+          'Authorization': `Bearer ${accessToken}`
+        };
+    
+        // Make a POST request to the logout endpoint with the access token in the headers
+        const response = await axios.post('/user/logout', {}, { headers });
+    
+        if (response.status === 200) {
+          // Clear any local storage or session storage related to authentication
+          localStorage.removeItem('accessToken');
+          sessionStorage.removeItem('userRole');
+    
+          // Redirect the user to the login page or any other desired page
+          window.location.href = '/login';
+        } else {
+          console.error('Logout failed:', response.data.error);
+        }
+      } catch (error) {
+        console.error('Error during logout:', error);
+      }
+    };
+      
   const sidebarBackgroundColor = "transparent";
 
   const navListItems = [

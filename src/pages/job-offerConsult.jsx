@@ -17,44 +17,72 @@ export function Job_offerConsult() {
     const [expandedOfferId, setExpandedOfferId] = useState(null);
     const [selectedOffer, setSelectedOffer] = useState(null);
 
-    const [formData, setFormData] = useState({
+      const [formData, setFormData] = useState({
         title: "",
         description: "",
         qualifications: "",
         responsibilities: "",
-        Lieu:"",
+        Lieu:"", // This should be 'lieu' instead of 'Lieu'
         langue:"",
         workplace_type: "",
         field: "",
         salary_informations: "",
         deadline: "",
     });
+    
 
     const [jobOffers, setJobOffers] = useState([]);
     const [searchtitle, setSearchtitle] = useState(""); // New state for search workplace_type
-  
-    useEffect(() => {
-      // Fetch all job offers when the component mounts
-      const fetchJobOffers = async () => {
-        try {
-          const response = await axios.get('/job_offer/getall');
-          setJobOffers(response.data);
-        } catch (error) {
-          console.error('Failed to fetch job offers:', error.response.data);
-        }
+useEffect(() => {
+  // Fetch all job offers when the component mounts, if access token exists
+  const fetchJobOffers = async () => {
+    try {
+      const accessToken = localStorage.getItem("accessToken");
+      if (!accessToken) {
+        throw new Error("Access token not found");
+      }
+
+      const config = {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
       };
 
-      fetchJobOffers();
-    }, []); 
+      const response = await axios.get('/job_offer/getall', config);
+      setJobOffers(response.data);
+    } catch (error) {
+      console.error('Failed to fetch job offers:', error.response ? error.response.data : error.message);
+    }
+  };
 
-    const handleSearch = async () => {
-        try {
-          const response = await axios.get(`/job_offer/search/title/${searchtitle}`);
-          setJobOffers(response.data);
-        } catch (error) {
-          console.error('Failed to fetch job offers based on title:', error.response.data);
-        }
+  fetchJobOffers();
+}, []);
+
+
+const handleSearch = async () => {
+  try {
+      // Check if the access token exists in localStorage
+      const accessToken = localStorage.getItem("accessToken");
+
+      // If the access token does not exist, handle the error
+      if (!accessToken) {
+          console.error("Access token not found");
+          return;
+      }
+
+      const config = {
+          headers: {
+              Authorization: `Bearer ${accessToken}`,
+          },
       };
+
+      const response = await axios.get(`/job_offer/search/title/${searchtitle}`, config);
+      setJobOffers(response.data);
+  } catch (error) {
+      console.error('Failed to fetch job offers based on title:', error.response ? error.response.data : error.message);
+  }
+};
+
     
     const handleSeeMore = (offerId) => {
         // Toggle expanded state
@@ -62,20 +90,35 @@ export function Job_offerConsult() {
         // Set the selected offer to display details
         setSelectedOffer(jobOffers.find(jobOffer => jobOffer._id === offerId));
     };
-      
     const handleDelete = async (offerId) => {
-        try {
-          const response = await axios.delete(`/job_offer/delete/${offerId}`);
+      try {
+          // Check if the access token exists in localStorage
+          const accessToken = localStorage.getItem("accessToken");
+  
+          // If the access token does not exist, handle the error
+          if (!accessToken) {
+              console.error("Access token not found");
+              return;
+          }
+  
+          const config = {
+              headers: {
+                  Authorization: `Bearer ${accessToken}`,
+              },
+          };
+  
+          const response = await axios.delete(`/job_offer/delete/${offerId}`, config);
           console.log(response.data);
-    
+  
           // Fetch updated job offers after deleting one
           const updatedJobOffers = await axios.get('/job_offer/getall');
           setJobOffers(updatedJobOffers.data);
-        } catch (error) {
+      } catch (error) {
           console.error('Failed to delete job offer:', error.response ? error.response.data : error.message);
           window.alert('Failed to delete job offer');
-        }
-    };
+      }
+  };
+  
 
     const handleSeeLess = () => {
         // Reset the selected offer to hide details
@@ -99,13 +142,14 @@ return (
                 Search by title
               </Typography>
               <Input
-                type="text"
-                placeholder="Enter job title to search"
-                name="searchtitle"
-                value={searchtitle}
-                onChange={(e) => setSearchtitle(e.target.value)}
-                className='w-1/4'
-              />
+    type="text"
+    placeholder="Enter job title to search"
+    name="searchtitle"
+    value={searchtitle} // Here you're using searchtitle from useState
+    onChange={(e) => setSearchtitle(e.target.value)}
+    className='w-1/4'
+/>
+
               <Button onClick={handleSearch} className=" text-black bg-gray-300 w-1/4" >
                 Search
               </Button>
@@ -129,9 +173,7 @@ return (
                         {jobOffer.title} 
                       </Typography>
                       <div>
-                        <Typography variant="paragraph" color="blue-gray">
-                          Created: {formatDistanceToNow(new Date(jobOffer.createdAt), { addSuffix: true })}
-                        </Typography>
+                        
                       </div>
                     </div>
                     <div className="flex items-center mb-2">
@@ -187,9 +229,8 @@ return (
                 <Typography variant="title"  className="mb-2 text-blue-gray " style={{ fontSize: '26px', fontWeight: 'bold' }}>
                   {selectedOffer.title} 
                 </Typography>
-                <Typography variant="paragraph" color="blue-gray">
-               <b className='font-bold mr-2'>  Created:</b>  {formatDistanceToNow(new Date(selectedOffer.createdAt), { addSuffix: true })}
-                </Typography>
+              
+
                 <Typography variant="paragraph" color="blue-gray">
                 <b className='font-bold mr-2'>   Location:</b> {selectedOffer.lieu}
                 </Typography>

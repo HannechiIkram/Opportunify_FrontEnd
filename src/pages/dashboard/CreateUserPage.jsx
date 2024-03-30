@@ -59,24 +59,38 @@ function CreateUserPage() {
       imageUrl: URL.createObjectURL(file),
     }));
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
+    // Check if the access token exists in localStorage
+    const accessToken = localStorage.getItem("accessToken");
+  
+    // If the access token does not exist, handle the error
+    if (!accessToken) {
+      console.error("Access token not found");
+      return;
+    }
+  
     // Vérifier les validations avant la soumission
     if (!formIsValid()) {
       return;
     }
-
+  
     try {
-      const response = await axios.post("/user/createUser", formData);
+      const config = {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      };
+  
+      const response = await axios.post("/user/createUser", formData, config);
       console.log("User created:", response.data);
       navigate('/dashboard');
     } catch (error) {
       console.error("Error creating user:", error);
     }
   };
- 
+  
   const regenerateCaptcha = () => {
     setCaptcha(generateRandomString(6));
   };

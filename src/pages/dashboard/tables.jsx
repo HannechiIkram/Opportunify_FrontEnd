@@ -13,7 +13,7 @@ import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined';
 import FileCopyOutlinedIcon from '@mui/icons-material/FileCopyOutlined';
 import ThumbDownAltOutlinedIcon from '@mui/icons-material/ThumbDownAltOutlined';
 import ThumbDownAltIcon from '@mui/icons-material/ThumbDownAlt';
-import { io } from 'socket.io-client';
+import { ToastContainer, toast } from "react-toastify";
 import {
  
  
@@ -26,33 +26,6 @@ import {
 
 } from "@material-tailwind/react";
 
-export function Notifications() {
-  const [notifications, setNotifications] = useState([]);
-  const SERVER_URL = 'http://localhost:5000';
-
-  useEffect(() => {
-    const socket = io(SERVER_URL);
-
-    socket.on('notification', (notification) => {
-      setNotifications((prevNotifications) => [...prevNotifications, notification]);
-    });
-
-    return () => {
-      socket.disconnect();
-    };
-  }, []);
-
-  return (
-    <div>
-      <h2>Notifications en temps réel</h2>
-      <ul>
-        {notifications.map((notification, index) => (
-          <li key={index}>{notification}</li>
-        ))}
-      </ul>
-    </div>
-  );
-}
 
 export function Tables() {
   const navigate = useNavigate();
@@ -81,15 +54,34 @@ export function Tables() {
   const [dislikedApplications, setDislikedApplications] = useState([]);
   const [likedApplications, setLikedApplications] = useState([]);
   const [copiedText, setCopiedText] = useState('');
+  const [acceptedUsers, setAcceptedUsers] = useState([]);
+  const [rejectedUsers, setRejectedUsers] = useState([]);
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/user");
+        // Check if the access token exists in localStorage
+        const accessToken = localStorage.getItem("accessToken");
+  
+        // If the access token does not exist, throw an error
+        if (!accessToken) {
+          throw new Error("Access token not found");
+        }
+  
+        const config = {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        };
+  
+        // Fetch the list of users with the access token included in the headers
+        const response = await axios.get("http://localhost:3000/user", config);
         setUsers(response.data);
       } catch (error) {
+        // Handle error appropriately (e.g., display error message to user)
         console.error("Error fetching users:", error);
       }
     };
+    // Call the fetchUsers function
     fetchUsers();
   }, [id]);
 
@@ -117,19 +109,23 @@ export function Tables() {
   const indexOfLastUser = currentPage * usersPerPage;
   const indexOfFirstUser = indexOfLastUser - usersPerPage;
   const currentUsers = filteredUsers.slice(indexOfFirstUser, indexOfLastUser);
-  const handleLike = (id) => {
-    if (!likedApplications.includes(id)) {
-      setLikedApplications([...likedApplications, id]);}else{
-      setLikedApplications([...likedApplications.filter(appId => appId !== id)]);
-    }
-  };
-  const handleDislike = (id) => {
-    if (!dislikedApplications.includes(id)) {
-      setDislikedApplications([...dislikedApplications, id]);
-    } else {
-      setDislikedApplications(dislikedApplications.filter(appId => appId !== id));
-    }
-  };
+ // Add user.email as a parameter to handleLike function
+const handleLike = (email) => {
+  if (!likedApplications.includes(email)) {
+    setLikedApplications([...likedApplications, email]);
+  } else {
+    setLikedApplications([...likedApplications.filter(appId => appId !== email)]);
+  }
+};
+
+// Add user.email as a parameter to handleDislike function
+const handleDislike = (email) => {
+  if (!dislikedApplications.includes(email)) {
+    setDislikedApplications([...dislikedApplications, email]);
+  } else {
+    setDislikedApplications(dislikedApplications.filter(appId => appId !== email));
+  }
+};
   
   
   // Au chargement du composant, restaurer les applications "likées" depuis le stockage local
@@ -149,11 +145,73 @@ export function Tables() {
     navigator.clipboard.writeText(text);
     setCopiedText(text);
   };
+   
+  const handleAcceptUser = async (email) => {
+    try {
+      const accessToken = localStorage.getItem("accessToken");
+      if (!accessToken) {
+        throw new Error("Access token not found");
+      }
+      const config = {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      };
+      const response = await axios.put(`/user/accept/${email}`, {}, config);
+      setAcceptedUsers([...acceptedUsers, email]);
+      toast.success('User Accepted successfully');
+      // Update local storage to store accepted users
+    const acceptedUsersFromStorage = localStorage.getItem('acceptedUsers');
+    const updatedAcceptedUsers = acceptedUsersFromStorage ? JSON.parse(acceptedUsersFromStorage) : [];
+    updatedAcceptedUsers.push(email);
+    localStorage.setItem('acceptedUsers', JSON.stringify(updatedAcceptedUsers));
+
+    } catch (error) {
+      console.error("Error accepting user:", error);
+    }
+  };
+
+  const handleRejectUser = async (email) => {
+    try {
+      const accessToken = localStorage.getItem("accessToken");
+      if (!accessToken) {
+        throw new Error("Access token not found");
+      }
+      const config = {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      };
+      const response = await axios.put(`/user/reject/${email}`, {}, config);
+      setRejectedUsers([...rejectedUsers, email]);
+      toast.error('User rejected successfully');
+      const rejectedUsersFromStorage = localStorage.getItem('rejectedUsers');
+      const updatedRejectedUsers = rejectedUsersFromStorage ? JSON.parse(rejectedUsersFromStorage) : [];
+      updatedRejectedUsers.push(email);
+      localStorage.setItem('rejectedUsers', JSON.stringify(updatedRejectedUsers));
+  
+    } catch (error) {
+      console.error("Error rejecting user:", error);
+    }
+  };
+  // Inside useEffect hook to restore accepted and rejected users from localStorage
+useEffect(() => {
+  const acceptedUsersFromStorage = localStorage.getItem('acceptedUsers');
+  const rejectedUsersFromStorage = localStorage.getItem('rejectedUsers');
+  if (acceptedUsersFromStorage) {
+    setAcceptedUsers(JSON.parse(acceptedUsersFromStorage));
+  }
+  if (rejectedUsersFromStorage) {
+    setRejectedUsers(JSON.parse(rejectedUsersFromStorage));
+  }
+}, []);
+
   
   return (
     <MaterialTailwindControllerProvider>
       <Sidenav />
-   
+      <ToastContainer position="top-center" autoClose={5000} />
+
       <div className="mt-12 mb-8 flex flex-col gap-12 mt-20 mb-60">
         <CardHeader variant="gradient" color="red" className="mb-8 p-6 ml-80">
           <Typography variant="h6" color="white">
@@ -204,27 +262,44 @@ export function Tables() {
         <p className="text-sm text-black">{user.email}</p>
 
        
+        <div>
+                    {!acceptedUsers.includes(user.email) && !rejectedUsers.includes(user.email) && (
+                      <div>
+                        <button
+                          className="bg-red-700 hover:bg-gray-500 text-white font-bold py-1 px-3 rounded-md shadow-md mr-2"
+                          onClick={() => handleAcceptUser(user.email)}
+                        >
+                          Accept User
+                        </button>
+                        <button
+                          className="bg-black hover:bg-red-700 text-white font-bold py-1 px-3 rounded-md shadow-md"
+                          onClick={() => handleRejectUser(user.email)}
+                        >
+                          Reject User
+                        </button>
+                      </div>
+                    )}
+                    {acceptedUsers.includes(user.email) && (
+                      <p className="text-green-500 font-bold">User Accepted</p>
+                    )}
+                    {rejectedUsers.includes(user.email) && (
+                      <p className="text-red-500 font-bold">User Rejected</p>
+                    )}
+                  </div>
       </div>
      
                 <div className="flex">
-                <div className="flex justify-between ml-5">
-                <button onClick={() => handleDislike(user.id)}>
-            {dislikedApplications.includes(user.id) ? <ThumbDownAltIcon style={{ color: 'red' }} /> : <ThumbDownAltOutlinedIcon />}
-          </button>
-                <button onClick={(e) => handleCopyText(user.email, e)}>
-  <FileCopyOutlinedIcon />
+      
+<button onClick={() => handleLike(user.email)}>
+  {likedApplications.includes(user.email) ? <FavoriteOutlinedIcon /> : <FavoriteBorderOutlinedIcon />}
 </button>
 
+<button onClick={() => handleDislike(user.email)}>
+  {dislikedApplications.includes(user.email) ? <ThumbDownAltIcon style={{ color: 'red' }} /> : <ThumbDownAltOutlinedIcon />}
+</button>
 
-</div>
-
-
-                <button 
- 
-
-  onClick={() => handleLike(user.id)}
->
-  {likedApplications.includes(user.id) ? <FavoriteOutlinedIcon /> : <FavoriteBorderOutlinedIcon />}
+<button onClick={(e) => handleCopyText(user.email, e)}>
+  <FileCopyOutlinedIcon />
 </button>
 </div>
     </CardBody>

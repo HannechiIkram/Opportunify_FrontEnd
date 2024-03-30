@@ -56,19 +56,6 @@ export function Job_offer() {
   const [selectedOfferId, setSelectedOfferId] = useState(null); // New state for selected job offer
 
 
-  useEffect(() => {
-    // Fetch all job offers when the component mounts
-    const fetchJobOffers = async () => {
-      try {
-        const response = await axios.get('/job_offer/getall');
-        setJobOffers(response.data);
-      } catch (error) {
-        console.error('Failed to fetch job offers:', error.response.data);
-      }
-    };
-    
-    fetchJobOffers();
-  }, []); 
 
 
 
@@ -118,7 +105,8 @@ export function Job_offer() {
     if (e.target.name === "salary_informations" && errors.salary_informations) {
       setErrors((prevErrors) => ({ ...prevErrors, salary_informations: "" }));
     }
-  };const handleSubmit = async (e) => {
+  };
+  const handleSubmit = async (e) => {
     e.preventDefault();
   
     try {
@@ -128,33 +116,59 @@ export function Job_offer() {
         throw new Error("Access token not found");
       }
   
-      // Include the access token in the request headers
+      // Include the access token in the request headers for adding a job offer
       const config = {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
       };
-      const response = await axios.post(
-        "/job_offer/add",
-        formData,
-        config
-      );
+  
+      // Add the new job offer
+      const response = await axios.post("/job_offer/add", formData, config);
       console.log("Job offer added successfully:", response.data);
       window.alert("Job offer added successfully");
   
       // Fetch updated job offers after adding a new one
-      const updatedJobOffers = await axios.get("/job_offer/getall");
-      setJobOffers(updatedJobOffers.data);
+      const updatedJobOffersResponse = await axios.get("/job_offer/getall", config);
+      setJobOffers(updatedJobOffersResponse.data);
       window.location.href = "/Job_offerConsult";
     } catch (error) {
       console.error(
         "Failed to add job offer:",
         error.response ? error.response.data : error.message
       );
-      window.alert("Failed to add job offer");
     }
   };
   
+  // Fonction pour récupérer tous les offres d'emploi
+/*const fetchJobOffers = async () => {
+  try {
+    const accessToken = localStorage.getItem("accessToken"); // Récupérer le jeton d'accès depuis le stockage local
+
+    if (!accessToken) {
+      throw new Error("Access token not found");
+    }
+
+    // Inclure le jeton d'accès dans les en-têtes de la requête
+    const config = {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    };
+
+    // Envoyer la requête GET avec les en-têtes d'authentification
+    const response = await axios.get('/job_offer/getall', formData,
+    config);
+    setJobOffers(response.data);
+  } catch (error) {
+    console.error('Failed to fetch job offers:', error.response.data);
+  }
+};
+
+// Appeler la fonction pour récupérer tous les offres d'emploi lorsque le composant monte
+useEffect(() => {
+  fetchJobOffers();
+}, []);*/
  
   return (
     <>

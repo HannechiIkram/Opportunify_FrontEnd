@@ -60,26 +60,40 @@ const UpdateApplication = ({ match }) => {
         }
     };
 
-    const handleSubmit = async e => {
-        e.preventDefault();
-        const postData = new FormData();
-        for (const key in formData) {
-            postData.append(key, formData[key]);
-        }
+  const handleSubmit = async e => {
+    e.preventDefault();
 
-        try {
-            await axios.put(`http://localhost:3000/applications/update/${match.params.id}`, postData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            });
-            alert('Application updated successfully!');
-            history.push(`/applicationDetails/${match.params.id}`);
-        } catch (error) {
-            console.error('Error updating application:', error);
-            alert('Failed to update application. Please try again.');
-        }
-    };
+    // Check if the access token exists in localStorage
+    const accessToken = localStorage.getItem("accessToken");
+
+    // If the access token does not exist, handle the error
+    if (!accessToken) {
+        console.error("Access token not found");
+        return;
+    }
+
+    const postData = new FormData();
+    for (const key in formData) {
+        postData.append(key, formData[key]);
+    }
+
+    try {
+        const config = {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                Authorization: `Bearer ${accessToken}`,
+            }
+        };
+
+        await axios.put(`http://localhost:3000/applications/update/${match.params.id}`, postData, config);
+        alert('Application updated successfully!');
+        history.push(`/applicationDetails/${match.params.id}`);
+    } catch (error) {
+        console.error('Error updating application:', error);
+        alert('Failed to update application. Please try again.');
+    }
+};
+
 
     return (
         <div className="container relative mx-auto">

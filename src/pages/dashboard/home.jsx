@@ -4,7 +4,8 @@ import { PlusCircleIcon } from '@heroicons/react/24/solid'; // Import the PlusCi
 import { Link,useNavigate } from 'react-router-dom'; // Import useNavigate
 import {  FaEye, FaUserLock } from 'react-icons/fa';
 // Remplacez ceci
-import { VictoryPie } from 'victory';
+import { VictoryPie, VictoryChart } from 'victory';
+import { ToastContainer, toast } from "react-toastify";
 
 // Par cela
 import { UserIcon } from '@heroicons/react/24/solid'; // Ou choisissez l'icône appropriée dans @heroicons/react
@@ -54,10 +55,23 @@ export function HomeDashboard() {
   const [searchTerm, setSearchTerm] = useState("");
 const [sortBy, setSortBy] = useState("name"); // Par défaut, trier par nom
 const [isBlocked, setIsBlocked] = useState(false);
+const totalJobOffers = jobOffers.length;
 
 
   const [users, setUsers] = useState([]);
 
+
+// Calculer la répartition des offres par lieu
+const locationDistribution = jobOffers.reduce((acc, offer) => {
+  acc[offer.lieu] = (acc[offer.lieu] || 0) + 1;
+  return acc;
+}, {});
+
+// Convertir les données de répartition en un tableau utilisable par VictoryPie
+const locationDistributionData = Object.keys(locationDistribution).map(location => ({
+  x: location,
+  y: locationDistribution[location]
+}));
   // Calculate statistics
 const totalUsers = users.length;
 const activeUsers = users.filter(user => !user.isBlocked).length;
@@ -66,32 +80,62 @@ const userStatisticsData = [
   { title: 'Total Users', value: totalUsers },
   { title: 'Active Users', value: activeUsers },
   { title: 'Blocked Users', value: blockedUsers }
-];
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const response = await axios.get("http://localhost:3000/user");
-        setUsers(response.data);
-      } catch (error) {
-        console.error("Error fetching users:", error);
-      }
-    };
-   
-///
-    fetchUsers();
-  }, []);
-  useEffect(() => {
-    const fetchJobOffers = async () => {
-      try {
-        const response = await axios.get("http://localhost:3000/job_offer/getall");
-        setJobOffers(response.data);
-      } catch (error) {
-        console.error("Error fetching job offers:", error);
-      }
-    };
+];useEffect(() => {
+  const fetchUsers = async () => {
+    try {
+      // Vérifier d'abord si le jeton d'accès existe
+      const accessToken = localStorage.getItem("accessToken");
 
-    fetchJobOffers();
-  }, []);
+      if (!accessToken) {
+        throw new Error("Access token not found");
+      }
+
+      const config = {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      };
+
+      // Récupérer les utilisateurs avec le jeton d'accès inclus dans les en-têtes de la requête
+      const response = await axios.get("http://localhost:3000/user", config);
+      setUsers(response.data);
+    } catch (error) {
+      console.error("Error fetching users:", error);
+    }
+  };
+
+  // Appeler la fonction fetchUsers
+  fetchUsers();
+}, []);
+
+useEffect(() => {
+  const fetchJobOffers = async () => {
+    try {
+      // Vérifier d'abord si le jeton d'accès existe
+      const accessToken = localStorage.getItem("accessToken");
+
+      if (!accessToken) {
+        throw new Error("Access token not found");
+      }
+
+      const config = {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      };
+
+      // Récupérer les offres d'emploi avec le jeton d'accès inclus dans les en-têtes de la requête
+      const response = await axios.get("http://localhost:3000/job_offer/getall", config);
+      setJobOffers(response.data);
+    } catch (error) {
+      console.error("Error fetching job offers:", error);
+    }
+  };
+
+  // Appeler la fonction fetchJobOffers
+  fetchJobOffers();
+}, []);
+
   const handleBlockUser = async (userId) => {
     try {
       await axios.put(`/user/block/${userId}`); // Use the correct URL pattern
@@ -121,6 +165,10 @@ const userStatisticsData = [
       console.error('Error unblocking user:', error);
     }
   };
+  const jobStatisticsData = [
+    { title: 'Total Job Offers', value: jobOffers.length },
+    // Ajoutez d'autres statistiques au besoin
+  ];
   
 
   const handleSearch = (e) => {
@@ -143,8 +191,21 @@ const userStatisticsData = [
   
   const deleteUser = async (userId) => {
     try {
-      await axios.delete(`/user/delete/${userId}`); // Use the correct URL pattern
-      // Filter out the deleted user from the users array
+      // Vérifier d'abord si le jeton d'accès existe
+      const accessToken = localStorage.getItem("accessToken");
+  
+      if (!accessToken) {
+        throw new Error("Access token not found");
+      }
+  
+      const config = {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      };
+  
+      await axios.delete(`/user/delete/${userId}`, config); // Utiliser le modèle d'URL correct
+      // Filtrer l'utilisateur supprimé du tableau des utilisateurs
       setUsers(users.filter(user => user._id !== userId));
     } catch (error) {
       console.error('Error deleting user:', error);
@@ -207,26 +268,59 @@ const userStatisticsData = [
       console.error('Error fetching job offer by ID:', error);
       throw error; // Facultatif : propager l'erreur pour la gestion ultérieure
     }
-  }*/
-  const handleDelete = async (offerId) => {
-    try {
-      const response = await axios.delete(`/job_offer/delete/${offerId}`);
-      console.log(response.data);
+  }*/const handleDelete = async (offerId) => {
+  try {
+    // Check if the access token exists
+    const accessToken = localStorage.getItem("accessToken");
 
-      // Fetch updated job offers after deleting one
-      const updatedJobOffers = await axios.get('/job_offer/getall');
-      setJobOffers(updatedJobOffers.data);
-    } catch (error) {
-      console.error('Failed to delete job offer:', error.response ? error.response.data : error.message);
-      window.alert('Failed to delete job offer');
+    if (!accessToken) {
+      throw new Error("Access token not found");
     }
+
+    // Include the access token in the request headers
+    const config = {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    };
+
+    // Delete the job offer
+    await axios.delete(`/job_offer/delete/${offerId}`, config);
+
+    // Update the jobOffers state by filtering out the deleted offer
+    setJobOffers(jobOffers.filter(offer => offer._id !== offerId));
+  } catch (error) {
+    toast.success('Failed to delete job offer:', error.response ? error.response.data : error.message);
+    toast.error('Failed to delete job offer');
+  }
 };
+
+  const filteredJobOffers = jobOffers.filter((offer) => {
+    const { title, description, qualifications, responsibilities, lieu, langue } = offer;
+    // Check if searchTerm is defined before using includes()
+    if (searchTerm) {
+      return (
+        title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        qualifications.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        responsibilities.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        lieu.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        langue.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    } else {
+      // If searchTerm is undefined, include all job offers
+      return true;
+    }
+  });
+  
+  
 
    return(  
      <MaterialTailwindControllerProvider >
       
            <Sidenav/>
-           
+           <ToastContainer position="top-center" autoClose={5000} />
+
            
            <div className="mb-4 grid grid-cols-1 gap-6 xl:grid-cols-3 ml-auto mr-auto ml-40 mt-20">
   <Card className="overflow-hidden xl:col-span-3 border border-black shadow-sm ml-80 mr-20">
@@ -286,7 +380,7 @@ const userStatisticsData = [
           </tr>
         </thead>
         <tbody>
-          {jobOffers.map((offer) => (
+        {filteredJobOffers.map((offer) => (  // Change jobOffers.map to filteredJobOffers.map
             <tr key={offer._id}>
               <td className="border-b border-gray-50 py-3 px-6 text-left">{offer.title}</td>
               <td className="border-b border-gray-50 py-3 px-6 text-left">{offer.description}</td>
@@ -314,24 +408,37 @@ const userStatisticsData = [
   </Card>
 
 </div>
- <div className="mt-2">
-   
-    <div className="mb-4 grid grid-cols-1 gap-6 xl:grid-cols-3  text-[13px] font-bold  px-10 ml-80 mr-20 py-10 mt-2">
-        {userStatisticsData.map(({ title, value }) => (
-          <StatisticsCard
-            key={title}
-            
-            title={title}
-            footer={
-              <Typography className="font-bold xl:grid-cols-3  py-2 text-red-800 ">
-                <strong>{value}</strong>
-              </Typography>
-              
-            }
-            
-          />
-        ))}
+ <div className="mt-2 ml-80 ">
+ <Card className=" border border-red-black-100">
+      <CardHeader
+        floated={false}
+        shadow={false}
+        color="transparent"
+        className=" flex items-center justify-between "
+      >
+        <Typography variant="h1" color="red">
+          Total Job Offers: {totalJobOffers}
+        </Typography>
+      </CardHeader>
+    </Card>
+    <Card className=" border border-red- shadow-sm">
+      <CardHeader
+        floated={false}
+        shadow={false}
+        color="transparent"
+        className=" flex items-center justify-between p-1"
+      >
+        <Typography variant="h2" color="black">
+          Job Offers Distribution by Location
+        </Typography>
+      </CardHeader>
+      <div className="">
+      <CardBody>
+        <VictoryPie data={locationDistributionData} />
+      </CardBody>
       </div>
+
+    </Card>
  
       <div className="mb-4 grid grid-cols-1 gap-6 xl:grid-cols-3 ml-80 mr-20 text-[13px] text-black text-[13px] font-bold font-bold ">
         {statisticsChartsData.map((props) => (

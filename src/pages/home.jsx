@@ -42,25 +42,37 @@ import Select from "react-select";
 
 export function Home() {
   const navigate = useNavigate(); // Initialize useNavigate hook
-
-  const [recentlySaved, setRecentlySaved] = useState([]); // État pour stocker les éléments récemment enregistrés
-  const handleLogout = async () => {
-    try {
-      await axios.post("/user/logout", {}, { 
-        headers: {
-          "Content-Type": "application/json",
-          "Accept": "application/json"
-        },
-        withCredentials: true 
-      });
-      // Rediriger l'utilisateur vers la page de connexion ou une autre page appropriée
-      navigate("/sign-in");
-    } catch (error) {
-      console.error("Logout error:", error);
-      // Gérer les erreurs de déconnexion
-    }
-};
+ // Fonction pour gérer la déconnexion
   
+
+const handleLogout = async () => {
+  try {
+    // Retrieve the access token from local storage
+    const accessToken = localStorage.getItem('accessToken');
+
+    // Set up headers with the access token
+    const headers = {
+      'Authorization': `Bearer ${accessToken}`
+    };
+
+    // Make a POST request to the logout endpoint with the access token in the headers
+    const response = await axios.post('/user/logout', {}, { headers });
+
+    if (response.status === 200) {
+      // Clear any local storage or session storage related to authentication
+      localStorage.removeItem('accessToken');
+      sessionStorage.removeItem('userRole');
+
+      // Redirect the user to the login page or any other desired page
+      window.location.href = '/login';
+    } else {
+      console.error('Logout failed:', response.data.error);
+    }
+  } catch (error) {
+    console.error('Error during logout:', error);
+  }
+};
+
   const handleStartTrial = () => {
     navigate("/sign-upjs"); // Navigate to the signup page using navigate function
   };

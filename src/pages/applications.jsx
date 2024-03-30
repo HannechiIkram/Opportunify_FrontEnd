@@ -16,19 +16,32 @@ const Applications = () => {
 
   const [currentPage, setCurrentPage] = useState(1);
   const [applicationsPerPage] = useState(5); // Nombre d'applications par page
-
   useEffect(() => {
     const fetchApplications = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/applications/getall');
+        const accessToken = localStorage.getItem("accessToken");
+        // Check if the access token exists in localStorage
+        if (!accessToken) {
+          console.error("Access token not found");
+          return;
+        }
+  
+        const config = {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        };
+  
+        const response = await axios.get('http://localhost:3000/applications/getall', config);
         setApplications(response.data);
       } catch (error) {
         console.error('Error fetching applications:', error);
       }
     };
-
+  
     fetchApplications();
   }, []);
+  
 
   const getStatusBadge = (status) => {
     switch (status) {
@@ -45,24 +58,52 @@ const Applications = () => {
 
   const handleSearch = async () => {
     try {
-      const response = await axios.get(`http://localhost:3000/applications/search/status/${searchTerm}`);
+      const accessToken = localStorage.getItem("accessToken");
+      // Check if the access token exists in localStorage
+      if (!accessToken) {
+        console.error("Access token not found");
+        return;
+      }
+  
+      const response = await axios.get(`http://localhost:3000/applications/search/status/${searchTerm}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
       setSearchResults(response.data);
     } catch (error) {
       console.error('Error searching:', error);
     }
   };
-
+  
   const handleDelete = async () => {
     try {
-      await axios.delete(`http://localhost:3000/applications/delete/${selectedApplication._id}`);
+      const accessToken = localStorage.getItem("accessToken");
+      // Check if the access token exists in localStorage
+      if (!accessToken) {
+        console.error("Access token not found");
+        return;
+      }
+  
+      await axios.delete(`http://localhost:3000/applications/delete/${selectedApplication._id}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+  
       // Actualiser la liste des applications après la suppression
-      const response = await axios.get('http://localhost:3000/applications/getall');
+      const response = await axios.get('http://localhost:3000/applications/getall', {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
       setApplications(response.data);
     } catch (error) {
       console.error('Error deleting application:', error);
     }
     setIsConfirmationOpen(false);
   };
+  
   
   // Index de la dernière application sur la page actuelle
   const indexOfLastApplication = currentPage * applicationsPerPage;
