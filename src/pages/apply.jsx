@@ -33,13 +33,14 @@ const Apply = () => {
     e.preventDefault();
     const formData = new FormData(e.target);
     const offerId = formData.get('offerId'); // Récupérer l'ID de l'offre à partir du champ caché
-  
+    
     // Check if the access token exists in localStorage
     const accessToken = localStorage.getItem("accessToken");
   
     // If the access token does not exist, handle the error
     if (!accessToken) {
       console.error("Access token not found");
+      alert("Access token not found. Please log in again.");
       return;
     }
   
@@ -47,8 +48,8 @@ const Apply = () => {
     const postData = new FormData();
   
     // Append form data to postData object
-    for (const key in formData) {
-      postData.append(key, formData[key]);
+    for (const key of formData.keys()) {
+      postData.append(key, formData.get(key));
     }
   
     try {
@@ -67,6 +68,7 @@ const Apply = () => {
       alert('Failed to submit application. Please try again.');
     }
   };
+  
   
     return (
         <div className="container relative mx-auto">

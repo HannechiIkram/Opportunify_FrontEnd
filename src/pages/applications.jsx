@@ -64,13 +64,27 @@ const Applications = () => {
     };
     const fetchJobOfferTitle = async (offerId) => {
       try {
-        const response = await axios.get(`http://localhost:3000/job_offer/get/${offerId}`);
+        const accessToken = localStorage.getItem("accessToken");
+        // Check if the access token exists in localStorage
+        if (!accessToken) {
+          console.error("Access token not found");
+          return 'Unknown Job Offer';
+        }
+    
+        const config = {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        };
+    
+        const response = await axios.get(`http://localhost:3000/job_offer/get/${offerId}`, config);
         return response.data.title;
       } catch (error) {
         console.error('Error fetching job offer title:', error);
         return 'Unknown Job Offer';
       }
     };
+    
     
     fetchJobOfferTitles();
   }, [applications]);
@@ -198,25 +212,7 @@ const Applications = () => {
           </div>
 
           <div className="flex flex-wrap justify-center">
-          {(searchResults.length > 0 ? searchResults : currentApplications).map(application => (
-              <div key={application._id} className="m-4 bg-gray-200 rounded-md w-96 shadow-lg overflow-hidden h-auto">
-                <div className="flex items-center justify-center mt-2">
-                  {getStatusBadge(application.status)}
-                </div>
-                <p className="text-center">Job Field: {application.jobField}</p>
-                <p className="text-center">Date: {application.applicationDate}</p>
-                <div className="flex justify-center mt-4">
-                <Link to={`/applicationUpdate/${application._id}`} className="bg-blue-gray-500 text-white px-4 py-2 rounded">
-  Update
-</Link>
-
-                  <button className="bg-red-400 text-white px-4 py-2 rounded" onClick={() => {
-                    setSelectedApplication(application);
-                    setIsConfirmationOpen(true);
-                  }}>Delete</button>
-                </div>
-              </div>
-            ))}
+        
 
           {(searchResults.length > 0 ? searchResults : applications).map(application => (
   <div key={application._id} className="m-4 bg-gray-200 rounded-md w-96 shadow-lg overflow-hidden h-auto">
