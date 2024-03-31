@@ -2,12 +2,16 @@
 
 
 
-import { Home, Profile, SignIn, SignUp ,ResetPassword ,RegisterJobseeker,Job_offer,Unauthorized,RedirectCompany,RedirectSignUp,Job_offerConsult,Job_offerUpdate,Profilecompany} from "@/pages";
+
+/* 
+import { Home, Profile, SignIn, SignUp ,ResetPassword ,RegisterJobseeker,Job_offer,
+  Unauthorized,RedirectCompany,RedirectSignUp,Job_offerConsult,Job_offerUpdate,} from "@/pages";*/
 
 
 
-
-
+import { Home, Profile, SignIn, SignUp ,ResetPassword ,RegisterJobseeker,
+  Job_offer,Unauthorized,RedirectCompany,RedirectSignUp,Job_offerConsult,
+  Job_offerUpdate,TermsAndConditions, Job_offerConsultCopy,Profilecompany}from "@/pages";
 import Forgot from "./pages/passwordForget";
 import HomeDashboard from "./pages/dashboard/home";
 import Apply from "./pages/apply";
@@ -26,8 +30,39 @@ import QuizList from "./pages/Quiz";
 
 
 
+import SideNav from "@/pages/dashboard/sidenav";
+import Nav0 from "@/layout/navbar0";
+import Nav1 from "@/widgets/layout/navbar1";
+import Navbar from "./layout/navbar";
 
 export const routes = [
+  
+  {
+    name: "Job_offerConsultCopy",
+    path: "/Job_offerConsultCopy",
+    element: <Job_offerConsultCopy/>,
+  },
+  {
+    name: "navbar0",
+    path: "/nav0",
+    element: <Nav0/>,
+  },
+  {
+    name: "Navbar",
+    path: "/navbar",
+    element: <Navbar/>,
+  },
+  {
+    name: "terms and conditions",
+    path: "/terms-and-conditions",
+    element: <TermsAndConditions/>,
+  },
+
+  {
+    name: "navbar1",
+    path: "/nav1",
+    element: <Nav1/>,
+  },
   {
     name: "UserDetailsPage",
     path: "/user/:id", // Define the path with a dynamic parameter ":id"
@@ -183,7 +218,12 @@ export const routes = [
     name: "Logout",
     path: "/logout",
     element: <SignIn />, // Remplacez <Logout /> par le composant de déconnexion approprié
-  }
+  },
+  {
+    name: "Sidenav",
+    path: "/sidebar",
+    element: <SideNav/>
+  },
   
 ];
 

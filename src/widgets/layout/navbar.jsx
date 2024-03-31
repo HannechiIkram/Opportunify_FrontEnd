@@ -185,6 +185,12 @@ const navListMenuItems = [
 
   },
   {
+    label: "Evaluation",
+    icon: KeyIcon,
+    path:"/quizss"
+
+  },
+  {
     title: "Reset Password",
     description:
       "",
@@ -332,11 +338,8 @@ export function Navbar() {
           href="#"
           className="mr-4 ml-2 cursor-pointer py-1.5 font-medium"
         >
-<img
-  src="img/opportunify.png"
-  alt="logo"
- 
-/>
+          <img  href='/home'src="/img/navbar logo.png" alt="logo"  style={{ width: '170px', height: '45px' }}  />
+
         </Typography>
         <div className="hidden lg:block">
           <NavList />

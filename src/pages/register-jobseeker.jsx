@@ -15,11 +15,21 @@ import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
 
+
+ 
+import { Navbar1 } from '@/widgets/layout';
+import TermsAndConditions from './TermsAndConditions';
+
 export function RegisterJobseeker() {
+  const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
   const handleImageChange1 = (e) => {
     const file = e.target.files[0];
     setData({ ...data, image: file });
   };
+
+const handleTermsAndConditionsClick = () => {
+  Navigate('/terms-and-conditions');
+};
   const navigate = useNavigate();
   const [termsChecked, setTermsChecked] = useState(false);
 
@@ -186,6 +196,7 @@ export function RegisterJobseeker() {
 
   return (
     <>
+    <Navbar1/>
           <div className="text-center">
       <Typography variant="h1" className="font-bold mb-4">
         Join Opportunify!
@@ -374,6 +385,7 @@ export function RegisterJobseeker() {
             <Typography variant="small" color="red">Passwords do not match</Typography>
           )}
         </div>
+        
         <div className="mb-1 flex flex-col gap-6">
         <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
           </Typography>
@@ -426,10 +438,20 @@ export function RegisterJobseeker() {
       onChange={(e) => setTermsChecked(e.target.checked)}
       className="mr-2"
     />
-    <Typography variant="small" color="blue-gray">
-      I accept the <Link to="/terms" className="text-blue-500">terms and conditions</Link>
-    </Typography>
+   <Typography variant="small" color="blueGray">
+        I accept{' '}
+        <Link
+          onClick={() => setIsConfirmationOpen(prevState => !prevState)}
+          underline="always" 
+          style={{ color: '#007bff' }} 
+        >
+          Opportunify terms and conditions
+        </Link>
+      </Typography>
+
   </label>
+  <TermsAndConditions isOpen={isConfirmationOpen} onClose={() => setIsConfirmationOpen(false)} onConfirm={setIsConfirmationOpen}/>
+
 </div>
 {!termsChecked && (
   <Typography variant="small" color="red">
@@ -460,9 +482,9 @@ export function RegisterJobseeker() {
     <InstagramIcon fontSize="large" /> Instagram
   </a>
 </div>
-      
     </>
   );
+
 }
 
 export default RegisterJobseeker;
