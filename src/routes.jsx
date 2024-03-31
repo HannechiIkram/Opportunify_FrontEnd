@@ -1,5 +1,13 @@
 
-import { Home, Profile,SignIn, SignUp ,ResetPassword ,RegisterJobseeker,Job_offer,Unauthorized,RedirectCompany,RedirectSignUp,Job_offerConsult,Job_offerUpdate} from "@/pages";
+
+
+
+import { Home, Profile, SignIn, SignUp ,ResetPassword ,RegisterJobseeker,Job_offer,Unauthorized,RedirectCompany,RedirectSignUp,Job_offerConsult,Job_offerUpdate,Profilecompany} from "@/pages";
+
+
+
+
+
 import Forgot from "./pages/passwordForget";
 import HomeDashboard from "./pages/dashboard/home";
 import Apply from "./pages/apply";
@@ -11,6 +19,14 @@ import CreateUserPage from "./pages/dashboard/CreateUserPage";
 import UserDetailsPage from "./pages/dashboard/UserDetailsPage"
 import Notifications from "./pages/dashboard/notifications";
 import { Tables } from "./pages/dashboard/tables";
+
+import EvaluationList from "./pages/Evaluation";
+import QuizList from "./pages/Quiz";
+
+
+
+
+
 export const routes = [
   {
     name: "UserDetailsPage",
@@ -27,7 +43,7 @@ export const routes = [
   //Details
   {
     name: "profile",
-    path: "/profile",
+    path: "/profile/:userId",
     element: <Profile />,
   },
   //CreateUserPage
@@ -38,6 +54,11 @@ export const routes = [
   },
 
 
+  {
+    name: "Profilecompany",
+    path: "/Profilecompany/:pId", // Corrected path definition
+    element: <Profilecompany/>,
+  },
   {
     name: "Choose Sign up",
     path: "/redirect-sign-up",
@@ -120,7 +141,16 @@ export const routes = [
   {
     name: "applications",
     path: "/applications/:id",
-    element: <ApplicationDetails/>,
+  element: <ApplicationDetails/>,},
+  {
+    name: "evaluation",
+    path: "/evaluation",
+    element: <EvaluationList/>,
+  },
+  {
+    name: "Evaluation",
+    path: "/quizss",
+    element: <QuizList/>,
   },
   {  name: "Dashboard",
     path: "/dashboard",

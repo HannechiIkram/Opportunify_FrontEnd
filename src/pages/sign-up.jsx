@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
+
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
+
+
 import { useNavigate } from "react-router-dom";
 import {
   Input,
@@ -318,7 +321,7 @@ if (!data.phoneNumber) {
             </Typography>
             <Input
               size="lg"
-              placeholder="*******"
+              placeholder="*****"
               className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
               labelProps={{
                 className: "before:content-none after:content-none",
@@ -586,7 +589,9 @@ if (!data.phoneNumber) {
     <InstagramIcon fontSize="large" /> Instagram
   </a>
 </div>
-  </div>
+
+    </div>
+
   );
   
 }

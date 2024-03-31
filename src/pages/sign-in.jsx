@@ -39,6 +39,7 @@ export function SignIn() {
     setErrors(errorsCopy);
     return valid;
   };
+
   const loginUser = async (e) => {
     if (validateForm()) {
     e.preventDefault();
@@ -56,7 +57,9 @@ export function SignIn() {
 
       // Extract user role from response
       const userRole = response.data.user.role;
-
+   //  const userId =response.data.jobSeekerId;
+     const userId =response.data.profileId;
+     const pId=response.data.company_profileId;
       // Store user role in session storage
       setUserRole(userRole);
 
@@ -64,10 +67,11 @@ export function SignIn() {
       if (userRole === 'admin') {
         Navigate("/dashboard");
       } else if (userRole === 'company') {
-        Navigate("/redirect-company");
+        Navigate(`/Profilecompany/${pId}`);
+
       } else if (userRole === 'job_seeker') {
-        Navigate("/home");
-      }
+     
+        Navigate(`/profile/${userId}`);      }
     } catch (error) {
       console.error('Email or password is wrong', error.response.data);
       if (error.response.status === 429) {

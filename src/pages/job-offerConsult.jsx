@@ -13,6 +13,7 @@ import { FaSquareArrowUpRight } from "react-icons/fa6";
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
+import {Appap} from "./createPieChart.jsx";
 export function Job_offerConsult() {
     const [expandedOfferId, setExpandedOfferId] = useState(null);
     const [selectedOffer, setSelectedOffer] = useState(null);
@@ -128,6 +129,11 @@ const handleSearch = async () => {
    // Autres parties de votre code inchangées...
 
 // Autres parties de votre code inchangées...
+
+const handleApply = (offerId) => {
+  history.push(`/apply?offerId=${offerId}`);
+};
+
 
 return (  
     <>
@@ -257,10 +263,16 @@ return (
                 </Typography>
               </div>
               <div className="flex justify-center my-4 mx-3">
-  <button className="bg-red-500 hover:bg-red-700 text-white w-full font-bold py-2 px-4 rounded flex justify-center items-center">
+              <Button color="blue-grey" disabled={new Date(selectedOffer.deadline) < new Date()}>
+  <Link to={{
+    pathname: `/apply/${selectedOffer._id}`,
+    state: { offerTitle: selectedOffer.title }
+  }}>
     Apply
-    <FaArrowRightLong className="ml-2" />
-  </button>
+  </Link>
+</Button>
+
+
 </div>
 
             </Card>
@@ -278,6 +290,7 @@ return (
 </div>
         </div>
       </div>
+      <div><Appap/></div>
     </>
 );
 

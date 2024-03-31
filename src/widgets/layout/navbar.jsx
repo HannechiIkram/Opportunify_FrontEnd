@@ -192,6 +192,13 @@ const navListMenuItems = [
 
   },
   {
+    title: "Evaluation",
+    description:
+      "",
+      path:"/evaluation"
+
+  },
+  {
     title: "Dashboard",
     description:
       "",
@@ -259,6 +266,12 @@ const navListItems = [
     path:"/home"
   },
   {
+    label: "Evaluation",
+    icon: KeyIcon,
+    path:"/quizss"
+
+  },
+  {
     label: "Sign up",
     icon: UserCircleIcon,
     path:"/redirect-sign-up"
@@ -268,7 +281,8 @@ const navListItems = [
     icon: KeyIcon,
     path:"/sign-in"
 
-  },/*
+  },
+/*
   {
     label: "Docs",
     icon: CodeBracketSquareIcon,

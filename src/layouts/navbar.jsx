@@ -31,6 +31,7 @@ import { Link } from 'react-router-dom'
   KeyIcon
 } from "@heroicons/react/24/solid";
 
+
 // profile menu component
 const profileMenuItems = [
   {
@@ -44,6 +45,7 @@ const profileMenuItems = [
     icon: Cog6ToothIcon,
     path:"/profile"
   },
+ 
   {
     label: "Inbox",
     icon: InboxArrowDownIcon,
@@ -179,6 +181,13 @@ const navListMenuItems = [
 
   },
   {
+    title: "Evaluation",
+    description: "",
+    path:"/evaluation"
+
+  },
+
+  {
     title: "Dashboard",
     description:
       "",
@@ -250,6 +259,7 @@ const navListItems = [
     icon: UserCircleIcon,
     path:"/redirect-sign-up"
   },
+ 
   {
     label: "Sign In",
     icon: KeyIcon,
