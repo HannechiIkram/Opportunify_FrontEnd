@@ -11,7 +11,6 @@ export * from "@/pages/job-offerConsult";
 export * from "@/pages/job-offerUpdate";
 
 export * from "@/pages/passwordReset";
-export * from "@/pages/dashboard/homeDashboard";
 export * from "@/context/usercontext";
 import ProtectedRoute from '@/context/ProtectedRoute';
 import { fromJSON } from "postcss";
