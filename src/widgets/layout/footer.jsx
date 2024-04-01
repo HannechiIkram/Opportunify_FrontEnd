@@ -1,5 +1,5 @@
-
-
+import PropTypes from "prop-types";
+import { Typography, IconButton } from "@material-tailwind/react";
 export function Footer({ title, description, socials, menus, copyright }) {
   const year = new Date().getFullYear();
 

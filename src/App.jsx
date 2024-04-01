@@ -2,47 +2,55 @@ import { Routes, Route, Navigate, useLocation,BrowserRouter as Router } from "re
 import { Navbar } from "@/widgets/layout";
 import routes from "@/routes";
 import axios from "axios";
-import { Toaster } from "react-hot-toast";
 axios.defaults.baseURL = 'http://localhost:3000';
 axios.defaults.withCredentials = true ;
 import HomeDashboard from "./pages/dashboard/home"
-import Home from "./pages/dashboard/home"
 // teb3in user roles and permissions
 import Unauthorized from "./pages/unauthorized";
-import { Job_offer } from "./pages";
+import { Job_offer } from "./pages/job offers/job_offer.jsx";
 import ProtectedRoute from '@/context/ProtectedRoute';
 import { UserProvider, useUser } from './context/usercontext';
-import ApplicationDetails from "./pages/ApplicationDetails";
-import UpdateApplication from "./pages/UpdateApplication";
-import Apply from "./pages/apply";
-import Quiz from "./pages/test";
+
+import Apply from "./pages/applications/apply";
+import UpdateApplication from "./pages/applications/UpdateApplication";
+import ApplicationDetails from "./pages/applications/applicationsDetails";
+import { Home } from "./pages/landing page/home";
+import Quiz from "./pages/tests module/Quiz";
 
 // redirection_roles samarr
 function App() {
   const { pathname } = useLocation();
+
   return (
   
     <UserProvider>
+{
 
-{!(pathname === '/create' || 
+  //// components eli mayodhherch fehom navbar1
+  !(
+    pathname === '/create' || 
    pathname === '/tables' || 
    pathname === '/passwordreset' || 
    pathname.startsWith('/user/') ||
-   pathname === "/dashboard") && (
-  <div className="container absolute left-2/4 z-10 mx-auto -translate-x-2/4 p-4">
-    <Navbar routes={routes} />
-  </div>
-)}
+   pathname === "/dashboard"||
+    pathname == '/nav0' ||
+    pathname == '/home' ||
+    pathname == '/navbar' ||
+    pathname == '/nav1' ||
+    pathname == '/sign-in' ||
+    pathname == '/sign-up' ||
+    pathname == '/passwordreset' ||
+    pathname == '/Forgot' ||
+    pathname == '/sign-upjs' ||
+    pathname == "/dashboard" ||
+    pathname === "redirect-sign-up"
+  ) && (
+    <div className="container absolute left-2/4 z-10 mx-auto -translate-x-2/4 p-4">
+      <Navbar routes={routes} />
+    </div>
+  )
+}
 
-
-      {!( pathname=='/nav0' || pathname=='/redirect-company' || pathname=='/navbar' || pathname=='/nav1' ||pathname == '/sign-in' || pathname == '/sign-up' || pathname == '/passwordreset'||pathname == '/Forgot'||
-       pathname=='/sign-upjs'||pathname=="/dashboard"|| pathname=='/home'|| pathname=='redirect-sign-up') && (
-        <div className="container absolute left-2/4 z-10 mx-auto -translate-x-2/4 p-4">
-          <Navbar routes={routes} />
-        </div>
-      )
-
-      }
       
       <Routes>
         {routes.map(

@@ -1,26 +1,30 @@
-export * from "@/pages/home";
-export * from "@/pages/profile";
-export * from "@/pages/sign-in";
-export * from "@/pages/sign-up";
-export * from "@/pages/userRecordingReducer";
-export * from "@/pages/userRecordingActions";
+export * from "@/pages/landing page/home";
+export * from "@/pages/profile/profile";
+export * from "@/pages/authentication/sign-in";
+export * from "@/pages/authentication/sign-up";
+export * from "@/pages/dashboard/userRecordingReducer";
+export * from "@/pages/dashboard/userRecordingActions";
 
-export * from "@/pages/passwordReset";
-export * from "@/pages/register-jobseeker";
-//UserDetailsPage
+export * from "@/pages/authentication/passwordReset";
+export * from "@/pages/authentication/register-jobseeker";
 
-export * from "@/pages/job_offer";
-export * from "@/pages/job-offerConsult";
-export * from "@/pages/job-offerUpdate";
-export * from "@/pages/profilecompany";
-export * from "@/pages/passwordReset";
+
+
+export * from "@/pages/applications/apply";
+export * from "@/pages/applications/applications";
+export * from "@/pages/applications/applicationsList";
+export * from "@/pages/job offers/job_offer";
+export * from "@/pages/job offers/job-offerConsult";
+export * from "@/pages/job offers/job-offerUpdate";
+export * from "@/pages/profile/profilecompany";
+export * from "@/pages/authentication/passwordReset";
 export * from "@/pages/dashboard/home";
 export * from "@/context/usercontext";
-import ProtectedRoute from '@/context/ProtectedRoute';
-import { fromJSON } from "postcss";
+export * from '@/context/ProtectedRoute';
+export { fromJSON } from "postcss";
  export { default as Unauthorized } from "@/pages/unauthorized";
 
-export { default as RedirectCompany } from "@/pages/redirect-company";
-export {default as RedirectSignUp} from "@/pages/redirect-sign-up";
-export {default as TermsAndConditions} from "@/pages/TermsAndConditions";
-export {default as Job_offerConsultCopy} from '@/pages/job-offerConsult copy';
+export { default as RedirectCompany } from "@/pages/authentication/redirect-company";
+export {default as RedirectSignUp} from "@/pages/authentication/redirect-sign-up";
+export {default as TermsAndConditions} from "@/pages/authentication/TermsAndConditions";
+export {default as Job_offerConsultCopy} from '@/pages/job offers/job-offerConsult copy';

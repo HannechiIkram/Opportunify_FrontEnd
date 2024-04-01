@@ -3,7 +3,8 @@ import React, { useState, useEffect } from 'react';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
-
+import TermsAndConditions from './TermsAndConditions';
+import Navbar1 from '@/widgets/layout/navbar1';
 
 import { useNavigate } from "react-router-dom";
 import {
@@ -14,11 +15,16 @@ import {
 } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { Footer } from '@/widgets/layout/footer';
 
 
 
 export function SignUp() {
   const [showMessage, setShowMessage] = useState(false); // State to control message visibility
+
+  /// teb3in terms and conditions
+  const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
+    const [termsChecked, setTermsChecked] = useState(false);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -256,7 +262,10 @@ if (!data.phoneNumber) {
     return () => clearInterval(interval);
   }, []);
 
-  return (     <div className="form-container mt-40 mb-40 ml-40 mr-40">
+  return (   
+    <>
+    <Navbar1/>
+    <div className="form-container mt-40 mb-40 ml-40 mr-40">
   <div className="flex justify-center items-center h-screen">
     <div className="w-full max-w-screen-lg">
       <div className="text-center mb-1">
@@ -556,6 +565,38 @@ if (!data.phoneNumber) {
             </div>
 
               </div>
+              <div className="mb-1 flex flex-col gap-6">
+        <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
+          </Typography>
+  <label htmlFor="terms" className="flex items-center">
+    <input
+      type="checkbox"
+      id="terms"
+      checked={termsChecked}
+      onChange={(e) => setTermsChecked(e.target.checked)}
+      className="mr-2"
+    />
+   <Typography variant="small" color="blueGray">
+        I accept{' '}
+        <Link
+          onClick={() => setIsConfirmationOpen(prevState => !prevState)}
+          underline="always" 
+          style={{ color: '#007bff' }} 
+        >
+          Opportunify terms and conditions
+        </Link>
+      </Typography>
+
+  </label>
+  <TermsAndConditions isOpen={isConfirmationOpen} onClose={() => setIsConfirmationOpen(false)} onConfirm={setIsConfirmationOpen}/>
+
+</div>
+{!termsChecked && (
+  <Typography variant="small" color="red">
+    Please accept Opportunify terms and conditions before registering.
+  </Typography>
+)}
+
             </div>
             </div>
 
@@ -573,24 +614,17 @@ if (!data.phoneNumber) {
                 Already have an account? <Link to="/sign-in" className="text-gray-900 ml-1">Sign in</Link>
               </Typography>
             </div>
+            
             </form>
       </Card>
     </div>
   
     </div>
-    <div className="useful-links ml-80">
-  <a href="https://www.linkedin.com/esprit/">
-    <LinkedInIcon fontSize="large" /> LinkedIn
-  </a>
-  <a href="https://www.facebook.com/esprit/">
-    <FacebookIcon fontSize="large" /> Facebook
-  </a>
-  <a href="https://www.instagram.com/esprit/">
-    <InstagramIcon fontSize="large" /> Instagram
-  </a>
-</div>
+   
 
     </div>
+    <Footer/>
+    </> 
 
   );
   

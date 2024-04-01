@@ -8,7 +8,7 @@ import { FaAngleRight } from "react-icons/fa6";
 import { Breadcrumbs } from "@material-tailwind/react";
 import { Link } from 'react-router-dom';
 import { Tooltip } from "@material-tailwind/react";
-import {Job_offerConsult} from "./job-offerConsult.jsx";
+import {Job_offerConsult} from "./job-offerConsult";
 import {Job_offerUpdate} from "./job-offerUpdate.jsx";
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import FacebookIcon from '@mui/icons-material/Facebook';

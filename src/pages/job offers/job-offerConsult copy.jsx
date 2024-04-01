@@ -11,6 +11,7 @@ import { GrCurrency } from "react-icons/gr";
 import { FaArrowRightLong } from "react-icons/fa6";
 import { FaSquareArrowUpRight } from "react-icons/fa6";
 
+//////liste des job offers published by a comapny mouayna
 export function Job_offerConsultCopy() {
     const [expandedOfferId, setExpandedOfferId] = useState(null);
     const [selectedOffer, setSelectedOffer] = useState(null);

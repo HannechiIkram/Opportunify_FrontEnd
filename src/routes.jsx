@@ -1,39 +1,46 @@
 
+import  Home from "@/pages/landing page/home";
+import Profile  from "@/pages/profile/profile";
+import  Profilecompany  from "@/pages/profile/profilecompany";
+
+import  SignIn  from "@/pages/authentication/sign-in";
+import SignUp  from "@/pages/authentication/sign-up";
+import  Forgot  from "@/pages/authentication/passwordForget";
+import  ResetPassword  from "@/pages/authentication/passwordReset";
+import  RegisterJobseeker  from "@/pages/authentication/register-jobseeker";
+import  RedirectCompany  from "@/pages/authentication/redirect-company";
+import  RedirectSignUp  from "@/pages/authentication/redirect-sign-up";
+import  TermsAndConditions  from "@/pages/authentication/TermsAndConditions";
+
+import  Job_offer from "@/pages/job offers/job_offer";
+import  Job_offerConsult from "@/pages/job offers/job-offerConsult";
+import  Job_offerConsultCopy from "@/pages/job offers/job-offerConsult copy";
+import  Job_offerUpdate from "@/pages/job offers/job-offerUpdate";
+import  Unauthorized  from "@/pages/unauthorized";
+
+import  Apply  from "@/pages/applications/apply";
+import Applications  from "@/pages/applications/applications";
+import  ApplicationsList  from "@/pages/applications/applicationsList";
+import ApplicationDetails from "./pages/applications/applicationsDetails";
+
+import  CreateUserPage  from "@/pages/dashboard/CreateUserPage";
+import  HomeDashboard from "@/pages/dashboard/homeDashboard";
+import  RatingComponent  from "@/pages/dashboard/Rating";
+import  UserDetailsPage  from "@/pages/dashboard/UserDetailsPage";
+import   Notifications from "@/pages/dashboard/notifications";
+import Tables from "@/pages/dashboard/tables";
 
 
-
-
-/* 
-import { Home, Profile, SignIn, SignUp ,ResetPassword ,RegisterJobseeker,Job_offer,
-  Unauthorized,RedirectCompany,RedirectSignUp,Job_offerConsult,Job_offerUpdate,} from "@/pages";*/
-
-
-
-import { Home, Profile, SignIn, SignUp ,ResetPassword ,RegisterJobseeker,
-  Job_offer,Unauthorized,RedirectCompany,RedirectSignUp,Job_offerConsult,
-  Job_offerUpdate,TermsAndConditions, Job_offerConsultCopy,Profilecompany}from "@/pages";
-import Forgot from "./pages/passwordForget";
-import HomeDashboard from "./pages/dashboard/home";
-import Apply from "./pages/apply";
-import Applications from "./pages/applications";
-import ApplicationsList from "./pages/applicationsList";
-import ApplicationDetails from "./pages/applicationsDetails";
-import RatingComponent from "./pages/Rating";
-import CreateUserPage from "./pages/dashboard/CreateUserPage";
-import UserDetailsPage from "./pages/dashboard/UserDetailsPage"
-import Notifications from "./pages/dashboard/notifications";
-import { Tables } from "./pages/dashboard/tables";
-
-import EvaluationList from "./pages/Evaluation";
-import QuizList from "./pages/Quiz";
+import EvaluationList from "./pages/tests module/Evaluation";
+import QuizList from "./pages/tests module/Quiz";
 
 
 
 
 import SideNav from "@/pages/dashboard/sidenav";
-import Nav0 from "@/layout/navbar0";
-import Nav1 from "@/widgets/layout/navbar1";
-import Navbar from "./layout/navbar";
+import Nav0 from "./widgets/layout/navbar0";
+import Nav1 from "./widgets/layout/navbar1";
+import Navbar from "./widgets/layout/navbar";
 
 export const routes = [
   

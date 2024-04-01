@@ -1,13 +1,13 @@
 
 import { PageTitle, Footer, Navbar1 } from "@/widgets/layout";
 import { ReactTyped } from "react-typed";
-import company from "./company.png";
-import jobseeker from "./jobseeker.png";
+import company from"/public/img/company.png"
+import jobseeker from "/public/img/jobseeker.png";
 import 'react-day-picker/dist/style.css';
 import { motion } from 'framer-motion';
-import Banner from "./Banner.png";
-import {fadeIn} from "./variants.jsx";
-import opportunify from "./opportunify.jpg"
+import Banner from "/public/img/Banner.png";
+import {fadeIn} from "/src/pages/landing page/variants.jsx";
+import opportunify from "/public/img/opportunify.jpg"
 import React, { useState, useEffect } from "react";
 import 'react-day-picker/dist/style.css';
 import { Card, Typography, Checkbox,Button,Input, Textarea, TabPanel } from "@material-tailwind/react";
@@ -18,12 +18,9 @@ import { GrScheduleNew } from "react-icons/gr";
 import {formatDistanceToNow } from "date-fns";
 import { GrAid } from "react-icons/gr";
 import { GrCurrency } from "react-icons/gr";
-import { FaArrowRightLong } from "react-icons/fa6";
-import { FaSquareArrowUpRight } from "react-icons/fa6";
 
-import { FaTimes } from 'react-icons/fa';
 import ShowDetailSignUP from "./showdetailsSignup";
-import { SignIn } from ".";
+
 
 
 
@@ -52,10 +49,9 @@ const handleSignupClick = () => {
 
   const [jobOffers, setJobOffers] = useState([]);
   useEffect(() => {
-    // Fetch all job offers when the component mounts
     const fetchJobOffers = async () => {
       try {
-        const response = await axios.get('/job_offer/getall');
+        const response = await axios.get('/job_offer/getoffershomepage');
         setJobOffers(response.data);
       } catch (error) {
         console.error('Failed to fetch job offers:', error.response.data);
@@ -306,7 +302,7 @@ const handleSignupClick = () => {
                         deadline: {jobOffer.deadline}
                       </Typography>
                     </div>
-                    <div className="flex items-center"> {/* Nouveau div pour les boutons */}
+                    <div className="flex items-center">
                     <Typography variant="paragraph" color="#ff6666" className="mb-2">
   {jobOffer.description}
 </Typography>
@@ -361,7 +357,7 @@ const handleSignupClick = () => {
            }
            containerProps={{ className: "-ml-2.5" }}
          />
-         <Button variant="gradient" size="lg" className="bg-red-800 mt-8 text-white px-4 py-2 rounded mr-4"  fullWidth>
+         <Button size="lg" className="bg-red-800 mt-8 text-white px-4 py-2 rounded mr-4"  fullWidth>
          Send Message
          </Button>
         

@@ -3,12 +3,12 @@ import applicationlist from "/public/img/app list.webp";
 import joboffer from "/public/img/posting job offer.jpeg";
 import 'react-day-picker/dist/style.css';
 import { useNavigate } from "react-router-dom";
-import company from "./company.png";
-import jobseeker from "./jobseeker.png";
+import company from "/public/img/company.png";
+import jobseeker from "/public/img/jobseeker.png";
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
-import Navbar0 from "@/layout/navbar0";
+import Navbar1 from "@/widgets/layout/navbar1";
 export function RedirectSignUp() {
   const navigate = useNavigate(); 
    const handleClick1 = () => {
@@ -21,8 +21,8 @@ export function RedirectSignUp() {
  
   return (
     <>
+    <Navbar1/>
 
-    <Navbar0/>
     <div className='w-full py-[10rem] px-4 bg-gray-100 justify-content-center'>
 
       <div className='max-w-[1240px] mx-auto grid md:grid-cols-3 gap-8 ml-40'>

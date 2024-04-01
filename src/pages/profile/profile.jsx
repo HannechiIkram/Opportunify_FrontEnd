@@ -11,7 +11,7 @@ import { useParams } from 'react-router-dom';
 import { AiTwotonePhone } from "react-icons/ai";
 import Modal from "./Modal.jsx";
 
-import  "./Modal.css";
+import "/public/css/Modal.css";
 
 
 

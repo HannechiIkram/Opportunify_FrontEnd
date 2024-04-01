@@ -27,9 +27,7 @@ export function RegisterJobseeker() {
     setData({ ...data, image: file });
   };
 
-const handleTermsAndConditionsClick = () => {
-  Navigate('/terms-and-conditions');
-};
+
   const navigate = useNavigate();
   const [termsChecked, setTermsChecked] = useState(false);
 
@@ -407,22 +405,6 @@ const handleTermsAndConditionsClick = () => {
   </label>
   </div>
 
-          <div className="relative">
-              <input
-                type="file"
-                id="fileInput"
-                className="hidden"
-                onChange={handleImageChange} // This line is important
-              />
-              <label
-                htmlFor="fileInput"
-                className={`w-full border rounded-md p-3 text-sm text-white cursor-pointer hover:bg-black focus:outline-none focus:border-black ${
-                  data.image ? 'bg-black border-black' : 'bg-red-800 border-red-800'
-                }`}
-              >
-                {data.image ? 'Image Uploaded' : 'Upload Your Photo'}
-              </label>
-            </div>
 </div>
 
 

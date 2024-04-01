@@ -30,6 +30,10 @@ import {
   KeyIcon
 } from "@heroicons/react/24/solid";
 
+import { useLocation } from 'react-router-dom';
+
+// Define Navbar component
+  
 // profile menu component
 const profileMenuItems = [
   {
@@ -185,7 +189,7 @@ const navListMenuItems = [
 
   },
   {
-    label: "Evaluation",
+    title: "Evaluation",
     icon: KeyIcon,
     path:"/quizss"
 
@@ -271,23 +275,7 @@ const navListItems = [
     icon:HomeIcon,
     path:"/home"
   },
-  {
-    label: "Evaluation",
-    icon: KeyIcon,
-    path:"/quizss"
-
-  },
-  {
-    label: "Sign up",
-    icon: UserCircleIcon,
-    path:"/redirect-sign-up"
-  },
-  {
-    label: "Sign In",
-    icon: KeyIcon,
-    path:"/sign-in"
-
-  },
+  
 /*
   {
     label: "Docs",
@@ -319,6 +307,11 @@ function NavList() {
 }
  
 export function Navbar() {
+  const location = useLocation();
+  const hideNavbarPaths = ['/home', '/landing']; // Define paths where Navbar should not appear
+
+  // Check if current location pathname is not in hideNavbarPaths
+  const shouldRenderNavbar = !hideNavbarPaths.includes(location.pathname);
   const [isNavOpen, setIsNavOpen] = React.useState(false);
  
   const toggleIsNavOpen = () => setIsNavOpen((cur) => !cur);
@@ -361,7 +354,7 @@ export function Navbar() {
         <NavList />
       </MobileNav>
     </TNavbar>
-  );
+  ); 
 }
 Navbar.displayName = "/src/widgets/layout/navbar.jsx";
 export default Navbar;
