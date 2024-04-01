@@ -1,0 +1,19 @@
+pipeline{
+agent any
+stages {
+stage('Install dependencies') {
+steps{
+script {
+sh('npm install')
+}
+}
+}a
+
+
+stage('Build application') {
+steps{
+script {
+sh('npm run dev')
+}
+}
+}}
