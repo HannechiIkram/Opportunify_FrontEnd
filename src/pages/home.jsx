@@ -361,7 +361,7 @@ const handleSignupClick = () => {
            }
            containerProps={{ className: "-ml-2.5" }}
          />
-         <Button variant="gradient" size="lg" className="bg-red-800 mt-8 text-white px-4 py-2 rounded mr-4"  fullWidth>
+         <Button  size="lg" className="bg-red-800 mt-8 text-white px-4 py-2 rounded mr-4"  fullWidth>
          Send Message
          </Button>
         
