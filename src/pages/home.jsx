@@ -55,7 +55,7 @@ const handleSignupClick = () => {
     // Fetch all job offers when the component mounts
     const fetchJobOffers = async () => {
       try {
-        const response = await axios.get('/job_offer/getall');
+        const response = await axios.get('/job_offer/getoffershomepage');
         setJobOffers(response.data);
       } catch (error) {
         console.error('Failed to fetch job offers:', error.response.data);

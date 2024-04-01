@@ -8,7 +8,7 @@ import jobseeker from "./jobseeker.png";
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
-import Navbar0 from "@/layout/navbar0";
+import Navbar0 from "@/widgets/layout/navbar0";
 export function RedirectSignUp() {
   const navigate = useNavigate(); 
    const handleClick1 = () => {

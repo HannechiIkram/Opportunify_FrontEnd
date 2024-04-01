@@ -31,9 +31,9 @@ import QuizList from "./pages/Quiz";
 
 
 import SideNav from "@/pages/dashboard/sidenav";
-import Nav0 from "@/layout/navbar0";
+import Nav0 from "@/widgets/layout/navbar0";
 import Nav1 from "@/widgets/layout/navbar1";
-import Navbar from "./layout/navbar";
+import Navbar from "@/widgets/layout/navbar";
 
 export const routes = [
   
