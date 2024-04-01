@@ -198,7 +198,7 @@ const handleTermsAndConditionsClick = () => {
     <>
     <Navbar1/>
           <div className="text-center">
-      <Typography variant="h1" className="font-bold mb-4">
+      <Typography variant="h1" className="font-bold mb-4 text-red-800">
         Join Opportunify!
       </Typography>
       <Typography variant="paragraph" color="blue-gray" className="text-lg font-normal">
@@ -407,22 +407,7 @@ const handleTermsAndConditionsClick = () => {
   </label>
   </div>
 
-          <div className="relative">
-              <input
-                type="file"
-                id="fileInput"
-                className="hidden"
-                onChange={handleImageChange} // This line is important
-              />
-              <label
-                htmlFor="fileInput"
-                className={`w-full border rounded-md p-3 text-sm text-white cursor-pointer hover:bg-black focus:outline-none focus:border-black ${
-                  data.image ? 'bg-black border-black' : 'bg-red-800 border-red-800'
-                }`}
-              >
-                {data.image ? 'Image Uploaded' : 'Upload Your Photo'}
-              </label>
-            </div>
+          
 </div>
 
 
