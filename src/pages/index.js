@@ -9,6 +9,7 @@ export * from "@/pages/passwordReset";
 export * from "@/pages/register-jobseeker";
 //UserDetailsPage
 
+
 export * from "@/pages/job_offer";
 export * from "@/pages/job-offerConsult";
 export * from "@/pages/job-offerUpdate";

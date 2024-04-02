@@ -4,6 +4,7 @@
 
 import { Home, Profile, SignIn, SignUp ,ResetPassword ,RegisterJobseeker,Job_offer,Unauthorized,RedirectCompany,RedirectSignUp,Job_offerConsult,Job_offerUpdate,Profilecompany} from "@/pages";
 
+import  OfferDetailsPage  from "./pages/dashboard/OfferDetails";
 
 
 
@@ -28,6 +29,11 @@ import QuizList from "./pages/Quiz";
 
 
 export const routes = [
+  {
+    name: "offerDetailsPage",
+    path: "/job_offer/:id", // Define the path with a dynamic parameter ":id"
+    element: <OfferDetailsPage />, // Render the UserDetailsPage component
+  },
   {
     name: "UserDetailsPage",
     path: "/user/:id", // Define the path with a dynamic parameter ":id"

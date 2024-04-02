@@ -6,6 +6,7 @@ import { Toaster } from "react-hot-toast";
 axios.defaults.baseURL = 'http://localhost:3000';
 axios.defaults.withCredentials = true ;
 import HomeDashboard from "./pages/dashboard/home"
+
 import Home from "./pages/dashboard/home"
 // teb3in user roles and permissions
 import Unauthorized from "./pages/unauthorized";
@@ -27,11 +28,13 @@ function App() {
    pathname === '/tables' || 
    pathname === '/passwordreset' || 
    pathname.startsWith('/user/') ||
-   pathname === "/dashboard") && (
+   pathname === "/dashboard" ||
+   pathname.startsWith('/job_offer/')) && (
   <div className="container absolute left-2/4 z-10 mx-auto -translate-x-2/4 p-4">
     <Navbar routes={routes} />
   </div>
 )}
+
 
       <Routes>
         {routes.map(

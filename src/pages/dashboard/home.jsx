@@ -249,8 +249,8 @@ useEffect(() => {
     y: roleDistribution[role]
   }));
   
-  const viewUserr = (user) => {
-    navigate(`/user/${user._id}`);
+  const viewUserr = (offer) => {
+    navigate(`/job_offer/${offer._id}`);
   };
   //
   /*async function getJobOfferById(jobOfferId) {
