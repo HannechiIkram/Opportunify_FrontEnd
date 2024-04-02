@@ -20,6 +20,16 @@ pipeline {
             }
         }
     }
+stage('SonarQube Analysis') {
+steps{
+script { 
+def scannerHome = tool 'scanner'
+withSonarQubeEnv {
+sh "${scannerHome}/bin/sonar-scanner"
+}
+} 
+} 
+}
 
     post {
         success {
@@ -30,5 +40,6 @@ pipeline {
             // Notify on failed build
             echo 'Build failed!'
         }
+
     }
 }
