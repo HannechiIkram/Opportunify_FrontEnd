@@ -18,7 +18,10 @@ export * from "@/pages/passwordReset";
 export * from "@/pages/dashboard/home";
 export * from "@/context/usercontext";
 import ProtectedRoute from '@/context/ProtectedRoute';
+import { fromJSON } from "postcss";
  export { default as Unauthorized } from "@/pages/unauthorized";
 
 export { default as RedirectCompany } from "@/pages/redirect-company";
 export {default as RedirectSignUp} from "@/pages/redirect-sign-up";
+export {default as TermsAndConditions} from "@/pages/TermsAndConditions";
+export {default as Job_offerConsultCopy} from '@/pages/job-offerConsult copy';

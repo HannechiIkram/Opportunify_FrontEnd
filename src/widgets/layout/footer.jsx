@@ -1,9 +1,10 @@
 import PropTypes from "prop-types";
 import { Typography, IconButton } from "@material-tailwind/react";
-
-const year = new Date().getFullYear();
+import React, { useState } from "react";
 
 export function Footer({ title, description, socials, menus, copyright }) {
+  const year = new Date().getFullYear();
+
   return (
     <footer className="relative px-4 pt-8 pb-6">
       <div className="container mx-auto">
@@ -79,9 +80,9 @@ export function Footer({ title, description, socials, menus, copyright }) {
 }
 
 Footer.defaultProps = {
-  title: "Material Tailwind",
+  title: "Opportunify",
   description:
-    "Easy to use React components for Tailwind CSS and Material Design.",
+    "Professional Opportunities Management Platform",
   socials: [
     {
       color: "gray",
@@ -89,12 +90,17 @@ Footer.defaultProps = {
       path: "https://www.twitter.com/creativetim",
     },
     {
-      color: "gray",
+      color: "blue",
+      name: "Facebbok",
+      path: "https://www.facebook.com/creativetim",
+    },
+    {
+      color: "red",
       name: "youtube",
       path: "https://www.youtube.com/channel/UCVyTG4sCw-rOvB9oHkzZD1w",
     },
     {
-      color: "gray",
+      color: "pink",
       name: "instagram",
       path: "https://www.instagram.com/creativetimofficial/",
     },
@@ -144,15 +150,9 @@ Footer.defaultProps = {
   ],
   copyright: (
     <>
-      Copyright © {year} Material Tailwind by{" "}
-      <a
-        href="https://www.creative-tim.com?ref=mtk"
-        target="_blank"
-        className="text-blue-gray-500 transition-colors hover:text-blue-500"
-      >
-        Creative Tim
-      </a>
-      .
+
+      Copyright © {2024}  OPPORTUNIFY- Developed by  {"DEVELOPERS team "}
+      
     </>
   ),
 };

@@ -8,6 +8,7 @@ import jobseeker from "./jobseeker.png";
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
+import Navbar0 from "@/widgets/layout/navbar0";
 export function RedirectSignUp() {
   const navigate = useNavigate(); 
    const handleClick1 = () => {
@@ -19,6 +20,9 @@ export function RedirectSignUp() {
 
  
   return (
+    <>
+
+    <Navbar0/>
     <div className='w-full py-[10rem] px-4 bg-gray-100 justify-content-center'>
 
       <div className='max-w-[1240px] mx-auto grid md:grid-cols-3 gap-8 ml-40'>
@@ -57,6 +61,7 @@ export function RedirectSignUp() {
   </a>
 </div>
       </div>
+      </>
   );
 }
 

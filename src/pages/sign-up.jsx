@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
+import TermsAndConditions from './TermsAndConditions';
 
 
 import { useNavigate } from "react-router-dom";
@@ -19,6 +20,8 @@ import axios from "axios";
 
 export function SignUp() {
   const [showMessage, setShowMessage] = useState(false); // State to control message visibility
+  const [termsChecked, setTermsChecked] = useState(false);
+  const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -555,6 +558,38 @@ if (!data.phoneNumber) {
               </div>
             </div>
 
+
+            <div className="mb-1 flex flex-col gap-6">
+        <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
+          </Typography>
+  <label htmlFor="terms" className="flex items-center">
+    <input
+      type="checkbox"
+      id="terms"
+      checked={termsChecked}
+      onChange={(e) => setTermsChecked(e.target.checked)}
+      className="mr-2"
+    />
+   <Typography variant="small" color="blueGray">
+        I accept{' '}
+        <Link
+          onClick={() => setIsConfirmationOpen(prevState => !prevState)}
+          underline="always" 
+          style={{ color: '#007bff' }} 
+        >
+          Opportunify terms and conditions
+        </Link>
+      </Typography>
+
+  </label>
+  <TermsAndConditions isOpen={isConfirmationOpen} onClose={() => setIsConfirmationOpen(false)} onConfirm={setIsConfirmationOpen}/>
+
+</div>
+{!termsChecked && (
+  <Typography variant="small" color="red">
+    Please accept Opportunify terms and conditions before registering.
+  </Typography>
+)}
               </div>
             </div>
             </div>
