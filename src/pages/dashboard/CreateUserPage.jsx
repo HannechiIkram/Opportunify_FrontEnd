@@ -153,7 +153,7 @@ function CreateUserPage() {
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
-                className={`w-full max-w-lg px-4 py-3 rounded-lg border focus:outline-none focus:border-blue-500`}
+                className={`w-full max-w-xl px-4 py-3 rounded-lg border focus:outline-none focus:border-blue-500`}
                 placeholder="Nom"
                 required
               />
