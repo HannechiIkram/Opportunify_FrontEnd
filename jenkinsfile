@@ -19,16 +19,17 @@ pipeline {
                 }
             }
         }
- stage('SonarQube Analysis') {
-steps{
-script { 
-def scannerHome = tool 'scanner'
-withSonarQubeEnv {
-sh "${scannerHome}/bin/sonar-scanner"
+stage('SonarQube Analysis') {
+    steps {
+        script { 
+            def scannerHome = tool 'scanner'
+            withSonarQubeEnv {
+                sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=squ_f7cf83cb24586294697f80917f4b5b253260d2b1"
+            }
+        } 
+    }
 }
-} 
-} 
-}
+
 
     }
 
