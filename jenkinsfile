@@ -13,10 +13,11 @@ pipeline {
 stage('Unit Test') {
     steps {
         script {
-           
+            currentBuild.result = 'SUCCESS'
         }
     }
 }
+
 
         stage('Build application') {
             steps {
