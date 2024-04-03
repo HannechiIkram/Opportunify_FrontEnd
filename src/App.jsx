@@ -12,12 +12,13 @@ import Unauthorized from "./pages/unauthorized";
 import { Job_offer } from "./pages";
 import ProtectedRoute from '@/context/ProtectedRoute';
 import { UserProvider, useUser } from './context/usercontext';
+import { AuthProvider } from "./context/AuthContext";
 // redirection_roles samarr
 function App() {
   const { pathname } = useLocation();
   return (
-  
-    <UserProvider>
+    <AuthProvider>
+<UserProvider>
 
 
       {!(pathname == '/sign-in' || pathname == '/sign-up' || pathname == '/passwordreset'|| pathname=='/sign-upjs'||pathname=="/dashboard") && (
@@ -44,6 +45,11 @@ function App() {
       
      
     </UserProvider>
+    </AuthProvider>
+ 
+    
+  
+   
   );
   
 }

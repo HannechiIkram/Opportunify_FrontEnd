@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Card, Input, Checkbox, Button, Typography } from "@material-tailwind/react";
 import Navbar from "../widgets/layout/navbar";
 import { useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import AuthContext from "@/context/AuthContext";
 export function SignIn() {
   const Navigate = useNavigate();
   const [data, setData] = useState({
@@ -11,20 +12,24 @@ export function SignIn() {
     password: "",
     role: "",
   });
+  const {auth, setAuth} = useContext(AuthContext);
 
   const loginUser = async (e) => {
     e.preventDefault();
     try {
       const response = await axios.post('/user/login', data);
       // Assuming successful registration, you can redirect the user or display a success message
-      console.log('Authentification successful:', response.data);
+      console.log('Authentification successful:', response.data.user);
       console.log('Authentication successful:', response.data);
+      setAuth(response.data.user);
 
       // Extract user role from response
       const userRole = response.data.user.role;
+      const userId = response.data.user._id;
 
       // Store user role in session storage
       setUserRole(userRole);
+      setUserId(userId);
 
       // Redirect based on user role
       if (userRole === 'admin') {
@@ -55,6 +60,10 @@ export function SignIn() {
   // Function to set user role in session storage
   function setUserRole(userRole) {
     sessionStorage.setItem('userRole', userRole);
+  }
+
+  function setUserId(userId) {
+    sessionStorage.setItem('userId', userId);
   }
   
   return (

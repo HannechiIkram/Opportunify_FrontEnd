@@ -28,12 +28,14 @@ import { Link } from 'react-router-dom'
   KeyIcon
 } from "@heroicons/react/24/solid";
 
+ const toggleMenu = () => setIsMenuOpen((prevState) => !prevState);
+ const closeMenu = () => setIsMenuOpen(false);
 // profile menu component
 const profileMenuItems = [
   {
     label: "My Profile",
     icon: UserCircleIcon,
-    path:""
+    path:"/profile"
 
   },
   {
@@ -65,14 +67,16 @@ function ProfileMenu() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
  
   const closeMenu = () => setIsMenuOpen(false);
+  const toggleMenu = () => setIsMenuOpen((prevState) => !prevState);
  
   return (
-    <Menu open={isMenuOpen} handler={setIsMenuOpen} placement="bottom-end">
+        <Menu open={isMenuOpen} handler={toggleMenu} placement="bottom-end">
       <MenuHandler>
         <Button
           variant="text"
           color="blue-gray"
           className="flex items-center gap-1 rounded-full py-0.5 pr-2 pl-0.5 lg:ml-auto"
+          onClick={toggleMenu} // Toggle the menu on button click
         >
           <Avatar
             variant="circular"
@@ -90,31 +94,32 @@ function ProfileMenu() {
         </Button>
       </MenuHandler>
       <MenuList className="p-1">
-        {profileMenuItems.map(({ label, icon,path }, key) => {
+        {profileMenuItems.map(({ label, icon, path }, key) => {
           const isLastItem = key === profileMenuItems.length - 1;
           return (
             <MenuItem
               key={label}
-              onClick={closeMenu}
+              onClick={closeMenu} // Close the menu on item click
               className={`flex items-center gap-2 rounded ${
                 isLastItem
                   ? "hover:bg-red-500/10 focus:bg-red-500/10 active:bg-red-500/10"
                   : ""
               }`}
             >
-              <Link to={path} className="flex items-center gap-2"></Link>
-              {React.createElement(icon, {
-                className: `h-4 w-4 ${isLastItem ? "text-red-500" : ""}`,
-                strokeWidth: 2,
-              })}
-              <Typography
-                as="span"
-                variant="small"
-                className="font-normal"
-                color={isLastItem ? "red" : "inherit"}
-              >
-                {label}
-              </Typography>
+              <Link to={path} className="flex items-center gap-2">
+                {React.createElement(icon, {
+                  className: `h-4 w-4 ${isLastItem ? "text-red-500" : ""}`,
+                  strokeWidth: 2,
+                })}
+                <Typography
+                  as="span"
+                  variant="small"
+                  className="font-normal"
+                  color={isLastItem ? "red" : "inherit"}
+                >
+                  {label}
+                </Typography>
+              </Link>
             </MenuItem>
           );
         })}
