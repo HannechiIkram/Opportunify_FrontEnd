@@ -23,3 +23,6 @@ services:
       - db
     volumes:
       - mongo-data:/path/in/container
+
+volumes:
+  mongo-data:
