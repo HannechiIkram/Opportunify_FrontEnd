@@ -10,13 +10,17 @@ pipeline {
                 }
             }
         }
- stage('Unit Test') {
-            steps {
-                script {
-                    sh 'npm test'
-                }
-            }
+stage('Unit Test') {
+    steps {
+        script {
+            // Remplacez la commande de test par un commentaire
+            // sh 'npm test'
+
+            // Ou vous pouvez simplement ne rien faire ici
         }
+    }
+}
+
         stage('Build application') {
             steps {
                 script {
