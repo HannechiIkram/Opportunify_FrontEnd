@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { MaterialTailwindControllerProvider } from '@/context';
-import { Sidenav } from '.';
+import Sidebar from './partials/Sidebar'; // Import Sidebar component
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import "react-toastify/dist/ReactToastify.css";
@@ -163,16 +162,16 @@ const renderRatingEmojis = () => {
 
 
   return (
-    <MaterialTailwindControllerProvider>
-      <Sidenav />
+    <>
+    <Sidebar /> 
       <ToastContainer position="top-center" autoClose={5000} />
 
-      <div className="container mt-40 ml-60 mr-40 mb-40 center">
-      <h1 className="text-4xl mb-8 text-center text-red-700 transition-opacity duration-1000 transform hover:scale-105">
+      <div className="container  mr-40  center">
+      <h1 style={{ position: 'absolute', bottom: '700px', left: '800px' }} className="text-4xl mb-8 text-center text-red-700 transition-opacity duration-1000 transform hover:scale-105">
 OFFER DETAILS        </h1>  
 
         <div
-            className="card mx-auto mb-30 mt-5 ml-80" style={{ maxWidth: '700px', backgroundColor: '#F3F4F6', padding: '50px', borderRadius: '5px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', transition: 'box-shadow 0.3s ease' }}
+            className="card mx-auto mb-30  ml-80" style={{ position: 'absolute', bottom: '300px', left: '400px', maxWidth: '1000px', backgroundColor: '#F3F4F6', padding: '50px', borderRadius: '5px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', transition: 'box-shadow 0.3s ease' }}
 
          
         >
@@ -201,7 +200,7 @@ OFFER DETAILS        </h1>
    
         <div className="flex justify-center">
   {/* Export to PDF button */}
-  <button
+  <button   style={{ position: 'absolute', bottom: '200px', left: '600px'}}
     className="btn-primary bg-red-700 ml-10 text-white mt-3 py-4 px-1 rounded-lg hover:bg-black transition duration-300 ease-in-out"
     onClick={handleExportToPDF}
   >
@@ -209,13 +208,13 @@ OFFER DETAILS        </h1>
   </button>
   
  {/* Icon for sharing */}
- <i
+ <i 
     className="fas fa-share-alt text-black mt-5 cursor-pointer hover:text-black ml-4"
     onClick={handleShare}
-    style={{ fontSize: "2.3rem" }} // Adjust the font size here
+    style={{ position: 'absolute', bottom: '210px', left: '750px' , fontSize: "2.3rem" }} // Adjust the font size here
   ></i>
 </div>
-<div className="flex items-center ml-40">
+<div style={{ position: 'absolute', bottom: '205px', left: '800px'}} className="flex items-center ml-40">
             <span className="mr-2"></span>
             {renderRatingEmojis()}
           </div>
@@ -269,7 +268,7 @@ OFFER DETAILS        </h1>
           </div>
         )}
     
-        <div className="mt-8">
+        <div style={{ position: 'absolute', bottom: '200px', left: '1500px'}} className="mt-8">
           <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} className="ml-10 mr-10">
             <Link to="/dashboard" className="text-blue-600 hover:underline ml-40">
               Go back to dashboard
@@ -277,8 +276,7 @@ OFFER DETAILS        </h1>
           </motion.div>
         </div>
       </div>
-    </MaterialTailwindControllerProvider>
-  );
+</>  );
 }
 
 export default OfferDetailsPage;

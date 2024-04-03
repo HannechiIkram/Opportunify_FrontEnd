@@ -4,8 +4,7 @@ import { EllipsisVerticalIcon } from "@heroicons/react/24/outline";
 import { authorsTableData, projectsTableData } from "@/data";
 import { Link, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from "react";
-import { MaterialTailwindControllerProvider } from "@/context";
-import { Sidenav } from ".";
+import Sidebar from './partials/Sidebar'; // Import Sidebar component
 import { useParams  } from 'react-router-dom';
 import axios from 'axios';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
@@ -207,15 +206,14 @@ useEffect(() => {
 }, []);
 
   
-  return (
-    <MaterialTailwindControllerProvider>
-      <Sidenav />
-      <ToastContainer position="top-center" autoClose={5000} />
+  return (<>
+    <Sidebar /> {/* Include Sidebar component */}
+    <ToastContainer position="top-center" autoClose={5000} />
 
-      <div className="mt-12 mb-8 flex flex-col gap-12 mt-20 mb-60">
+      <div className="mt-12 mb-8 flex flex-col gap-12 mt-20 mb-60 " style={{ position: 'absolute', bottom: '200px', left: '250px' }}>
         <CardHeader variant="gradient" color="red" className="mb-8 p-6 ml-80">
           <Typography variant="h6" color="white">
-            Authors Table
+            Users Table
           </Typography>
         </CardHeader>
         <div className="px-0 pt-0 pb-2 overflow-x-auto ml-80">
@@ -323,8 +321,7 @@ useEffect(() => {
 
         
       </div>
-    </MaterialTailwindControllerProvider>
-  );
+      </>  );
 }
 
 export default Tables;

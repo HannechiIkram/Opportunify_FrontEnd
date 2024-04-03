@@ -259,11 +259,11 @@ if (!data.phoneNumber) {
     return () => clearInterval(interval);
   }, []);
 
-  return (     <div className="form-container mt-40 mb-40 ml-40 mr-40">
+  return (     <div className="form-container mt-10 mb-40 ml-40 mb-10 mr-40">
   <div className="flex justify-center items-center h-screen">
     <div className="w-full max-w-screen-lg">
-      <div className="text-center mb-1">
-        <Typography variant="h2" className="font-bold text-red-800 mb-1">Join Us!</Typography>
+      <div className="text-center  mt-60">
+        <Typography variant="h2" className="font-bold text-red-800 mt-80  ">Join Us!</Typography>
         <div className={`text-center ${showMessage ? 'opacity-100 transition-opacity duration-500' : 'opacity-0'}`}>
           <Typography variant="paragraph" color="blue-gray" className="text-sm font-normal transition-opacity duration-500 ease-in">
             Please Enter your information to register as a Company.
@@ -271,7 +271,7 @@ if (!data.phoneNumber) {
         </div>
       </div>
 
-      <Card className="mt-1 rounded-lg p-1 bg-gray-200 bg-opacity-90">
+      <Card className=" rounded-lg p-1 bg-gray-200 bg-opacity-90 mt-10 mb-10">
         <form onSubmit={registerJobseeker} className="mt-1 mb-0.5 mx-auto w-full max-w-screen-md flex flex-wrap justify-between form-container">
           {/* Form fields */}
           
@@ -613,19 +613,9 @@ if (!data.phoneNumber) {
     </div>
   
     </div>
-    <div className="useful-links ml-80">
-  <a href="https://www.linkedin.com/esprit/">
-    <LinkedInIcon fontSize="large" /> LinkedIn
-  </a>
-  <a href="https://www.facebook.com/esprit/">
-    <FacebookIcon fontSize="large" /> Facebook
-  </a>
-  <a href="https://www.instagram.com/esprit/">
-    <InstagramIcon fontSize="large" /> Instagram
-  </a>
+
 </div>
 
-    </div>
 
   );
   

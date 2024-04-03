@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { MaterialTailwindControllerProvider } from "@/context"; 
-import { Sidenav } from ".";
 import { useNavigate } from 'react-router-dom'; 
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
+import Sidebar from './partials/Sidebar'; // Import Sidebar component
 
 import {
   Typography,
@@ -130,25 +129,23 @@ function CreateUserPage() {
     setErrors(errors);
 
     return Object.keys(errors).length === 0; // Si aucune erreur, retourne true
-  };
-
-  return (
-    <MaterialTailwindControllerProvider>
-      <Sidenav />
-      <div className="ml-80 mr-200 mb-20" style={{ position: 'absolute', bottom: '20px', left: '1000px' }}>
+  };return (
+    <>
+      <Sidebar /> {/* Inclure le composant Sidebar */}
+      <div className="ml-80 mr-200 " style={{ position: 'absolute', bottom: '700px', left: '1000px' }}>
         <img
           src="img/logoesprit.png"
           alt="logo"
           style={{ width: 'auto', height: '50px' }}
         />
       </div>
-
-      <div className="container mx-auto mt-9 mb-20">
-        <h1 className="text-4xl mb-8 text-center text-red-700 transition-opacity duration-500 transform hover:scale-105">
-          Create account for admin
+  
+      <div className="container mx-auto  ">
+        <h1 style={{ position: 'absolute', bottom: '860px', left: '730px' }} className="text-4xl text-center text-red-700 transition-opacity duration-500 transform hover:scale-105">
+          Create admin account
         </h1>
-        <div className="card mx-auto mb-30 mt-5" style={{ maxWidth: '500px', backgroundColor: '#F3F4F6', padding: '50px', borderRadius: '5px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', transition: 'box-shadow 0.3s ease' }}>
-        <form onSubmit={handleSubmit} noValidate>
+        <div className="card mx-auto mt-20 mb-10" style={{ position: 'absolute', maxWidth: '700px', left: '45%', transform: 'translateX(-50%)',top: "10", bottom: '1px', backgroundColor: '#F3F4F6', padding: '90px', borderRadius: '5px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', transition: 'box-shadow 0.3s ease' }}>
+          <form onSubmit={handleSubmit} noValidate>
             <div className="mb-8">
               <input
                 type="text"
@@ -156,13 +153,13 @@ function CreateUserPage() {
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
-                className={`w-full px-4 py-3 rounded-lg border focus:outline-none focus:border-blue-500 }`}
-                placeholder="Name"
+                className={`w-full max-w-lg px-4 py-3 rounded-lg border focus:outline-none focus:border-blue-500`}
+                placeholder="Nom"
                 required
               />
               {errors.name && <p className="text-red-500">{errors.name}</p>}
             </div>
-
+  
             <div className="mb-8">
               <input
                 type="email"
@@ -170,7 +167,7 @@ function CreateUserPage() {
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                className={`w-full px-4 py-3 rounded-lg border focus:outline-none focus:border-blue-500 }`}
+                className={`w-full max-w-lg px-4 py-3 rounded-lg border focus:outline-none focus:border-blue-500`}
                 placeholder="Email"
                 required
               />
@@ -183,8 +180,8 @@ function CreateUserPage() {
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
-                className={`w-full px-4 py-3 rounded-lg border focus:outline-none focus:border-blue-500 `}
-                placeholder="Password"
+                className={`w-full max-w-lg px-4 py-3 rounded-lg border focus:outline-none focus:border-blue-500`}
+                placeholder="Mot de passe"
                 required
               />
               {errors.password && <p className="text-red-500">{errors.password}</p>}
@@ -195,15 +192,14 @@ function CreateUserPage() {
                 name="role"
                 value={formData.role}
                 onChange={handleChange}
-                className="w-full px-4 py-3 rounded-lg border focus:outline-none focus:border-blue-500"
+                className="w-full max-w-lg px-4 py-3 rounded-lg border focus:outline-none focus:border-blue-500"
                 required
               >
-                <option value="user">User</option>
-                <option value="admin">Admin</option>
+                <option value="user">user</option>
+                <option value="admin">admin</option>
               </select>
             </div>
             <div className="mb-8">
-              <label htmlFor="image" className="block font-medium mb-2 text-gray-700">Upload User Image</label>
               <div className="flex items-center justify-center bg-gray-100 border border-gray-300 rounded-md p-4">
                 <label htmlFor="image" className="cursor-pointer text-blue-600 hover:text-blue-700">
                   <svg
@@ -217,8 +213,7 @@ function CreateUserPage() {
                   >
                     <path d="M12 5v14m-7-7h14"></path>
                   </svg>
-                  Choose Image
-                </label>
+add image                </label>
                 <input
                   type="file"
                   id="image"
@@ -229,46 +224,31 @@ function CreateUserPage() {
                 />
               </div>
               {formData.imageUrl && (
-                <img src={formData.imageUrl} alt="Uploaded" className="mt-2 mx-auto max-w-xs" />
+                <img src={formData.imageUrl} alt="Téléchargé" className="mt-2 mx-auto max-w-xs" />
               )}
             </div>
             <button
               type="submit"
-              className="btn-primary bg-red-700 text-white py-3 px-6 rounded-lg hover:bg-black transition duration-300 ease-in-out w-full"
+              className="btn-primary bg-red-700 text-white py-3 px-6 rounded-lg hover:bg-black transition duration-300 ease-in-out w-full max-w-lg"
             >
-              Add User
-            </button>
+Add             </button>
             <div>
-         
               <div>
-                <label className="  btn-primary rounded-lg "  htmlFor="captcha"> {captcha}</label>
+                <label className="btn-primary rounded-lg " htmlFor="captcha"> {captcha}</label>
               </div>
               <div>
                 <input type="text" id="captcha" />
               </div>
               <div>
-                <button  className="bg-gray-300  btn-primary rounded-lg " onClick={regenerateCaptcha}>Regenerate </button>
+                <button className="bg-gray-300 btn-primary rounded-lg " onClick={regenerateCaptcha}>Régénérer</button>
               </div>
-              
             </div>
           </form>
-          
         </div>
-        <div className="useful-links ml-80 mt-10 mb-10">
-  <a href="https://www.linkedin.com/esprit/">
-    <LinkedInIcon fontSize="large" /> LinkedIn
-  </a>
-  <a href="https://www.facebook.com/esprit/">
-    <FacebookIcon fontSize="large" /> Facebook
-  </a>
-  <a href="https://www.instagram.com/esprit/">
-    <InstagramIcon fontSize="large" /> Instagram
-  </a>
-</div>
-
       </div>
-    </MaterialTailwindControllerProvider>
+    </>
   );
+  
 }
 
 export default CreateUserPage;

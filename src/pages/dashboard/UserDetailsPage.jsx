@@ -5,6 +5,7 @@ import React, { useState, useEffect } from 'react';
 
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
+import Sidebar from './partials/Sidebar'; // Import Sidebar component
 
 import jsPDF from 'jspdf';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
@@ -37,17 +38,13 @@ function UserDetailsPage({ userId }) {
   const [audioBlob, setAudioBlob] = useState(null);
   const [showAlerts, setShowAlerts] = React.useState({
     blue: true,
-    green: true,
-    orange: true,
     red: true,
   });
   const [showAlertsWithIcon, setShowAlertsWithIcon] = React.useState({
     blue: true,
-    green: true,
-    orange: true,
     red: true,
   });
-  const alerts = ["gray", "green", "orange", "red"];
+  const alerts = ["gray",  "red"];
 
   const Navigate = useNavigate();
 
@@ -281,31 +278,27 @@ function UserDetailsPage({ userId }) {
     }));
   };
   return (
-    <MaterialTailwindControllerProvider >
       
-    <Sidenav/>
-    
-    <div className="ml-80 mr-200 mb-20" style={{ position: 'absolute', bottom: '20px', left: '1100px' }}>
-  <img
-    src="img/logoesprit.png"
-    alt="logo"
-    style={{ width: 'auto', height: '50px' }}
-  />
+    <>
+    <Sidebar />     
+    <div className="mr-200 " style={{ position: 'absolute', left: '1100px' }}>
+ 
 </div>
 <ToastContainer position="top-center" autoClose={5000} />
 
-    <div className="container mt-20 ml-80 mr-40 mb-40 center">
-    <h1 className="text-4xl mb-8 text-center text-red-700 transition-opacity duration-1000 transform hover:scale-105">
+    <div  className="container  mr-40  center">
+      
+    <h1      style={{ position: 'absolute', bottom: '800px', left: '900px' }}className="text-4xl  text-center text-red-700 transition-opacity duration-1000 transform hover:scale-105">
 USER DETAILS        </h1>  
       <div>
-      <div className="card mx-auto mb-30 mt-5 ml-80" style={{ maxWidth: '700px', backgroundColor: '#F3F4F6', padding: '50px', borderRadius: '5px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', transition: 'box-shadow 0.3s ease' }}>
+      <div className="card mx-auto  ml-80" style={{  position: 'absolute', bottom: '180px', left: '400px' ,maxWidth: '700px', backgroundColor: '#F3F4F6', padding: '50px', borderRadius: '5px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', transition: 'box-shadow 0.3s ease' }}>
           {loading ? (
             <p>Loading...</p>
           ) : error ? (
             <p className="text-red-800">{error}</p>
           ) : user ? (
             <div>
-              <p className="mb-6 ml-20 mr-5 text-3xl  ">
+              <p className=" ml-20 mr-5 text-3xl  ">
                 {editableField === 'name' ? (
                   <input type="text" name="name" value={user.name} onChange={handleFieldChange} onBlur={handleSaveChanges} />
                 ) : (
@@ -320,7 +313,6 @@ USER DETAILS        </h1>
               ) : (
                 <span onClick={() => handleFieldClick('role')}>{user.role}</span>
               )}</p>
-<img src={user && user.image ? user.image : 'placeholder-image-url'}  />
 
   
               <p className="mb-6 ml-20 mr-5 text-3xl "> {user.image}   </p>
@@ -384,13 +376,13 @@ USER DETAILS        </h1>
       </div>
       <div className="mt-8">
       {/* Link to navigate back to the applications list */}
-      <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}className='ml-10 mr-10'>
+      <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}className='ml-10 mr-10'  style={{ position: 'absolute', bottom: '100px', left: '500px' }}>
 
-      <Link to="/dashboard" className="text-black hover:underline ml-20">
+      <Link to="/dashboard" className="text-black hover:underline mb-80 ml-10">
         did you want to back  your dashboard?
       </Link>
       </motion.div >
-      <div className='ml-80 mt-80' style={{ position: 'absolute', bottom: '200px', left: '1100px'  }}>
+      <div className='ml-80 mt-80' style={{ position: 'absolute', bottom: '100px', left: '1100px'  }}>
       {recording ? (
         <button onClick={stopRecording}>Stop Recording</button>
       ) : (
@@ -403,9 +395,9 @@ USER DETAILS        </h1>
         </audio>
       )}
     </div>
-      <CardBody className="flex flex-col gap-4 p-4 ml-40">
+      <CardBody style={{ position: 'absolute',top:"1px" , bottom: '0px', left: '450px' }}  className="flex flex-col mb-80 gap-4 p-4 ml-60">
           {alerts.map((color) => (
-            <Alert
+            <Alert 
               key={color}
               open={showAlerts[color]}
               color={color}
@@ -417,21 +409,10 @@ USER DETAILS        </h1>
         </CardBody>
     
     </div>
-    <div className="useful-links ml-80">
-  <a href="https://www.linkedin.com/esprit/">
-    <LinkedInIcon fontSize="large" /> LinkedIn
-  </a>
-  <a href="https://www.facebook.com/esprit/">
-    <FacebookIcon fontSize="large" /> Facebook
-  </a>
-  <a href="https://www.instagram.com/esprit/">
-    <InstagramIcon fontSize="large" /> Instagram
-  </a>
-</div>
+    
     </div>
    
-    </MaterialTailwindControllerProvider>
-
+</>
   );
 }
 

@@ -197,16 +197,16 @@ const handleTermsAndConditionsClick = () => {
   return (
     <>
     <Navbar1/>
-          <div className="text-center">
-      <Typography variant="h1" className="font-bold mb-4 text-red-800">
+          <div className="text-center mt-10">
+      <Typography variant="h1" className="font-bold mb-4 text-red-800 mt-10">
         Join Opportunify!
       </Typography>
-      <Typography variant="paragraph" color="blue-gray" className="text-lg font-normal">
+      <Typography variant="paragraph" color="blue-gray" className="text-lg mb-2 font-normal">
         Enter your information to register as a Job Seeker.
       </Typography>
     </div>
-          <Card className="mt-8 ml-auto mr-auto mb-2 w-60 max-w-screen-lg lg:w-5/6 rounded-lg p-6 bg-gray-200 bg-opacity-90">
-            <form onSubmit={handleSubmit} className="mt-8 mb-2 mx-auto w-80 max-w-screen-lg ">
+          <Card className=" mb-10 ml-auto mr-auto  w-60 max-w-screen-lg lg:w-5/6 rounded-lg mt-10 p-6 bg-gray-200 bg-opacity-90">
+            <form onSubmit={handleSubmit} className="mt-8 mb-10 mx-auto w-80 max-w-screen-lg ">
 
               <div className="mb-1 flex flex-col gap-6">
                 <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
@@ -456,17 +456,7 @@ const handleTermsAndConditionsClick = () => {
               
             </form>
           </Card>
-          <div className="useful-links ml-80">
-  <a href="https://www.linkedin.com/esprit/">
-    <LinkedInIcon fontSize="large" /> LinkedIn
-  </a>
-  <a href="https://www.facebook.com/esprit/">
-    <FacebookIcon fontSize="large" /> Facebook
-  </a>
-  <a href="https://www.instagram.com/esprit/">
-    <InstagramIcon fontSize="large" /> Instagram
-  </a>
-</div>
+        
     </>
   );
 

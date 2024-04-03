@@ -106,13 +106,13 @@ export function SignIn() {
   return (
     <>
        <ToastContainer position="top-center" autoClose={5000} />
-      <section className="ml-10 mr-10 mt-4 lg:mt-8 flex gap-4 items-center">
-        <div className="w-full lg:w-2/5">
+      <section className="ml-80 mr-10 mt-60 lg:mt-8 flex gap-4 items-center ">
+        <div className="w-full lg:w-2/5 mt-40 ml-80 mr-80 center">
           <div className="text-center">
             <Typography variant="h1" className="font-bold mb-4">Sign In</Typography>
             <Typography variant="paragraph" color="blue-gray" className="text-lg font-normal">Enter your email and password to Sign In.</Typography>
           </div>
-          <Card className="mt-8 ml-auto mr-auto mb-2 w-80 max-w-screen-lg lg:w-5/6 rounded-lg p-6 bg-gray-200 bg-opacity-90">
+          <Card className="mt-8 ml-auto mr-auto mb-2 w-9 max-w-screen-lg lg:w-5/6 rounded-lg p-6 bg-gray-100 bg-opacity-90">
           <form onSubmit={loginUser} className="space-y-4">
               <div className="flex flex-col gap-6">
                 <Typography
@@ -187,10 +187,8 @@ export function SignIn() {
               </svg>
               <span>Sign in With Google</span>
             </Button>
-            <Button onClick={handleFacebookLogin}>Se connecter avec Facebook</Button>
 
             <Button size="lg" color="white" className="flex items-center gap-2 justify-center shadow-md" fullWidth>
-              <img src="/img/twitter-logo.svg" height={24} width={24} alt="" />
               <span>Sign in With Twitter</span>
             </Button>
           </div>
@@ -201,26 +199,9 @@ export function SignIn() {
             </Typography>
           </Card>
         </div>
-        <div className="w-3/5 h-full hidden lg:block">
-          <img
-            src="/img/opp.png"
-            className="mx-auto mt-8 w-full h-auto max-h-full"
-            style={{ maxHeight: "100%", maxWidth: "100%" }}
-            alt="Opportunify"
-          />
-        </div>
+    
       </section>
-      <div className="useful-links ml-80">
-  <a href="https://www.linkedin.com/esprit/">
-    <LinkedInIcon fontSize="large" /> LinkedIn
-  </a>
-  <a href="https://www.facebook.com/esprit/">
-    <FacebookIcon fontSize="large" /> Facebook
-  </a>
-  <a href="https://www.instagram.com/esprit/">
-    <InstagramIcon fontSize="large" /> Instagram
-  </a>
-</div>
+     
     </>
   );
 }

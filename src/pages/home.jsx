@@ -60,6 +60,7 @@ const handleSignupClick = () => {
       } catch (error) {
         console.error('Failed to fetch job offers:', error.response.data);
       }
+      
     };
 
     fetchJobOffers();
@@ -113,7 +114,7 @@ const handleSignupClick = () => {
     </ReactTyped>
   </div>  
   <a
-      href="/sign-up"
+      href="/redirect-sign-up'"
       target="_blank"
     >
       <button className='bg-red-800 w-[200px] rounded-md font-medium my-6 mx-auto py-3 text-white'>Get Started</button>
@@ -156,9 +157,9 @@ const handleSignupClick = () => {
   </div>
 </div>
 
-<div className='w-full py-[10rem] px-4 bg-gray-100 justify-content-center'>
+<div className='w-full py-[10rem] px-4  justify-content-center ml-60'>
 
-      <div className='max-w-[1240px] mx-auto grid md:grid-cols-3 gap-8'>
+      <div className='max-w-[1240px] mx-auto grid md:grid-cols-3 gap-8 '>
           <div className='w-full shadow-xl flex flex-col p-4 my-4 rounded-lg hover:scale-105 duration-300'>
               <img className='  w-20 mx-auto mt-[-3rem] bg-white' src={jobseeker} alt="/" />
               <h2 className=' Lato text-[#2b2b2b] text-2xl  text-center py-8'>JOB SEEKER</h2>
@@ -168,9 +169,9 @@ const handleSignupClick = () => {
                   
 
               </div>
-              <button className='Lato bg-[#d63939] w-[200px] rounded-md font-medium my-6 mx-auto px-6 py-3 text-white'>Start Trial</button>
+              <button className='Lato bg-[#d63939] w-[200px] rounded-md font-medium my-6 mx-auto px-6 py-3 text-white'>Start </button>
               </div>
-          <div className='w-full shadow-xl bg-[#f5f5f5] flex flex-col p-4 md:my-0 my-8 rounded-lg hover:scale-105 duration-300'>
+          <div className='w-full shadow-xl  flex flex-col p-4 md:my-0 my-8 rounded-lg hover:scale-105 duration-300'>
               <img className='  w-20 mx-auto mt-[-3rem] bg-transparent' src={company} alt="/" />
               <h2 className='Lato text-[#2b2b2b] text-2xl  text-center py-8'>COMPANY</h2>
               <div className='text-center font-medium'>
@@ -178,7 +179,7 @@ const handleSignupClick = () => {
                   <p className='Lato py-2 border-b mx-8 mt-8'>Discover the Best Professionals for Your Team</p>
               
               </div>
-              <button className='Lato bg-black text-white w-[200px] rounded-md font-medium my-6 mx-auto px-6 py-3'>Start Trial</button>
+              <button className='Lato bg-black text-white w-[200px] rounded-md font-medium my-6 mx-auto px-6 py-3'>Start </button>
           </div>
          
           </div>
@@ -219,7 +220,7 @@ const handleSignupClick = () => {
         <img className='w-11   font-bold mb-4 bg-transparent' src={opportunify} alt="opportunify" />
           <h1 className='Lato md:text-4xl sm:text-3xl text-2xl font-bold py-2'>
 
-          Ready to brainstorm?
+         More information?
           </h1>
           <p className="Lato md:text-xl text-grey">let's talk</p>
         </div>

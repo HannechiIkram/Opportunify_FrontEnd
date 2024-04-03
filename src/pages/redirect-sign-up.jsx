@@ -23,7 +23,7 @@ export function RedirectSignUp() {
     <>
 
     <Navbar0/>
-    <div className='w-full py-[10rem] px-4 bg-gray-100 justify-content-center'>
+    <div className='w-full py-[10rem] px-4  justify-content-center ml-60'>
 
       <div className='max-w-[1240px] mx-auto grid md:grid-cols-3 gap-8 ml-40'>
           <div className='w-full shadow-xl flex flex-col p-4 my-4 rounded-lg hover:scale-105 duration-300 ml-40 mt-10'>
@@ -49,17 +49,7 @@ export function RedirectSignUp() {
           </div>
          
           </div>
-          <div className="useful-links ml-80">
-  <a href="https://www.linkedin.com/esprit/">
-    <LinkedInIcon fontSize="large" /> LinkedIn
-  </a>
-  <a href="https://www.facebook.com/esprit/">
-    <FacebookIcon fontSize="large" /> Facebook
-  </a>
-  <a href="https://www.instagram.com/esprit/">
-    <InstagramIcon fontSize="large" /> Instagram
-  </a>
-</div>
+        
       </div>
       </>
   );
