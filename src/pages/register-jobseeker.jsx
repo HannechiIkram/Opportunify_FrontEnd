@@ -15,7 +15,6 @@ import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
 
-
  
 import { Navbar1 } from '@/widgets/layout';
 import TermsAndConditions from './TermsAndConditions';
@@ -43,7 +42,7 @@ const handleTermsAndConditionsClick = () => {
     password: "",
     confirmPassword: '',
     role_jobseeker: "",
-    image: null, // Store the selected image file
+    image:"" , // Store the selected image file
 
   });
   const [errors, setErrors] = useState({
@@ -394,7 +393,7 @@ const handleTermsAndConditionsClick = () => {
   type="file"
   id="fileInput"
   className="hidden"
-  onChange={handleImageChange} // This line is important
+  onChange={handleImageChange1} // This line is important
 />
 
        <label

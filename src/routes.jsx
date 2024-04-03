@@ -16,7 +16,7 @@ import { Home, Profile, SignIn, SignUp ,ResetPassword ,RegisterJobseeker,Job_off
 
 import { Home, Profile, SignIn, SignUp ,ResetPassword ,RegisterJobseeker,
   Job_offer,Unauthorized,RedirectCompany,RedirectSignUp,Job_offerConsult,
-  Job_offerUpdate,TermsAndConditions, Job_offerConsultCopy,Profilecompany}from "@/pages";
+  Job_offerUpdate,TermsAndConditions, Job_offerConsultCopy,Profilecompany,Add_event}from "@/pages";
 import Forgot from "./pages/passwordForget";
 import HomeDashboard from "./pages/dashboard/home";
 import Apply from "./pages/apply";
@@ -41,6 +41,12 @@ import Nav1 from "@/widgets/layout/navbar1";
 import Navbar from "@/widgets/layout/navbar";
 
 export const routes = [
+  
+  {
+    name: "Add-event",
+    path: "/add-event",
+    element: <Add_event/>,
+  },
   
   {
     name: "Job_offerConsultCopy",

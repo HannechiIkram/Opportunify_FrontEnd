@@ -8,7 +8,7 @@ export * from "@/pages/userRecordingActions";
 export * from "@/pages/passwordReset";
 export * from "@/pages/register-jobseeker";
 //UserDetailsPage
-
+export * from "@/pages/add-event";
 
 export * from "@/pages/job_offer";
 export * from "@/pages/job-offerConsult";
