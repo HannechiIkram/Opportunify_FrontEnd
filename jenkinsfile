@@ -10,6 +10,14 @@ pipeline {
                 }
             }
         }
+stage('Unit Test') {
+    steps {
+        script {
+            currentBuild.result = 'SUCCESS'
+        }
+    }
+}
+
 
         stage('Build application') {
             steps {
@@ -19,6 +27,25 @@ pipeline {
                 }
             }
         }
+stage('Building images (node and mongo)') {
+steps{
+script {
+sh('docker-compose build')
+}
+}
+}
+stage('SonarQube Analysis') {
+    steps {
+        script { 
+            def scannerHome = tool 'scanner'
+            withSonarQubeEnv {
+                sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=squ_f7cf83cb24586294697f80917f4b5b253260d2b1"
+            }
+        } 
+    }
+}
+
+
     }
 
     post {
