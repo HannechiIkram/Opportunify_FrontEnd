@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-import { Avatar, Typography, Button } from "@material-tailwind/react";
-import { MapPinIcon, BriefcaseIcon } from "@heroicons/react/24/solid";
-import { Footer } from "@/widgets/layout";
-import { AiTwotonePhone } from "react-icons/ai";
+import { Avatar, Typography, Button } from '@material-tailwind/react';
+import { MapPinIcon, BriefcaseIcon } from '@heroicons/react/24/solid';
+import { Footer } from '@/widgets/layout';
+import { AiTwotonePhone } from 'react-icons/ai';
 
 export function Profilecompany() {
   const { pId } = useParams();
@@ -29,7 +29,7 @@ export function Profilecompany() {
         {profile ? (
           <div>
             <section className="relative block h-[50vh]">
-              <div className="bg-profile-background absolute top-0 h-full w-full bg-[url('/img/background-3.png')] bg-cover bg-center scale-105" />
+              <div className="bg-profile-background absolute top-0 h-full w-full bg-[url('/img/background-3.png')]  bg-center scale-105" />
               <div className="absolute top-0 h-full w-full bg-black/60 bg-cover bg-center" />
             </section>
             <section className="relative bg-white py-16">
@@ -49,8 +49,13 @@ export function Profilecompany() {
                         <Typography variant="h4" color="blue-gray">
                           {profile.name}
                         </Typography>
-                        <Typography variant="paragraph" color="gray" className="!mt-0 font-normal">{profile.email}</Typography>
-
+                        <Typography
+                          variant="paragraph"
+                          color="gray"
+                          className="!mt-0 font-normal"
+                        >
+                          {profile.email}
+                        </Typography>
                       </div>
                     </div>
                     <div className="mt-10 mb-10 flex lg:flex-col justify-between items-center lg:justify-end lg:mb-0 lg:px-4 flex-wrap lg:-mt-5">
@@ -60,17 +65,25 @@ export function Profilecompany() {
                   <div className="-mt-4 container space-y-2">
                     <div className="flex items-center gap-2">
                       <MapPinIcon className="-mt-px h-4 w-4 text-blue-gray-500" />
-                      <Typography className="font-medium text-blue-gray-500">{profile.description}</Typography>
+                      <Typography className="font-medium text-blue-gray-500">
+                        {profile.description}
+                      </Typography>
 
-                      <Typography className="font-medium text-blue-gray-500">{profile.address}</Typography>
+                      <Typography className="font-medium text-blue-gray-500">
+                        {profile.address}
+                      </Typography>
                     </div>
                     <div className="flex items-center gap-2">
                       <BriefcaseIcon className="-mt-px h-4 w-4 text-blue-gray-500" />
-                      <Typography className="font-medium text-blue-gray-500">{profile.domainOfActivity}</Typography>
+                      <Typography className="font-medium text-blue-gray-500">
+                        {profile.domainOfActivity}
+                      </Typography>
                     </div>
                     <div className="flex items-center gap-2">
                       <AiTwotonePhone className="-mt-px h-4 w-4 text-blue-gray-500" />
-                      <Typography className="font-medium text-blue-gray-500">+{profile.phoneNumber}</Typography>
+                      <Typography className="font-medium text-blue-gray-500">
+                        +{profile.phoneNumber}
+                      </Typography>
                     </div>
                   </div>
                 </div>
