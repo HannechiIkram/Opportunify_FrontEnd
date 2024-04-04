@@ -9,6 +9,7 @@ import "react-toastify/dist/ReactToastify.css";
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
+import jsPDF from 'jspdf';
 
 const ApplicationDetails = () => {
   const [ratingText, setRatingText] = useState('');
@@ -30,13 +31,13 @@ const ApplicationDetails = () => {
           console.error("Access token not found");
           return;
         }
-  
+
         const config = {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
         };
-  
+
         const response = await axios.get(`http://localhost:3000/applications/${id}`, config);
         setApplications(response.data);
       } catch (error) {
@@ -46,10 +47,12 @@ const ApplicationDetails = () => {
 
     fetchApplicationDetails();
   }, [id]);
+
   useEffect(() => {
     const storedComments = JSON.parse(localStorage.getItem('comments')) || [];
     setComments(storedComments);
   }, []);
+
   useEffect(() => {
     const storedButtonState = JSON.parse(localStorage.getItem('buttonState')) || { accept: true, reject: true };
     setButtonState(storedButtonState);
@@ -58,7 +61,7 @@ const ApplicationDetails = () => {
   const handleAccept = async () => {
     setShowAcceptConfirmation(true);
   };
-  
+
   const handleReject = async () => {
     setShowRejectConfirmation(true);
   };
@@ -70,18 +73,18 @@ const ApplicationDetails = () => {
         console.error("Access token not found");
         return;
       }
-  
+
       const config = {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
       };
-  
+
       await axios.put(`http://localhost:3000/applications/accept/${id}`, null, config);
       setStatus('accepted');
       setShowAcceptConfirmation(false);
       toast.error('Application accepted successfully');
-  
+
       const response = await axios.get(`http://localhost:3000/applications/${id}`, config);
       setApplications(response.data);
       setButtonState({ accept: false, reject: false });
@@ -90,7 +93,7 @@ const ApplicationDetails = () => {
       console.error('Error accepting application:', error);
     }
   };
-  
+
   const handleConfirmReject = async () => {
     try {
       const accessToken = localStorage.getItem("accessToken");
@@ -98,18 +101,18 @@ const ApplicationDetails = () => {
         console.error("Access token not found");
         return;
       }
-  
+
       const config = {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
       };
-  
+
       await axios.put(`http://localhost:3000/applications/reject/${id}`, null, config);
       setStatus('rejected');
       setShowRejectConfirmation(false);
       toast.success('Application rejected successfully');
-  
+
       const response = await axios.get(`http://localhost:3000/applications/${id}`, config);
       setApplications(response.data);
       setButtonState({ accept: false, reject: false });
@@ -121,7 +124,7 @@ const ApplicationDetails = () => {
 
   const handleRatingChange = (newRating) => {
     console.log('New rating:', newRating);
-  
+
     let ratingText = '';
     switch (newRating) {
       case 1:
@@ -143,25 +146,23 @@ const ApplicationDetails = () => {
         ratingText = '';
         break;
     }
-  
+
     setRating(newRating);
     setRatingText(ratingText);
   };
-   
+
   const handleAddComment = () => {
     const newComments = [...comments, comment];
     setComments(newComments);
     localStorage.setItem('comments', JSON.stringify(newComments));
     setComment('');
   };
-  
+
   const handleCommentChange = (e) => {
     setComment(e.target.value);
   };
+
   
-  if (!applications) {
-    return <div>Loading...</div>;
-  }
 
   return (
     <>
@@ -191,6 +192,7 @@ const ApplicationDetails = () => {
           </Modal>
         </div>
       </div>
+      
 
       <div className="container relative mx-auto">
         <div className="relative flex content-center justify-center pt-24 pb-8"></div>
@@ -198,29 +200,29 @@ const ApplicationDetails = () => {
 
       <section className="ml-10 mr-10 flex gap-4 items-center">
         <div className="w-full ">
-       
-       <div style={{ fontSize: '24px', fontWeight: 'bold' }} className="mt-4 bg-red-800 rounded-lg p-3 text-white border border-red-700 text-center">Here there are the details of application</div>
 
-       <div className="mt-8">
-      <Link to="/applicationsList" className="text-blue-600 hover:underline ml-40">
-        did you want to back to list?
-      </Link>
-    </div>
- 
+          <div style={{ fontSize: '24px', fontWeight: 'bold' }} className="mt-4 bg-red-800 rounded-lg p-3 text-white border border-red-700 text-center">Here there are the details of application</div>
+
+          <div className="mt-8">
+            <Link to="/applicationsList" className="text-blue-600 hover:underline ml-40">
+              did you want to back to list?
+            </Link>
+          </div>
+
 
           <Card className="mt-8 ml-auto mr-auto mb-2 w-80 max-w-screen-lg lg:w-5/6 rounded-lg p-6 bg-gray-200 bg-opacity-90 text-center">
             <div>
-              <p>Job Field: {applications.jobField}</p>
-              <p>Date: {applications.applicationDate}</p>
+             <p>Date: {applications.applicationDate}</p>
               <p> {applications.applicationId}</p>
               <p>Email: {applications.email}</p>
-              <p>
-                CV: <a href={`http://localhost:3000/${applications.cv}`}>Download CV</a>
-              </p>
-              <p>
-                Cover Letter: <a href={`http://localhost:3000/${applications.coverLetter}`}>Download Cover Letter</a>
-              </p>
+              <p>Motivation: {applications.motivation}</p>
+              <p>Salary Inormations: {applications.salaire}</p>
+              <p>Disponibility: {applications.disponibilite}</p>
+              <br></br>
+             
+             <br></br>
               <>
+
                 <Button color="gray" onClick={handleAccept} disabled={!buttonState.accept}>Accept</Button>
                 <Button color="red" onClick={handleReject} disabled={!buttonState.reject}>Reject</Button>
               </>

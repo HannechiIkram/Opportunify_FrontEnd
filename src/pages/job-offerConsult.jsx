@@ -263,14 +263,14 @@ return (
                 </Typography>
               </div>
               <div className="flex justify-center my-4 mx-3">
-              <Button color="blue-grey" disabled={new Date(selectedOffer.deadline) < new Date()}>
+             {/*  <Button color="blue-grey" disabled={new Date(selectedOffer.deadline) < new Date()}>
   <Link to={{
     pathname: `/apply/${selectedOffer._id}`,
     state: { offerTitle: selectedOffer.title }
-  }}>
+  }}> </Button> 
     Apply
-  </Link>
-</Button>
+  </Link> 
+</Button>*/}
 
 
 </div>

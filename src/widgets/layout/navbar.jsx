@@ -164,10 +164,10 @@ const navListMenuItems = [
 "",      path:"Job_offer"
   },
   {
-    title: "Apply to a job offer",
+    title: "Offers",
     description:
       "",
-      path:"/apply"
+      path:"/job_offers"
 
   },
   {

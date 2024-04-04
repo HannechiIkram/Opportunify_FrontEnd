@@ -70,7 +70,9 @@ const DisplayPost = ({ post, profile, handledeletePost }) => {
           <Grid container item>
             <Grid item>
               {' '}
-              <Typography variant="h6">{currentPost.content} </Typography>
+              <Typography variant="h6" sx={{ wordBreak: 'break-all' }}>
+                {currentPost.content}{' '}
+              </Typography>
             </Grid>
           </Grid>
           <Grid container item spacing={1} mt={2}>

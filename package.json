@@ -26,6 +26,7 @@
     "date-fns": "^3.3.1",
     "docx": "^8.5.0",
     "express": "^4.19.2",
+    "formik": "^2.4.5",
     "framer-motion": "^11.0.8",
     "i18next": "^23.10.0",
     "jspdf": "^2.5.1",
@@ -33,7 +34,11 @@
     "jwt-decode": "^4.0.0",
     "latest": "^0.2.0",
     "mammoth": "^1.7.1",
+
     "phaser": "^3.80.1",
+
+    "mdb-react-ui-kit": "^7.2.0",
+
     "prop-types": "15.8.1",
     "react": "18.2.0",
     "react-apexcharts": "^1.4.1",

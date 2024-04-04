@@ -53,30 +53,33 @@ const Modal = ({ open, onClose }) => {
 
   return (
     <div className='overlay'>
-      <div className='modalContainer'>
-        <div className='modalRight'>
+      <div className='modalContainer '>
+        <div className='modalRight  bg-gray-300'>
           <button className='closeBtn' onClick={onClose}>X</button>
           <div className='content'>
             <Typography variant="h6" color="gray" className="mb-4">Update Profile</Typography>
-
+            <div className="grid grid-cols-2 gap-4 mb-2">
             <div>
               <Typography variant="small" color="blue-gray" className="mb-1 mt-1 font-medium">
                 Name
               </Typography>
-              <Input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Name" />
+              <Input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Name" className="input-style" required/>
             </div>
             <div>
+              <Typography variant="small" color="blue-gray" className="mb-1 mt-1 font-medium">
+               LastName
+              </Typography>
+              <Input type="text" name="lastname" value={formData.lastname} onChange={handleChange} placeholder="lastname" className="input-style" required />
+            </div>
+            </div>
+
+            <div className='mb-4'>
               <Typography variant="small" color="blue-gray" className="mb-1 mt-1 font-medium">
                 Email
               </Typography>
-              <Input type="email" name="email" value={formData.email} onChange={handleChange} placeholder="Email" />
+              <Input type="email" name="email" value={formData.email} onChange={handleChange} placeholder="Email" className="input-style" required/>
             </div>
-            <div>
-              <Typography variant="small" color="blue-gray" className="mb-1 mt-1 font-medium">
-                Lastname
-              </Typography>
-              <Input type="text" name="lastname" value={formData.lastname} onChange={handleChange} placeholder="Lastname" />
-            </div>
+         
             {/*
             <div>
               <Typography variant="small" color="blue-gray" className="mb-1 mt-1 font-medium">
@@ -84,37 +87,44 @@ const Modal = ({ open, onClose }) => {
               </Typography>
           <Input type="date" name="birthdate" value={formData.birthdate} onChange={handleChange} placeholder="Birthdate" />
   </div>   */}
-            <div>
-              <Typography variant="small" color="blue-gray" className="mb-1 mt-1 font-medium">
+            <div className='mb-4'>
+              <Typography variant="small" color="blue-gray" className="mb-1 mt-1 font-medium" >
                 Phone
               </Typography>
-              <Input type="tel" name="phone" value={formData.phone} onChange={handleChange} placeholder="Phone" />
+              <Input type="tel" name="phone" value={formData.phone} onChange={handleChange} placeholder="Phone" className="input-style" required />
             </div>
-            <div>
+            <div className='mb-4'> 
               <Typography variant="small" color="blue-gray" className="mb-1 mt-1 font-medium">
                 Address
               </Typography>
-              <Input type="text" name="address" value={formData.address} onChange={handleChange} placeholder="Address" />
+              <Input type="text" name="address" value={formData.address} onChange={handleChange} placeholder="Address" className="input-style" required />
             </div>
-            <div>
+            <div className='mb-4'>
               <Typography variant="small" color="blue-gray" className="mb-1 mt-1 font-medium">
                 Role Jobseeker
               </Typography>
-              <Select name="role_jobseeker" value={formData.role_jobseeker} onChange={handleChange}>
+              <Select name="role_jobseeker" value={formData.role_jobseeker} onChange={handleChange} className="input-style" required>
                 <option value="">Select Role</option>
                 <option value="student">Student</option>
                 <option value="alumni">Alumni</option>
                 <option value="staff">Staff</option>
               </Select>
             </div>
+           
             {/* Add other fields similarly */}
             <div className="flex justify-center mt-8">
               <Button onClick={handleSubmit} className="w-60 bg-red-800">Update</Button>
             </div>
+          
           </div>
+
+          
         </div>
+        
       </div>
+
     </div>
+    
   );
 }
 

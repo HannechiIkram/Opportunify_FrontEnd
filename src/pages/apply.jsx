@@ -9,67 +9,81 @@ import {
     Input,
   } from "@material-tailwind/react";
 
-  import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useParams, useNavigate } from "react-router-dom";
 
 
 const Apply = () => {
-  const handleFileChange = e => {
-    setFormData({ ...formData, [e.target.name]: e.target.files[0] });
-};
-  const handleChange = e => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-};
+    const navigate = useNavigate(); // Utilisation de useNavigate pour la redirection
+    const handleFileChange = e => {
+        setFormData({ ...formData, [e.target.name]: e.target.files[0] });
+    };
+    const handleChange = e => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+    const [errors, setErrors] = useState({}); // State for validation errors
     const [formData, setFormData] = useState({
-       
         cv: null,
         coverLetter: null,
-        emailError: ''
+        motivation :'',
+        email: '',
+        disponibilite:'',
+        salaire :'',
     });
-  // Obtenir l'ID de l'offre d'emploi à partir de la propriété location.state
-  const location = useLocation();
-  const { offerId } = useParams();
- 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const formData = new FormData(e.target);
-    const offerId = formData.get('offerId'); // Récupérer l'ID de l'offre à partir du champ caché
+    const { offerId } = useParams();
     
-    // Check if the access token exists in localStorage
-    const accessToken = localStorage.getItem("accessToken");
-  
-    // If the access token does not exist, handle the error
-    if (!accessToken) {
-      console.error("Access token not found");
-      alert("Access token not found. Please log in again.");
-      return;
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        const offerId = formData.get('offerId');
+        
+        const accessToken = localStorage.getItem("accessToken");
+      
+        if (!accessToken) {
+            console.error("Access token not found");
+            alert("Access token not found. Please log in again.");
+            return;
+        }
+      
+        const postData = new FormData();
+      
+        for (const key of formData.keys()) {
+            postData.append(key, formData.get(key));
+        }
+      
+        try {
+            const config = {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            };
+      
+            await axios.post('http://localhost:3000/applications/apply', postData, config);
+            alert('Application submitted successfully!');
+            navigate('/applications'); // Redirection vers la page /applications après la soumission réussie
+        } catch (error) {
+            console.error('Error submitting application:', error);
+            alert('Failed to submit application. Please try again.');
+        }
+        // Fonction pour valider le formulaire
+  const formIsValid = () => {
+    let errors = {};
+
+    if (!formData.email.trim()) {
+      errors.email = "Email is required";
     }
-  
-    // Create a FormData object to store form data
-    const postData = new FormData();
-  
-    // Append form data to postData object
-    for (const key of formData.keys()) {
-      postData.append(key, formData.get(key));
+    if (!formData.email.trim()) {
+      errors.email = "Email is required";
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      errors.email = "Invalid email address";
     }
-  
-    try {
-      const config = {
-        headers: {
-          'Content-Type': 'multipart/form-data', // Set the content type to multipart/form-data
-          Authorization: `Bearer ${accessToken}`, // Include the access token in the headers
-        },
-      };
-  
-      // Send a POST request to submit the application with the access token included in the headers
-      await axios.post('http://localhost:3000/applications/apply', postData, config);
-      alert('Application submitted successfully!');
-    } catch (error) {
-      console.error('Error submitting application:', error);
-      alert('Failed to submit application. Please try again.');
     }
-  };
-  
-  
+    setErrors(errors);
+
+    return Object.keys(errors).length === 0; 
+
+    };
+    
     return (
         <div className="container relative mx-auto">
             <div className="relative flex content-center justify-center pt-24 pb-32">
@@ -81,17 +95,25 @@ const Apply = () => {
                             </Typography>
                         </CardHeader>
                         <CardBody>
-                        <div>
-      
-     
-     
-    </div>
                             <form onSubmit={handleSubmit} className="px-4 py-8 grid grid-cols-1 gap-6 md:grid-cols-2">
-
-
-                            <input type="hidden" name="offerId" value={offerId} />
-                           
-                              
+                                <input type="hidden" name="offerId" value={offerId} />
+                                <div>
+                                    <Typography htmlFor="text" className="block text-sm font-medium text-gray-900 dark:text-white" >Email</Typography>
+                                    <Input type="email" name="email" value={formData.email} onChange={handleChange} className="input-style" placeholder="Email" required />
+    {errors.email && <p className="text-red-500">{errors.email}</p>}
+                                </div>
+                                <div>
+                                    <Typography htmlFor="text" className="block text-sm font-medium text-gray-900 dark:text-white" >Motivation</Typography>
+                                    <Input type="text" name="motivation"  className="input-style" placeholder="Motivation" required />
+                                </div>
+                                <div>
+                                    <Typography htmlFor="text" className="block text-sm font-medium text-gray-900 dark:text-white" >Disponibility</Typography>
+                                    <Input  type="text" name="disponibilite"  className="input-style"placeholder="Disponibility" required />
+                                </div>
+                                <div>
+                                    <Typography htmlFor="text" className="block text-sm font-medium text-gray-900 dark:text-white">Salary Informations</Typography>
+                                    <Input type="text" name="salaire"  className="input-style" placeholder="Salary Informations" required />
+                                </div>
                                 <div>
                                     <label htmlFor="cv" className="block text-sm font-medium text-gray-900 dark:text-white">Upload Resume</label>
                                     <input type="file" name="cv" onChange={handleFileChange} className="input-style" required />
@@ -109,6 +131,8 @@ const Apply = () => {
                 </div>
             </div>
         </div>
+
+        
     );
 };
 

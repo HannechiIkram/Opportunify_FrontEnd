@@ -22,7 +22,7 @@ const Comment = ({ comment, userName, time, handleDeleteComment }) => {
             <Typography variant="body2">{time}</Typography>
           </Grid>
           <Grid item>
-            <Typography>{comment}</Typography>
+            <Typography sx={{wordBreak:'break-all'}}>{comment}</Typography>
           </Grid>
         </Grid>
       </Grid>
