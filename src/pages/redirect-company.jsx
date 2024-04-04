@@ -66,6 +66,8 @@ export function RedirectCompany() {
       
       </div>
     </div>
+    <Footer/>
+
     </>
 
     

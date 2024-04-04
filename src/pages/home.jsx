@@ -68,7 +68,7 @@ const handleSignupClick = () => {
   
 
   const [recentlySaved, setRecentlySaved] = useState([]); // État pour stocker les éléments récemment enregistrés
-
+/*
   const handleLogout = async () => {
     try {
       await axios.post("/logout"); // Envoyer une requête POST à votre endpoint de déconnexion
@@ -81,9 +81,42 @@ const handleSignupClick = () => {
   // Fonction pour enregistrer un élément et le mettre à jour dans l'état
   const handleSave = (item) => {
     setRecentlySaved([...recentlySaved, item]);
-  };
+  };*/
   /////////
- 
+  const handleLogout = async () => {
+    try {
+      // Retrieve the access token from local storage
+      const accessToken = localStorage.getItem('accessToken');
+  
+      // Set up headers with the access token
+      const headers = {
+        'Authorization': `Bearer ${accessToken}`
+      };
+  
+      // Make a POST request to the logout endpoint with the access token in the headers
+      const response = await axios.post('/user/logout', {}, { headers });
+  
+      if (response.status === 200) {
+        // Clear any local storage or session storage related to authentication
+        localStorage.removeItem('accessToken');
+        sessionStorage.removeItem('userRole');
+  
+        // Redirect the user to the login page or any other desired page
+        window.location.href = '/login';
+      } else {
+        console.error('Logout failed:', response.data.error);
+      }
+    } catch (error) {
+      console.error('Error during logout:', error);
+    }
+  };
+  
+    const handleStartTrial = () => {
+      Navigate("/sign-upjs"); // Navigate to the signup page using navigate function
+    };
+    const handleStartTrial1 = () => {
+      Navigate("/sign-up"); // Navigate to the signup page using navigate function
+    };
   return (
     <>
     <Navbar1/>
@@ -117,7 +150,7 @@ const handleSignupClick = () => {
       href="/redirect-sign-up'"
       target="_blank"
     >
-      <button className='bg-red-800 w-[200px] rounded-md font-medium my-6 mx-auto py-3 text-white'>Get Started</button>
+      <button  onClick={handleSignupClick} className='bg-red-800 w-[200px] rounded-md font-medium my-6 mx-auto py-3 text-white'>Get Started</button>
     </a>
 
 </div>
@@ -169,7 +202,7 @@ const handleSignupClick = () => {
                   
 
               </div>
-              <button className='Lato bg-[#d63939] w-[200px] rounded-md font-medium my-6 mx-auto px-6 py-3 text-white'>Start </button>
+              <button  onClick={handleStartTrial} className='Lato bg-[#d63939] w-[200px] rounded-md font-medium my-6 mx-auto px-6 py-3 text-white'>Start </button>
               </div>
           <div className='w-full shadow-xl  flex flex-col p-4 md:my-0 my-8 rounded-lg hover:scale-105 duration-300'>
               <img className='  w-20 mx-auto mt-[-3rem] bg-transparent' src={company} alt="/" />
@@ -179,7 +212,7 @@ const handleSignupClick = () => {
                   <p className='Lato py-2 border-b mx-8 mt-8'>Discover the Best Professionals for Your Team</p>
               
               </div>
-              <button className='Lato bg-black text-white w-[200px] rounded-md font-medium my-6 mx-auto px-6 py-3'>Start </button>
+              <button  onClick={handleStartTrial1} className='Lato bg-black text-white w-[200px] rounded-md font-medium my-6 mx-auto px-6 py-3'>Start </button>
           </div>
          
           </div>

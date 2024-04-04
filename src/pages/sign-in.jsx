@@ -171,7 +171,7 @@ export function SignIn() {
                 <Typography variant="small" className="font-medium text-gray-900">
                   <Link to="/Forgot">Forgot Password?</Link>
                 </Typography>
-              </div>
+              </div>{/*
           <div className="space-y-4 mt-8">
             <Button size="lg" color="white" className="flex items-center gap-2 justify-center shadow-md" fullWidth>
               <svg width="17" height="16" viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -221,14 +221,14 @@ export function SignIn() {
               </svg>
               <span>Sign in With Twitter</span>
             </Button>
-            {/*
+            
             <Button onClick={handleFacebookLogin}>Se connecter avec Facebook</Button>
 
             <Button size="lg" color="white" className="flex items-center gap-2 justify-center shadow-md" fullWidth>
               <img src="/img/twitter-logo.svg" height={24} width={24} alt="" />
               <span>Sign in With Twitter</span>
-                  </Button>*/}
-          </div>
+                  </Button>
+          </div>*/}
 
             <Typography variant="paragraph" className="text-center text-blue-gray-500 font-medium mt-4">
               Not registered?
@@ -239,7 +239,8 @@ export function SignIn() {
       
       </section>
     
-    <Footer/></>
+    <Footer/>
+    </>
   );
 }
 

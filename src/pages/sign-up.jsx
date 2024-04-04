@@ -15,6 +15,7 @@ import {
 } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { Navbar1 } from '@/widgets/layout';
 
 
 
@@ -259,7 +260,8 @@ if (!data.phoneNumber) {
     return () => clearInterval(interval);
   }, []);
 
-  return (     <div className="form-container mt-10 mb-40 ml-40 mb-10 mr-40">
+  return (   <><Navbar1/>
+    <div className="form-container mt-10 mb-40 ml-40 mb-10 mr-40">
   <div className="flex justify-center items-center h-screen">
     <div className="w-full max-w-screen-lg">
       <div className="text-center  mt-60">
@@ -615,8 +617,9 @@ if (!data.phoneNumber) {
     </div>
 
 </div>
+<Footer/>
 
-
+</>
   );
   
 }

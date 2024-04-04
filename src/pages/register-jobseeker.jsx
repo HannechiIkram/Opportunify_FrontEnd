@@ -455,7 +455,8 @@ const handleTermsAndConditionsClick = () => {
               
             </form>
           </Card>
-        
+          <Footer/>
+    
     </>
   );
 
