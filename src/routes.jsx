@@ -40,9 +40,14 @@ import SideNav from "@/pages/dashboard/sidenav";
 import Nav0 from "@/widgets/layout/navbar0";
 import Nav1 from "@/widgets/layout/navbar1";
 import Navbar from "@/widgets/layout/navbar";
+import Navbarjs from "@/widgets/layout/navbarjobseeker";
 
 export const routes = [
-  
+  {
+    name: "navbar-jobseeker",
+    path: "/navbar-jobseeker",
+    element: <Navbarjs/>,
+  },
   {
     name: "Add-event",
     path: "/add-event",

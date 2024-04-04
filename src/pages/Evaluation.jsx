@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Navbar } from '@/widgets/layout';
 
 const EvaluationList = () => {
   const [evaluations, setEvaluations] = useState([]);
@@ -134,6 +135,8 @@ const EvaluationList = () => {
   };
 
   return (
+    <>
+    <Navbar/>
     <div className="container mx-auto mt-8 p-4 bg-white rounded-lg shadow-lg pt-32">
       <h1 className="text-3xl font-bold text-gray-900 mb-4">Evaluation List</h1>
       <div className="grid grid-cols-3 gap-4">
@@ -251,6 +254,7 @@ const EvaluationList = () => {
         )}
       </div>
     </div>
+    </>
   );
 };
 

@@ -281,9 +281,9 @@ const navListItems = [
 
   },
   {
-    label: "Choose redirection",
+    label: "Available job offers",
     icon: KeyIcon,
-    path:"/redirect-company"
+    path:"/job_offers"
 
   },
   
@@ -317,7 +317,7 @@ function NavList() {
   );
 }
  
-export function Navbar() {
+export function Navbarjs() {
   const [isNavOpen, setIsNavOpen] = React.useState(false);
  
   const toggleIsNavOpen = () => setIsNavOpen((cur) => !cur);
@@ -362,5 +362,5 @@ export function Navbar() {
     </TNavbar>
   );
 }
-Navbar.displayName = "/src/widgets/layout/navbar.jsx";
-export default Navbar;
+Navbarjs.displayName = "/src/widgets/layout/navbarjobseeker.jsx";
+export default Navbarjs;

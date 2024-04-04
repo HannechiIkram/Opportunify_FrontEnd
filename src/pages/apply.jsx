@@ -10,6 +10,7 @@ import {
   } from "@material-tailwind/react";
 
 import { useLocation, useParams, useNavigate } from "react-router-dom";
+import { Navbarjs } from '@/widgets/layout';
 
 
 const Apply = () => {
@@ -85,6 +86,8 @@ const Apply = () => {
     };
     
     return (
+        <>
+        <Navbarjs/>
         <div className="container relative mx-auto">
             <div className="relative flex content-center justify-center pt-24 pb-32">
                 <div className="container mx-auto mt-8 max-w-screen-md w-1/2">
@@ -132,7 +135,8 @@ const Apply = () => {
             </div>
         </div>
 
-        
+        </>
+  
     );
 };
 

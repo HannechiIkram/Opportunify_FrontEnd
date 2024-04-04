@@ -7,6 +7,7 @@ import { GrScheduleNew } from "react-icons/gr";
 import { GrAid } from "react-icons/gr";
 import { GrCurrency } from "react-icons/gr";
 import { formatDistanceToNow } from "date-fns";
+import { Navbarjs } from '@/widgets/layout';
 
 export function JobofferConsult() {
     const [expandedOfferId, setExpandedOfferId] = useState(null);
@@ -87,6 +88,7 @@ export function JobofferConsult() {
 
     return (
         <>
+        <Navbarjs/>
             <div className="container relative mx-auto pt-32"></div>
 
             <div className="flex justify-center items-center mt-8">

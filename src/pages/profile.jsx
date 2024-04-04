@@ -5,7 +5,7 @@ import {
   BuildingLibraryIcon,
 } from "@heroicons/react/24/solid";
 import { BiSolidCake } from "react-icons/bi";
-import { Footer } from "@/widgets/layout";
+import { Footer, Navbar, Navbarjs } from "@/widgets/layout";
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
@@ -153,6 +153,7 @@ const handleUpdateGitUrl = async () => {
 };
   return (
     <>
+    <Navbarjs/>
       <div className=" bg-gray-100">
         {profile ? (
           <div>

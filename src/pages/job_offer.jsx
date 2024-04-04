@@ -20,6 +20,7 @@ import {
   PopoverContent,
  
 } from "@material-tailwind/react";
+import { Navbar } from '@/layout/index.js';
 
 export function Job_offer() {
   const [formData, setFormData] = useState({
@@ -172,6 +173,7 @@ useEffect(() => {
  
   return (
     <>
+    <Navbar/>
      <div className="container relative mx-auto">
             <div className="relative flex content-center justify-center pt-24 pb-8">
                 

@@ -10,7 +10,7 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
 
 import { Navbar1 } from "@/widgets/layout";
-
+import { Footer } from "@/widgets/layout";
 export function RedirectCompany() {
   const navigate = useNavigate(); 
    const handleClick1 = () => {
@@ -26,7 +26,6 @@ export function RedirectCompany() {
  
   return (
     <>
-<Navbar1/>  
     <div className='w-full py-[10rem] px-4  justify-content-center '>
       <div className="w-full py-[10rem] px-4 ">
         <div className="max-w-[1240px] mx-auto grid md:grid-cols-3 gap-8">

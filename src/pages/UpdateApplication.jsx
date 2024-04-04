@@ -7,6 +7,7 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import {  useNavigate } from 'react-router-dom';
 import { Link } from "react-router-dom";
+import { Navbarjs } from "@/widgets/layout";
 
 export function ApplicationUpdate() {
   // Récupérer l'ID de l'application depuis les paramètres d'URL
@@ -95,7 +96,7 @@ const handleUpdate = async () => {
 
   return (
     <>
- 
+ <Navbarjs/>
  <div className="container relative mx-auto">
             <div className="relative flex content-center justify-center pt-24 pb-8">
 

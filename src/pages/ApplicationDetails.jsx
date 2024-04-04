@@ -84,6 +84,7 @@ const ApplicationDetails = () => {
   };
 
   return (
+    
 <div className="bg-gray-100 h-screen flex justify-center items-center pt-32">
   <div className="bg-white rounded-lg shadow-lg p-8 w-2/3">
     {applicationDetails && (

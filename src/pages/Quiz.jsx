@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { MdOutlineQuiz } from "react-icons/md"; 
+import { Navbarjs } from '@/widgets/layout';
 
 const QuizList = () => {
   const [quizzes, setQuizzes] = useState([]);
@@ -21,6 +22,7 @@ const QuizList = () => {
 
   return (
     <>
+    <Navbarjs/>
     <div className="container mx-auto mt-8 pt-32">
       <h1 className="text-3xl font-bold text-gray-900 mb-4">Quiz List </h1>
       <div className="grid grid-cols-3 gap-4">

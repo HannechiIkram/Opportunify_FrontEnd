@@ -27,18 +27,20 @@ function App() {
   
     <UserProvider>
 
-{/*les paths eli mayodhherch efhom navbar*/}
+{/*les paths eli mayodhherch efhom navbar par défaut (pour company)*/}
 
-      {!(pathname=='/nav0' ||
+      {!(pathname=='/nav0' ||pathname=='/profile/:userId' ||
+      pathname=='/profile/:userId' ||
    pathname === '/tables' || 
    pathname === '/passwordreset' || 
    pathname.startsWith('/user/') ||
    pathname === "/dashboard" ||
    pathname.startsWith('/job_offer/')|| pathname=='/redirect-company' || pathname=='/navbar' || pathname=='/nav1' ||pathname == '/sign-in' || pathname == '/sign-up' || pathname == '/passwordreset'||pathname == '/Forgot'||
-   pathname.startsWith('/job_offer/')|| pathname=='/nav0' || pathname=='/redirect-company' || pathname=='/navbar' || pathname=='/nav1' ||pathname == '/sign-in' || pathname == '/sign-up' || pathname == '/passwordreset'||pathname == '/Forgot'||
+   pathname.startsWith('/job_offer/')|| pathname=='/nav0'|| pathname=='/navbar' || pathname=='/nav1' ||pathname == '/sign-in' || pathname == '/sign-up' || pathname == '/passwordreset'||pathname == '/Forgot'||
        pathname=='/sign-upjs'||pathname=="/dashboard"|| pathname=='/home'|| pathname=='/redirect-sign-up'|| pathname === '/create' || 
        pathname === '/tables' || 
        pathname === '/passwordreset' || 
+       pathname === '/navbar-jobseeker'||
        pathname.startsWith('/user/') ||
        pathname.startsWith('/job_offer/') ||
        pathname === "/dashboard") && (

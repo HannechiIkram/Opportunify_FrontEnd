@@ -14,6 +14,7 @@ import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import {Appap} from "./createPieChart.jsx";
+import { Navbar } from '@/layout/index.js';
 export function Job_offerConsult() {
     const [expandedOfferId, setExpandedOfferId] = useState(null);
     const [selectedOffer, setSelectedOffer] = useState(null);
@@ -137,6 +138,7 @@ const handleApply = (offerId) => {
 
 return (  
     <>
+    <Navbar/>
      <div className="container relative mx-auto">
             <div className="relative flex content-center justify-center pt-24 pb-8">
                

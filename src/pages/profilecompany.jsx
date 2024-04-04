@@ -41,6 +41,7 @@ export function Profilecompany() {
 
   return (
     <>
+    
       <div>
         {profile ? (
           <div>
