@@ -26,6 +26,7 @@ import { Tables } from "./pages/dashboard/tables";
 
 import EvaluationList from "./pages/Evaluation";
 import QuizList from "./pages/Quiz";
+import { JobofferConsult} from "./pages/jobOffers";
 
 
 
@@ -104,8 +105,11 @@ export const routes = [
     path: "/Job_offer",
     element: <Job_offer />,
   },
-
-
+  {
+    name: "Job offers ",
+    path: "/job_offers",
+    element: <JobofferConsult />,
+  },
 
   {
     name: "Sign In",

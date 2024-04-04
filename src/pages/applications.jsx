@@ -14,6 +14,7 @@ const Applications = () => {
   const [searchResults, setSearchResults] = useState([]);
   const [selectedApplication, setSelectedApplication] = useState(null);
   const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
+  const [searchTitle, setSearchTitle] = useState('');
   
   // Applications sur la page actuelle
 
@@ -89,24 +90,31 @@ const Applications = () => {
     fetchJobOfferTitles();
   }, [applications]);
 
+  
   useEffect(() => {
     const handleSearch = async () => {
       try {
         let response;
+        const accessToken = localStorage.getItem("accessToken");
+        if (!accessToken) {
+          throw new Error("Access token not found");
+        }
+        
+        const config = {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        };
+  
         switch (searchType) {
-          case 'date':
-            const year = searchTerm.getFullYear();
-            const month = (searchTerm.getMonth() + 1).toString().padStart(2, '0');
-            const day = searchTerm.getDate().toString().padStart(2, '0');
-            const formattedDate = `${year}-${month}-${day}`;
-            response = await axios.get(`http://localhost:3000/applications/search/date/${formattedDate}`);
-            break;
-          case 'jobField':
-            response = await axios.get(`http://localhost:3000/applications/search/jobField/${searchTerm}`);
-            break;
           case 'status':
+            response = await axios.get(`http://localhost:3000/applications/search/status/${searchTerm}`, config);
+            break;
+          case 'date':
+            const isoDate = searchTerm.toISOString().split('T')[0];
+            response = await axios.get(`http://localhost:3000/applications/search/date/${isoDate}`, config);
+            break;
           default:
-            response = await axios.get(`http://localhost:3000/applications/search/status/${searchTerm}`);
             break;
         }
         setSearchResults(response.data);
@@ -114,9 +122,11 @@ const Applications = () => {
         console.error('Error searching:', error);
       }
     };
-
+    
     handleSearch();
   }, [searchTerm, searchType]);
+  
+  
 
   const getStatusBadge = (status) => {
     switch (status) {
@@ -200,22 +210,22 @@ const Applications = () => {
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
             )}
-            <select
-              value={searchType}
-              onChange={(e) => setSearchType(e.target.value)}
-              className="ml-2 px-3 py-2 text-gray-500 hover:text-gray-700 focus:outline-none focus:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 dark:focus:text-gray-300"
-            >
-              <option value="status">By Status</option>
-              <option value="date">By Date</option>
-              <option value="jobField">By Job Offer</option>
-            </select>
-          </div>
+           <select
+  value={searchType}
+  onChange={(e) => setSearchType(e.target.value)}
+  className="ml-2 px-3 py-2 text-gray-500 hover:text-gray-700 focus:outline-none focus:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 dark:focus:text-gray-300"
+>
+  <option value="status">By Status</option>
+  <option value="date">By Date</option>
+</select>
 
-          <div className="flex flex-wrap justify-center">
+          </div>
+          
+          <div className="flex flex-wrap justify-center pt-8">
         
 
           {(searchResults.length > 0 ? searchResults : applications).map(application => (
-  <div key={application._id} className="m-4 bg-gray-200 rounded-md w-96 shadow-lg overflow-hidden h-auto">
+  <div key={application._id} className="m-4 bg-gray-100 rounded-md w-96 shadow-lg overflow-hidden h-auto">
     <div className="flex items-center justify-center mt-2">
       {getStatusBadge(application.status)}
     </div>

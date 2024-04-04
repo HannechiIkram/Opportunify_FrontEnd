@@ -1,178 +1,182 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { useParams } from 'react-router-dom';
-import {
-    Card,
-    CardBody,
-    CardHeader,
-    Typography,
-    Button,
-    Input,
-} from "@material-tailwind/react";
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import axios from "axios";
+import { Input, Button, Typography } from "@material-tailwind/react";
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import FacebookIcon from '@mui/icons-material/Facebook';
+import InstagramIcon from '@mui/icons-material/Instagram';
+import {  useNavigate } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
-const UpdateApplication = () => {
-    const { id } = useParams();
-    const [formData, setFormData] = useState({
-        userName: '',
-        userSurname: '',
-        email: '',
-        phone: '',
-        education: '',
-        cv: '', 
-        coverLetter: '', 
-        emailError: ''
-    });
+export function ApplicationUpdate() {
+  // Récupérer l'ID de l'application depuis les paramètres d'URL
+  const { id } = useParams();
+  const navigate = useNavigate();
 
-    useEffect(() => {
-        const fetchApplication = async () => {
-            try {
-                const response = await axios.get(`http://localhost:3000/applications/get/${id}`);
-                const applicationData = response.data;
-                setFormData({
-                    userName: applicationData.userName,
-                    userSurname: applicationData.userSurname,
-                    email: applicationData.email,
-                    phone: applicationData.phone,
-                    education: applicationData.education,
-                    cv: applicationData.cv, 
-                    coverLetter: applicationData.coverLetter, 
-                    emailError: ''
-                });
-            } catch (error) {
-                console.error('Error fetching application data:', error);
-            }
-        };
+  // State pour stocker les données de l'application à mettre à jour
+  const [formData, setFormData] = useState({
+    motivation: "",
+    email: "",
+    disponibilite: "",
+    salaire: "",
+    status: "",
+    cv: null, // Changer à null
+    coverLetter: null, // Changer à null
+    job_seeker: "",
+    job_offer: "",
+  });
 
-        fetchApplication();
-    }, [id]);
-
-    const handleChange = e => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
-    };
-
-
-    const handleEmailBlur = () => {
-        const { email } = formData;
-        const re = /\S+@\S+\.\S+/;
-        if (!re.test(email)) {
-            setFormData({ ...formData, emailError: 'Invalid email' });
-        } else {
-            setFormData({ ...formData, emailError: '' });
-        }
-    };
-
-  const handleSubmit = async e => {
-    e.preventDefault();
-
-    // Check if the access token exists in localStorage
-    const accessToken = localStorage.getItem("accessToken");
-
-    // If the access token does not exist, handle the error
-    if (!accessToken) {
-        console.error("Access token not found");
-        return;
-    }
-
-    const postData = new FormData();
-    for (const key in formData) {
-        postData.append(key, formData[key]);
-    }
-
-    try {
-        const config = {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-                Authorization: `Bearer ${accessToken}`,
-            }
-        };
-
-        await axios.put(`http://localhost:3000/applications/update/${match.params.id}`, postData, config);
-        alert('Application updated successfully!');
-        history.push(`/applicationDetails/${match.params.id}`);
-    } catch (error) {
-        console.error('Error updating application:', error);
-        alert('Failed to update application. Please try again.');
-    }
-};
-
-  /*  const handleSubmit = async e => {
-        e.preventDefault();
-        const postData = new FormData();
-        for (const key in formData) {
-            postData.append(key, formData[key]);
-        }
-
+  useEffect(() => {
+    const fetchApplication = async () => {
         try {
-            await axios.put(`http://localhost:3000/applications/update/${id}`, postData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            });
-            alert('Application updated successfully!');
-        } catch (error) {
-            console.error('Error updating application:', error);
-            alert('Failed to update application. Please try again.');
-        }
-    };*/
+            // Check if the access token exists in localStorage
+            const accessToken = localStorage.getItem("accessToken");
 
-    return (
-        <div className="container relative mx-auto">
-            <div className="relative flex content-center justify-center pt-24 pb-32">
-                <div className="container mx-auto mt-8 max-w-screen-md w-1/2">
-                    <Card className='mt-8 bg-gray-400 bg-opacity-20 rounded-lg shadow-l'>
-                        <CardHeader className='bg-red-800' contentPosition="none">
-                            <Typography color="white" variant="h5">
-                                Update Application
-                            </Typography>
-                        </CardHeader>
-                        <CardBody>
-                            <form onSubmit={handleSubmit} className="px-4 py-8 grid grid-cols-1 gap-6 md:grid-cols-2">
-                                <div>
-                                    <label htmlFor="userName" className="block text-sm font-medium text-gray-900 dark:text-white">First Name</label>
-                                    <Input type="text" name="userName" placeholder="First Name" value={formData.userName} onChange={handleChange} className="input-style" required />
-                                </div>
-                                <div>
-                                    <label htmlFor="userSurname" className="block text-sm font-medium text-gray-900 dark:text-white">Last Name</label>
-                                    <Input type="text" name="userSurname" placeholder="Last Name" value={formData.userSurname} onChange={handleChange} className="input-style" required />
-                                </div>
-                                <div>
-                                    <label htmlFor="email" className="block text-sm font-medium text-gray-900 dark:text-white">Email</label>
-                                    <Input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange} className="input-style" required />
-                                </div>
-                                <div>
-                                    <label htmlFor="phone" className="block text-sm font-medium text-gray-900 dark:text-white">Phone Number</label>
-                                    <Input type="text" name="phone" placeholder="Phone" value={formData.phone} onChange={handleChange} className="input-style" required />
-                                </div>
-                                <div>
-                                    <label htmlFor="education" className="block text-sm font-medium text-gray-900 dark:text-white">Education</label>
-                                    <Input type="text" name="education" placeholder="Education" value={formData.education} onChange={handleChange} className="input-style" required />
-                                </div>
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-900 dark:text-white">Current Resume: </label>
-                                    {formData.cv && <a href={`http://localhost:3000/uploads/${formData.cv}`} target="_blank" rel="noopener noreferrer">{formData.cv}</a>}
-                                </div>
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-900 dark:text-white">Current Cover Letter: </label>
-                                    {formData.coverLetter && <a href={`http://localhost:3000/uploads/${formData.coverLetter}`} target="_blank" rel="noopener noreferrer">{formData.coverLetter}</a>}
-                                </div>
-                                <div>
-                                    <label htmlFor="cv" className="block text-sm font-medium text-gray-900 dark:text-white">Upload New Resume</label>
-                                    <Input type="file" name="cv" onChange={handleChange} className="input-style" />
-                                </div>
-                                <div>
-                                    <label htmlFor="coverLetter" className="block text-sm font-medium text-gray-900 dark:text-white">Upload New Cover Letter</label>
-                                    <Input type="file" name="coverLetter" onChange={handleChange} className="input-style" />
-                                </div>
-                                <div className="col-span-2 mt-8 flex justify-center">
-                                    <Button type="submit" color="red" className="bg-red-800">Update Application</Button>
-                                </div>
-                            </form>
-                        </CardBody>
-                    </Card>
-                </div>
-            </div>
-        </div>
-    );
+            // If the access token does not exist, handle the error
+            if (!accessToken) {
+                console.error("Access token not found");
+                return;
+            }
+
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            };
+
+            const response = await axios.get(`/applications/get/${id}`, config);
+            setFormData(response.data);
+        } catch (error) {
+            console.error("Failed to fetch application:", error.response ? error.response.data : error.message);
+        }
+    };
+
+    fetchApplication();
+}, [id]);
+
+  // Fonction pour mettre à jour l'application
+const handleUpdate = async () => {
+  try {
+      // Check if the access token exists in localStorage
+      const accessToken = localStorage.getItem("accessToken");
+
+      // If the access token does not exist, handle the error
+      if (!accessToken) {
+          console.error("Access token not found");
+          return;
+      }
+
+      const config = {
+          headers: {
+              Authorization: `Bearer ${accessToken}`,
+          },
+      };
+
+      const response = await axios.put(`/applications/update/${id}`, formData, config);
+      console.log("Application updated:", response.data);
+      // Rediriger vers la page de consultation des applications après la mise à jour
+      navigate(`/applicationDetails/${id}`);
+  } catch (error) {
+      console.error("Failed to update application:", error.response ? error.response.data : error.message);
+      // Afficher une alerte en cas d'erreur
+      window.alert("Failed to update application");
+  }
 };
 
-export default UpdateApplication;
+
+  // Fonction pour gérer les changements dans les champs du formulaire
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }));
+  };
+
+  return (
+    <>
+ 
+ <div className="container relative mx-auto">
+            <div className="relative flex content-center justify-center pt-24 pb-8">
+
+   </div>
+   </div>
+
+   <div className="container mx-auto p-4">
+        <h1 className="text-2xl text-white font-bold mb-4 bg-red-800 px-4 py-4 rounded-lg">Update Application</h1>
+        <div className="grid grid-cols-2 gap-4 bg-gray-100 p-4">
+          <div>
+          <Typography variant="small" color="blue-gray" className="mb-1 mt-1 font-medium">
+    Email
+  </Typography>
+  <Input type="text" name="email" value={formData.email} onChange={handleChange} placeholder="Email" />
+          <Typography variant="small" color="blue-gray" className="mb-1 mt-1 font-medium">
+                    Motivation
+                  </Typography>
+           
+            <Input type="text" name="motivation" value={formData.motivation} onChange={handleChange} placeholder="Motivation" />
+           
+  <Typography variant="small" color="blue-gray" className="mb-1 mt-1 font-medium">
+    Disponibility
+  </Typography>
+  <Input type="text" name="disponibilite" value={formData.disponibilite} onChange={handleChange} placeholder="Disponibilité" />
+  <Typography variant="small" color="blue-gray" className="mb-1 mt-1 font-medium">
+    Salary Informations
+  </Typography>
+  <Input type="text" name="salaire" value={formData.salaire} onChange={handleChange} placeholder="Salaire" />
+</div>
+          <div>
+          <Typography variant="small" color="blue-gray" className="mb-1 mt-1 font-medium">
+            Resume
+  </Typography>
+          <Input type="text" name="coverLetter" value={formData.coverLetter} onChange={handleChange} placeholder="Cover Letter"  />
+          <Typography variant="small" color="blue-gray" className="mb-1 mt-1 font-medium">
+            Upload New Resume
+          </Typography>
+          <Input type="file" name="cv" onChange={handleChange} /> {/* Champ de fichier pour CV */}
+  <Typography variant="small" color="blue-gray" className="mb-1 mt-1 font-medium">
+            Cover Letter
+  </Typography> 
+            <Input type="text" name="cv" value={formData.cv} onChange={handleChange} placeholder="CV" />
+          
+            <Typography variant="small" color="blue-gray" className="mb-1 mt-1 font-medium">
+            Upload New Cover Letter
+          </Typography>
+          <Input type="file" name="coverLetter" onChange={handleChange} /> {/* Champ de fichier pour Lettre de motivation */}
+        
+          </div>
+        </div>
+        <div className="flex justify-center mt-8">
+          <Button onClick={handleUpdate} className="w-60 bg-red-800">Update</Button>
+        </div>
+      </div>
+
+      <div className="flex justify-end mt-4">
+          <Link
+            to={`/applicationDetails/${id}`}
+            className="inline-block p-1 text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+          >
+            <svg className="w-3.5 h-3.5 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+              <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
+            </svg>
+          </Link>
+        </div>
+        
+
+
+      <div className="useful-links ml-80">
+  <a href="https://www.linkedin.com/esprit/">
+    <LinkedInIcon fontSize="large" /> LinkedIn
+  </a>
+  <a href="https://www.facebook.com/esprit/">
+    <FacebookIcon fontSize="large" /> Facebook
+  </a>
+  <a href="https://www.instagram.com/esprit/">
+    <InstagramIcon fontSize="large" /> Instagram
+  </a>
+</div>
+    </>
+  );
+}
+
+export default ApplicationUpdate;

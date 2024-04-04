@@ -16,6 +16,8 @@ import ApplicationDetails from "./pages/ApplicationDetails";
 import UpdateApplication from "./pages/UpdateApplication";
 import Apply from "./pages/apply";
 import Quiz from "./pages/test";
+import JobOfferDetails from "./pages/jobOfferDetails";
+import JobOfferList from "./pages/jobOffers";
 
 // redirection_roles samarr
 function App() {
@@ -55,6 +57,8 @@ function App() {
   <Route path="/updateApplication/:id" element={<UpdateApplication/>} />
   <Route path="/apply/:offerId" element={<Apply/>} />
   <Route path="/quiz/:quizId" element={<Quiz/>} />
+  <Route exact path="/job-offers" element={<JobOfferList/>} />
+  <Route path="/job-offer-details/:id" element={<JobOfferDetails/>} />
 
 
 
