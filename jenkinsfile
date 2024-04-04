@@ -54,9 +54,7 @@ stage('SonarQube Analysis') {
 
 
     }
-environment {
- currentBuild.result = 'SUCCESS'
-}
+
 
 
     post {
