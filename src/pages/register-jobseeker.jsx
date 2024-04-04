@@ -15,6 +15,7 @@ import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
 
+import { Footer } from '@/widgets/layout';
  
 import { Navbar1 } from '@/widgets/layout';
 import TermsAndConditions from './TermsAndConditions';
@@ -334,6 +335,7 @@ const handleTermsAndConditionsClick = () => {
   value={data.role_jobseeker}
   onChange={(e) => { handleInputChange(e); setData({ ...data, role_jobseeker: e.target.value }) }}
   className="border-t-blue-gray-200 focus:border-t-gray-900 bg-gray-200 text-black placeholder-gray-500 border-b-2 border-r-2 border-l-2 focus:ring-0 rounded-lg shadow-sm focus:outline-none focus:border-primary-400 w-full py-3 px-4 mt-1">
+  <option value="">Choose a role</option>
 
   <option value="student">Student</option>
   <option value="alumni">Alumni</option>
