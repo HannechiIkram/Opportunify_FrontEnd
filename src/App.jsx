@@ -29,25 +29,32 @@ function App() {
 
 {/*les paths eli mayodhherch efhom navbar par défaut (pour company)*/}
 
-      {!(pathname=='/nav0' ||pathname=='/profile/:userId' ||
-      pathname=='/profile/:userId' ||
+      {!!(pathname === '/nav0' ||
+   pathname === '/profile/:userId' ||
    pathname === '/tables' || 
    pathname === '/passwordreset' || 
+   pathname === '/navbar-jobseeker' ||
+   pathname === '/Profilecompany/:pId' ||
    pathname.startsWith('/user/') ||
-   pathname === "/dashboard" ||
-   pathname.startsWith('/job_offer/')|| pathname=='/redirect-company' || pathname=='/navbar' || pathname=='/nav1' ||pathname == '/sign-in' || pathname == '/sign-up' || pathname == '/passwordreset'||pathname == '/Forgot'||
-   pathname.startsWith('/job_offer/')|| pathname=='/nav0'|| pathname=='/navbar' || pathname=='/nav1' ||pathname == '/sign-in' || pathname == '/sign-up' || pathname == '/passwordreset'||pathname == '/Forgot'||
-       pathname=='/sign-upjs'||pathname=="/dashboard"|| pathname=='/home'|| pathname=='/redirect-sign-up'|| pathname === '/create' || 
-       pathname === '/tables' || 
-       pathname === '/passwordreset' || 
-       pathname === '/navbar-jobseeker'||
-       pathname.startsWith('/user/') ||
-       pathname.startsWith('/job_offer/') ||
-       pathname === "/dashboard") && (
-        <div className="container absolute left-2/4 z-10 mx-auto -translate-x-2/4 p-4">
-          <Navbar routes={routes} />
-        </div>
-      )
+   pathname.startsWith('/job_offer/') ||
+   pathname === '/redirect-company' || 
+   pathname === '/navbar' || 
+   pathname === '/nav1' || 
+   pathname === '/sign-up' || 
+   pathname === '/Forgot' || 
+   pathname === '/sign-in' || 
+   pathname === '/sign-upjs' ||
+   pathname === '/dashboard' || 
+   pathname === '/redirect-sign-up' || 
+   pathname === '/create' || 
+   pathname === '/apply/:offerId' ||
+   pathname === '/navbar-jobseeker' ||
+   pathname === "/dashboard"
+  ) && (
+    <div className="container absolute left-2/4 z-10 mx-auto -translate-x-2/4 p-4">
+      <Navbar routes={routes} />
+    </div>
+  )
 
       }
       

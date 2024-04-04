@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Card, Typography ,Link } from '@material-tailwind/react';
-
+import { Navbarjs } from '@/widgets/layout';
 function JobOfferDetails() {
     const { id } = useParams(); // Récupérer l'ID de l'offre d'emploi depuis l'URL
     const [jobOffer, setJobOffer] = useState(null);
@@ -47,6 +47,8 @@ function JobOfferDetails() {
     }
     
     return (
+        <>
+        <Navbarjs/>
         <div className="bg-gray-100 h-screen flex justify-center items-center pt-32">
             {jobOffer ? (
                 <Card className="bg-white rounded-lg shadow-lg p-8 w-2/3">
@@ -81,6 +83,7 @@ function JobOfferDetails() {
                 <Typography color="blue-gray">Loading...</Typography>
             )}
         </div>
+        </>
     );
 }
 
