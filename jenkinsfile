@@ -10,14 +10,14 @@ pipeline {
                 }
             }
         }
-stage('Unit Test') {
-    steps {
-        script {
-            currentBuild.result = 'SUCCESS'
-        }
-    }
-}
 
+        stage('Unit Test') {
+            steps {
+                script {
+                    currentBuild.result = 'SUCCESS'
+                }
+            }
+        }
 
         stage('Build application') {
             steps {
@@ -27,35 +27,34 @@ stage('Unit Test') {
                 }
             }
         }
-stage('Building images (node and mongo)') {
-steps{
-script {
-  currentBuild.result = 'SUCCESS'
-}
-}
-}
-stage('Deploy to Nexus') {
-steps{ 
-script {
- currentBuild.result = 'SUCCESS'
-}
-}}
 
-stage('SonarQube Analysis') {
-    steps {
-        script { 
-            def scannerHome = tool 'scanner'
-            withSonarQubeEnv {
-                sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=squ_f7cf83cb24586294697f80917f4b5b253260d2b1"
+        stage('Building images (node and mongo)') {
+            steps {
+                script {
+                    currentBuild.result = 'SUCCESS'
+                }
             }
-        } 
+        }
+
+        stage('Deploy to Nexus') {
+            steps {
+                script {
+                    currentBuild.result = 'SUCCESS'
+                }
+            }
+        }
+
+        stage('SonarQube Analysis') {
+            steps {
+                script {
+                    def scannerHome = tool 'scanner'
+                    withSonarQubeEnv {
+                        sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=squ_f7cf83cb24586294697f80917f4b5b253260d2b1"
+                    }
+                } 
+            }
+        }
     }
-}
-
-
-    
-
-
 
     post {
         success {
