@@ -14,6 +14,8 @@ pipeline {
         stage('Unit Test') {
             steps {
                 script {
+                    // Perform unit tests
+                    // Placeholder for actual unit test commands
                     currentBuild.result = 'SUCCESS'
                 }
             }
@@ -31,6 +33,8 @@ pipeline {
         stage('Building images (node and mongo)') {
             steps {
                 script {
+                    // Build Docker images for Node.js and MongoDB
+                    // Placeholder for actual Docker build commands
                     currentBuild.result = 'SUCCESS'
                 }
             }
@@ -39,6 +43,8 @@ pipeline {
         stage('Deploy to Nexus') {
             steps {
                 script {
+                    // Deploy artifacts to Nexus repository manager
+                    // Placeholder for actual deployment commands
                     currentBuild.result = 'SUCCESS'
                 }
             }
@@ -47,11 +53,13 @@ pipeline {
         stage('SonarQube Analysis') {
             steps {
                 script {
-                     currentBuild.result = 'SUCCESS'
+                    // Perform SonarQube analysis
+                    // Placeholder for actual SonarQube analysis commands
+                    currentBuild.result = 'SUCCESS'
                 }
-                    }
-                } 
-            
+            }
+        }
+    }
 
     post {
         success {
