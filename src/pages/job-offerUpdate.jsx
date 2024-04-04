@@ -176,17 +176,7 @@ const handleUpdate = async () => {
           <Button onClick={handleUpdate} className="w-60 bg-red-800">Update</Button>
         </div>
       </div>
-      <div className="useful-links ml-80">
-  <a href="https://www.linkedin.com/esprit/">
-    <LinkedInIcon fontSize="large" /> LinkedIn
-  </a>
-  <a href="https://www.facebook.com/esprit/">
-    <FacebookIcon fontSize="large" /> Facebook
-  </a>
-  <a href="https://www.instagram.com/esprit/">
-    <InstagramIcon fontSize="large" /> Instagram
-  </a>
-</div>
+  
     </>
   );
 }

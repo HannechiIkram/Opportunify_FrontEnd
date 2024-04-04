@@ -31,28 +31,57 @@ export function Job_offerConsultCopy() {
     const [jobOffers, setJobOffers] = useState([]);
     const [searchtitle, setSearchtitle] = useState(""); // New state for search workplace_type
   
-    useEffect(() => {
-      // Fetch all job offers when the component mounts
-      const fetchJobOffers = async () => {
-        try {
-          const response = await axios.get('/job_offer/getall');
-          setJobOffers(response.data);
-        } catch (error) {
-          console.error('Failed to fetch job offers:', error.response.data);
-        }
+   
+useEffect(() => {
+  // Fetch all job offers when the component mounts, if access token exists
+  const fetchJobOffers = async () => {
+    try {
+      const accessToken = localStorage.getItem("accessToken");
+      if (!accessToken) {
+        throw new Error("Access token not found");
+      }
+
+      const config = {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
       };
 
-      fetchJobOffers();
-    }, []); 
+      const response = await axios.get('/job_offer/getall', config);
+      setJobOffers(response.data);
+    } catch (error) {
+      console.error('Failed to fetch job offers:', error.response ? error.response.data : error.message);
+    }
+  };
 
-    const handleSearch = async () => {
-        try {
-          const response = await axios.get(`/job_offer/search/title/${searchtitle}`);
-          setJobOffers(response.data);
-        } catch (error) {
-          console.error('Failed to fetch job offers based on title:', error.response.data);
-        }
+  fetchJobOffers();
+}, []);
+
+
+const handleSearch = async () => {
+  try {
+      // Check if the access token exists in localStorage
+      const accessToken = localStorage.getItem("accessToken");
+
+      // If the access token does not exist, handle the error
+      if (!accessToken) {
+          console.error("Access token not found");
+          return;
+      }
+
+      const config = {
+          headers: {
+              Authorization: `Bearer ${accessToken}`,
+          },
       };
+
+      const response = await axios.get(`/job_offer/search/title/${searchtitle}`, config);
+      setJobOffers(response.data);
+  } catch (error) {
+      console.error('Failed to fetch job offers based on title:', error.response ? error.response.data : error.message);
+  }
+};
+
     
     const handleSeeMore = (offerId) => {
         // Toggle expanded state
@@ -60,20 +89,35 @@ export function Job_offerConsultCopy() {
         // Set the selected offer to display details
         setSelectedOffer(jobOffers.find(jobOffer => jobOffer._id === offerId));
     };
-      
     const handleDelete = async (offerId) => {
-        try {
-          const response = await axios.delete(`/job_offer/delete/${offerId}`);
+      try {
+          // Check if the access token exists in localStorage
+          const accessToken = localStorage.getItem("accessToken");
+  
+          // If the access token does not exist, handle the error
+          if (!accessToken) {
+              console.error("Access token not found");
+              return;
+          }
+  
+          const config = {
+              headers: {
+                  Authorization: `Bearer ${accessToken}`,
+              },
+          };
+  
+          const response = await axios.delete(`/job_offer/delete/${offerId}`, config);
           console.log(response.data);
-    
+  
           // Fetch updated job offers after deleting one
           const updatedJobOffers = await axios.get('/job_offer/getall');
           setJobOffers(updatedJobOffers.data);
-        } catch (error) {
+      } catch (error) {
           console.error('Failed to delete job offer:', error.response ? error.response.data : error.message);
           window.alert('Failed to delete job offer');
-        }
-    };
+      }
+  };
+  
 
     const handleSeeLess = () => {
         // Reset the selected offer to hide details
@@ -83,6 +127,11 @@ export function Job_offerConsultCopy() {
    // Autres parties de votre code inchangées...
 
 // Autres parties de votre code inchangées...
+
+const handleApply = (offerId) => {
+  history.push(`/apply?offerId=${offerId}`);
+};
+
 
 return (  
     <>

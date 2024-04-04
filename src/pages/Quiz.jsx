@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { MdOutlineQuiz } from "react-icons/md"; 
 import { Navbarjs } from '@/widgets/layout';
+import { Footer } from '@/widgets/layout';
 
 const QuizList = () => {
   const [quizzes, setQuizzes] = useState([]);

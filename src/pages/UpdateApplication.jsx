@@ -8,6 +8,7 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 import {  useNavigate } from 'react-router-dom';
 import { Link } from "react-router-dom";
 import { Navbarjs } from "@/widgets/layout";
+import { Footer } from '@/widgets/layout';
 
 export function ApplicationUpdate() {
   // Récupérer l'ID de l'application depuis les paramètres d'URL

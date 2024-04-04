@@ -195,8 +195,8 @@ function CreateUserPage() {
                 className="w-full max-w-lg px-4 py-3 rounded-lg border focus:outline-none focus:border-blue-500"
                 required
               >
-                <option value="user">user</option>
-                <option value="admin">admin</option>
+                <option value="user">User</option>
+                <option value="admin">Admin</option>
               </select>
             </div>
             <div className="mb-8">
