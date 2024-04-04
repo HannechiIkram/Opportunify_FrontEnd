@@ -39,7 +39,7 @@ steps{
 script {
  currentBuild.result = 'SUCCESS'
 }
-}
+}}
 
 stage('SonarQube Analysis') {
     steps {
@@ -53,7 +53,7 @@ stage('SonarQube Analysis') {
 }
 
 
-    }
+    
 
 
 
