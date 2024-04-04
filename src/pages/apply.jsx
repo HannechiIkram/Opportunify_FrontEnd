@@ -19,6 +19,11 @@ const Apply = () => {
     };
     const handleChange = e => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
+        // Validation de l'e-mail
+        if (e.target.name === 'email') {
+            const isValidEmail = /\S+@\S+\.\S+/.test(e.target.value);
+            setErrors({ ...errors, email: isValidEmail ? '' : 'Invalid email address' });
+        }
     };
     const [errors, setErrors] = useState({}); // State for validation errors
     const [formData, setFormData] = useState({
@@ -33,56 +38,61 @@ const Apply = () => {
     
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const formData = new FormData(e.target);
-        const offerId = formData.get('offerId');
         
-        const accessToken = localStorage.getItem("accessToken");
-      
-        if (!accessToken) {
-            console.error("Access token not found");
-            alert("Access token not found. Please log in again.");
-            return;
+        // Valider le formulaire
+        const isValid = formIsValid();
+    
+        if (isValid) {
+            // Envoyer le formulaire si celui-ci est valide
+            const formData = new FormData(e.target);
+            const offerId = formData.get('offerId');
+            
+            const accessToken = localStorage.getItem("accessToken");
+          
+            if (!accessToken) {
+                console.error("Access token not found");
+                alert("Access token not found. Please log in again.");
+                return;
+            }
+          
+            const postData = new FormData();
+          
+            for (const key of formData.keys()) {
+                postData.append(key, formData.get(key));
+            }
+          
+            try {
+                const config = {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                };
+          
+                await axios.post('http://localhost:3000/applications/apply', postData, config);
+                // Redirection vers la page /applications après la soumission réussie
+                navigate('/applications');
+            } catch (error) {
+                console.error('Error submitting application:', error);
+                alert('Failed to submit application. Please try again.');
+            }
         }
-      
-        const postData = new FormData();
-      
-        for (const key of formData.keys()) {
-            postData.append(key, formData.get(key));
-        }
-      
-        try {
-            const config = {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                    Authorization: `Bearer ${accessToken}`,
-                },
-            };
-      
-            await axios.post('http://localhost:3000/applications/apply', postData, config);
-            alert('Application submitted successfully!');
-            navigate('/applications'); // Redirection vers la page /applications après la soumission réussie
-        } catch (error) {
-            console.error('Error submitting application:', error);
-            alert('Failed to submit application. Please try again.');
-        }
-        // Fonction pour valider le formulaire
-  const formIsValid = () => {
-    let errors = {};
-
-    if (!formData.email.trim()) {
-      errors.email = "Email is required";
-    }
-    if (!formData.email.trim()) {
-      errors.email = "Email is required";
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      errors.email = "Invalid email address";
-    }
-    }
-    setErrors(errors);
-
-    return Object.keys(errors).length === 0; 
-
     };
+    
+    // Fonction pour valider le formulaire
+    const formIsValid = () => {
+        let errors = {};
+    
+        if (!formData.email.trim()) {
+            errors.email = "Email is required";
+        } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+            errors.email = "Invalid email address";
+        }
+    
+        setErrors(errors); // Mettre à jour les erreurs
+        return Object.keys(errors).length === 0; // Retourner true si aucune erreur n'est présente
+    };
+    
     
     return (
         <div className="container relative mx-auto">
@@ -98,9 +108,11 @@ const Apply = () => {
                             <form onSubmit={handleSubmit} className="px-4 py-8 grid grid-cols-1 gap-6 md:grid-cols-2">
                                 <input type="hidden" name="offerId" value={offerId} />
                                 <div>
-                                    <Typography htmlFor="text" className="block text-sm font-medium text-gray-900 dark:text-white" >Email</Typography>
-                                    <Input type="email" name="email" value={formData.email} onChange={handleChange} className="input-style" placeholder="Email" required />
-    {errors.email && <p className="text-red-500">{errors.email}</p>}
+                                    <div>
+                                        <Typography htmlFor="text" className="block text-sm font-medium text-gray-900 dark:text-white">Email</Typography>
+                                        <Input type="email" name="email" value={formData.email} onChange={handleChange} className="input-style" placeholder="Email" required />
+                                        {errors.email && <span className="text-red-500">{errors.email}</span>}
+                                    </div>
                                 </div>
                                 <div>
                                     <Typography htmlFor="text" className="block text-sm font-medium text-gray-900 dark:text-white" >Motivation</Typography>
@@ -131,8 +143,6 @@ const Apply = () => {
                 </div>
             </div>
         </div>
-
-        
     );
 };
 

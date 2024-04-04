@@ -84,6 +84,11 @@ export function Sidenav({ brandName }) {
       icon: UserCircleIcon,
       path: "/user/:id"
     }
+    ,    {
+      label: "Evaluation",
+      icon: UserCircleIcon,
+      path: "/evaluation"
+    }
   ];
 
   return (

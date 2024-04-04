@@ -10,7 +10,7 @@ import ApplicationDetails from './ApplicationDetails';
 const Applications = () => {
   const [applications, setApplications] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const [searchType, setSearchType] = useState('status');
+  const [searchType, setSearchType] = useState('date');
   const [searchResults, setSearchResults] = useState([]);
   const [selectedApplication, setSelectedApplication] = useState(null);
   const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
@@ -20,6 +20,7 @@ const Applications = () => {
 
   const [currentPage, setCurrentPage] = useState(1);
   const [applicationsPerPage] = useState(5); // Nombre d'applications par page
+  
   useEffect(() => {
     const fetchApplications = async () => {
       try {
@@ -105,18 +106,20 @@ const Applications = () => {
             Authorization: `Bearer ${accessToken}`,
           },
         };
-  
+    
+        let url;
         switch (searchType) {
-          case 'status':
-            response = await axios.get(`http://localhost:3000/applications/search/status/${searchTerm}`, config);
-            break;
           case 'date':
-            const isoDate = searchTerm.toISOString().split('T')[0];
-            response = await axios.get(`http://localhost:3000/applications/search/date/${isoDate}`, config);
+            // Format the date to match the server's expectations (yyyy-MM-dd)
+            const formattedDate = new Date(searchTerm).toISOString().split('T')[0];
+            url = `http://localhost:3000/applications/search/date/${formattedDate}`;
             break;
           default:
             break;
         }
+    
+        // Make the request using Axios
+        response = await axios.get(url, config);
         setSearchResults(response.data);
       } catch (error) {
         console.error('Error searching:', error);
@@ -186,40 +189,19 @@ const Applications = () => {
   };
 
 
-
-
   return (
     <div className="container relative mx-auto">
       <div className="relative flex content-center justify-center pt-24 pb-32">
         <div className="container mt-8 w-full">
-          <div className="flex justify-center items-center">
-            {searchType === 'date' && (
-              <input
-                type="date"
-                className="block w-80 px-4 py-2 text-sm text-gray-900 placeholder-gray-500 bg-gray-100 border border-gray-600 rounded-lg shadow-sm focus:outline-none focus:ring-black focus:border-gay-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:border-gray-500"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(new Date(e.target.value))}
-              />
-            )}
-            {searchType !== 'date' && (
-              <input
-                type="search"
-                className="block w-80 px-4 py-2 text-sm text-gray-900 placeholder-gray-500 bg-gray-100 border border-gray-600 rounded-lg shadow-sm focus:outline-none focus:ring-black focus:border-gay-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:border-gray-500"
-                placeholder={`Search by ${searchType}`}
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-            )}
-           <select
-  value={searchType}
-  onChange={(e) => setSearchType(e.target.value)}
-  className="ml-2 px-3 py-2 text-gray-500 hover:text-gray-700 focus:outline-none focus:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 dark:focus:text-gray-300"
->
-  <option value="status">By Status</option>
-  <option value="date">By Date</option>
-</select>
+        <div className="flex justify-center items-center">
+          <input
+            type="date"
+            className="block w-80 px-4 py-2 text-sm text-gray-900 placeholder-gray-500 bg-gray-100 border border-gray-600 rounded-lg shadow-sm focus:outline-none focus:ring-black focus:border-gray-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:border-gray-500"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(new Date(e.target.value))}
+          />
+      </div>
 
-          </div>
           
           <div className="flex flex-wrap justify-center pt-8">
         
@@ -227,16 +209,16 @@ const Applications = () => {
           {(searchResults.length > 0 ? searchResults : applications).map(application => (
   <div key={application._id} className="m-4 bg-gray-100 rounded-md w-96 shadow-lg overflow-hidden h-auto">
     <div className="flex items-center justify-center mt-2">
-      {getStatusBadge(application.status)}
+      
     </div>
-    <p className="text-center">Job Offer Title: {jobOfferTitles[application._id]}</p>
-    <p className="text-center">Application Date: {application.applicationDate}</p>
+    <p className="text-center "><p className="font-semibold ">Job Offer Title: </p>{jobOfferTitles[application._id]}</p>
+    <p className="text-center"><p className="font-semibold ">JApplication Date: </p> {application.applicationDate}</p>
                    
     <div className="flex justify-center mt-4">
       <Link to={`/applicationDetails/${application._id}`} className="bg-blue-gray-500 text-white px-4 py-2 rounded">
         Show Details
       </Link>
-      <button className="bg-red-400 text-white px-4 py-2 rounded" onClick={() => {
+      <button className="bg-red-700 text-white px-4 py-2 rounded" onClick={() => {
         setSelectedApplication(application);
         setIsConfirmationOpen(true);
       }}>Delete</button>
