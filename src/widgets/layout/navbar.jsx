@@ -277,17 +277,7 @@ const navListItems = [
     path:"/quizss"
 
   },
-  {
-    label: "Sign up",
-    icon: UserCircleIcon,
-    path:"/redirect-sign-up"
-  },
-  {
-    label: "Sign In",
-    icon: KeyIcon,
-    path:"/sign-in"
-
-  },
+  
 /*
   {
     label: "Docs",

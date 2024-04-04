@@ -27,14 +27,15 @@ function App() {
   
     <UserProvider>
 
+{/*les paths eli mayodhherch efhom navbar*/}
 
-
-      {!( pathname=='/nav0' ||pathname === '/create' || 
+      {!(pathname=='/nav0' ||
    pathname === '/tables' || 
    pathname === '/passwordreset' || 
    pathname.startsWith('/user/') ||
    pathname === "/dashboard" ||
    pathname.startsWith('/job_offer/')|| pathname=='/redirect-company' || pathname=='/navbar' || pathname=='/nav1' ||pathname == '/sign-in' || pathname == '/sign-up' || pathname == '/passwordreset'||pathname == '/Forgot'||
+   pathname.startsWith('/job_offer/')|| pathname=='/nav0' || pathname=='/redirect-company' || pathname=='/navbar' || pathname=='/nav1' ||pathname == '/sign-in' || pathname == '/sign-up' || pathname == '/passwordreset'||pathname == '/Forgot'||
        pathname=='/sign-upjs'||pathname=="/dashboard"|| pathname=='/home'|| pathname=='/redirect-sign-up'|| pathname === '/create' || 
        pathname === '/tables' || 
        pathname === '/passwordreset' || 

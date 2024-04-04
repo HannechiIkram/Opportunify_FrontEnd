@@ -270,7 +270,7 @@ const handleSignupClick = () => {
                 {jobOffers.slice(0, 4).map((jobOffer) => (
                   <li key={jobOffer._id} className="shadow-xl bg-[#f5f5f5] p-4 ml-auto mr-auto mb-10 rounded-lg hover:scale-105 duration-300">
                     <div className="flex justify-between items-center"> {/* Utilize Flexbox with justify-content: space-between */}
-                      <Typography variant="title" color="#ff6666" className="mb-2 " style={{ fontSize: '24px', fontWeight: 'bold' }}>
+                      <Typography variant="title" color="gray" className="mb-2 " style={{ fontSize: '24px', fontWeight: 'bold' }}>
                         {jobOffer.title} 
                       </Typography>
                       
