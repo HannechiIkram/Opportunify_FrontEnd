@@ -211,7 +211,7 @@ const handleSearch = (e) => {
   <div key={application._id} className="bg-white rounded-lg shadow-lg overflow-hidden">
     <div className="p-4">
       {/* Display application email */}
-      <p className="text-center mb-2">Email: {application.job_seeker.email}</p>
+      <p className="text-center mb-2">Email: {application.email}</p>
       {/* Display job seeker name if available */}
       {application.job_seeker && (
         <p className="text-center mb-2">Name: {application.job_seeker.name}</p>
