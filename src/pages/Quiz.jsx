@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { MdOutlineQuiz } from "react-icons/md"; 
+import { Footer } from '@/widgets/layout';
 
 const QuizList = () => {
   const [quizzes, setQuizzes] = useState([]);

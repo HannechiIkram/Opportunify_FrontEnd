@@ -162,7 +162,89 @@ const ApplicationDetails = () => {
     setComment(e.target.value);
   };
 
+  const handleExportCV = async (cvPath) => {
+    try {
+      const accessToken = localStorage.getItem("accessToken");
+      if (!accessToken) {
+        console.error("Access token not found");
+        return;
+      }
   
+      const config = {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      };
+  
+      // Supprimer le répertoire "ikramm" s'il est inclus dans le chemin du CV
+      const cvPathWithoutIkramm = cvPath.replace('ikramm/', '');
+  
+      const cvBlob = await fetch(`http://localhost:3000/download/cv/${cvPathWithoutIkramm}`, config);
+      const cvData = await cvBlob.blob();
+      console.log("Fetching CV from:", `http://localhost:3000/download/cv/${cvPathWithoutIkramm}`);
+console.log("Headers:", config.headers);
+
+      console.log("CV Blob:", cvBlob);
+      
+      const doc = new jsPDF();
+      const reader = new FileReader();
+  
+      reader.onloadend = () => {
+        const cvContent = reader.result;
+        doc.text(`CV: ${cvContent}`, 10, 10);
+        doc.save('cv_details.pdf');
+      };
+      reader.onloadend = () => {
+        console.log("CV Content:", reader.result);
+        // ... Autres actions à effectuer avec le contenu du fichier
+    };
+      reader.readAsDataURL(cvData);
+    } catch (error) {
+      console.error('Error exporting CV PDF:', error);
+      // Afficher un message d'erreur à l'utilisateur
+    }
+  };
+  
+  
+  
+  const handleExportCoverLetter = async (coverLetter) => {
+    try {
+      const accessToken = localStorage.getItem("accessToken");
+      if (!accessToken) {
+        console.error("Access token not found");
+        return;
+      }
+  
+      const config = {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      };
+  
+      const coverLetterBlob = await fetch(`http://localhost:3000/download/cover-letter/ikramm/${coverLetter}`, config);
+      const coverLetterData = await coverLetterBlob.blob();
+  
+      const doc = new jsPDF();
+      const reader = new FileReader();
+  
+      reader.onloadend = () => {
+        const coverLetterContent = reader.result;
+        doc.text(`Cover Letter: ${coverLetterContent}`, 10, 10);
+        doc.save('cover_letter_details.pdf');
+      };
+  
+      reader.readAsDataURL(coverLetterData);
+    } catch (error) {
+      console.error('Error exporting Cover Letter PDF:', error);
+      // Afficher un message d'erreur à l'utilisateur
+    }
+  };
+  
+
+  
+  if (!applications) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <>
@@ -192,7 +274,6 @@ const ApplicationDetails = () => {
           </Modal>
         </div>
       </div>
-      
 
       <div className="container relative mx-auto">
         <div className="relative flex content-center justify-center pt-24 pb-8"></div>
@@ -212,19 +293,20 @@ const ApplicationDetails = () => {
 
           <Card className="mt-8 ml-auto mr-auto mb-2 w-80 max-w-screen-lg lg:w-5/6 rounded-lg p-6 bg-gray-200 bg-opacity-90 text-center">
             <div>
-             <p>Date: {applications.applicationDate}</p>
+              <p>Date: {applications.applicationDate}</p>
               <p> {applications.applicationId}</p>
               <p>Email: {applications.email}</p>
               <p>Motivation: {applications.motivation}</p>
               <p>Salary Inormations: {applications.salaire}</p>
               <p>Disponibility: {applications.disponibilite}</p>
               <br></br>
-             
+              <p> <Button color="white" onClick={() => handleExportCV(applications.cv)}>Export Resume</Button>
+<Button color="white" onClick={() => handleExportCoverLetter(applications.coverLetter)}>Export Cover Letter </Button></p>
              <br></br>
               <>
 
-                <Button color="gray" onClick={handleAccept} disabled={!buttonState.accept}>Accept</Button>
-                <Button color="red" onClick={handleReject} disabled={!buttonState.reject}>Reject</Button>
+                <Button color="gray" onClick={handleAccept} >Accept</Button>
+                <Button color="red" onClick={handleReject} >Reject</Button>
               </>
               <div>
                 <Rating
@@ -258,17 +340,7 @@ const ApplicationDetails = () => {
           </div>
         </div>
       </section>
-      <div className="useful-links ml-80">
-        <a href="https://www.linkedin.com/esprit/">
-          <LinkedInIcon fontSize="large" /> LinkedIn
-        </a>
-        <a href="https://www.facebook.com/esprit/">
-          <FacebookIcon fontSize="large" /> Facebook
-        </a>
-        <a href="https://www.instagram.com/esprit/">
-          <InstagramIcon fontSize="large" /> Instagram
-        </a>
-      </div>
+    
     </>
   );
 };
