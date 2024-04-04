@@ -8,7 +8,7 @@ const Comment = ({ comment, userName, time, handleDeleteComment }) => {
         <ClearIcon sx={{ cursor: 'pointer' }} onClick={handleDeleteComment} />
       </Box>
       <Grid container>
-        <Grid item xs={1}>
+        <Grid item xs={12} md={1}>
           <Avatar
             src="/img/team-5.png"
             alt="Profile picture"

@@ -159,7 +159,7 @@ const handleUpdateGitUrl = async () => {
             {/* Display other user information     <p>: {user.role_jobseeker} </p> */}
 
             <section className="relative block h-[50vh]">
-              <div className="bg-profile-background absolute top-0 h-full w-full bg-[url('/img/background-3.png')] bg-cover bg-center scale-105" />
+              <div className="bg-profile-background absolute top-0 h-full w-full bg-[url('/img/background-3.png')] bg-cover bg-center" />
               <div className="absolute top-0 h-full w-full bg-red-900  bg-cover bg-center" />
             </section>
             <section className="relative  py-16 bg-gray-100">

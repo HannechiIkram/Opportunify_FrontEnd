@@ -58,7 +58,7 @@ const DisplayPost = ({ post, profile, handledeletePost }) => {
                 sx={{ width: 80, height: 80 }}
               />
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={12} md={4}>
               <Typography variant="h6">
                 {profile.name} {profile.lastname}
               </Typography>
@@ -85,13 +85,13 @@ const DisplayPost = ({ post, profile, handledeletePost }) => {
         </Grid>
         <Divider></Divider>
         <Grid container display={'flex'}>
-          <Grid item xs={11}>
+          <Grid item md={11} xs={8}>
             <Typography>
               {`${currentPost.likes?.length || 0}`}
               <ThumbUpIcon sx={{ mb: '5px' }} />
             </Typography>
           </Grid>
-          <Grid item xs={1}>
+          <Grid item md={1} xs={4}>
             <Typography onClick={toggleDisplayComments} sx={{ cursor: 'pointer' }}>{`  ${
               currentPost.comments?.length || 0
             } comments`}</Typography>
