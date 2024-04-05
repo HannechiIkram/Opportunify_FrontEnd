@@ -3,6 +3,8 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import Countdown from 'react-countdown';
 import { useNavigate } from 'react-router-dom';
+import { Navbarjs } from '@/widgets/layout';
+import {Link } from "react-router-dom";
 
 const Quiz = () => {
   const { quizId } = useParams();
@@ -72,7 +74,9 @@ const Quiz = () => {
   }
 
   return (
-    <div className="bg-gray-300 min-h-screen flex justify-center items-center pt-32">
+    <>
+    <Navbarjs/>
+    <div className="bg-gray-200 min-h-screen flex justify-center items-center pt-8">
       <div className="max-w-lg bg-white shadow-md rounded-lg overflow-hidden">
         <div className="p-8">
           <h2 className="text-3xl font-bold mb-8">{quiz.title}</h2>
@@ -133,9 +137,21 @@ const Quiz = () => {
               </li>
             ))}
           </ol>
+          <div className="flex justify-end">
+        <Link
+          to={`/quizss`}
+          className="inline-block p-1 text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+        >
+          <svg className="w-6 h-6 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
+          </svg>
+        </Link>
+      </div>
         </div>
+  
       </div>
     </div>
+    </>
   );
 };
 

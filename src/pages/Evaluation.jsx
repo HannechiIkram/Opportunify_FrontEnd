@@ -218,6 +218,7 @@ const EvaluationList = () => {
                 className="border rounded-md px-3 py-2 mb-2"
               />
             ))}
+            <label htmlFor="numOptions" className="mr-2">Correct option:</label>
             <select
               value={question.correctOptionIndex}
               onChange={(e) => handleCorrectOptionChange(e, index)}

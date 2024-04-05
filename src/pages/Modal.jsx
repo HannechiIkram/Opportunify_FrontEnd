@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Typography, Button, Input, TextField, Select } from "@material-tailwind/react";
+import { Typography, Button, Input, TextField} from "@material-tailwind/react";
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 
@@ -22,6 +22,8 @@ const Modal = ({ open, onClose }) => {
         const response = await axios.get(`/user/getProfileJobSeekerById/${userId}`);
         const profileData = response.data.profile;
         setFormData(profileData);
+       
+
       } catch (error) {
         console.error('Error fetching profile data:', error);
       }
@@ -44,6 +46,8 @@ const Modal = ({ open, onClose }) => {
       console.log("Profile updated successfully");
 
       onClose();
+      window.location.reload();
+
     } catch (error) {
       console.error('Error updating profile:', error);
     }
@@ -63,7 +67,7 @@ const Modal = ({ open, onClose }) => {
               <Typography variant="small" color="blue-gray" className="mb-1 mt-1 font-medium">
                 Name
               </Typography>
-              <Input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Name" className="input-style" required/>
+              <Input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Name" className="input-style bg-blue-gray-100 " required/>
             </div>
             <div>
               <Typography variant="small" color="blue-gray" className="mb-1 mt-1 font-medium">
@@ -100,16 +104,23 @@ const Modal = ({ open, onClose }) => {
               <Input type="text" name="address" value={formData.address} onChange={handleChange} placeholder="Address" className="input-style" required />
             </div>
             <div className='mb-4'>
-              <Typography variant="small" color="blue-gray" className="mb-1 mt-1 font-medium">
-                Role Jobseeker
-              </Typography>
-              <Select name="role_jobseeker" value={formData.role_jobseeker} onChange={handleChange} className="input-style" required>
-                <option value="">Select Role</option>
-                <option value="student">Student</option>
-                <option value="alumni">Alumni</option>
-                <option value="staff">Staff</option>
-              </Select>
-            </div>
+  <Typography variant="small" color="blue-gray" className="mb-1 mt-1 font-medium">
+    Role Jobseeker
+  </Typography>
+  <select
+    name="role_jobseeker"
+    value={formData.role_jobseeker}
+    onChange={handleChange}
+    className="input-style bg-blue-gray-100 px-48 py-2 rounded-xl" // Apply a class with the desired background color
+    required
+  >
+    <option value="">Select Role</option>
+    <option value="student">Student</option>
+    <option value="alumni">Alumni</option>
+    <option value="staff">Staff</option>
+  </select>
+</div>
+
            
             {/* Add other fields similarly */}
             <div className="flex justify-center mt-8">
