@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+
 import {
     Card,
     CardBody,
@@ -99,7 +100,7 @@ const Apply = () => {
         <>
         <Navbarjs/>
         <div className="container relative mx-auto">
-            <div className="relative flex content-center justify-center pt-24 pb-32">
+            <div className="relative flex content-center justify-center pt-12 pb-32">
                 <div className="container mx-auto mt-8 max-w-screen-md w-1/2">
                     <Card className='mt-8 bg-gray-400 bg-opacity-20 rounded-lg shadow-l'>
                         <CardHeader className='bg-red-800' contentPosition="none">

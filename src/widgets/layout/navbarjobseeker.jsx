@@ -287,7 +287,12 @@ const navListItems = [
 
   },
   
-  
+  {
+    label: "Applications",
+    icon: KeyIcon,
+    path:"/applications"
+
+  },
 /*
   {
     label: "Docs",

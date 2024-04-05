@@ -108,7 +108,7 @@ const handleUpdate = async () => {
     <>
  <Navbarjs/>
  <div className="container relative mx-auto">
-            <div className="relative flex content-center justify-center pt-24 pb-8">
+            <div className="relative flex content-center justify-center pt-4 pb-8">
 
    </div>
    </div>

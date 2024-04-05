@@ -89,7 +89,7 @@ export function JobofferConsult() {
     return (
         <>
         <Navbarjs/>
-            <div className="container relative mx-auto pt-32"></div>
+            <div className="container relative mx-auto pt-8"></div>
 
             <div className="flex justify-center items-center mt-8">
                 <Typography variant="medium" color="blue-gray" className="font-medium mr-4">

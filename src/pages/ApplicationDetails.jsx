@@ -5,6 +5,8 @@ import { Card, Typography, Button, Input } from "@material-tailwind/react";
 import { GrScheduleNew } from "react-icons/gr";
 import { GrAid } from "react-icons/gr";
 import { GrCurrency } from "react-icons/gr";
+import { Navbar } from '@/layout';
+import { Navbarjs } from '@/widgets/layout';
 
 const ApplicationDetails = () => {
   const { id } = useParams();
@@ -88,7 +90,9 @@ const ApplicationDetails = () => {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen bg-gray-100  pt-28">
+    <>
+    <Navbarjs/>
+    <div className="flex justify-center items-center h-screen bg-gray-100  pt-2">
     <div className="max-w-lg bg-white rounded-lg sha/$dow-lg  space-y-6 p-8 w-2/3">
       <h2 className="text-2xl font-bold text-gray-80">Application Details</h2>
       {applicationDetails && (
@@ -151,6 +155,7 @@ const ApplicationDetails = () => {
       </div>
     </div>
   </div>
+  </>
   );
 };
 

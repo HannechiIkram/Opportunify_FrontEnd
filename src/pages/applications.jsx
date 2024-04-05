@@ -6,6 +6,7 @@ import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import ApplicationDetails from './ApplicationDetails';
+import { Navbarjs } from "@/widgets/layout";
 
 const Applications = () => {
   const [applications, setApplications] = useState([]);
@@ -190,8 +191,10 @@ const Applications = () => {
 
 
   return (
+    <>
+    <Navbarjs/>
     <div className="container relative mx-auto">
-      <div className="relative flex content-center justify-center pt-24 pb-32">
+      <div className="relative flex content-center justify-center pt-12 pb-32">
         <div className="container mt-8 w-full">
         <div className="flex justify-center items-center">
           <input
@@ -270,7 +273,7 @@ const Applications = () => {
 </div>
 
       
-  
+  </>
  
 
  
