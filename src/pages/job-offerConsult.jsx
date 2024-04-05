@@ -14,6 +14,9 @@ import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import {Appap} from "./createPieChart.jsx";
+
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
 export function Job_offerConsult() {
     const [expandedOfferId, setExpandedOfferId] = useState(null);
     const [selectedOffer, setSelectedOffer] = useState(null);
@@ -34,6 +37,9 @@ export function Job_offerConsult() {
 
     const [jobOffers, setJobOffers] = useState([]);
     const [searchtitle, setSearchtitle] = useState(""); // New state for search workplace_type
+
+
+
 useEffect(() => {
   // Fetch all job offers when the component mounts, if access token exists
   const fetchJobOffers = async () => {
@@ -91,35 +97,20 @@ const handleSearch = async () => {
         // Set the selected offer to display details
         setSelectedOffer(jobOffers.find(jobOffer => jobOffer._id === offerId));
     };
+    
     const handleDelete = async (offerId) => {
       try {
-          // Check if the access token exists in localStorage
-          const accessToken = localStorage.getItem("accessToken");
-  
-          // If the access token does not exist, handle the error
-          if (!accessToken) {
-              console.error("Access token not found");
-              return;
-          }
-  
-          const config = {
-              headers: {
-                  Authorization: `Bearer ${accessToken}`,
-              },
-          };
-  
-          const response = await axios.delete(`/job_offer/delete/${offerId}`, config);
+          const response = await axios.delete(`/job_offer/delete/${offerId}`);
           console.log(response.data);
-  
-          // Fetch updated job offers after deleting one
-          const updatedJobOffers = await axios.get('/job_offer/getall');
-          setJobOffers(updatedJobOffers.data);
+          toast.success('Job offer deleted successfully');
+          // Rafraîchir la page après la suppression
+          window.location.reload();
+          // Afficher une notification de succès
       } catch (error) {
           console.error('Failed to delete job offer:', error.response ? error.response.data : error.message);
           window.alert('Failed to delete job offer');
       }
   };
-  
 
     const handleSeeLess = () => {
         // Reset the selected offer to hide details
@@ -175,7 +166,7 @@ return (
                 {jobOffers.map((jobOffer) => (
                   <li key={jobOffer._id} className="shadow-xl bg-[#f5f5f5] p-4 ml-auto mr-auto mb-10 rounded-lg hover:scale-105 duration-300">
                     <div className="flex justify-between items-center"> {/* Utilize Flexbox with justify-content: space-between */}
-                      <Typography variant="title" color="#ff6666" className="mb-2 " style={{ fontSize: '24px', fontWeight: 'bold' }}>
+                      <Typography variant="title" className="mb-2 " style={{ fontSize: '24px', fontWeight: 'bold' }}>
                         {jobOffer.title} 
                       </Typography>
                       <div>
@@ -209,7 +200,7 @@ return (
                       </Typography>
                     </div>
                     <div className="flex items-center"> {/* Nouveau div pour les boutons */}
-                      <Button color="blue-grey" onClick={() => handleSeeMore(jobOffer._id)}>
+                      <Button color="blue-gray" onClick={() => handleSeeMore(jobOffer._id)}>
                         {expandedOfferId === jobOffer._id ? "See Less" : "See More"}
                       </Button>
                       <Button color="red" onClick={() => handleDelete(jobOffer._id)}>

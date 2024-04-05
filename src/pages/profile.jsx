@@ -125,6 +125,12 @@ const handleUpdateGitUrl = async () => {
     console.error('Error:', error.message); // Log error message
   }
 };
+
+
+const [tempDescription, setTempDescription] = useState('');
+
+// Update the temporary input value instead of directly updating the description state
+
   return (
     <>
 
@@ -280,39 +286,49 @@ const handleUpdateGitUrl = async () => {
             <div className="container mx-auto w-2/3">
             <div className="mb-10 ">
             <div className="relative">
-            <input
-  placeholder="Add a description to your bio......"
-  type="text"
-  className={`w-full h-28 px-3 border rounded-md focus:outline-none focus:border-indigo-500 text-lg placeholder-gray-400 placeholder-opacity-100 ${
-    !isEditVisible ? 'bg-gray-200' : '' // Conditionally apply bg-gray-300 when isEditVisible is false
-  }`}
-  style={{ textAlign: 'left' }}
-  onFocus={() => setInputFocused(true)}
-  onBlur={() => setInputFocused(false)}
-  value={description}
-  onChange={handleDescriptionChange}
-/>
-<button
-  className="absolute  right-0 top-0 px-2 py-1 bg-white text-gray-600 hover:bg-gray-300 focus:bg-gray-300 rounded-md "
-  onClick={handleEditButtonClick}
+  {/* Render input only when isEditVisible is true */}
+  {isEditVisible ? (
+    <input
+      placeholder="Add a description to your bio......"
+      type="text"
+      className={`w-full h-28 px-3 border rounded-md focus:outline-none focus:border-indigo-500 text-lg placeholder-gray-400 placeholder-opacity-100 ${
+        !isEditVisible ? 'bg-gray-200' : '' // Conditionally apply bg-gray-300 when isEditVisible is false
+      }`}
+      style={{ textAlign: 'left' }}
+      onFocus={() => setInputFocused(true)}
+      onBlur={() => setInputFocused(false)}
+      value={description}
+      onChange={handleDescriptionChange}
+    />
+  ) : (
+    // Render the description as text when isEditVisible is false
+    <p className="w-full h-28 px-3 border rounded-md focus:outline-none focus:border-indigo-500 text-lg placeholder-gray-400 placeholder-opacity-100 bg-gray-200">
+      {description}
+    </p>
+  )}
+
+  {/* Render the edit button */}
+  <button
+    className="absolute right-0 top-0 px-2 py-1 bg-white text-gray-600 hover:bg-gray-300 focus:bg-gray-300 rounded-md"
+    onClick={handleEditButtonClick}
   >
     <AiFillEdit />
   </button>
 
-  {/* Second Button */}
+  {/* Render the submit button only when isEditVisible is true */}
   {isEditVisible && (
-<button
-  className="absolute top-10 right-3 px-2 py-2 bg-gray-200 text-gray-600 hover:bg-gray-300 focus:bg-gray-300 rounded-full"
-  onClick={() => {
-    updateDescription() // Call updateDescription function
-      .then(() => {
-        handleUpdateDescription(); // Call handleUpdateDescription after updateDescription is completed
-      })}}
->
-<AiOutlineArrowRight  className="text-red-900 " />
-</button>
-       )}
-    </div>
+    <button
+      className="absolute top-10 right-3 px-2 py-2 bg-gray-200 text-gray-600 hover:bg-gray-300 focus:bg-gray-300 rounded-full"
+      onClick={() => {
+        updateDescription().then(() => {
+          handleUpdateDescription();
+        });
+      }}
+    >
+      <AiOutlineArrowRight className="text-red-900" />
+    </button>
+  )}
+</div>
                {/* <img src={profile.image} alt="Profile Image" className="h-40 w-40 rounded-full" />   */}
                  {profile.image}
 </div>

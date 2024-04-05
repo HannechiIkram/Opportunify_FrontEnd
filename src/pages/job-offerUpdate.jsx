@@ -2,9 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { Input, Button,Typography } from "@material-tailwind/react";
-import LinkedInIcon from '@mui/icons-material/LinkedIn';
-import FacebookIcon from '@mui/icons-material/Facebook';
-import InstagramIcon from '@mui/icons-material/Instagram';
+
 export function Job_offerUpdate() {
   // Récupérer l'ID de l'offre d'emploi depuis les paramètres d'URL
   const { id } = useParams();
@@ -37,62 +35,31 @@ export function Job_offerUpdate() {
   // Effect pour charger les données de l'offre d'emploi à mettre à jour
   useEffect(() => {
     const fetchJobOffer = async () => {
-        try {
-            // Check if the access token exists in localStorage
-            const accessToken = localStorage.getItem("accessToken");
-
-            // If the access token does not exist, handle the error
-            if (!accessToken) {
-                console.error("Access token not found");
-                return;
-            }
-
-            const config = {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                },
-            };
-
-            const response = await axios.get(`/job_offer/get/${id}`, config);
-            const { title, description, qualifications, responsibilities, lieu, langue, workplace_type, field, salary_informations, deadline } = response.data;
-            setFormData({ title, description, qualifications, responsibilities, lieu, langue, workplace_type, field, salary_informations, deadline });
-        } catch (error) {
-            console.error("Failed to fetch job offer:", error.response ? error.response.data : error.message);
-        }
+      try {
+        const response = await axios.get(`/job_offer/get/${id}`);
+        const { title, description, qualifications, responsibilities, lieu, langue, workplace_type, field, salary_informations, deadline } = response.data;
+        setFormData({ title, description, qualifications, responsibilities, lieu, langue, workplace_type, field, salary_informations, deadline });
+      } catch (error) {
+        console.error("Failed to fetch job offer:", error.response ? error.response.data : error.message);
+      }
     };
 
     fetchJobOffer();
-}, [id]);
+  }, [id]);
 
   // Fonction pour mettre à jour l'offre d'emploi
-const handleUpdate = async () => {
-  try {
-      // Check if the access token exists in localStorage
-      const accessToken = localStorage.getItem("accessToken");
-
-      // If the access token does not exist, handle the error
-      if (!accessToken) {
-          console.error("Access token not found");
-          return;
-      }
-
-      const config = {
-          headers: {
-              Authorization: `Bearer ${accessToken}`,
-          },
-      };
-
-      const response = await axios.put(`/job_offer/update/${id}`, formData, config);
+  const handleUpdate = async () => {
+    try {
+      const response = await axios.put(`/job_offer/update/${id}`, formData);
       console.log("Job offer updated:", response.data);
       // Rediriger vers la page de consultation des offres d'emploi après la mise à jour
       window.location.href = "/Job_offerConsult";
-  } catch (error) {
+    } catch (error) {
       console.error("Failed to update job offer:", error.response ? error.response.data : error.message);
       // Afficher une alerte en cas d'erreur
       window.alert("Failed to update job offer");
-  }
-};
-
+    }
+  };
 
   // Fonction pour gérer les changements dans les champs du formulaire
   const handleChange = (e) => {
@@ -102,10 +69,10 @@ const handleUpdate = async () => {
       [name]: value,
     }));
   };
-
+console.log()
   return (
     <>
- 
+
  <div className="container relative mx-auto">
             <div className="relative flex content-center justify-center pt-24 pb-8">
 
@@ -119,7 +86,7 @@ const handleUpdate = async () => {
           <Typography variant="small" color="blue-gray" className="mb-1 mt-1 font-medium">
                     Title
                   </Typography>
-           
+
             <Input type="text" name="title" value={formData.title} onChange={handleChange} placeholder="Title" />
             <Typography variant="small" color="blue-gray" className="mb-1 mt-1 font-medium">
     Description
@@ -176,17 +143,6 @@ const handleUpdate = async () => {
           <Button onClick={handleUpdate} className="w-60 bg-red-800">Update</Button>
         </div>
       </div>
-      <div className="useful-links ml-80">
-  <a href="https://www.linkedin.com/esprit/">
-    <LinkedInIcon fontSize="large" /> LinkedIn
-  </a>
-  <a href="https://www.facebook.com/esprit/">
-    <FacebookIcon fontSize="large" /> Facebook
-  </a>
-  <a href="https://www.instagram.com/esprit/">
-    <InstagramIcon fontSize="large" /> Instagram
-  </a>
-</div>
     </>
   );
 }
