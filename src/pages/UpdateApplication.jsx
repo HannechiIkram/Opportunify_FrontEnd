@@ -28,6 +28,9 @@ export function ApplicationUpdate() {
     job_offer: "",
   });
 
+  // State pour stocker les erreurs de validation
+  const [errors, setErrors] = useState({});
+
   useEffect(() => {
     const fetchApplication = async () => {
         try {
@@ -93,6 +96,12 @@ const handleUpdate = async () => {
       ...prevFormData,
       [name]: value,
     }));
+
+    // Validation de l'e-mail
+    if (name === 'email') {
+      const isValidEmail = /\S+@\S+\.\S+/.test(value);
+      setErrors({ ...errors, email: isValidEmail ? '' : 'Invalid email address' });
+    }
   };
 
   return (
@@ -112,6 +121,7 @@ const handleUpdate = async () => {
     Email
   </Typography>
   <Input type="text" name="email" value={formData.email} onChange={handleChange} placeholder="Email" />
+  {errors.email && <span className="text-red-500">{errors.email}</span>}
           <Typography variant="small" color="blue-gray" className="mb-1 mt-1 font-medium">
                     Motivation
                   </Typography>
@@ -121,7 +131,7 @@ const handleUpdate = async () => {
   <Typography variant="small" color="blue-gray" className="mb-1 mt-1 font-medium">
     Disponibility
   </Typography>
-  <Input type="text" name="disponibilite" value={formData.disponibilite} onChange={handleChange} placeholder="Disponibilité" />
+  <Input  type="text" name="disponibilite" value={formData.disponibilite} onChange={handleChange} placeholder="Disponibilité" />
   <Typography variant="small" color="blue-gray" className="mb-1 mt-1 font-medium">
     Salary Informations
   </Typography>

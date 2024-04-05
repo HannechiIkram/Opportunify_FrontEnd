@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Card, Typography ,Link } from '@material-tailwind/react';
 import { Navbarjs } from '@/widgets/layout';
+
 function JobOfferDetails() {
     const { id } = useParams(); // Récupérer l'ID de l'offre d'emploi depuis l'URL
     const [jobOffer, setJobOffer] = useState(null);
@@ -49,22 +50,31 @@ function JobOfferDetails() {
     return (
         <>
         <Navbarjs/>
-        <div className="bg-gray-100 h-screen flex justify-center items-center pt-32">
+        <div className="flex justify-center items-center h-screen bg-gray-100 pt-28">
+        
             {jobOffer ? (
-                <Card className="bg-white rounded-lg shadow-lg p-8 w-2/3">
-                    <Typography variant="title" color="blue-gray" className="mb-4 font-bold text-xl">{jobOffer.title}</Typography>
-                    <Typography variant="paragraph" color="blue-gray" className="mb-2"><b>Description:</b> {jobOffer.description}</Typography>
-                    <Typography variant="paragraph" color="blue-gray" className="mb-2"><b>Qualifications:</b> {jobOffer.qualifications}</Typography>
-                    <Typography variant="paragraph" color="blue-gray" className="mb-2"><b>Responsibilities:</b> {jobOffer.responsibilities}</Typography>
-                    <Typography variant="paragraph" color="blue-gray" className="mb-2"><b>Location:</b> {jobOffer.lieu}</Typography>
-                    <Typography variant="paragraph" color="blue-gray" className="mb-2"><b>Language:</b> {jobOffer.langue}</Typography>
-                    <Typography variant="paragraph" color="blue-gray" className="mb-2"><b>Workplace type:</b> {jobOffer.workplace_type}</Typography>
-                    <Typography variant="paragraph" color="blue-gray" className="mb-2"><b>Field:</b> {jobOffer.field}</Typography>
-                    <Typography variant="paragraph" color="blue-gray" className="mb-2"><b>Salary:</b> {jobOffer.salary_informations}</Typography>
-                    <Typography variant="paragraph" color="blue-gray" className="mb-2"><b>Deadline:</b> {jobOffer.deadline}</Typography>
+               <Card className="max-w-lg bg-white rounded-lg shadow-lg p-8 space-y-6 w-2/3">
+                      <Typography variant="title"  className="text-2xl font-bold text-center text-gray-800">{jobOffer.title}</Typography>
+               <div className="grid grid-cols-2 gap-2">
+                
+                 <div className="space-y-2 text-xl " >
+                   <Typography   className="text-gray-600 ml-5"><p className='ml-2 text-gray-800 font-semibold'>Description:</p>{jobOffer.description}</Typography>
+                   <Typography  className="text-gray-600 ml-5"><p className='ml-2 text-gray-800 font-semibold'>Location:</p>{jobOffer.lieu}</Typography>
+                   <Typography className="text-gray-600 ml-5"><p className='ml-2 text-gray-800 font-semibold'>Workplace type:</p> {jobOffer.workplace_type}</Typography>
+                   <Typography className="text-gray-600 ml-5"><p className='ml-2 text-gray-800 font-semibold'>Deadline:</p> {jobOffer.deadline}</Typography>
+                 </div>
+                 <div  className="space-y-2  text-xl ">
+                   <Typography className="text-gray-600 ml-5"><p className='ml-2 text-gray-800 font-semibold'>Qualifications:</p>{jobOffer.qualifications}</Typography>
+                   <Typography className="text-gray-600 ml-5"><p className='ml-2 text-gray-800 font-semibold'>Language:</p> {jobOffer.langue}</Typography>
+                   <Typography className="text-gray-600 ml-5"><p className='ml-2 text-gray-800 font-semibold'>Field:</p>{jobOffer.field}</Typography>
+                   <Typography className="text-gray-600 ml-5"><p className='ml-2 text-gray-800 font-semibold'>Salary:</p> {jobOffer.salary_informations}</Typography>
+                 </div>
+               </div>
+         
+             
 
                     <div className="flex justify-center my-4 mx-3">
-                        <button className={`bg-red-800 text-white px-4 py-2 rounded-md inline-block ${isApplyDisabled ? 'pointer-events-none opacity-50' : ''}`} onClick={handleApply} disabled={isApplyDisabled}>
+                        <button className={`bg-red-800 text-white px-4 py-2 rounded-md inline-block mt-2 ${isApplyDisabled ? 'pointer-events-none opacity-50' : ''}`} onClick={handleApply} disabled={isApplyDisabled}>
                             Apply
                         </button>
                     </div>
@@ -83,7 +93,7 @@ function JobOfferDetails() {
                 <Typography color="blue-gray">Loading...</Typography>
             )}
         </div>
-        </>
+    </>
     );
 }
 
