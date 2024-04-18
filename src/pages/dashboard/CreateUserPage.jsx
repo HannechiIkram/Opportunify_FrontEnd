@@ -131,22 +131,14 @@ function CreateUserPage() {
     return Object.keys(errors).length === 0; // Si aucune erreur, retourne true
   };return (
     <>
-      <Sidebar /> {/* Inclure le composant Sidebar */}
-      <div className="ml-80 mr-200 " style={{ position: 'absolute', bottom: '700px', left: '1000px' }}>
-        <img
-          src="img/logoesprit.png"
-          alt="logo"
-          style={{ width: 'auto', height: '50px' }}
-        />
-      </div>
-  
-      <div className="container mx-auto  ">
-        <h1 style={{ position: 'absolute', bottom: '790px', left: '605px' }} className="text-4xl text-center text-red-700 transition-opacity duration-500 transform hover:scale-105">
-          Create admin account
-        </h1>
-        <div className="card mx-auto  mb-10" style={{ position: 'absolute', maxWidth: '700px', left: '45%', transform: 'translateX(-50%)',top: "10", bottom: '0px', backgroundColor: '#F3F4F6', padding: '90px', borderRadius: '5px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', transition: 'box-shadow 0.3s ease' }}>
-          <form onSubmit={handleSubmit} noValidate>
-            <div className="mb-8">
+    <Sidebar />
+    <div className="container mx-auto mb-20 ">
+      <h1 className="text-4xl text-center text-red-700 mb-10">
+        Create admin account
+      </h1>
+      <div className="card mx-auto max-w-md bg-gray-100 rounded-lg shadow-md">
+        <form onSubmit={handleSubmit} noValidate className="p-8">
+            <div className="mb-50">
               <input
                 type="text"
                 id="name"
@@ -243,12 +235,10 @@ Add             </button>
                 <button className="bg-gray-300 btn-primary rounded-lg " onClick={regenerateCaptcha}>Régénérer</button>
               </div>
             </div>
-          </form>
-        </div>
+            </form>
       </div>
-    </>
-  );
-  
-}
+    </div>
+  </>
+);}
 
 export default CreateUserPage;

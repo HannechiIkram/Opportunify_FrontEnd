@@ -24,7 +24,7 @@ export function RedirectSignUp() {
     <>
 
     <Navbar0/>
-    <div className='w-full py-[10rem] px-4  justify-content-center ml-60'>
+    <div className='w-full py-[10rem] px-4  justify-content-center ml-70'>
 
       <div className='max-w-[1240px] mx-auto grid md:grid-cols-3 gap-8 ml-40'>
           <div className='w-full shadow-xl flex flex-col p-4 my-4 rounded-lg hover:scale-105 duration-300 ml-40 mt-10'>

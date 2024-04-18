@@ -262,7 +262,7 @@ if (!data.phoneNumber) {
   }, []);
 
   return (   <><Navbar1/>
-    <div className="form-container  mb-40 ml-40 mb-10 mr-40">
+    <div className="form-container  mb-40 ml-80 mb-10 mr-40">
   <div className="flex justif
   y-center items-center h-screen">
     <div className="w-full max-w-screen-lg">

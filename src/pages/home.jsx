@@ -20,6 +20,7 @@ import { GrAid } from "react-icons/gr";
 import { GrCurrency } from "react-icons/gr";
 import { FaArrowRightLong } from "react-icons/fa6";
 import { FaSquareArrowUpRight } from "react-icons/fa6";
+import QRCode from 'qrcode.react';
 
 import { FaTimes } from 'react-icons/fa';
 import ShowDetailSignUP from "./showdetailsSignup";
@@ -32,6 +33,7 @@ export function Home() {
   /////for notification mtaa show details
   const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
   const Navigate=useNavigate();
+  const signInPageURL = "https://www.facebook.com/";
 
 const handleSignupClick = () => {
   Navigate('/redirect-sign-up');
@@ -365,10 +367,14 @@ const handleSignupClick = () => {
 </div>
 
 
+
     <section className="relative bg-white py-24 px-4">
        
        
        <PageTitle section="Contact Us" heading="Want to work with us?">
+         <div className="flex justify-center items-center">
+        <QRCode value={signInPageURL} size={256} />
+      </div>
          Complete this form and we will get back to you in 24 hours.
        </PageTitle>
        <form className="mx-auto w-full mt-12 lg:w-5/12">
