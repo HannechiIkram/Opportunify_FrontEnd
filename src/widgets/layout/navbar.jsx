@@ -277,7 +277,7 @@ const navListItems = [
   {
     label: "Evaluation",
     icon: KeyIcon,
-    path:"/quizss"
+    path:"/evaluation"
 
   },
   {

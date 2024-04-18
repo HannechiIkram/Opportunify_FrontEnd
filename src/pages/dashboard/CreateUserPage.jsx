@@ -141,10 +141,10 @@ function CreateUserPage() {
       </div>
   
       <div className="container mx-auto  ">
-        <h1 style={{ position: 'absolute', bottom: '860px', left: '730px' }} className="text-4xl text-center text-red-700 transition-opacity duration-500 transform hover:scale-105">
+        <h1 style={{ position: 'absolute', bottom: '790px', left: '605px' }} className="text-4xl text-center text-red-700 transition-opacity duration-500 transform hover:scale-105">
           Create admin account
         </h1>
-        <div className="card mx-auto mt-20 mb-10" style={{ position: 'absolute', maxWidth: '700px', left: '45%', transform: 'translateX(-50%)',top: "10", bottom: '1px', backgroundColor: '#F3F4F6', padding: '90px', borderRadius: '5px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', transition: 'box-shadow 0.3s ease' }}>
+        <div className="card mx-auto  mb-10" style={{ position: 'absolute', maxWidth: '700px', left: '45%', transform: 'translateX(-50%)',top: "10", bottom: '0px', backgroundColor: '#F3F4F6', padding: '90px', borderRadius: '5px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', transition: 'box-shadow 0.3s ease' }}>
           <form onSubmit={handleSubmit} noValidate>
             <div className="mb-8">
               <input

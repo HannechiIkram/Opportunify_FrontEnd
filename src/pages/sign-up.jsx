@@ -262,8 +262,9 @@ if (!data.phoneNumber) {
   }, []);
 
   return (   <><Navbar1/>
-    <div className="form-container mt-10 mb-40 ml-40 mb-10 mr-40">
-  <div className="flex justify-center items-center h-screen">
+    <div className="form-container  mb-40 ml-40 mb-10 mr-40">
+  <div className="flex justif
+  y-center items-center h-screen">
     <div className="w-full max-w-screen-lg">
       <div className="text-center  mt-60">
         <Typography variant="h2" className="font-bold text-red-800 mt-80  ">Join Us!</Typography>

@@ -159,7 +159,7 @@ const [tempDescription, setTempDescription] = useState('');
 
   return (
     <>
-    <div  className="mt-48">
+    <div  className="">
  < Navbarjs />
  </div>
     <div>
@@ -174,7 +174,7 @@ const [tempDescription, setTempDescription] = useState('');
          
             <section className="relative block h-[50vh]">
            
-        <div className="bg-profile-background absolute top-0 h-full w-full bg-[url('/img/background-3.png')] bg-cover bg-center scale-105" />
+        <div className="bg-profile-background absolute pt-2 top-0 h-full w-full bg-[url('/img/background-3.png')] bg-cover bg-center scale-105" />
         <div className="absolute top-0 h-full w-full bg-red-900  bg-cover bg-center" />
       </section>
       <section className="relative  py-16 bg-gray-100">
@@ -184,7 +184,7 @@ const [tempDescription, setTempDescription] = useState('');
               <div className="relative flex gap-6 items-start">
                 <div className="-mt-20 w-40">
                   <Avatar
-                    src="/img/team-5.png"
+                    src="/img/lll.jpg"
                     alt="Profile picture"
                     variant="circular"
                     className="h-full w-full"
@@ -392,9 +392,7 @@ const [tempDescription, setTempDescription] = useState('');
         ></PostsList>
 
         <div>
-          <button onClick={() => setOpenModal(true)} className="modalButton">
-            update
-          </button>
+         
           <Modal open={openModal} onClose={() => setOpenModal(false)} />
         </div>
 

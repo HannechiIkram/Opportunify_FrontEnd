@@ -288,10 +288,10 @@ function UserDetailsPage({ userId }) {
 
     <div  className="container  mr-40  center">
       
-    <h1      style={{ position: 'absolute', bottom: '800px', left: '900px' }}className="text-4xl  text-center text-red-700 transition-opacity duration-1000 transform hover:scale-105">
+    <h1      style={{ position: 'absolute', bottom: '730px', left: '900px' }}className="text-4xl  text-center text-red-700 transition-opacity duration-1000 transform hover:scale-105">
 USER DETAILS        </h1>  
       <div>
-      <div className="card mx-auto  ml-80" style={{  position: 'absolute', bottom: '180px', left: '400px' ,maxWidth: '700px', backgroundColor: '#F3F4F6', padding: '50px', borderRadius: '5px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', transition: 'box-shadow 0.3s ease' }}>
+      <div className="card mx-auto  ml-80" style={{  position: 'absolute', bottom: '80px', left: '400px' ,maxWidth: '700px', backgroundColor: '#F3F4F6', padding: '50px', borderRadius: '5px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', transition: 'box-shadow 0.3s ease' }}>
           {loading ? (
             <p>Loading...</p>
           ) : error ? (
@@ -378,7 +378,7 @@ USER DETAILS        </h1>
       {/* Link to navigate back to the applications list */}
       <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}className='ml-10 mr-10'  style={{ position: 'absolute', bottom: '100px', left: '500px' }}>
 
-      <Link to="/dashboard" className="text-black hover:underline mb-80 ml-10">
+      <Link to="/dashboard" className="text-black hover:underline mb-80 ml-4">
         did you want to back  your dashboard?
       </Link>
       </motion.div >

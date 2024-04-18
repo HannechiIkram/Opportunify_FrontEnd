@@ -69,8 +69,8 @@ export function SignIn() {
       if (userRole === 'admin') {
         Navigate("/dashboard");
       } else if (userRole === 'company') {
-        /*Navigate(`/Profilecompany/${pId}`);*/
-        Navigate(`/redirect-company`);
+        Navigate(`/Profilecompany/${pId}`);
+       // Navigate(`/redirect-company`);
 
       } else if (userRole === 'job_seeker') {
         Navigate(`/profile/${userId}`);      }

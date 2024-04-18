@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { Input, Button,Typography } from "@material-tailwind/react";
+import Navbar from "@/widgets/layout/navbar";
 
 export function Job_offerUpdate() {
   // Récupérer l'ID de l'offre d'emploi depuis les paramètres d'URL
@@ -72,7 +73,7 @@ export function Job_offerUpdate() {
 console.log()
   return (
     <>
-
+<Navbar/>
  <div className="container relative mx-auto">
             <div className="relative flex content-center justify-center pt-24 pb-8">
 

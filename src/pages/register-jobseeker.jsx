@@ -181,7 +181,6 @@ const handleTermsAndConditionsClick = () => {
           navigate("/sign-in");
         } catch (error) {
           console.error('Registration failed:',  error.response.data);
-          window.alert('Registration failed: ' + JSON.stringify(error.response.data));
         }
       }
     

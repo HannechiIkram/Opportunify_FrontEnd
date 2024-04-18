@@ -167,11 +167,11 @@ const renderRatingEmojis = () => {
       <ToastContainer position="top-center" autoClose={5000} />
 
       <div className="container  mr-40  center">
-      <h1 style={{ position: 'absolute', bottom: '750px', left: '800px' }} className="text-4xl mb-8 text-center text-red-700 transition-opacity duration-1000 transform hover:scale-105">
+      <h1 style={{ position: 'absolute', bottom: '600px', left: '800px' }} className="text-4xl mb-8 text-center text-red-700 transition-opacity duration-1000 transform hover:scale-105">
 OFFER DETAILS        </h1>  
 
         <div
-className="card mx-auto mb-30 ml-80" style={{ position: 'absolute', bottom: '300px', left: '400px', maxWidth: '1200px', backgroundColor: '#F3F4F6', padding: '100px', borderRadius: '5px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', transition: 'box-shadow 0.3s ease' }}
+className="card mx-auto mb-30 ml-80" style={{ position: 'absolute', bottom: '170px', left: '100px', maxWidth: '1200px', backgroundColor: '#F3F4F6', padding: '100px', borderRadius: '5px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', transition: 'box-shadow 0.3s ease' }}
 
          
         >
