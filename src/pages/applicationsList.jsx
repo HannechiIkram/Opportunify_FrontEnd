@@ -218,9 +218,26 @@ const handleSearch = (e) => {
       {application.job_seeker && (
         <p className="text-center mb-2">Name: {application.job_seeker.name}</p>
       )}
-      <p className="text-center mb-4">Accepted {String(application.accepted)}</p>
-      <p className="text-center mb-4">Rejected {String(application.rejected)}</p>
-      {/* Other application details */}
+      {/* Display status with icon */}
+      <div className="flex justify-center mb-2">
+        {/* Display tick icon for accepted applications */}
+        {application.accepted ? (
+          <div className="flex items-center text-green-700 mr-2">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+              <path fillRule="evenodd" d="M0 11a8 8 0 1 1 16 0c0 2.761-2.239 5-5 5s-5-2.239-5-5a.5.5 0 1 1 1 0c0 1.654 1.346 3 3 3s3-1.346 3-3c0-.569-.164-1.102-.447-1.555a.5.5 0 1 1 .894-.448C13.935 8.696 14.5 9.791 14.5 11c0 2.485-2.015 4.5-4.5 4.5S5.5 13.485 5.5 11 7.515 6.5 10 6.5c.569 0 1.102.164 1.555.447a.5.5 0 1 1-.448.894C10.304 7.065 10 8.017 10 9c0 1.654-1.346 3-3 3s-3-1.346-3-3a.5.5 0 1 1 1 0z" clipRule="evenodd" />
+            </svg>
+            Accepted
+          </div>
+        ) : (
+          // Display cross icon for rejected applications
+          <div className="flex items-center text-red-500 mr-2">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+              <path fillRule="evenodd" d="M13.95 6.293a.5.5 0 0 0-.707 0L10 9.243 6.757 6a.5.5 0 1 0-.707.707L9.243 10l-3.242 3.243a.5.5 0 0 0 .708.707L10 10.757l3.243 3.242a.5.5 0 0 0 .707-.707L10.757 10l3.192-3.207a.5.5 0 0 0 0-.707z" clipRule="evenodd" />
+            </svg>
+            Rejected
+          </div>
+        )}
+      </div>
 
               
               <div className="flex justify-center">
