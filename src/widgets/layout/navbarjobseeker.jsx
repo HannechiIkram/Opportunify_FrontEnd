@@ -50,9 +50,9 @@ const profileMenuItems = [
 
   },
   {
-    label: "Help",
+    label: "Notifications",
     icon: LifebuoyIcon,
-    path:""
+    path:"/notifications"
 
   },
   {

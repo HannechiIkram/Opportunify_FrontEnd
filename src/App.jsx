@@ -19,6 +19,7 @@ import Apply from "./pages/apply";
 import Quiz from "./pages/test";
 import JobOfferDetails from "./pages/jobOfferDetails";
 import JobOfferList from "./pages/jobOffers";
+import NotificationPanel from "./Components/NotificationPanel";
 
 // redirection_roles samarr
 function App() {
@@ -62,6 +63,7 @@ function App() {
   <Route path="/quiz/:quizId" element={<Quiz/>} />
   <Route exact path="/job-offers" element={<JobOfferList/>} />
   <Route path="/job-offer-details/:id" element={<JobOfferDetails/>} />
+  <Route path="/notifications" element={<NotificationPanel />} />
 
 
 
