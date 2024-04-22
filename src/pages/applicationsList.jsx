@@ -288,6 +288,15 @@ const handleSearch = (e) => {
   >
     Next
   </button>
+  <div className="flex justify-center mt-5">
+            <iframe
+              title="chatbot"
+              allow="microphone;"
+              width="350"
+              height="430"
+              src="https://console.dialogflow.com/api-client/demo/embedded/your-agent-id"
+            ></iframe>
+          </div>
 </div>
 
   

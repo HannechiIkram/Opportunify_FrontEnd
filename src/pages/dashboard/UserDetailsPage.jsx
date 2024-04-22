@@ -243,54 +243,25 @@ function UserDetailsPage({ userId }) {
       console.error('Error unblocking user:', error);
     }
   };
+
+
+
   
-  const startRecording = async () => {
-    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-    const recorder = new MediaRecorder(stream);
-    const chunks = [];
-
-    recorder.ondataavailable = (e) => {
-      chunks.push(e.data);
-    };
-
-    recorder.onstop = () => {
-      const blob = new Blob(chunks, { type: 'audio/wav' });
-      setAudioBlob(blob);
-    };
-
-    recorder.start();
-    setRecording(true);
-    setMediaRecorder(recorder);
-  };
-
-  const stopRecording = () => {
-    if (mediaRecorder && recording) {
-      mediaRecorder.stop();
-      setRecording(false);
-    }
-  };
-
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    setFormData((prevData) => ({
-      ...prevData,
-      image: file,
-      imageUrl: URL.createObjectURL(file),
-    }));
-  };
   return (
     <>
-<Sidebar style={{ position: 'fixed', top: '0', left: '0', zIndex: '999', margin: '0', padding: '0' }} />
-    <ToastContainer position="top-center" autoClose={5000} />
-    <div className="relative ml-40 mt-10">
+ <div style={{ zIndex: 1000, position: 'fixed', top: 0, left: 0, height: '100vh', width: '250px' }}>
+
+<Sidebar /> {/* Include Sidebar component */}
+</div>     <div className="relative ml-40 mt-10">
      
       <div style={{  bottom: '',position: 'fixed', top: '0', left: '50%', transform: 'translateX(-50%)', width: '100%', zIndex: '999' }}>
-       
+      <ToastContainer position="top-center" autoClose={5000} />
+
         <h1 className="text-4xl mt-10 text-center text-red-700 transition-opacity duration-1000 transform hover:scale-105">
           USER DETAILS
         </h1>
       
-      <div className="container mr-80 center" style={{ marginTop: '30px' }}>
+      <div className="container mr-80 center ml-40" style={{ marginTop: '30px' }}>
         <div className="card mx-auto ml-80" style={{ maxWidth: '700px', padding: '50px', borderRadius: '5px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', transition: 'box-shadow 0.3s ease' }}>
           {loading ? (
             <p>Loading...</p>

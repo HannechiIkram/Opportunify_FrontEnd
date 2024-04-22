@@ -331,14 +331,7 @@ console.log("Headers:", config.headers);
             />
             <Button className="bg-red-700 hover:bg-gray-500 text-white font-bold py-3 px-3 rounded-md shadow-md mr-2  mb-1 " color="black" onClick={handleAddComment}>Add Comment</Button>
 
-            <div className=''>
-              <h1></h1>
-              <ul>
-                {comments.map((comment, index) => (
-                  <li key={index}>{comment}</li>
-                ))}
-              </ul>
-            </div>
+           
           </div>
         </div>
       </section>

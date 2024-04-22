@@ -13,6 +13,13 @@ import FileCopyOutlinedIcon from '@mui/icons-material/FileCopyOutlined';
 import ThumbDownAltOutlinedIcon from '@mui/icons-material/ThumbDownAltOutlined';
 import ThumbDownAltIcon from '@mui/icons-material/ThumbDownAlt';
 import { ToastContainer, toast } from "react-toastify";
+import { EyeIcon } from '@heroicons/react/24/solid'; // Import EyeIcon
+import { TrashIcon } from "@heroicons/react/24/solid";
+import { PlusCircleIcon } from '@heroicons/react/24/solid'; // Import the PlusCircleIcon
+import { UserIcon } from '@heroicons/react/24/solid'; // Ou choisissez l'icône appropriée dans @heroicons/react
+
+import {  FaEye, FaUserLock } from 'react-icons/fa';
+
 import {
  
  
@@ -109,24 +116,37 @@ export function Tables() {
   const indexOfFirstUser = indexOfLastUser - usersPerPage;
   const currentUsers = filteredUsers.slice(indexOfFirstUser, indexOfLastUser);
  // Add user.email as a parameter to handleLike function
-const handleLike = (email) => {
-  if (!likedApplications.includes(email)) {
-    setLikedApplications([...likedApplications, email]);
-  } else {
-    setLikedApplications([...likedApplications.filter(appId => appId !== email)]);
+ const deleteUser = async (userId) => {
+  try {
+    // Vérifier d'abord si le jeton d'accès existe
+    const accessToken = localStorage.getItem("accessToken");
+
+    if (!accessToken) {
+      throw new Error("Access token not found");
+    }
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    };
+
+    await axios.delete(`/user/delete/${userId}`, config); // Utiliser le modèle d'URL correct
+    // Filtrer l'utilisateur supprimé du tableau des utilisateurs
+    setUsers(users.filter(user => user._id !== userId));
+  } catch (error) {
+    console.error('Error deleting user:', error);
   }
+};
+const handleCreateUser = () => {
+  // Navigate to the '/create' page upon clicking the "Add User" button
+  navigate('/create');
 };
 
-// Add user.email as a parameter to handleDislike function
-const handleDislike = (email) => {
-  if (!dislikedApplications.includes(email)) {
-    setDislikedApplications([...dislikedApplications, email]);
-  } else {
-    setDislikedApplications(dislikedApplications.filter(appId => appId !== email));
-  }
+const viewUser = (user) => {
+  navigate(`/user/${user._id}`);
 };
-  
-  
+
   // Au chargement du composant, restaurer les applications "likées" depuis le stockage local
   useEffect(() => {
     const likedAppsFromStorage = localStorage.getItem('likedApplications');
@@ -207,15 +227,26 @@ useEffect(() => {
 
   
   return (<>
-    <Sidebar /> {/* Include Sidebar component */}
-    <ToastContainer position="top-center" autoClose={5000} />
+ <div style={{ zIndex: 1000, position: 'fixed', top: 0, left: 0, height: '100vh', width: '250px' }}>
 
-      <div className=" mb-8 flex flex-col gap-12  mb-60 " style={{ position: 'absolute', bottom: '2px', left: '20px' }}>
-        <CardHeader variant="gradient" color="red" className="mb-8 p-6 ml-80">
-          <Typography variant="h6" color="white">
-            Users Table
-          </Typography>
+<Sidebar /> {/* Include Sidebar component */}
+</div>    <div style={{  bottom: '',position: 'fixed', top: '0', left: '50%', transform: 'translateX(-50%)', width: '100%', zIndex: '999' }}>
+
+        <CardHeader variant="gradient"  className="mb-8 mt-5  bg-red-700 p-6 ml-80">
+        <ToastContainer position="top-center" autoClose={5000} />
+
+        <header className="px-5 py-4 dark:border-slate-700 ">
+        <h2 className="font-semibold  text-white text-slate-800 white:text-slate-100">Opportunify USERS</h2>
+      </header>
         </CardHeader>
+        <button
+  onClick={handleCreateUser}
+  className="bg-gray-600 text-white px-4 w-40 h-9 py-2 ml-80 flex items-center rounded-lg text-base font-medium"
+>
+  <PlusCircleIcon className="w-5 h-5 mr-2" />
+  Add User
+</button>
+
         <div className="px-0 pt-0 pb-2 overflow-x-auto ml-80">
         <tbody>
         <div className="flex  mb-4 ml-80 mr-80">
@@ -227,7 +258,7 @@ useEffect(() => {
               onChange={(e) => setSearchTerm(e.target.value)}
             />
              <select
-              className="border-2 border-gray-700 p-2 rounded-md ml-2"
+              className="border-2 border-gray-700 p-2 rounded-md ml-20"
               value={sortBy}
               onChange={(e) => sortUsers(e.target.value)}
             >
@@ -236,7 +267,7 @@ useEffect(() => {
               <option value="email">Sort by Email</option>
             </select>
           </div>
-        <div className="px-0 pt-0 pb-2  ml-30 mr-20 ">
+        <div className="px-0 pt-0 pb-2  ml-40 mr-20 ">
         {filteredUsers.length > usersPerPage && (
   <div className="flex justify-center">
     {Array(Math.ceil(filteredUsers.length / usersPerPage))
@@ -253,7 +284,6 @@ useEffect(() => {
 
 {currentUsers.map((user) => (
   <Card key={user.id} color="gray-300" className="p-4">
-    <CardBody color="gray-300">
       <div className="text-center">
         <p className="font-semibold text-black">{user.name}</p>
         <p className="text-sm text-black">{user.role}</p>
@@ -283,24 +313,20 @@ useEffect(() => {
                     {rejectedUsers.includes(user.email) && (
                       <p className="text-red-500 font-bold">User Rejected</p>
                     )}
+                     <button onClick={() => viewUser(user)}>
+        <EyeIcon className="w-5 h-5  mr-10 text-gray-700" /> {/* Utilisez EyeIcon ici */}
+      </button>
+        <button onClick={() => deleteUser(user._id)}>
+          <TrashIcon className="w-8 h-6 text-red-600" />
+        </button>
+        {user.isBlocked ? (
+    <FaUserLock className="w-7 h-7 text-red-500" />
+  ) : (
+    <UserIcon className="w-7 h-7 text-black" />
+  )}
                   </div>
       </div>
      
-                <div className="flex">
-      
-<button onClick={() => handleLike(user.email)}>
-  {likedApplications.includes(user.email) ? <FavoriteOutlinedIcon /> : <FavoriteBorderOutlinedIcon />}
-</button>
-
-<button onClick={() => handleDislike(user.email)}>
-  {dislikedApplications.includes(user.email) ? <ThumbDownAltIcon style={{ color: 'red' }} /> : <ThumbDownAltOutlinedIcon />}
-</button>
-
-<button onClick={(e) => handleCopyText(user.email, e)}>
-  <FileCopyOutlinedIcon />
-</button>
-</div>
-    </CardBody>
   </Card>
 ))}
 

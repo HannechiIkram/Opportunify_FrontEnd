@@ -7,7 +7,7 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import ApplicationDetails from './ApplicationDetails';
 import { Navbarjs } from "@/widgets/layout";
-
+import { format } from 'date-fns';
 const Applications = () => {
   const [applications, setApplications] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
@@ -175,16 +175,17 @@ const Applications = () => {
   };
   
   
-  // Index de la dernière application sur la page actuelle
-  const indexOfLastApplication = currentPage * applicationsPerPage;
-  // Index de la première application sur la page actuelle
-  const indexOfFirstApplication = indexOfLastApplication - applicationsPerPage;
-  // Applications sur la page actuelle
-  const currentApplications = applications.slice(indexOfFirstApplication, indexOfLastApplication);
+  const formattedDate = (dateString) => {
+    const date = new Date(dateString);
+    return format(date, 'dd-MM-yyyy');
+  };
 
-  // Changer de page
+  const indexOfLastApplication = currentPage * applicationsPerPage;
+  const indexOfFirstApplication = indexOfLastApplication - applicationsPerPage;
+  const currentApplications = searchResults.length > 0 ? searchResults.slice(indexOfFirstApplication, indexOfLastApplication) : applications.slice(indexOfFirstApplication, indexOfLastApplication);
+
   const paginate = (pageNumber) => {
-    if (pageNumber > 0 && pageNumber <= Math.ceil(applications.length / applicationsPerPage)) {
+    if (pageNumber > 0 && pageNumber <= Math.ceil((searchResults.length > 0 ? searchResults.length : applications.length) / applicationsPerPage)) {
       setCurrentPage(pageNumber);
     }
   };
@@ -215,13 +216,12 @@ const Applications = () => {
       
     </div>
     <p className="text-center "><p className="font-semibold ">Job Offer Title: </p>{jobOfferTitles[application._id]}</p>
-    <p className="text-center"><p className="font-semibold ">JApplication Date: </p> {application.applicationDate}</p>
-                   
+    <p className="text-center "><p className="font-semibold ">Application Date: </p> {formattedDate(application.applicationDate)}</p>
     <div className="flex justify-center mt-4">
       <Link to={`/applicationDetails/${application._id}`} className="bg-blue-gray-500 text-white px-4 py-2 rounded">
         Show Details
       </Link>
-      <button className="bg-red-700 text-white px-4 py-2 rounded" onClick={() => {
+      <button className="bg-red-500 text-white px-4 py-2 rounded" onClick={() => {
         setSelectedApplication(application);
         setIsConfirmationOpen(true);
       }}>Delete</button>
