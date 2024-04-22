@@ -38,9 +38,10 @@ const Applications = () => {
           },
         };
   
-        const response = await axios.get('http://localhost:3000/applications/getall', config);
+        const response = await axios.get('http://localhost:3000/applications/application/user', config);
         setApplications(response.data);
-      } catch (error) {
+      } 
+      catch (error) {
         console.error('Error fetching applications:', error);
       }
     };
@@ -161,7 +162,7 @@ const Applications = () => {
       });
   
       // Actualiser la liste des applications après la suppression
-      const response = await axios.get('http://localhost:3000/applications/getall', {
+      const response = await axios.get('http://localhost:3000/applications/application/user', {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
