@@ -10,8 +10,6 @@ import DashboardCard03 from './partials/dashboard/DashboardCard03';
 import DashboardCard04 from './partials/dashboard/DashboardCard04';
 import DashboardCard05 from './partials/dashboard/DashboardCard05';
 import DashboardCard06 from './partials/dashboard/DashboardCard06';
-import DashboardCard07 from './partials/dashboard/DashboardCard07';
-import DashboardCard08 from './partials/dashboard/DashboardCard08';
 import DashboardCard09 from './partials/dashboard/DashboardCard09';
 import Banner from './partials/Banner';
 
@@ -68,31 +66,8 @@ function HomeDashboard() {
     fetchJobOffers();
   }, []);
 
-  const handleSearch = (e) => {
-    setSearchTerm(e.target.value);
-  };
+  
 
-  const viewUserr = (offer) => {
-    navigate(`/job_offer/${offer._id}`);
-  };
-
-  const handleDelete = async (offerId) => {
-    try {
-      const accessToken = localStorage.getItem("accessToken");
-      if (!accessToken) {
-        throw new Error("Access token not found");
-      }
-      const config = {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      };
-      await axios.delete(`/job_offer/delete/${offerId}`, config);
-      setJobOffers(jobOffers.filter(offer => offer._id !== offerId));
-    } catch (error) {
-      console.error('Failed to delete job offer:', error);
-    }
-  };
 
   const filteredJobOffers = jobOffers.filter((offer) => {
     const { title, description, qualifications, responsibilities, lieu, langue } = offer;
@@ -135,12 +110,12 @@ function HomeDashboard() {
               <DashboardCard01 />
               <DashboardCard02 />
               <DashboardCard03 />
-              <DashboardCard04 />
-              <DashboardCard05 />
-              <DashboardCard06 />
-              <DashboardCard07 />
-              <DashboardCard08 />
-              <DashboardCard09 />
+
+    <DashboardCard04 /> 
+    <DashboardCard05 /> 
+    <DashboardCard06 /> 
+
+
             </div>
           </div>
         </main>

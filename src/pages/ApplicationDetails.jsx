@@ -154,6 +154,7 @@ const ApplicationDetails = () => {
         </Link>
       </div>
     </div>
+    
   </div>
   </>
   );

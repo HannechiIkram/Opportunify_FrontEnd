@@ -14,6 +14,7 @@ import 'react-phone-input-2/lib/style.css';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
+import dayjs from 'dayjs'; // For date manipulation
 
 import { Footer } from '@/widgets/layout';
  
@@ -137,14 +138,18 @@ const handleTermsAndConditionsClick = () => {
           setErrors({ ...errors, address: 'Address must be at least 5 characters' });
         }
         break;
-      case 'birthdate':
-        if (!value) {
-          setErrors({ ...errors, birthdate: "Please enter your birthday" });
-        }
-        break;
-        case 'role_jobseeker':
-          if (!value) {
-            setErrors({ ...errors, role_jobseeker: "Please choose your role sa a jobseeker" });
+        case 'birthdate':
+          const isDateValid = dayjs(value).isValid();
+          const isFutureDate = dayjs(value).isAfter(dayjs());
+          const minAge = dayjs().subtract(18, 'years');
+          const isOldEnough = dayjs(value).isBefore(minAge);
+  
+          if (!isDateValid) {
+            setErrors({ ...errors, birthdate: "Invalid date format" });
+          } else if (isFutureDate) {
+            setErrors({ ...errors, birthdate: "Date cannot be in the future" });
+          } else if (!isOldEnough) {
+            setErrors({ ...errors, birthdate: "You must be at least 18 years old" });
           }
           break;
       default:
@@ -181,7 +186,6 @@ const handleTermsAndConditionsClick = () => {
           navigate("/sign-in");
         } catch (error) {
           console.error('Registration failed:',  error.response.data);
-          window.alert('Registration failed: ' + JSON.stringify(error.response.data));
         }
       }
     
@@ -248,24 +252,24 @@ const handleTermsAndConditionsClick = () => {
                 {errors.lastname && <Typography variant="small" color="red">{errors.lastname}</Typography>}
               </div>
               <div className="mb-1 flex flex-col gap-6">
-      <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
-        Your Birthdate
-      </Typography>
-      <Input
-        type="date"
-        size="lg"
-        
-        name='birthdate'
-        placeholder="YYYY-MM-DD"
-        className="!border-t-blue-gray-200 focus:!border-t-gray-900"
-        value={data.birthdate}
-        onChange={(e) =>{handleInputChange(e);setData({ ...data, birthdate: e.target.value })}}
-   
-      />
-      {errors.birthdate && <Typography variant="small" color="red">{errors.birthdate}</Typography>}
-
-    </div>
-
+            <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
+              Your Birthdate
+            </Typography>
+            <Input
+              type="date"
+              size="lg"
+              placeholder="YYYY-MM-DD"
+              className="!border-t-blue-gray-200 focus:!border-t-gray-900"
+              value={data.birthdate}
+              onChange={handleInputChange}
+              name="birthdate"
+            />
+            {errors.birthdate && (
+              <Typography variant="small" color="red">
+                {errors.birthdate}
+              </Typography>
+            )}
+          </div>
               <div className="mb-1 flex flex-col gap-6">
                 <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
                   Your Email

@@ -6,10 +6,6 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import Sidebar from './partials/Sidebar'; // Import Sidebar component
 
-import {
-  Typography,
-} from "@material-tailwind/react";
-
 function CreateUserPage() {
   const navigate = useNavigate(); 
   const [formData, setFormData] = useState({
@@ -17,12 +13,36 @@ function CreateUserPage() {
     email: "",
     password: "",
     role: "user",
-    image: null,
-    imageUrl: null, // Added imageUrl state for preview
-    voiceRecording: null,
   });
 
   const [errors, setErrors] = useState({}); // State for validation errors
+  const [userCaptcha, setUserCaptcha] = useState(""); // Captcha input by user
+  const [messages, setMessages] = useState([]);
+  const [input, setInput] = useState("");
+  const handleSendMessage = async () => {
+    if (!input) return;
+
+    // Ajouter le message de l'utilisateur
+    setMessages([...messages, { sender: "user", text: input }]);
+
+    try {
+      // Envoyer le message au backend
+      const response = await axios.post("http://localhost:3000/user/chatbot", {
+        message: input,
+      });
+
+      // Ajouter la réponse du chatbot
+      setMessages([
+        ...messages,
+        { sender: "user", text: input },
+        { sender: "bot", text: response.data.response },
+      ]);
+    } catch (error) {
+      console.error("Erreur lors de l'envoi du message au backend", error);
+    }
+
+    setInput("");
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -45,43 +65,30 @@ function CreateUserPage() {
     return result;
   };
 
-  // Appel à generateRandomString après sa définition
   const [captcha, setCaptcha] = useState(generateRandomString(6));
 
- 
- 
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    setFormData((prevData) => ({
-      ...prevData,
-      image: file,
-      imageUrl: URL.createObjectURL(file),
-    }));
-  };
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
-    // Check if the access token exists in localStorage
-    const accessToken = localStorage.getItem("accessToken");
-  
+
     // If the access token does not exist, handle the error
+    const accessToken = localStorage.getItem("accessToken");
     if (!accessToken) {
       console.error("Access token not found");
       return;
     }
-  
-    // Vérifier les validations avant la soumission
+
+    // Check if the form is valid, including captcha validation
     if (!formIsValid()) {
       return;
     }
-  
+
     try {
       const config = {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
       };
-  
+
       const response = await axios.post("/user/createUser", formData, config);
       console.log("User created:", response.data);
       navigate('/dashboard');
@@ -89,12 +96,7 @@ function CreateUserPage() {
       console.error("Error creating user:", error);
     }
   };
-  
-  const regenerateCaptcha = () => {
-    setCaptcha(generateRandomString(6));
-  };
 
-  // Fonction pour valider le formulaire
   const formIsValid = () => {
     let errors = {};
 
@@ -104,48 +106,38 @@ function CreateUserPage() {
 
     if (!formData.email.trim()) {
       errors.email = "Email is required";
-    }
-    if (!formData.email.trim()) {
-      errors.email = "Email is required";
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
       errors.email = "Invalid email address";
     }
-  
- if (!formData.password.trim()) {
-    errors.password = "Password is required";
-  } else if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+}{"':;?/>.<, ]).{8,}/.test(formData.password)) {
-    errors.password = "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character";
-  }
-  
+
     if (!formData.password.trim()) {
       errors.password = "Password is required";
-    } else if (formData.password.length < 8) {
-      errors.password = "Password must be at least 8 characters long";
+    } else if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+}{":;?/>.<, ]).{8,}/.test(formData.password)) {
+      errors.password = "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character";
     }
-  
-    if (!formData.image) {
-      errors.image = "Image is required";
+
+    if (userCaptcha.trim() !== captcha) {
+      errors.captcha = "Invalid captcha";
     }
+
     setErrors(errors);
 
     return Object.keys(errors).length === 0; // Si aucune erreur, retourne true
+  };
+
+  const regenerateCaptcha = () => {
+    setCaptcha(generateRandomString(6));
   };return (
     <>
-      <Sidebar /> {/* Inclure le composant Sidebar */}
-      <div className="ml-80 mr-200 " style={{ position: 'absolute', bottom: '700px', left: '1000px' }}>
-        <img
-          src="img/logoesprit.png"
-          alt="logo"
-          style={{ width: 'auto', height: '50px' }}
-        />
-      </div>
-  
-      <div className="container mx-auto  ">
-        <h1 style={{ position: 'absolute', bottom: '860px', left: '730px' }} className="text-4xl text-center text-red-700 transition-opacity duration-500 transform hover:scale-105">
-          Create admin account
-        </h1>
-        <div className="card mx-auto mt-20 mb-10" style={{ position: 'absolute', maxWidth: '700px', left: '45%', transform: 'translateX(-50%)',top: "10", bottom: '1px', backgroundColor: '#F3F4F6', padding: '90px', borderRadius: '5px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', transition: 'box-shadow 0.3s ease' }}>
-          <form onSubmit={handleSubmit} noValidate>
+ <div style={{ zIndex: 1000, position: 'fixed', top: 0, left: 0, height: '100vh', width: '250px' }}>
+
+<Sidebar /> {/* Include Sidebar component */}
+</div>      <div style={{  bottom: '',position: 'fixed', top: '2px', left: '50%', transform: 'translateX(-50%)', width: '100%', zIndex: '999' }}>
+      <h1 className="text-4xl text-center text-red-700 mt-10 mb-10">
+        Create User 
+      </h1>
+      <div className="card mx-auto max-w-md bg-gray-100 rounded-lg shadow-md">
+        <form onSubmit={handleSubmit} noValidate className="p-8">
             <div className="mb-8">
               <input
                 type="text"
@@ -195,60 +187,65 @@ function CreateUserPage() {
                 className="w-full max-w-lg px-4 py-3 rounded-lg border focus:outline-none focus:border-blue-500"
                 required
               >
-                <option value="user">User</option>
-                <option value="admin">Admin</option>
+                                <option value="user">user</option>
+
+                <option value="company">company</option>
+                <option value="job_seeker">job_seeker</option>
               </select>
             </div>
             <div className="mb-8">
-              <div className="flex items-center justify-center bg-gray-100 border border-gray-300 rounded-md p-4">
-                <label htmlFor="image" className="cursor-pointer text-blue-600 hover:text-blue-700">
-                  <svg
-                    className="w-6 h-6 mr-2"
-                    fill="none"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path d="M12 5v14m-7-7h14"></path>
-                  </svg>
-add image                </label>
-                <input
-                  type="file"
-                  id="image"
-                  name="image"
-                  accept="image/png, image/jpeg"
-                  onChange={handleFileChange}
-                  className="hidden"
-                />
-              </div>
-              {formData.imageUrl && (
-                <img src={formData.imageUrl} alt="Téléchargé" className="mt-2 mx-auto max-w-xs" />
-              )}
+             
             </div>
             <button
               type="submit"
               className="btn-primary bg-red-700 text-white py-3 px-6 rounded-lg hover:bg-black transition duration-300 ease-in-out w-full max-w-lg"
             >
 Add             </button>
+<div className="mb-8">
             <div>
-              <div>
-                <label className="btn-primary rounded-lg " htmlFor="captcha"> {captcha}</label>
-              </div>
-              <div>
-                <input type="text" id="captcha" />
-              </div>
-              <div>
-                <button className="bg-gray-300 btn-primary rounded-lg " onClick={regenerateCaptcha}>Régénérer</button>
-              </div>
+              <label className="btn-primary rounded-lg " htmlFor="captcha">{captcha}</label>
             </div>
-          </form>
-        </div>
+            <div>
+              <input
+                type="text"
+                id="userCaptcha"
+                name="userCaptcha"
+                value={userCaptcha}
+                onChange={(e) => setUserCaptcha(e.target.value)}
+                className={`w-full max-w-lg px-4 py-3 rounded-lg border focus:outline-none focus:border-blue-500`}
+              />
+              {errors.captcha && <p className="text-red-500">{errors.captcha}</p>}
+            </div>
+            <div>
+              <button type="button" className="bg-gray-300 btn-primary rounded-lg" onClick={regenerateCaptcha}>
+                Régénérer
+              </button>
+            </div>
+          </div>
+          
+
+            </form>
+            <div className="chatbot-container">
+      <div className="messages">
+        {messages.map((msg, index) => (
+          <div key={index} className={msg.sender === "bot" ? "bot" : "user"}>
+            {msg.text}
+          </div>
+        ))}
       </div>
-    </>
-  );
-  
-}
+      <div className="input-container">
+        <input
+          type="text"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          placeholder="Type your message..."
+        />
+        <button onClick={handleSendMessage}>Send</button>
+      </div>
+    </div>
+      </div>
+    </div>
+  </>
+);}
 
 export default CreateUserPage;

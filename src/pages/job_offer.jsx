@@ -127,7 +127,6 @@ export function Job_offer() {
       // Add the new job offer
       const response = await axios.post("/job_offer/add", formData, config);
       console.log("Job offer added successfully:", response.data);
-      window.alert("Job offer added successfully");
   
       // Fetch updated job offers after adding a new one
       const updatedJobOffersResponse = await axios.get("/job_offer/getall", config);

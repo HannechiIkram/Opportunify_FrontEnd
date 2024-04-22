@@ -19,6 +19,7 @@ import { Home, Profile, SignIn, SignUp ,ResetPassword ,RegisterJobseeker,
   Job_offerUpdate,TermsAndConditions, Job_offerConsultCopy,Profilecompany,Add_event}from "@/pages";
 import Forgot from "./pages/passwordForget";
 import HomeDashboard from "./pages/dashboard/home";
+import Offers from "./pages/dashboard/offers";
 import Apply from "./pages/apply";
 import Applications from "./pages/applications";
 import ApplicationsList from "./pages/applicationsList";
@@ -178,6 +179,12 @@ export const routes = [
     name: "tables",
     path: "/tables",
     element: <Tables/>,
+  },{
+
+
+    name: "offres",
+    path: "/offres",
+    element: <Offers/>,
   },
 
   {

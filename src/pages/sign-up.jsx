@@ -5,6 +5,7 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import TermsAndConditions from './TermsAndConditions';
 import { Footer } from '@/widgets/layout';
+import PhoneInput from 'react-phone-input-2';
 
 
 import { useNavigate } from "react-router-dom";
@@ -262,8 +263,9 @@ if (!data.phoneNumber) {
   }, []);
 
   return (   <><Navbar1/>
-    <div className="form-container mt-10 mb-40 ml-40 mb-10 mr-40">
-  <div className="flex justify-center items-center h-screen">
+    <div className="form-container  mb-40 ml-80 mb-10 mr-40">
+  <div className="flex justif
+  y-center items-center h-screen">
     <div className="w-full max-w-screen-lg">
       <div className="text-center  mt-60">
         <Typography variant="h2" className="font-bold text-red-800 mt-80  ">Join Us!</Typography>
@@ -520,25 +522,24 @@ if (!data.phoneNumber) {
 </div>
 
 <div className="mb-1 flex flex-col gap-6">
-            <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
-             Company Number
-            </Typography>
-            <Input
-              type="tel"
-              placeholder="+216-12 345 6789"
-              size="lg"
-              className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
-              labelProps={{
-                className: "before:content-none after:content-none",
-              }}
-              value={data.phoneNumber}
-              onChange={(e) => {
-                setData({ ...data, phoneNumber: e.target.value });
-                setErrors({ ...errors, phoneNumber: "" }); // Clear the error for name
-              }}
-            />
-            {errors.phoneNumber && <Typography variant="small" color="red">{errors.phoneNumber}</Typography>}
-          </div>
+                <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
+                  Your Phone Number
+                </Typography>
+                <PhoneInput
+                  country={'TN'} 
+                  placeholder="+216-12 345 6789"
+                  className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
+                  labelProps={{
+                    className: "before:content-none after:content-none",
+                  }}
+                  name='phone'
+                 
+                  value={data.phoneNumber}
+                  onChange={(phoneNumber) => setData({ ...data, phoneNumber })}
+
+                />
+                {errors.phoneNumber && <Typography variant="small" color="red">{errors.phoneNumber}</Typography>}
+              </div>
 
 
           </div>{/* Facebook */}

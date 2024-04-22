@@ -6,6 +6,7 @@ import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
+import { FaGoogle } from 'react-icons/fa'; // Use FaGoogle for Google icon
 
 import { ReactTyped } from 'react-typed';
 import { FaStar } from 'react-icons/fa';
@@ -93,44 +94,45 @@ function OfferDetailsPage() {
   const handleCloseModal = () => {
     setShowModal(false);
   };
-
   const handleSendEmail = async () => {
-    try {
-      // Check if the access token exists in localStorage
-      const accessToken = localStorage.getItem("accessToken");
-  
-      // If the access token does not exist, handle the error
-      if (!accessToken) {
-        console.error("Access token not found");
-        // You may choose to display a message to the user or redirect them to log in
-        return;
-      }
-  
-      // Make a POST request to the backend to send the email
-      await axios.post(
-        'http://localhost:3000/job_offer/send',
-        {
-          recipientEmail,
-          message
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-            'Content-Type': 'application/json'
+    if (offer) {
+      const offerDetails = `
+        Title: ${offer.title}
+        Description: ${offer.description}
+        Qualifications: ${offer.qualifications}
+        Responsibilities: ${offer.responsibilities}
+        Location: ${offer.lieu}
+        Workplace Type: ${offer.workplace_type}
+        Salary Information: ${offer.salary_informations}
+      `;
+
+      try {
+        const accessToken = localStorage.getItem("accessToken");
+
+        await axios.post(
+          'http://localhost:3000/job_offer/send',
+          {
+            recipientEmail,
+            message, // Le message personnalisé
+            offerDetails, // Les détails de l'offre
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+              'Content-Type': 'application/json'
+            }
           }
-        }
-      );
-     toast.success("Email sent successfully!");
+        );
 
-      // Close the modal after sending the email
-      setShowModal(false);
-    } catch (error) {
-      console.error('Error sending email:', error);
-      // Handle errors
-      toast.error("Email not sent !");
-
+        toast.success("Email envoyé avec succès!");
+        setShowModal(false);
+      } catch (error) {
+        console.error('Erreur lors de l\'envoi de l\'e-mail:', error);
+        toast.error("Échec de l'envoi de l'e-mail.");
+      }
     }
   };
+
   
   
   // Function to handle rating change
@@ -166,12 +168,12 @@ const renderRatingEmojis = () => {
     <Sidebar /> 
       <ToastContainer position="top-center" autoClose={5000} />
 
-      <div className="container  mr-40  center">
-      <h1 style={{ position: 'absolute', bottom: '750px', left: '800px' }} className="text-4xl mb-8 text-center text-red-700 transition-opacity duration-1000 transform hover:scale-105">
+      <div className="container  mr-40   center">
+      <h1 style={{ bottom: '620px', left: '800px',position: 'fixed', left: '50%', transform: 'translateX(-50%)', width: '100%', zIndex: '999' }} className="text-4xl mb-8 text-center text-red-700 transition-opacity duration-1000 transform hover:scale-105">
 OFFER DETAILS        </h1>  
 
         <div
-className="card mx-auto mb-30 ml-80" style={{ position: 'absolute', bottom: '300px', left: '400px', maxWidth: '1200px', backgroundColor: '#F3F4F6', padding: '100px', borderRadius: '5px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', transition: 'box-shadow 0.3s ease' }}
+className="card mx-auto mb-30 ml-80" style={{ position: 'absolute', bottom: '170px', left: '100px', maxWidth: '1200px', backgroundColor: '#F3F4F6', padding: '100px', borderRadius: '5px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', transition: 'box-shadow 0.3s ease' }}
 
          
         >
@@ -208,11 +210,11 @@ className="card mx-auto mb-30 ml-80" style={{ position: 'absolute', bottom: '300
   </button>
   
  {/* Icon for sharing */}
- <i 
-    className="fas fa-share-alt text-black mt-5 cursor-pointer hover:text-black ml-4"
-    onClick={handleShare}
-    style={{ position: 'absolute', bottom: '210px', left: '750px' , fontSize: "2.3rem" }} // Adjust the font size here
-  ></i>
+ <FaGoogle
+              className="text-black mt-5 cursor-pointer hover:text-black ml-4"
+              onClick={handleShare}
+              style={{ position: 'absolute', bottom: '210px', left: '750px', fontSize: '2.3rem' }} // Adjust the font size here
+            />
 </div>
 <div style={{ position: 'absolute', bottom: '207px', left: '800px'}} className="flex items-center ml-40">
             <span className="mr-2"></span>
@@ -268,13 +270,7 @@ className="card mx-auto mb-30 ml-80" style={{ position: 'absolute', bottom: '300
           </div>
         )}
     
-        <div style={{ position: 'absolute', bottom: '200px', left: '1500px'}} className="mt-8">
-          <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} className="ml-10 mr-10">
-            <Link to="/dashboard" className="text-blue-600 hover:underline ml-40">
-              Go back to dashboard
-            </Link>
-          </motion.div>
-        </div>
+      
       </div>
 </>  );
 }

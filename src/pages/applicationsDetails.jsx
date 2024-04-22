@@ -10,6 +10,7 @@ import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import jsPDF from 'jspdf';
+import { Navbar } from "@/widgets/layout";
 
 const ApplicationDetails = () => {
   const [ratingText, setRatingText] = useState('');
@@ -248,6 +249,7 @@ console.log("Headers:", config.headers);
 
   return (
     <>
+    <Navbar/>
       <ToastContainer position="top-center" autoClose={5000} />
 
       <div className=' center text-center mt-40 ml-10 ' style={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 999 }}>
@@ -329,14 +331,7 @@ console.log("Headers:", config.headers);
             />
             <Button className="bg-red-700 hover:bg-gray-500 text-white font-bold py-3 px-3 rounded-md shadow-md mr-2  mb-1 " color="black" onClick={handleAddComment}>Add Comment</Button>
 
-            <div className=''>
-              <h1></h1>
-              <ul>
-                {comments.map((comment, index) => (
-                  <li key={index}>{comment}</li>
-                ))}
-              </ul>
-            </div>
+           
           </div>
         </div>
       </section>

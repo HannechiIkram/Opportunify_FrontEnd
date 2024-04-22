@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { Avatar, Typography, Button } from "@material-tailwind/react";
 import { MapPinIcon, BriefcaseIcon } from "@heroicons/react/24/solid";
-import { Footer } from "@/widgets/layout";
+import { Footer, Navbar } from "@/widgets/layout";
 import { AiTwotonePhone } from "react-icons/ai";
 import { AiOutlineIdcard } from "react-icons/ai";
 import { AiFillTwitterCircle } from "react-icons/ai";
@@ -41,7 +41,7 @@ export function Profilecompany() {
 
   return (
     <>
-    
+    <Navbar/>
       <div>
         {profile ? (
           <div>
@@ -56,7 +56,7 @@ export function Profilecompany() {
               <div className="relative flex gap-6 items-start">
                 <div className="-mt-20 w-40">
                         <Avatar
-                          src="/img/team-5.png"
+                          src="/img/aa.jpg"
                           alt="Profile picture"
                           variant="circular"
                           className="h-full w-full"

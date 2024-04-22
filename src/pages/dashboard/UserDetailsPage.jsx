@@ -1,6 +1,7 @@
 
 
 import React, { useState, useEffect } from 'react';
+import QRCode from 'react-qr-code';
 
 
 import axios from 'axios';
@@ -242,177 +243,88 @@ function UserDetailsPage({ userId }) {
       console.error('Error unblocking user:', error);
     }
   };
+
+
+
   
-  const startRecording = async () => {
-    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-    const recorder = new MediaRecorder(stream);
-    const chunks = [];
-
-    recorder.ondataavailable = (e) => {
-      chunks.push(e.data);
-    };
-
-    recorder.onstop = () => {
-      const blob = new Blob(chunks, { type: 'audio/wav' });
-      setAudioBlob(blob);
-    };
-
-    recorder.start();
-    setRecording(true);
-    setMediaRecorder(recorder);
-  };
-
-  const stopRecording = () => {
-    if (mediaRecorder && recording) {
-      mediaRecorder.stop();
-      setRecording(false);
-    }
-  };
-
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    setFormData((prevData) => ({
-      ...prevData,
-      image: file,
-      imageUrl: URL.createObjectURL(file),
-    }));
-  };
   return (
-      
     <>
-    <Sidebar />     
-    <div className="mr-200 " style={{ position: 'absolute', left: '1100px' }}>
- 
-</div>
-<ToastContainer position="top-center" autoClose={5000} />
+ <div style={{ zIndex: 1000, position: 'fixed', top: 0, left: 0, height: '100vh', width: '250px' }}>
 
-    <div  className="container  mr-40  center">
+<Sidebar /> {/* Include Sidebar component */}
+</div>     <div className="relative ml-40 mt-10">
+     
+      <div style={{  bottom: '',position: 'fixed', top: '0', left: '50%', transform: 'translateX(-50%)', width: '100%', zIndex: '999' }}>
+      <ToastContainer position="top-center" autoClose={5000} />
+
+        <h1 className="text-4xl mt-10 text-center text-red-700 transition-opacity duration-1000 transform hover:scale-105">
+          USER DETAILS
+        </h1>
       
-    <h1      style={{ position: 'absolute', bottom: '800px', left: '900px' }}className="text-4xl  text-center text-red-700 transition-opacity duration-1000 transform hover:scale-105">
-USER DETAILS        </h1>  
-      <div>
-      <div className="card mx-auto  ml-80" style={{  position: 'absolute', bottom: '180px', left: '400px' ,maxWidth: '700px', backgroundColor: '#F3F4F6', padding: '50px', borderRadius: '5px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', transition: 'box-shadow 0.3s ease' }}>
+      <div className="container mr-80 center ml-40" style={{ marginTop: '30px' }}>
+        <div className="card mx-auto ml-80" style={{ maxWidth: '700px', padding: '50px', borderRadius: '5px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', transition: 'box-shadow 0.3s ease' }}>
           {loading ? (
             <p>Loading...</p>
           ) : error ? (
             <p className="text-red-800">{error}</p>
           ) : user ? (
             <div>
-              <p className=" ml-20 mr-5 text-3xl  ">
+              <p className="ml-20 mr-5 text-3xl">
                 {editableField === 'name' ? (
                   <input type="text" name="name" value={user.name} onChange={handleFieldChange} onBlur={handleSaveChanges} />
                 ) : (
                   <span onClick={() => handleFieldClick('name')}>{user.name}</span>
                 )}
               </p>
-  
-              <p className="mb-6 ml-20 mr-5 text-3xl "> {isSensitiveInfoVisible ? user.email : '**********'}</p>
-  
+              <p className="mb-6 ml-20 mr-5 text-3xl">{isSensitiveInfoVisible ? user.email : '**********'}</p>
               <p className="mb-6 ml-20 mr-5 text-3xl">{editableField === 'role' ? (
                 <input type="text" name="role" value={user.role} onChange={handleFieldChange} onBlur={handleSaveChanges} />
               ) : (
                 <span onClick={() => handleFieldClick('role')}>{user.role}</span>
               )}</p>
-
-  
-              <p className="mb-6 ml-20 mr-5 text-3xl "> {user.image}   </p>
-              <p className="mb-6 ml-20 mr-5 text-3xl ">{user.address}</p>
-              <p className="mb-6 ml-20 mr-5 text-3xl "> {user.phone} </p>
-              <p className="mb-6 ml-20 mr-5 text-3xl ">{user.description}</p>
-              <p className="mb-6 ml-20 mr-5 text-3xl ">{user.lastname}</p>
-              <p className="mb-6 ml-20 mr-5 text-3xl  ">{user.phoneNumber}</p>
-              
-            <strong>
-
-
-<button onClick={isBlocked ? handleUnblockUser : handleBlockUser}>
-  {isBlocked ? 'Unblock User' : 'Block User'}
-</button>
-</strong>  
-
+              <p className="mb-6 ml-20 mr-5 text-3xl">{user.image}</p>
+              <p className="mb-6 ml-20 mr-5 text-3xl">{user.address}</p>
+              <p className="mb-6 ml-20 mr-5 text-3xl">{user.phone}</p>
+              <p className="mb-6 ml-20 mr-5 text-3xl">{user.description}</p>
+              <p className="mb-6 ml-20 mr-5 text-3xl">{user.lastname}</p>
+              <p className="mb-6 ml-20 mr-5 text-3xl">{user.phoneNumber}</p>
+              <strong>
+                <button onClick={isBlocked ? handleUnblockUser : handleBlockUser}>
+                  {isBlocked ? 'Unblock User' : 'Block User'}
+                </button>
+              </strong>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
-                <button
-              className="btn-primary bg-red-700 text-white py-4 px-1 rounded-lg hover:bg-black transition duration-300 ease-in-out w-full"
-              onClick={handleExportToPDF}
-              style={{  width: '30%' }}
-                >
+                <button className="btn-primary bg-red-700 text-white py-4 px-1 rounded-lg hover:bg-black transition duration-300 ease-in-out w-full" onClick={handleExportToPDF} style={{ width: '30%' }}>
                   Export to PDF
                 </button>
                 <div>
-  <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}className='ml-10 mr-10'>
-    <Link
-      style={{ textDecoration: "none" }}
-      onClick={handleLinkClick} className='ml-10 mr-10'
-    >
-    <strong>  <p className='text-red-700' style={{  cursor: "pointer" }}>
-        Did you want to hide sensitive info?
-      </p></strong>
-    </Link>
-  </motion.div>
-</div>
+                  <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} className='ml-10 mr-10'>
+                    <Link style={{ textDecoration: "none" }} onClick={handleLinkClick} className='ml-10 mr-10'>
+                      <strong>
+                        <p className='text-red-700' style={{ cursor: "pointer" }}>
+                          Did you want to hide sensitive info?
+                        </p>
+                      </strong>
+                    </Link>
+                  </motion.div>
+                </div>
               </div>
-              <div  className="ml-10 mt-8 "
-              style={{ display: 'flex', flexDirection: 'row' }}>
-  {[1, 2, 3, 4, 5].map((star) => (
-    <div key={star} style={{ marginBottom: '10px' }}>
-      <FaStar
-        size={32}
-        color={(star <= (hoverRating || rating)) ? "#FFD700" : "#C0C0C0"}
-        onMouseEnter={() => handleHoverRating(star)}
-        onMouseLeave={() => handleHoverRating(0)}
-        onClick={() => handleClickRating(star)}
-      />
-    </div>
-  ))}
-</div>
-
-
+             
+              <div className="ml-60 mb-40">
+        <Link to="">
+          <QRCode value={JSON.stringify(user)} size={128} level="L" />
+        </Link>
+      </div>
             </div>
           ) : (
             <p>No user found</p>
           )}
         </div>
-        
       </div>
-      <div className="mt-8">
-      {/* Link to navigate back to the applications list */}
-      <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}className='ml-10 mr-10'  style={{ position: 'absolute', bottom: '100px', left: '500px' }}>
-
-      <Link to="/dashboard" className="text-black hover:underline mb-80 ml-10">
-        did you want to back  your dashboard?
-      </Link>
-      </motion.div >
-      <div className='ml-80 mt-80' style={{ position: 'absolute', bottom: '100px', left: '1100px'  }}>
-      {recording ? (
-        <button onClick={stopRecording}>Stop Recording</button>
-      ) : (
-        <button onClick={startRecording}>Start Recording</button>
-      )}
-      {audioBlob && (
-        <audio controls>
-          <source src={URL.createObjectURL(audioBlob)} type="audio/wav" />
-          Your browser does not support the audio element.
-        </audio>
-      )}
     </div>
-      <CardBody style={{ position: 'absolute',top:"1px" , bottom: '0px', left: '450px' }}  className="flex flex-col mb-80 gap-4 p-4 ml-60">
-          {alerts.map((color) => (
-            <Alert 
-              key={color}
-              open={showAlerts[color]}
-              color={color}
-              onClose={() => setShowAlerts((current) => ({ ...current, [color]: false }))}
-            >
-              you  want <a href="#" > to update user? block or unblock it? give a rate? export details to pdf</a>
-            </Alert>
-          ))}
-        </CardBody>
-    
     </div>
-    
-    </div>
-   
-</>
+  </>
+  
   );
 }
 

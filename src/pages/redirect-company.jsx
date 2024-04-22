@@ -29,7 +29,7 @@ export function RedirectCompany() {
     <div className='w-full py-[1rem] px-4  justify-content-center  '>
       <div className="w-full py-[10rem] px-4 ">
         <div className="max-w-[1240px] mx-auto grid md:grid-cols-3 gap-8">
-        <div className='w-full shadow-xl flex flex-col p-4 my-4 rounded-lg hover:scale-105 duration-300 ml-5 mt-10'>
+        <div className='w-full shadow-xl flex flex-col p-4 my-4 rounded-lg hover:scale-105 duration-300 ml-5 mt-10 '>
             <img className="w-20 mx-auto mt-[-3rem] bg-white" src={joboffer} alt="/" />
             <h2 className="Lato text-[#2b2b2b] text-2xl text-center py-8">Post A New Job offer on Opportunify!</h2>
             <div className="text-center font-medium">

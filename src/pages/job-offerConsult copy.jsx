@@ -10,7 +10,7 @@ import { GrAid } from "react-icons/gr";
 import { GrCurrency } from "react-icons/gr";
 import { FaArrowRightLong } from "react-icons/fa6";
 import { FaSquareArrowUpRight } from "react-icons/fa6";
-
+import Navbar from '@/widgets/layout/navbar';
 export function Job_offerConsultCopy() {
     const [expandedOfferId, setExpandedOfferId] = useState(null);
     const [selectedOffer, setSelectedOffer] = useState(null);
@@ -135,6 +135,7 @@ const handleApply = (offerId) => {
 
 return (  
     <>
+    <Navbar/>
      <div className="container relative mx-auto">
             <div className="relative flex content-center justify-center pt-24 pb-8">
                

@@ -12,6 +12,7 @@ import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlin
 import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined';
 import FileCopyOutlinedIcon from '@mui/icons-material/FileCopyOutlined';
 import ThumbDownAltOutlinedIcon from '@mui/icons-material/ThumbDownAltOutlined';
+import Navbar from '@/widgets/layout/navbar';
 import ThumbDownAltIcon from '@mui/icons-material/ThumbDownAlt';
 const ApplicationsList = () => {
   const Navigate = useNavigate();
@@ -164,7 +165,8 @@ const handleSearch = (e) => {
   
 
   return (
-    
+    <>
+    <Navbar/>
     <div className="container mx-auto px-4 py-8 ">
             
 
@@ -216,8 +218,8 @@ const handleSearch = (e) => {
       {application.job_seeker && (
         <p className="text-center mb-2">Name: {application.job_seeker.name}</p>
       )}
-      <p className="text-center mb-4">Accepted: {String(application.accepted)}</p>
-      <p className="text-center mb-4">Rejected: {String(application.rejected)}</p>
+      <p className="text-center mb-4">Accepted {String(application.accepted)}</p>
+      <p className="text-center mb-4">Rejected {String(application.rejected)}</p>
       {/* Other application details */}
 
               
@@ -286,11 +288,20 @@ const handleSearch = (e) => {
   >
     Next
   </button>
+  <div className="flex justify-center mt-5">
+            <iframe
+              title="chatbot"
+              allow="microphone;"
+              width="350"
+              height="430"
+              src="https://console.dialogflow.com/api-client/demo/embedded/your-agent-id"
+            ></iframe>
+          </div>
 </div>
 
   
  </div>
-
+</>
   );
 };
 

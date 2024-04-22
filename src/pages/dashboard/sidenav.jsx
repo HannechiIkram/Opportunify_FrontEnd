@@ -174,12 +174,7 @@ export function Sidenav({ brandName }) {
               fullWidth
             >
               <KeyIcon className="h-5 w-5 mr-2" />
-              <Typography
-                color="inherit"
-                className="font-medium text-black text-lg"
-              >
-                Logout
-              </Typography>
+             
             </Button>
           </li>
         </ul>

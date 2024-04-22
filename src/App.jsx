@@ -31,26 +31,12 @@ function App() {
 
       {!!(pathname === '/nav0' ||
    pathname === '/profile/:userId' ||
-   pathname === '/tables' || 
-   pathname === '/passwordreset' || 
    pathname === '/navbar-jobseeker' ||
-   pathname === '/Profilecompany/:pId' ||
-   pathname.startsWith('/user/') ||
-   pathname.startsWith('/job_offer/') ||
    pathname === '/redirect-company' || 
    pathname === '/navbar' || 
    pathname === '/nav1' || 
-   pathname === '/sign-up' || 
-   pathname === '/Forgot' || 
-   pathname === '/sign-in' || 
-   pathname === '/sign-upjs' ||
-   pathname === '/dashboard' || 
-   pathname === '/redirect-sign-up' || 
-   pathname === '/create' || 
-   pathname === '/apply/:offerId' ||
-   pathname === '/navbar-jobseeker' ||
-   pathname === "/dashboard"
-  ) && (
+   pathname === '/add-event' || 
+   pathname === '/apply/:offerId'   ) && (
     <div className="container absolute left-2/4 z-10 mx-auto -translate-x-2/4 p-4">
       <Navbar routes={routes} />
     </div>

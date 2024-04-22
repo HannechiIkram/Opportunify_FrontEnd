@@ -9,7 +9,18 @@ export function Appap() {
   useEffect(() => {
     const fetchJobOffersData = async () => {
       try {
-        const response = await axios.get("/job_offer/getall");
+        const accessToken = localStorage.getItem("accessToken");
+        if (!accessToken) {
+          throw new Error("Access token not found");
+        }
+  
+        const config = {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        };
+  
+        const response = await axios.get('/job_offer/getall', config);
         const jobOffers = response.data;
 
         // Count the number of job offers for each title
@@ -44,7 +55,7 @@ export function Appap() {
 
   return (
     <div style={{ textAlign: "center" }}>
-      <div style={{ fontSize: '24px', fontWeight: 'bold' }}>Job Offers by Title</div>
+<div style={{ fontSize: '24px', fontWeight: 'bold', marginBottom: '-48px', paddingBottom: '0px' }} >Job Offers by Title</div>
       <div className="App">
         <PieChart width={800} height={800}>
           <Pie
