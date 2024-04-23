@@ -7,6 +7,7 @@ import { GrAid } from "react-icons/gr";
 import { GrCurrency } from "react-icons/gr";
 import { Navbar } from '@/layout';
 import { Navbarjs } from '@/widgets/layout';
+import { format } from 'date-fns';
 
 const ApplicationDetails = () => {
   const { id } = useParams();
@@ -88,6 +89,10 @@ const ApplicationDetails = () => {
     // Rechargez la page pour obtenir les dernières données de l'application depuis le serveur
     window.location.reload();
   };
+  const formattedDate = (dateString) => {
+    const date = new Date(dateString);
+    return format(date, 'dd-MM-yyyy');
+  };
 
   return (
     <>
@@ -109,7 +114,7 @@ const ApplicationDetails = () => {
                                         <GrScheduleNew />
                                     </Typography>
             <p className="ml-2 text-gray-800 font-semibold">Date:</p>
-            <p className="text-gray-600 ml-5">{applicationDetails.applicationDate}</p>
+            <p className="text-gray-600 ml-5"> {formattedDate(applicationDetails.applicationDate)}</p>
           </div>
         
           <div className="flex items-center">

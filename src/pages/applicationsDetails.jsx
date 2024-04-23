@@ -293,7 +293,7 @@ console.log("Headers:", config.headers);
           </div>
 
 
-          <Card className="mt-8 ml-auto mr-auto mb-2 w-80 max-w-screen-lg lg:w-5/6 rounded-lg p-6 bg-gray-200 bg-opacity-90 text-center">
+          <Card className="mt-8 ml-auto mr-auto mb-28 w-80 max-w-screen-lg lg:w-5/6 rounded-lg p-6 bg-gray-200 bg-opacity-90 text-center">
             <div>
               <p>Date: {applications.applicationDate}</p>
               <p> {applications.applicationId}</p>
@@ -305,11 +305,10 @@ console.log("Headers:", config.headers);
               <p> <Button color="white" onClick={() => handleExportCV(applications.cv)}>Export Resume</Button>
 <Button color="white" onClick={() => handleExportCoverLetter(applications.coverLetter)}>Export Cover Letter </Button></p>
              <br></br>
-              <>
-
+              
                 <Button color="gray" onClick={handleAccept} >Accept</Button>
                 <Button color="red" onClick={handleReject} >Reject</Button>
-              </>
+              
               <div>
                 <Rating
                   count={5}
