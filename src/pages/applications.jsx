@@ -37,10 +37,14 @@ const Applications = () => {
             Authorization: `Bearer ${accessToken}`,
           },
         };
-  
+  ///samar
         const response = await axios.get('http://localhost:3000/applications/application/user', config);
-        setApplications(response.data);
-      } 
+         if (response.data && response.data.message === 'No applications found for the user') {
+          console.log(response.data.message); 
+          setApplications([]); 
+      } else {
+          setApplications(response.data);      }
+  } 
       catch (error) {
         console.error('Error fetching applications:', error);
       }
@@ -50,6 +54,7 @@ const Applications = () => {
   }, []);
   
 
+ 
 
   const [jobOfferTitles, setJobOfferTitles] = useState({});
   useEffect(() => {
