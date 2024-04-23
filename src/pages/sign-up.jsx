@@ -22,6 +22,8 @@ import { Navbar1 } from '@/widgets/layout';
 
 
 export function SignUp() {
+  const [message, setMessage] = useState('');
+
   const [showMessage, setShowMessage] = useState(false); // State to control message visibility
   const [termsChecked, setTermsChecked] = useState(false);
   const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
@@ -241,7 +243,11 @@ if (!data.phoneNumber) {
       const response = await axios.post('/user/registerCompany', adjustedData);
       console.log('Registration successful:', response.data);
       navigate("/sign-in");
+      setMessage(response.data.message);
+
     } catch (error) {
+      setMessage(error.response.data.error);
+
       console.error('Registration failed:', error.response.data);
       setGeneralError("Registration failed. Please try again.");
     }
@@ -613,6 +619,8 @@ if (!data.phoneNumber) {
               </Typography>
             </div>
             </form>
+            {message && <p>{message}</p>}
+
       </Card>
     </div>
   

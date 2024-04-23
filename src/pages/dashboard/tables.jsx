@@ -224,6 +224,15 @@ useEffect(() => {
     setRejectedUsers(JSON.parse(rejectedUsersFromStorage));
   }
 }, []);
+const approveUser = async (userId) => {
+  try {
+    const response = await axios.post('http://localhost:5000/user/approve', { userId });
+    setMessage(response.data.message);
+    setPendingUsers(pendingUsers.filter((user) => user._id !== userId)); // Retirer de la liste des utilisateurs approuvés
+  } catch (error) {
+    console.error('Erreur lors de l\'approbation', error);
+  }
+};
 
   
   return (<>
