@@ -9,11 +9,14 @@ import { AiOutlineIdcard } from "react-icons/ai";
 import { AiFillTwitterCircle } from "react-icons/ai";
 import { BsFacebook } from "react-icons/bs";
 import { AiFillGithub } from "react-icons/ai";
+import Chat from '../pages/Chat';
 
 export function Profilecompany() {
   const { pId } = useParams();
   const [profile, setProfile] = useState(null);
   const [showSocialMedia, setShowSocialMedia] = useState(false);
+  const [showchat, setShowchat] = useState(false); // Pour contrôler la visibilité du chatbot
+
   const toggleSocialMedia = () => {
     setShowSocialMedia(!showSocialMedia);
   };
@@ -35,9 +38,10 @@ export function Profilecompany() {
     // Appliquer le formatage en ajoutant un espace après chaque groupe de trois chiffres
     const formatted = cleaned.replace(/(\d{3})(\d{2})(\d{3})(\d{3})/,'$1 $2 $3 $4');
     return formatted;
+  };const togglechat = () => {
+    setShowchat((prev) => !prev); // Bascule entre affichage et non-affichage du chat
   };
-
-
+  
 
   return (
     <>
@@ -183,11 +187,28 @@ export function Profilecompany() {
             </section>
             
           </div>
+          
         ) : (
           <p>Loading...</p>
         )}
         <div>
           <Footer />
+          <div>
+          <Button
+  onClick={togglechat}
+  
+>
+  {showchat ? 'X' : 'Chat'}
+</Button>
+{showchat && (
+  <div className="fixed bottom-12 right-4 w-72 h-96 bg-white shadow-lg rounded-lg flex flex-col">
+    <Chat />
+  </div>
+)}
+
+
+
+        </div>
         </div>
       </div>
     </>

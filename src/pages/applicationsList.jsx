@@ -15,7 +15,6 @@ import ThumbDownAltOutlinedIcon from '@mui/icons-material/ThumbDownAltOutlined';
 import Navbar from '@/widgets/layout/navbar';
 import ThumbDownAltIcon from '@mui/icons-material/ThumbDownAlt';
 const ApplicationsList = () => {
-  
   const Navigate = useNavigate();
   const [applications, setApplications] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
@@ -119,27 +118,27 @@ const handleViewMore = async (id) => {
   }
 };
 const handleSearch = (e) => {
-  const searchTerm = e.target.value.toLowerCase();
-  const filteredApplications = applications.filter(application => {
-    return application.email.toLowerCase().includes(searchTerm);
-  });
-  setSearchTerm(searchTerm);
-  setSearchResults(filteredApplications);
-  setCurrentPage(1); // Réinitialiser la page actuelle à la première page
-};
-const indexOfLastApplication = currentPage * applicationsPerPage;
-const indexOfFirstApplication = indexOfLastApplication - applicationsPerPage;
-let currentApplications;
-if (Array.isArray(searchResults)) {
-  currentApplications = searchResults.slice(indexOfFirstApplication, indexOfLastApplication);
-} else {
-  currentApplications = applications.slice(indexOfFirstApplication, indexOfLastApplication);
-}  const handleLike = (id) => {
-  if (!likedApplications.includes(id)) {
-    setLikedApplications([...likedApplications, id]);}else{
-    setLikedApplications([...likedApplications.filter(appId => appId !== id)]);
-  }
-};
+    const searchTerm = e.target.value.toLowerCase();
+    const filteredApplications = applications.filter(application => {
+      return application.email.toLowerCase().includes(searchTerm);
+    });
+    setSearchTerm(searchTerm);
+    setSearchResults(filteredApplications);
+    setCurrentPage(1); // Réinitialiser la page actuelle à la première page
+  };
+  const indexOfLastApplication = currentPage * applicationsPerPage;
+  const indexOfFirstApplication = indexOfLastApplication - applicationsPerPage;
+  let currentApplications;
+  if (Array.isArray(searchResults)) {
+    currentApplications = searchResults.slice(indexOfFirstApplication, indexOfLastApplication);
+  } else {
+    currentApplications = applications.slice(indexOfFirstApplication, indexOfLastApplication);
+  }  const handleLike = (id) => {
+    if (!likedApplications.includes(id)) {
+      setLikedApplications([...likedApplications, id]);}else{
+      setLikedApplications([...likedApplications.filter(appId => appId !== id)]);
+    }
+  };
   const handleDislike = (id) => {
     if (!dislikedApplications.includes(id)) {
       setDislikedApplications([...dislikedApplications, id]);
@@ -310,7 +309,7 @@ if (Array.isArray(searchResults)) {
   >
     Next
   </button>
-
+ 
 </div>
 
   

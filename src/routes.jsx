@@ -5,9 +5,9 @@
 
 import  OfferDetailsPage  from "./pages/dashboard/OfferDetails";
 
+import Chatbot from "./pages/Generatemessage"
 
-
-
+import Chat from "./pages/Chat"
 /* 
 import { Home, Profile, SignIn, SignUp ,ResetPassword ,RegisterJobseeker,Job_offer,
   Unauthorized,RedirectCompany,RedirectSignUp,Job_offerConsult,Job_offerUpdate,} from "@/pages";*/
@@ -16,7 +16,7 @@ import { Home, Profile, SignIn, SignUp ,ResetPassword ,RegisterJobseeker,Job_off
 
 import { Home, Profile, SignIn, SignUp ,ResetPassword ,RegisterJobseeker,
   Job_offer,Unauthorized,RedirectCompany,RedirectSignUp,Job_offerConsult,
-  Job_offerUpdate,TermsAndConditions, Job_offerConsultCopy,Profilecompany,Add_event}from "@/pages";
+  Job_offerUpdate,TermsAndConditions, Profilecompany,Add_event}from "@/pages";
 import Forgot from "./pages/passwordForget";
 import HomeDashboard from "./pages/dashboard/home";
 import Offers from "./pages/dashboard/offers";
@@ -42,6 +42,7 @@ import Nav0 from "@/widgets/layout/navbar0";
 import Nav1 from "@/widgets/layout/navbar1";
 import Navbar from "@/widgets/layout/navbar";
 import Navbarjs from "@/widgets/layout/navbarjobseeker";
+import { element } from "prop-types";
 
 export const routes = [
   {
@@ -54,12 +55,18 @@ export const routes = [
     path: "/add-event",
     element: <Add_event/>,
   },
-  
+  {name: "chat",
+path:"/chat",
+element: <Chat/>,
+},
+
   {
-    name: "Job_offerConsultCopy",
-    path: "/Job_offerConsultCopy",
-    element: <Job_offerConsultCopy/>,
+
+    name:"chat",
+    path:"/chat_bot",
+    element:<Chatbot/>,
   },
+ 
   {
     name: "navbar0",
     path: "/nav0",

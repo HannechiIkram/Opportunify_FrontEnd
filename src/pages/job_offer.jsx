@@ -129,7 +129,7 @@ export function Job_offer() {
       console.log("Job offer added successfully:", response.data);
   
       // Fetch updated job offers after adding a new one
-      const updatedJobOffersResponse = await axios.get("/job_offer/getall", config);
+      const updatedJobOffersResponse = await axios.get("/job_offer/company/joboffers", config);
       setJobOffers(updatedJobOffersResponse.data);
       window.location.href = "/Job_offerConsult";
     } catch (error) {

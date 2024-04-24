@@ -18,6 +18,7 @@ import { AiOutlineArrowRight } from "react-icons/ai";
 import PostsList from "@/Containers/PostsList/index.jsx";
 import { Card, Container } from "@mui/material";
 import AddPost from "@/Containers/AddPost/index.jsx";
+import Chat from '../pages/Chat';
 
 export function Profile() {
 
@@ -27,6 +28,7 @@ export function Profile() {
 
 
   const [showBirthdate, setShowBirthdate] = useState(false);
+  const [showchat, setShowchat] = useState(false); // Pour contrôler la visibilité du chatbot
 
   const handleButtonClick = () => {
     setShowBirthdate(!showBirthdate);
@@ -154,6 +156,13 @@ const handleUpdateGitUrl = async () => {
 
 
 const [tempDescription, setTempDescription] = useState('');
+
+
+const togglechat = () => {
+  setShowchat((prev) => !prev); // Bascule entre affichage et non-affichage du chat
+};
+
+
 
 // Update the temporary input value instead of directly updating the description state
 
@@ -414,7 +423,20 @@ const [tempDescription, setTempDescription] = useState('');
 
       <div className="bg-white">
         <Footer />
+        <Button
+  onClick={togglechat}
+  
+>
+  {showchat ? 'X' : 'Chat'}
+</Button>
+{showchat && (
+  <div className="fixed bottom-12 right-4 w-72 h-96 bg-white shadow-lg rounded-lg flex flex-col">
+    <Chat />
+  </div>
+)}
+
       </div>
+      
      <div>
 
 

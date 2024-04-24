@@ -44,30 +44,37 @@ export function Job_offerConsult() {
 
 
 
-useEffect(() => {
-  // Fetch all job offers when the component mounts, if access token exists
-  const fetchJobOffers = async () => {
-    try {
-      const accessToken = localStorage.getItem("accessToken");
-      if (!accessToken) {
-        throw new Error("Access token not found");
-      }
-
-      const config = {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
+    useEffect(() => {
+      const fetchJobOffers = async () => {
+          try {
+              const accessToken = localStorage.getItem("accessToken");
+              if (!accessToken) {
+                  throw new Error("Access token not found");
+              }
+  
+              const config = {
+                  headers: {
+                      Authorization: `Bearer ${accessToken}`,
+                  },
+              };
+  ////samaar
+              const response = await axios.get('job_offer/company/joboffers', config);
+  
+              if (response.data && response.data.message === 'No job offers found') {
+                  console.log(response.data.message); 
+                  setJobOffers([]); 
+              } else {
+                 
+                  setJobOffers(response.data);
+              }
+          } catch (error) {
+              console.error('Failed to fetch job offers:', error.response ? error.response.data : error.message);
+          }
       };
-
-      const response = await axios.get('/job_offer/getall', config);
-      setJobOffers(response.data);
-    } catch (error) {
-      console.error('Failed to fetch job offers:', error.response ? error.response.data : error.message);
-    }
-  };
-
-  fetchJobOffers();
-}, []);
+  
+      fetchJobOffers();
+  }, []);
+  
 
 
 const handleSearch = async () => {
