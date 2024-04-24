@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Card, Typography ,Link } from '@material-tailwind/react';
 import { Navbarjs } from '@/widgets/layout';
+import { format } from 'date-fns';
 
 function JobOfferDetails() {
     const { id } = useParams(); // Récupérer l'ID de l'offre d'emploi depuis l'URL
@@ -46,6 +47,11 @@ function JobOfferDetails() {
     const handleBack=()=>{
         navigate(`/job_offers`);
     }
+
+    const formattedDate = (dateString) => {
+        const date = new Date(dateString);
+        return format(date, 'dd-MM-yyyy');
+      };
     
     return (
         <>
@@ -61,7 +67,7 @@ function JobOfferDetails() {
                    <Typography   className="text-gray-600 ml-5"><p className='ml-2 text-gray-800 font-semibold'>Description:</p>{jobOffer.description}</Typography>
                    <Typography  className="text-gray-600 ml-5"><p className='ml-2 text-gray-800 font-semibold'>Location:</p>{jobOffer.lieu}</Typography>
                    <Typography className="text-gray-600 ml-5"><p className='ml-2 text-gray-800 font-semibold'>Workplace type:</p> {jobOffer.workplace_type}</Typography>
-                   <Typography className="text-gray-600 ml-5"><p className='ml-2 text-gray-800 font-semibold'>Deadline:</p> {jobOffer.deadline}</Typography>
+                   <Typography className="text-gray-600 ml-5"><p className='ml-2 text-gray-800 font-semibold'>Deadline:</p> {formattedDate(jobOffer.deadline)}</Typography>
                  </div>
                  <div  className="space-y-2  text-xl ">
                    <Typography className="text-gray-600 ml-5"><p className='ml-2 text-gray-800 font-semibold'>Qualifications:</p>{jobOffer.qualifications}</Typography>

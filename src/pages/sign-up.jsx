@@ -22,6 +22,8 @@ import { Navbar1 } from '@/widgets/layout';
 
 
 export function SignUp() {
+  const [message, setMessage] = useState('');
+
   const [showMessage, setShowMessage] = useState(false); // State to control message visibility
   const [termsChecked, setTermsChecked] = useState(false);
   const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
@@ -205,7 +207,7 @@ if (!data.phoneNumber) {
 } else if (!/^\d+$/.test(data.phoneNumber)) {
   newErrors.phoneNumber = "Phone number should contain only digits";
   formIsValid = false;
-} else if (data.phoneNumber.length < 8) {
+} else if (data.phoneNumber.length < 8 ){
   newErrors.phoneNumber = "Phone number should be at least 8 digits long";
   formIsValid = false;
 } else if (data.phoneNumber.length > 12) {
@@ -241,7 +243,11 @@ if (!data.phoneNumber) {
       const response = await axios.post('/user/registerCompany', adjustedData);
       console.log('Registration successful:', response.data);
       navigate("/sign-in");
+      setMessage(response.data.message);
+
     } catch (error) {
+      setMessage(error.response.data.error);
+
       console.error('Registration failed:', error.response.data);
       setGeneralError("Registration failed. Please try again.");
     }
@@ -329,7 +335,7 @@ if (!data.phoneNumber) {
             </Typography>
             <Input
               size="lg"
-              placeholder="*****"
+              placeholder="***"
               className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
               labelProps={{
                 className: "before:content-none after:content-none",
@@ -613,6 +619,8 @@ if (!data.phoneNumber) {
               </Typography>
             </div>
             </form>
+            {message && <p>{message}</p>}
+
       </Card>
     </div>
   
@@ -626,4 +634,4 @@ if (!data.phoneNumber) {
   
 }
 
-export default SignUp;
+export default SignUp; 

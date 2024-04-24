@@ -8,6 +8,8 @@ import { GrAid } from "react-icons/gr";
 import { GrCurrency } from "react-icons/gr";
 import { formatDistanceToNow } from "date-fns";
 import { Navbarjs } from '@/widgets/layout';
+import { format } from 'date-fns'; 
+
 
 export function JobofferConsult() {
     const [expandedOfferId, setExpandedOfferId] = useState(null);
@@ -65,6 +67,11 @@ export function JobofferConsult() {
         }
     };
 
+    const formattedDate = (dateString) => {
+        const date = new Date(dateString);
+        return format(date, 'dd-MM-yyyy');
+      };
+
     const handleSeeMore = (offerId) => {
         setExpandedOfferId((prevId) => (prevId === offerId ? null : offerId));
         setSelectedOffer(jobOffers.find(jobOffer => jobOffer._id === offerId));
@@ -73,6 +80,7 @@ export function JobofferConsult() {
     const handleShowDetails = (offerId) => {
         navigate(`/job-offer-details/${offerId}`);
     };
+  
 
     // Index de la dernière offre sur la page actuelle
     const indexOfLastOffer = currentPage * offersPerPage;
@@ -140,10 +148,10 @@ export function JobofferConsult() {
                                         <GrScheduleNew />
                                     </Typography>
                                     <Typography variant="paragraph" color="blue-gray" className="mr-2">
-                                        deadline: {jobOffer.deadline}
+                                        deadline: {formattedDate(jobOffer.deadline)}  
                                     </Typography>
                                 </div>
-                                <div className="flex items-center justify-center">
+                                <div className="flex items-center justify-center mb-4">
                                     <Button color="blue-grey" onClick={() => handleShowDetails(jobOffer._id)}>
                                         Show Details
                                     </Button>
