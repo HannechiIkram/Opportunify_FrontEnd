@@ -224,13 +224,61 @@ useEffect(() => {
     setRejectedUsers(JSON.parse(rejectedUsersFromStorage));
   }
 }, []);
-const approveUser = async (userId) => {
+// Accepter un utilisateur
+const handleAcceptUser1 = async (email) => {
   try {
-    const response = await axios.post('http://localhost:5000/user/approve', { userId });
-    setMessage(response.data.message);
-    setPendingUsers(pendingUsers.filter((user) => user._id !== userId)); // Retirer de la liste des utilisateurs approuvés
+      const accessToken = localStorage.getItem("accessToken");
+      if (!accessToken) {
+          throw new Error("Access token not found");
+      }
+
+      const config = {
+          headers: {
+              Authorization: `Bearer ${accessToken}`,
+          },
+      };
+
+      // Route pour mettre à jour `isApproved`
+      await axios.put(`/user/approve/${email}`, {}, config);
+      
+      // Ajouter à la liste des utilisateurs acceptés
+      setAcceptedUsers([...acceptedUsers, email]);
+      toast.success('User accepted successfully');
+
+      // Mettre à jour le stockage local
+      localStorage.setItem('acceptedUsers', JSON.stringify([...acceptedUsers, email]));
+
   } catch (error) {
-    console.error('Erreur lors de l\'approbation', error);
+      console.error("Error accepting user:", error);
+  }
+};
+
+// Rejeter un utilisateur
+const handleRejectUser1 = async (email) => {
+  try {
+      const accessToken = localStorage.getItem("accessToken");
+      if (!accessToken) {
+          throw new Error("Access token not found");
+      }
+
+      const config = {
+          headers: {
+              Authorization: `Bearer ${accessToken}`,
+          },
+      };
+
+      // Route pour supprimer l'utilisateur
+      await axios.delete(`/user/${email}`, config);
+      
+      // Mettre à jour la liste des utilisateurs rejetés
+      setRejectedUsers([...rejectedUsers, email]);
+      toast.error('User rejected successfully');
+
+      // Mettre à jour le stockage local
+      localStorage.setItem('rejectedUsers', JSON.stringify([...rejectedUsers, email]));
+
+  } catch (error) {
+      console.error("Error rejecting user:", error);
   }
 };
 
@@ -333,6 +381,9 @@ const approveUser = async (userId) => {
   ) : (
     <UserIcon className="w-7 h-7 text-black" />
   )}
+   <button onClick={handleAcceptUser1}>Accept User</button>
+      <button onClick={handleRejectUser1}>Reject User</button>
+     
                   </div>
       </div>
      
