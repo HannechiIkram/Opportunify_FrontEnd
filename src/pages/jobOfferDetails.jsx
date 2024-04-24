@@ -56,7 +56,7 @@ function JobOfferDetails() {
     return (
         <>
         <Navbarjs/>
-        <div className="flex justify-center items-center h-screen bg-gray-100 pt-12">
+        <div className="flex justify-center items-center h-screen bg-gray-100 pt-4">
         
             {jobOffer ? (
                <Card className="max-w-lg bg-white rounded-lg shadow-lg p-8 space-y-6 w-2/3">
