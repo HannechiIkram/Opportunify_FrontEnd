@@ -13,6 +13,8 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { AiTwotonePhone } from "react-icons/ai";
 import Modal from "./Modal.jsx";
+import Chat from '../pages/Chat';
+
 import PictureModal from "./PictureModal.jsx";
 import { AiFillEdit } from "react-icons/ai";
 import  "./Modal.css";
@@ -30,6 +32,8 @@ export function Profile() {
 
   const [showPictureModal, setShowPictureModal] = useState(false);
   const [isHovered, setIsHovered] = useState(false); // State variable to track hover state
+  const [showchat, setShowchat] = useState(false); // Pour contrôler la visibilité du chatbot
+
   // Function to open modal
   const openPictureModal = () => {
     setShowPictureModal(true);
@@ -228,7 +232,9 @@ const [selectedTechnology, setSelectedTechnology] = useState('');
       'GitHub': '💻','GitLab': '🔒', 'Bitbucket': '🔑', 'JIRA': '📋', 'WebSockets': '🧦','REST API': '📡','GraphQL': '🔗','OAuth': '🔒','JSON': '📝','Regular Expressions': '🔍','Agile': '🏃‍♂️','Scrum': '🏉','Kanban': '📑','Waterfall': '🚰','DevOps': '⚙️','CI/CD': '🚀','TDD': '🔴🔵','BDD': '🟢🔵',
   }
 // Update the temporary input value instead of directly updating the description state
-
+const togglechat = () => {
+  setShowchat((prev) => !prev); // Bascule entre affichage et non-affichage du chat
+};
   return (
     <>
     <div  className="">
@@ -548,6 +554,17 @@ const [selectedTechnology, setSelectedTechnology] = useState('');
 
       <div className="bg-white">
         <Footer />
+        <Button
+  onClick={togglechat}
+  
+>
+  {showchat ? 'X' : 'Chat'}
+</Button>
+{showchat && (
+  <div className="fixed bottom-12 right-4 w-72 h-96 bg-white shadow-lg rounded-lg flex flex-col">
+    <Chat />
+  </div>
+)}
       </div>
      <div>
 

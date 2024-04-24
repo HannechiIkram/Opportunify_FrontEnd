@@ -42,7 +42,9 @@ import Nav0 from "@/widgets/layout/navbar0";
 import Nav1 from "@/widgets/layout/navbar1";
 import Navbar from "@/widgets/layout/navbar";
 import Navbarjs from "@/widgets/layout/navbarjobseeker";
+import Chatbot from "./pages/Generatemessage";
 
+import Chat from "./pages/Chat";
 export const routes = [
   {
     name: "navbar-jobseeker",
@@ -253,6 +255,17 @@ export const routes = [
     element: <SideNav/>
   },
   
+  {name: "chat",
+path:"/chat",
+element: <Chat/>,
+},
+
+  {
+
+    name:"chat",
+    path:"/chat_bot",
+    element:<Chatbot/>,
+  },
 ];
 
 export default routes;

@@ -12,6 +12,8 @@ import {
   Card,
   IconButton,
 } from "@material-tailwind/react";
+import { IoSend } from "react-icons/io5";
+import { FaRobot } from "react-icons/fa";
 import { Link } from 'react-router-dom'
 ;import {
   CubeTransparentIcon,
@@ -46,6 +48,12 @@ const navListItems = [
     label: "Sign In",
     icon: KeyIcon,
     path:"/sign-in"
+
+  },
+  {
+    label: "Chat Bot",
+    icon:  FaRobot,
+    path:"/chat_bot"
 
   },/*
   {
