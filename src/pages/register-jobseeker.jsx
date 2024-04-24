@@ -23,10 +23,7 @@ import TermsAndConditions from './TermsAndConditions';
 
 export function RegisterJobseeker() {
   const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
-  const handleImageChange1 = (e) => {
-    const file = e.target.files[0];
-    setData({ ...data, image: file });
-  };
+
 
 const handleTermsAndConditionsClick = () => {
   Navigate('/terms-and-conditions');
@@ -44,7 +41,7 @@ const handleTermsAndConditionsClick = () => {
     password: "",
     confirmPassword: '',
     role_jobseeker: "",
-    image:"" , // Store the selected image file
+   
 
   });
   const [errors, setErrors] = useState({
@@ -156,10 +153,7 @@ const handleTermsAndConditionsClick = () => {
         break;
     }
   };
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    setData({ ...data, image: file });
-  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     
@@ -190,10 +184,7 @@ const handleTermsAndConditionsClick = () => {
       }
     
   };
- // const handleImageChange = (e) => {
-   // const file = e.target.files[0];
-    //setData({ ...data, image: file });
-  //};
+
   
 
   
@@ -391,29 +382,7 @@ const handleTermsAndConditionsClick = () => {
           )}
         </div>
         
-        <div className="mb-1 flex flex-col gap-6">
-        <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
-          </Typography>
-  <div className="relative">
-  <input
-  type="file"
-  id="fileInput"
-  className="hidden"
-  onChange={handleImageChange1} // This line is important
-/>
-
-       <label
-    htmlFor="fileInput"
-    className={`w-full border rounded-md p-3 text-sm text-white cursor-pointer hover:bg-black focus:outline-none focus:border-black ${
-      data.image ? 'bg-black border-black' : 'bg-red-800 border-red-800'
-    }`}
-  >
-    {data.image ? 'Image Uploaded' : 'Upload Your Photo'}
-  </label>
-  </div>
-
-          
-</div>
+ 
 
 
 
