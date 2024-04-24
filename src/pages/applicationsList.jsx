@@ -13,6 +13,9 @@ import FileCopyOutlinedIcon from '@mui/icons-material/FileCopyOutlined';
 import ThumbDownAltOutlinedIcon from '@mui/icons-material/ThumbDownAltOutlined';
 import Navbar from '@/widgets/layout/navbar';
 import ThumbDownAltIcon from '@mui/icons-material/ThumbDownAlt';
+import { FaCheckCircle, FaTimesCircle, FaEye } from 'react-icons/fa';
+import { useParams } from 'react-router-dom';
+
 const ApplicationsList = () => {
   const Navigate = useNavigate();
   const [applications, setApplications] = useState([]);
@@ -26,6 +29,11 @@ const ApplicationsList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const applicationsPerPage = 5;
   const [dislikedApplications, setDislikedApplications] = useState([]);
+  const navigate = useNavigate(); // Initialiser le hook useNavigate
+  const navigateToUserProfile = (userId) => {
+    navigate(`/profile/${userId}`);
+  };
+  const { userId } = useParams();
 
   useEffect(() => {
     const fetchApplications = async () => {
@@ -54,20 +62,7 @@ const ApplicationsList = () => {
   }, []);
 
 
-  // Other functions and JSX code...
-
- const getStatusBadge = (status) => {
-  switch (status) {
-    case 'Under review':
-      return <span className="bg-gray-400 text-black px-2 py-1 rounded-full">Under review</span>;
-    case 'Rejected':
-      return <span className="bg-red-500 text-black px-2 py-1 rounded-full">Rejected</span>;
-    case 'Shortlisted':
-      return <span className="bg-green-800 text-black px-2 py-1 rounded-full">Shortlisted</span>;
-    default:
-      return <span className="bg-gray-300 text-black px-2 py-1 rounded-full">Unknown</span>;
-  }
-};
+ 
 const handleDelete = async () => {
   try {
     const accessToken = localStorage.getItem("accessToken");
@@ -117,14 +112,15 @@ const handleViewMore = async (id) => {
   }
 };
 const handleSearch = (e) => {
-    const searchTerm = e.target.value.toLowerCase();
-    const filteredApplications = applications.filter(application => {
-      return application.email.toLowerCase().includes(searchTerm);
-    });
-    setSearchTerm(searchTerm);
-    setSearchResults(filteredApplications);
-    setCurrentPage(1); // Réinitialiser la page actuelle à la première page
-  };
+  const searchTerm = e.target.value.toLowerCase();
+  const filteredApplications = applications.filter(application => {
+    // Ensure that 'application.email' is defined before calling 'toLowerCase()'
+    return application.email && application.email.toLowerCase().includes(searchTerm);
+  });
+  setSearchTerm(searchTerm);
+  setSearchResults(filteredApplications);
+  setCurrentPage(1); // Réinitialiser la page actuelle à la première page
+};
   const indexOfLastApplication = currentPage * applicationsPerPage;
   const indexOfFirstApplication = indexOfLastApplication - applicationsPerPage;
   let currentApplications;
@@ -170,10 +166,10 @@ const handleSearch = (e) => {
   return (
     <>
     <Navbar/>
-    <div className="container mx-auto px-4 py-8 ">
+    <div className="container mx-auto pt-2 py-8 ">
             
 
-      <div className="flex justify-center items-center mb-8 mt-10">
+      <div className="flex justify-center items-center mb-8 mt-4">
       <input
   type="search"
   className="block w-80 px-4 py-2 text-sm text-gray-900 placeholder-gray-500 bg-gray-100 border border-gray-600 rounded-lg shadow-sm focus:outline-none focus:ring-black focus:border-gay-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:border-gray-500 mt-20"
@@ -190,13 +186,6 @@ const handleSearch = (e) => {
             <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
           </svg>
           <span className="sr-only">Search</span>
-
-
-
-
-
-
-
           
         </button>
       </div>
@@ -222,27 +211,24 @@ const handleSearch = (e) => {
         <p className="text-center mb-2">Name: {application.job_seeker.name}</p>
       )}
       {/* Display status with icon */}
-      <div className="flex justify-center mb-2">
-        {/* Display tick icon for accepted applications */}
-        {application.accepted ? (
-          <div className="flex items-center text-green-700 mr-2">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
-              <path fillRule="evenodd" d="M0 11a8 8 0 1 1 16 0c0 2.761-2.239 5-5 5s-5-2.239-5-5a.5.5 0 1 1 1 0c0 1.654 1.346 3 3 3s3-1.346 3-3c0-.569-.164-1.102-.447-1.555a.5.5 0 1 1 .894-.448C13.935 8.696 14.5 9.791 14.5 11c0 2.485-2.015 4.5-4.5 4.5S5.5 13.485 5.5 11 7.515 6.5 10 6.5c.569 0 1.102.164 1.555.447a.5.5 0 1 1-.448.894C10.304 7.065 10 8.017 10 9c0 1.654-1.346 3-3 3s-3-1.346-3-3a.5.5 0 1 1 1 0z" clipRule="evenodd" />
-            </svg>
-            Accepted
-          </div>
-        ) : (
-          // Display cross icon for rejected applications
-          <div className="flex items-center text-red-500 mr-2">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
-              <path fillRule="evenodd" d="M13.95 6.293a.5.5 0 0 0-.707 0L10 9.243 6.757 6a.5.5 0 1 0-.707.707L9.243 10l-3.242 3.243a.5.5 0 0 0 .708.707L10 10.757l3.243 3.242a.5.5 0 0 0 .707-.707L10.757 10l3.192-3.207a.5.5 0 0 0 0-.707z" clipRule="evenodd" />
-            </svg>
-            Rejected
-          </div>
-        )}
-      </div>
+<div className="flex justify-center mb-2">
+  {/* Display tick icon for accepted applications */}
+  {application.accepted ? (
+                            <div className="flex items-center text-green-700 mr-2">
+                            <FaCheckCircle className="h-5 w-5 mr-1" />
+                            Accepted
+                          </div>
+  ) : application.rejected ? ( // Check if application is rejected
+    // Display cross icon for rejected applications
+    <div className="flex items-center  text-red-500 mr-2">
+    <FaTimesCircle className="h-5 w-5 mr-1" />
+    Rejected
+  </div>
+  ) : null /* If not accepted or rejected, display nothing */}
+</div>
 
-              
+
+<button onClick={() => navigateToUserProfile(userId)}>View Profile</button>
               <div className="flex justify-center">
                 
                 <button

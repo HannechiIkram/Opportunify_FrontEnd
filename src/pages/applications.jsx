@@ -1,319 +1,266 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 import ModalConfirmation from './ModalConfirmation';
-import ApplicationDetails from './applicationsDetails'; // Adjust the path as needed
-import { connect } from 'react-redux';
-import { Link, useNavigate } from "react-router-dom";
-import LinkedInIcon from '@mui/icons-material/LinkedIn';
-import FacebookIcon from '@mui/icons-material/Facebook';
-import InstagramIcon from '@mui/icons-material/Instagram';
-import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
-import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined';
-import FileCopyOutlinedIcon from '@mui/icons-material/FileCopyOutlined';
-import ThumbDownAltOutlinedIcon from '@mui/icons-material/ThumbDownAltOutlined';
-import Navbar from '@/widgets/layout/navbar';
-import ThumbDownAltIcon from '@mui/icons-material/ThumbDownAlt';
-const ApplicationsList = () => {
-  const Navigate = useNavigate();
+import { Navbarjs } from "@/widgets/layout";
+import { format } from 'date-fns';
+import { FaCheckCircle, FaTimesCircle, FaEye } from 'react-icons/fa';
+
+const Applications = () => {
   const [applications, setApplications] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
+  const [searchType, setSearchType] = useState('date');
   const [searchResults, setSearchResults] = useState([]);
   const [selectedApplication, setSelectedApplication] = useState(null);
   const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
-  const [likedApplications, setLikedApplications] = useState([]);
-  const [copiedText, setCopiedText] = useState('');
-  const [showBadResponse, setShowBadResponse] = useState(false);
+  const [jobOfferTitles, setJobOfferTitles] = useState({});
   const [currentPage, setCurrentPage] = useState(1);
-  const applicationsPerPage = 5;
-  const [dislikedApplications, setDislikedApplications] = useState([]);
+  const [applicationsPerPage] = useState(5); // Nombre d'applications par page
 
   useEffect(() => {
     const fetchApplications = async () => {
       try {
         const accessToken = localStorage.getItem("accessToken");
-        // Check if the access token exists in localStorage
         if (!accessToken) {
           console.error("Access token not found");
           return;
         }
-  
         const config = {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
         };
   
-        const response = await axios.get('http://localhost:3000/applications/getall', config);
-        setApplications(response.data);
-      } catch (error) {
+        const response = await axios.get('http://localhost:3000/applications/application/user', config);
+  
+        if (response.data && response.data.message === 'No applications found for the user') {
+          console.log(response.data.message); 
+          setApplications([]); 
+        } else {
+          setApplications(response.data);
+        }
+      } 
+      catch (error) {
         console.error('Error fetching applications:', error);
       }
     };
-  
     fetchApplications();
   }, []);
 
-
-  // Other functions and JSX code...
-
- const getStatusBadge = (status) => {
-  switch (status) {
-    case 'Under review':
-      return <span className="bg-gray-400 text-black px-2 py-1 rounded-full">Under review</span>;
-    case 'Rejected':
-      return <span className="bg-red-500 text-black px-2 py-1 rounded-full">Rejected</span>;
-    case 'Shortlisted':
-      return <span className="bg-green-800 text-black px-2 py-1 rounded-full">Shortlisted</span>;
-    default:
-      return <span className="bg-gray-300 text-black px-2 py-1 rounded-full">Unknown</span>;
-  }
-};
-const handleDelete = async () => {
-  try {
-    const accessToken = localStorage.getItem("accessToken");
-    // Check if the access token exists in localStorage
-    if (!accessToken) {
-      console.error("Access token not found");
-      // Handle the absence of access token as needed
-      return;
-    }
-
-    const config = {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
+  useEffect(() => {
+    const fetchJobOfferTitles = async () => {
+      const titles = {};
+      await Promise.all(applications.map(async (application) => {
+        try {
+          const title = await fetchJobOfferTitle(application.job_offer);
+          titles[application._id] = title;
+        } catch (error) {
+          console.error('Error fetching job offer title:', error);
+          titles[application._id] = 'Unknown Job Offer';
+        }
+      }));
+      setJobOfferTitles(titles);
     };
-
-    const response = await axios.get('http://localhost:3000/applications/getall', config);
-    setApplications(response.data);
-  } catch (error) {
-    console.error('Error deleting application:', error);
-  }
-  setIsConfirmationOpen(false);
-};
-
-const handleViewMore = async (id) => {
-  try {
-    const accessToken = localStorage.getItem("accessToken");
-    // Check if the access token exists in localStorage
-    if (!accessToken) {
-      console.error("Access token not found");
-      // Handle the absence of access token as needed
-      return;
-    }
-
-    const config = {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
+    const fetchJobOfferTitle = async (offerId) => {
+      try {
+        const accessToken = localStorage.getItem("accessToken");
+        if (!accessToken) {
+          console.error("Access token not found");
+          return 'Unknown Job Offer';
+        }
+        const config = {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        };
+        const response = await axios.get(`http://localhost:3000/job_offer/get/${offerId}`, config);
+        return response.data.title;
+      } catch (error) {
+        console.error('Error fetching job offer title:', error);
+        return 'Unknown Job Offer';
+      }
     };
+    fetchJobOfferTitles();
+  }, [applications]);
 
-    const response = await axios.get(`http://localhost:3000/applications/${id}`, config);
-    console.log(response.data); // Handle application details data
-    Navigate(`/applications/${id}`); // Use backticks for dynamic route
-
-  } catch (error) {
-    console.error('Error fetching application details:', error);
-  }
-};
-const handleSearch = (e) => {
-    const searchTerm = e.target.value.toLowerCase();
-    const filteredApplications = applications.filter(application => {
-      return application.email.toLowerCase().includes(searchTerm);
-    });
-    setSearchTerm(searchTerm);
-    setSearchResults(filteredApplications);
-    setCurrentPage(1); // Réinitialiser la page actuelle à la première page
+  useEffect(() => {
+    const handleSearch = async () => {
+      try {
+        let response;
+        const accessToken = localStorage.getItem("accessToken");
+        if (!accessToken) {
+          throw new Error("Access token not found");
+        }
+        
+        const config = {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        };
+  
+        let url;
+        switch (searchType) {
+          case 'date':
+            // Format the date to match the server's expectations (yyyy-MM-dd)
+            const formattedDate = formatDateToServer(searchTerm);
+            url = `http://localhost:3000/applications/search/date/${formattedDate}`;
+            break;
+          default:
+            break;
+        }
+  
+        // Make the request using Axios
+        response = await axios.get(url, config);
+        setSearchResults(response.data); // Mettez à jour les résultats de la recherche
+      } catch (error) {
+        console.error('Error searching:', error);
+      }
+    };
+    
+    handleSearch();
+  }, [searchTerm, searchType]);
+  
+  // Fonction pour formater la date au format 'yyyy-MM-dd' pour la requête de recherche
+  const formatDateToServer = (date) => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
   };
+  
+  const handleDelete = async () => {
+    try {
+      const accessToken = localStorage.getItem("accessToken");
+      if (!accessToken) {
+        console.error("Access token not found");
+        return;
+      }
+      await axios.delete(`http://localhost:3000/applications/delete/${selectedApplication._id}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+  
+      // Actualiser la liste des applications après la suppression
+      const response = await axios.get('http://localhost:3000/applications/application/user', {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      setApplications(response.data);
+    } catch (error) {
+      console.error('Error deleting application:', error);
+    }
+    setIsConfirmationOpen(false);
+  };
+  
+  const formattedDate = (dateString) => {
+    const date = new Date(dateString);
+    return format(date, 'dd-MM-yyyy');
+  };
+  
   const indexOfLastApplication = currentPage * applicationsPerPage;
   const indexOfFirstApplication = indexOfLastApplication - applicationsPerPage;
-  let currentApplications;
-  if (Array.isArray(searchResults)) {
-    currentApplications = searchResults.slice(indexOfFirstApplication, indexOfLastApplication);
-  } else {
-    currentApplications = applications.slice(indexOfFirstApplication, indexOfLastApplication);
-  }  const handleLike = (id) => {
-    if (!likedApplications.includes(id)) {
-      setLikedApplications([...likedApplications, id]);}else{
-      setLikedApplications([...likedApplications.filter(appId => appId !== id)]);
-    }
-  };
-  const handleDislike = (id) => {
-    if (!dislikedApplications.includes(id)) {
-      setDislikedApplications([...dislikedApplications, id]);
-    } else {
-      setDislikedApplications(dislikedApplications.filter(appId => appId !== id));
+  const currentApplications = searchResults.length > 0 ? searchResults.slice(indexOfFirstApplication, indexOfLastApplication) : applications.slice(indexOfFirstApplication, indexOfLastApplication);
+  
+  const paginate = (pageNumber) => {
+    if (pageNumber > 0 && pageNumber <= Math.ceil((searchResults.length > 0 ? searchResults.length : applications.length) / applicationsPerPage)) {
+      setCurrentPage(pageNumber);
     }
   };
   
-  
-  // Au chargement du composant, restaurer les applications "likées" depuis le stockage local
-  useEffect(() => {
-    const likedAppsFromStorage = localStorage.getItem('likedApplications');
-    if (likedAppsFromStorage) {
-      setLikedApplications(JSON.parse(likedAppsFromStorage));
-    }
-  }, []);
-
-  // Lorsque les applications "likées" changent, mettre à jour le stockage local
-  useEffect(() => {
-    localStorage.setItem('likedApplications', JSON.stringify(likedApplications));
-  }, [likedApplications]);
-  const handleCopyText = (text, event) => {
-    event.stopPropagation(); // Empêcher la propagation de l'événement
-    navigator.clipboard.writeText(text);
-    setCopiedText(text);
-  };
-  
-  
-
   return (
     <>
-    <Navbar/>
-    <div className="container mx-auto px-4 py-8 ">
-            
-
-      <div className="flex justify-center items-center mb-8 mt-10">
-      <input
-  type="search"
-  className="block w-80 px-4 py-2 text-sm text-gray-900 placeholder-gray-500 bg-gray-100 border border-gray-600 rounded-lg shadow-sm focus:outline-none focus:ring-black focus:border-gay-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:border-gray-500 mt-20"
-  placeholder="Search application by email"
-  value={searchTerm}
-  onChange={handleSearch} // Modifier cette ligne
-/>
-
-        <button
-          className="ml-2 px-3 py-2 text-gray-500 hover:text-gray-700 focus:outline-none focus:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 dark:focus:text-gray-300 mt-20"
-          onClick={handleSearch}
-        >
-          <svg className="w-4 h-8" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
-          </svg>
-          <span className="sr-only">Search</span>
-
-
-
-
-
-
-
-          
-        </button>
-      </div>
-    
-      
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-      {copiedText && (
-  <p className="text-green-600"></p>
-)}
-
-
-      {/* Display bad response */}
-      {showBadResponse && (
-        <p className="text-red-600">Bad response!</p>
-      )}
-{currentApplications.map(application => (
-  <div key={application._id} className="bg-white rounded-lg shadow-lg overflow-hidden">
-    <div className="p-4">
-      {/* Display application email */}
-      <p className="text-center mb-2">Email: {application.email}</p>
-      {/* Display job seeker name if available */}
-      {application.job_seeker && (
-        <p className="text-center mb-2">Name: {application.job_seeker.name}</p>
-      )}
-      {/* Display status with icon */}
-      <div className="flex justify-center mb-2">
-        {/* Display tick icon for accepted applications */}
-        {application.accepted ? (
-          <div className="flex items-center text-green-700 mr-2">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
-              <path fillRule="evenodd" d="M0 11a8 8 0 1 1 16 0c0 2.761-2.239 5-5 5s-5-2.239-5-5a.5.5 0 1 1 1 0c0 1.654 1.346 3 3 3s3-1.346 3-3c0-.569-.164-1.102-.447-1.555a.5.5 0 1 1 .894-.448C13.935 8.696 14.5 9.791 14.5 11c0 2.485-2.015 4.5-4.5 4.5S5.5 13.485 5.5 11 7.515 6.5 10 6.5c.569 0 1.102.164 1.555.447a.5.5 0 1 1-.448.894C10.304 7.065 10 8.017 10 9c0 1.654-1.346 3-3 3s-3-1.346-3-3a.5.5 0 1 1 1 0z" clipRule="evenodd" />
-            </svg>
-            Accepted
-          </div>
-        ) : (
-          // Display cross icon for rejected applications
-          <div className="flex items-center text-red-500 mr-2">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
-              <path fillRule="evenodd" d="M13.95 6.293a.5.5 0 0 0-.707 0L10 9.243 6.757 6a.5.5 0 1 0-.707.707L9.243 10l-3.242 3.243a.5.5 0 0 0 .708.707L10 10.757l3.243 3.242a.5.5 0 0 0 .707-.707L10.757 10l3.192-3.207a.5.5 0 0 0 0-.707z" clipRule="evenodd" />
-            </svg>
-            Rejected
-          </div>
-        )}
-      </div>
-
-              
-              <div className="flex justify-center">
-                
-                <button
-                  className="bg-gradient-to-r from-red-700 to-red-800 hover:from-red-800 hover:to-red-900 text-white px-4 py-2 rounded-md shadow-md focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-opacity-50 transition-all duration-300 border border-transparent hover:border-red-900"
-                  onClick={() => handleViewMore(application._id)}
-                >
-                  View More
-                </button>
-
-
-                <button onClick={() => handleDislike(application._id)}>
-            {dislikedApplications.includes(application._id) ? <ThumbDownAltIcon style={{ color: 'red' }} /> : <ThumbDownAltOutlinedIcon />}
-          </button>
-                <div className="flex">
-                <button onClick={(e) => handleCopyText(application.email, e)}>
-  <FileCopyOutlinedIcon />
-</button>
-
-
-</div>
-
-
-                <button
- 
-
-  onClick={() => handleLike(application._id)}
->
-  {likedApplications.includes(application._id) ? <FavoriteOutlinedIcon /> : <FavoriteBorderOutlinedIcon />}
-</button><div className="container mx-auto px-4 py-8">
-      {/* Your existing JSX code */}
-      <div className="liked-applications">
-      
-      </div>
-    </div>
-
-              </div>
+      <Navbarjs/>
+      <div className="container relative mx-auto">
+        <div className="relative flex content-center justify-center pt-12 pb-32">
+          <div className="container mt-8 w-full">
+            <div className="flex justify-center items-center">
+              <input
+                type="date"
+                className="block w-80 px-4 py-2 text-sm text-gray-900 placeholder-gray-500 bg-gray-100 border border-gray-600 rounded-lg shadow-sm focus:outline-none focus:ring-black focus:border-gray-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:border-gray-500"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(new Date(e.target.value))}
+              />
+            </div>
+            <div className="flex flex-wrap justify-center pt-8">
+              {currentApplications.map(application => (
+                <div key={application._id} className="m-4 bg-gray-100 rounded-md w-96 shadow-lg overflow-hidden h-auto">
+                  <div className="flex items-center justify-center mt-2">
+                    {/* Afficher l'icône en fonction de l'état de l'application */}
+                    <div className="flex justify-center mb-2">
+                      {application.accepted && (
+                        <div className="flex items-center text-green-700 mr-2">
+                          <FaCheckCircle className="h-5 w-5 mr-1" />
+                          Accepted
+                        </div>
+                      )}
+                      {application.rejected && (
+                        <div className="flex items-center  text-red-500 mr-2">
+                          <FaTimesCircle className="h-5 w-5 mr-1" />
+                          Rejected
+                        </div>
+                      )}
+                      {!application.accepted && !application.rejected && (
+                        <div className="flex items-center text-yellow-500 mr-2">
+                          <FaEye className="h-5 w-5 mr-1" />
+                          Under review
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                  <p className="text-center "><p className="font-semibold ">Job Offer Title: </p>{jobOfferTitles[application._id]}</p>
+                  <p className="text-center "><p className="font-semibold ">Application Date: </p> {formattedDate(application.applicationDate)}</p>
+                  <div className="flex justify-center mt-4 mb-4">
+                    <Link to={`/applicationDetails/${application._id}`} className="bg-blue-gray-500 text-white px-4 py-2 rounded">
+                      Show Details
+                    </Link>
+                    <button className="bg-red-700 text-white px-4 py-2 rounded" onClick={() => {
+                      setSelectedApplication(application);
+                      setIsConfirmationOpen(true);
+                    }}>Delete</button>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
-        ))}
-         {/* Pagination component */}
- 
-  <div className="mt-8">
-      {/* Link to navigate back to the applications list */}
-      <Link to="/redirect-company" className="text-blue-600 hover:underline ml-40">
-        did you want to back?
-      </Link>
-    </div>
- 
-      <ModalConfirmation isOpen={isConfirmationOpen} onClose={() => setIsConfirmationOpen(false)} onConfirm={handleDelete} />
-    </div>
-    <div className="mt-8 flex justify-center">
-  <button 
-    onClick={() => setCurrentPage(currentPage - 1)} 
-    disabled={currentPage === 1} // Désactiver le bouton précédent sur la première page
-    className="px-3 py-1 rounded-md mx-1 bg-gray-200 text-black"
-  >
-    Previous
-  </button>
-  <button 
-    onClick={() => setCurrentPage(currentPage + 1)} 
-    disabled={currentApplications.length < applicationsPerPage} // Désactiver le bouton suivant lorsque la dernière page est atteinte
-    className="px-3 py-1 rounded-md mx-1 bg-gray-200 text-black"
-  >
-    Next
-  </button>
-</div>
-
-  
- </div>
-</>
+          <ModalConfirmation isOpen={isConfirmationOpen} onClose={() => setIsConfirmationOpen(false)} onConfirm={handleDelete} />
+        </div>
+        <div className="flex justify-center mt-4">
+          <ul className="flex list-none">
+            {currentPage > 1 && (
+              <li>
+                <button
+                  onClick={() => paginate(currentPage - 1)}
+                  className={`px-3 py-1 rounded-md mx-1 bg-gray-200 text-black`}
+                >
+                </button>
+              </li>
+            )}
+            {Array.from({ length: Math.ceil((searchResults.length > 0 ? searchResults.length : applications.length) / applicationsPerPage) }).map((_, index) => (
+              <li key={index}>
+                <button
+                  onClick={() => paginate(index + 1)}
+                  className={`px-3 py-1 rounded-md mx-1 ${currentPage === index + 1 ? 'bg-red-700 text-white' : 'bg-gray-200 text-black'}`}
+                >
+                  {index + 1}
+                </button>
+              </li>
+            ))}
+            {currentPage < Math.ceil((searchResults.length > 0 ? searchResults.length : applications.length) / applicationsPerPage) && (
+              <li>
+                <button 
+                  onClick={() => paginate(currentPage + 1)}
+                  className={`px-3 py-1 mb-10 rounded-md mx-1  text-black`}
+                >
+                </button>
+              </li>
+            )}
+          </ul>
+        </div>
+      </div>
+    </>
   );
 };
 
-export default ApplicationsList;
+export default Applications;

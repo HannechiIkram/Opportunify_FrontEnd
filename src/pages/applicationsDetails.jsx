@@ -11,6 +11,8 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import jsPDF from 'jspdf';
 import { Navbar } from "@/widgets/layout";
+import { format } from 'date-fns';
+
 
 const ApplicationDetails = () => {
   const [ratingText, setRatingText] = useState('');
@@ -206,7 +208,10 @@ console.log("Headers:", config.headers);
     }
   };
   
-  
+  const formattedDate = (dateString) => {
+    const date = new Date(dateString);
+    return format(date, 'dd-MM-yyyy');
+  };
   
   const handleExportCoverLetter = async (coverLetter) => {
     try {
@@ -222,6 +227,7 @@ console.log("Headers:", config.headers);
         },
       };
   
+
       const coverLetterBlob = await fetch(`http://localhost:3000/download/cover-letter/ikramm/${coverLetter}`, config);
       const coverLetterData = await coverLetterBlob.blob();
   
@@ -247,10 +253,13 @@ console.log("Headers:", config.headers);
     return <div>Loading...</div>;
   }
 
+  
+
   return (
     <>
     <Navbar/>
-      <ToastContainer position="top-center" autoClose={5000} />
+    
+      <ToastContainer position="top-center" autoClose={5000}  />
 
       <div className=' center text-center mt-40 ml-10 ' style={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 999 }}>
         <div className='center text-center mt-40 ml-10' style={{ display: 'flex', justifyContent: 'center' }}>
@@ -278,7 +287,7 @@ console.log("Headers:", config.headers);
       </div>
 
       <div className="container relative mx-auto">
-        <div className="relative flex content-center justify-center pt-24 pb-8"></div>
+        <div className="relative flex content-center justify-center pt-6 pb-8"></div>
       </div>
 
       <section className="ml-10 mr-10 flex gap-4 items-center">
@@ -295,12 +304,13 @@ console.log("Headers:", config.headers);
 
           <Card className="mt-8 ml-auto mr-auto mb-28 w-80 max-w-screen-lg lg:w-5/6 rounded-lg p-6 bg-gray-200 bg-opacity-90 text-center">
             <div>
-              <p>Date: {applications.applicationDate}</p>
+            <p className='text-gray-800'>Date: {formattedDate(applications.applicationDate)}</p>
               <p> {applications.applicationId}</p>
-              <p>Email: {applications.email}</p>
-              <p>Motivation: {applications.motivation}</p>
-              <p>Salary Inormations: {applications.salaire}</p>
-              <p>Disponibility: {applications.disponibilite}</p>
+              <p className='text-gray-800'>Email: {applications.email}</p>
+              
+              <p className='text-gray-800'>Salary Inormations: {applications.salaire}</p>
+              <p className='text-gray-800'>Disponibility: {applications.disponibilite}</p>
+              <p className='text-gray-800 w-full break-words max-w-[calc(100%-8rem)] text-center ml-6'>Motivation: {applications.motivation}</p>
               <br></br>
               <p> <Button color="white" onClick={() => handleExportCV(applications.cv)}>Export Resume</Button>
 <Button color="white" onClick={() => handleExportCoverLetter(applications.coverLetter)}>Export Cover Letter </Button></p>

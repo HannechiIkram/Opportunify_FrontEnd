@@ -83,6 +83,7 @@ export function Profile() {
   };
   
   const [isInputFocused, setInputFocused] = useState(false);
+
   const [showBirthdate, setShowBirthdate] = useState(false);
 
   const handleButtonClick = () => {
