@@ -52,7 +52,7 @@ export function SignIn() {
       const accessToken = response.data.accessToken;
 
       // Store the access token securely
-      localStorage.setItem('accessToken', accessToken);
+      sessionStorage.setItem('accessToken', accessToken);
       // Assuming successful registration, you can redirect the user or display a success message
       console.log('Authentification successful:', response.data);
       console.log('Authentication successful:', response.data);
