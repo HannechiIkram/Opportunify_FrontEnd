@@ -128,8 +128,12 @@ const handleSearch = (e) => {
   };
   const indexOfLastApplication = currentPage * applicationsPerPage;
   const indexOfFirstApplication = indexOfLastApplication - applicationsPerPage;
-  const currentApplications = (searchResults.length > 0 ? searchResults : applications).slice(indexOfFirstApplication, indexOfLastApplication);
-  const handleLike = (id) => {
+  let currentApplications;
+  if (Array.isArray(searchResults)) {
+    currentApplications = searchResults.slice(indexOfFirstApplication, indexOfLastApplication);
+  } else {
+    currentApplications = applications.slice(indexOfFirstApplication, indexOfLastApplication);
+  }  const handleLike = (id) => {
     if (!likedApplications.includes(id)) {
       setLikedApplications([...likedApplications, id]);}else{
       setLikedApplications([...likedApplications.filter(appId => appId !== id)]);
