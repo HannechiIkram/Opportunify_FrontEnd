@@ -2,9 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { Input, Button, Typography } from "@material-tailwind/react";
-import LinkedInIcon from '@mui/icons-material/LinkedIn';
-import FacebookIcon from '@mui/icons-material/Facebook';
-import InstagramIcon from '@mui/icons-material/Instagram';
 import {  useNavigate } from 'react-router-dom';
 import { Link } from "react-router-dom";
 import { Navbarjs } from "@/widgets/layout";
@@ -97,82 +94,102 @@ const handleUpdate = async () => {
       [name]: value,
     }));
 
-    // Validation de l'e-mail
-    if (name === 'email') {
-      const isValidEmail = /\S+@\S+\.\S+/.test(value);
-      setErrors({ ...errors, email: isValidEmail ? '' : 'Invalid email address' });
+        // Fonction pour valider le formulaire
+   const formIsValid = () => {
+    let errors = {};
+
+    if (formData.motivation.length < 200) {
+        errors.motivation = "Motivation should be at least 200 characters long";
     }
+
+    setErrors(errors); 
+    return Object.keys(errors).length === 0; 
+};
   };
 
   return (
     <>
  <Navbarjs/>
- <div className="container relative mx-auto">
-            <div className="relative flex content-center justify-center pt-4 pb-8">
 
-   </div>
-   </div>
+ <div className="container mx-auto pt-8">
+  <h1 className="text-2xl text-white font-bold mb-4 bg-red-800 px-4 py-4 rounded-lg">Update Application</h1>
+  <div className="grid grid-cols-2 gap-4 bg-gray-100 p-4">
 
-   <div className="container mx-auto p-4">
-        <h1 className="text-2xl text-white font-bold mb-4 bg-red-800 px-4 py-4 rounded-lg">Update Application</h1>
-        <div className="grid grid-cols-2 gap-4 bg-gray-100 p-4">
-          <div>
-          <Typography variant="small" color="blue-gray" className="mb-1 mt-1 font-medium">
-    Email
-  </Typography>
-  <Input type="text" name="email" value={formData.email} onChange={handleChange} placeholder="Email" />
-  {errors.email && <span className="text-red-500">{errors.email}</span>}
-          <Typography variant="small" color="blue-gray" className="mb-1 mt-1 font-medium">
-                    Motivation
-                  </Typography>
-           
-            <Input type="text" name="motivation" value={formData.motivation} onChange={handleChange} placeholder="Motivation" />
-           
-  <Typography variant="small" color="blue-gray" className="mb-1 mt-1 font-medium">
-    Disponibility
-  </Typography>
-  <Input  type="text" name="disponibilite" value={formData.disponibilite} onChange={handleChange} placeholder="Disponibilité" />
-  <Typography variant="small" color="blue-gray" className="mb-1 mt-1 font-medium">
-    Salary Informations
-  </Typography>
-  <Input type="text" name="salaire" value={formData.salaire} onChange={handleChange} placeholder="Salaire" />
-</div>
-          <div>
-          <Typography variant="small" color="blue-gray" className="mb-1 mt-1 font-medium">
-            Resume
-  </Typography>
-          <Input type="text" name="coverLetter" value={formData.coverLetter} onChange={handleChange} placeholder="Cover Letter"  />
-          <Typography variant="small" color="blue-gray" className="mb-1 mt-1 font-medium">
-            Upload New Resume
-          </Typography>
-          <Input type="file" name="cv" onChange={handleChange} /> {/* Champ de fichier pour CV */}
-  <Typography variant="small" color="blue-gray" className="mb-1 mt-1 font-medium">
-            Cover Letter
-  </Typography> 
-            <Input type="text" name="cv" value={formData.cv} onChange={handleChange} placeholder="CV" />
-          
+    <div>
+      <Typography variant="small" color="blue-gray" className="mb-1 mt-1 font-medium">
+        Disponibility
+      </Typography>
+      <Input type="text" name="disponibilite" value={formData.disponibilite} onChange={handleChange} placeholder="Disponibilité" />
+    </div>
+
+    <div>
+      <Typography variant="small" color="blue-gray" className="mb-1 mt-1 font-medium">
+        Salary Informations
+      </Typography>
+      <Input type="text" name="salaire" value={formData.salaire} onChange={handleChange} placeholder="Salaire" />
+    </div>
+
+    <div>
+      <Typography variant="small" color="blue-gray" className="mb-1 mt-1 font-medium">
+        Resume
+      </Typography>
+      <Input type="text" name="coverLetter" value={formData.coverLetter} onChange={handleChange} placeholder="Cover Letter" />
+    </div>
+
+    <div>
+      <Typography variant="small" color="blue-gray" className="mb-1 mt-1 font-medium">
+        Upload New Resume
+      </Typography>
+      <Input type="file" name="cv" onChange={handleChange} />
+    </div>
+
+    <div>
+      <Typography variant="small" color="blue-gray" className="mb-1 mt-1 font-medium">
+        Cover Letter
+      </Typography>
+      <Input type="text" name="cv" value={formData.cv} onChange={handleChange} placeholder="CV" />
+    </div>
+
+    <div>
+      <Typography variant="small" color="blue-gray" className="mb-1 mt-1 font-medium">
+        Upload New Cover Letter
+      </Typography>
+      <Input type="file" name="coverLetter" onChange={handleChange} />
+    </div>
+
+    <div className="col-span-2">
             <Typography variant="small" color="blue-gray" className="mb-1 mt-1 font-medium">
-            Upload New Cover Letter
-          </Typography>
-          <Input type="file" name="coverLetter" onChange={handleChange} /> {/* Champ de fichier pour Lettre de motivation */}
-        
+              Motivation
+            </Typography>
+            <textarea
+              type="text"
+              name="motivation"
+              className={`w-full h-24 ${errors.motivation ? 'border-red-500' : ''}`}
+              value={formData.motivation}
+              onChange={handleChange}
+              placeholder="Motivation"
+            />
+            {errors.motivation && <p className="text-red-500 text-sm mt-1">{errors.motivation}</p>}
           </div>
-        </div>
-        <div className="flex justify-center mt-8">
-          <Button onClick={handleUpdate} className="w-60 bg-red-800">Update</Button>
-        </div>
-      </div>
 
-      <div className="flex justify-end mt-4">
-          <Link
-            to={`/applicationDetails/${id}`}
-            className="inline-block p-1 text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-          >
-            <svg className="w-3.5 h-3.5 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
-              <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
-            </svg>
-          </Link>
-        </div>
+  </div>
+
+  <div className="flex justify-center mt-8">
+    <Button onClick={handleUpdate} className="w-60 bg-red-800">Update</Button>
+  </div>
+
+  <div className="flex justify-end mt-4">
+    <Link
+      to={`/applicationDetails/${id}`}
+      className="inline-block p-1 text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+    >
+      <svg className="w-3.5 h-3.5 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
+      </svg>
+    </Link>
+  </div>
+</div>
+
         
 
 
