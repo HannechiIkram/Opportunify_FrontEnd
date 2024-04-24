@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Typography, Button, Input, TextField} from "@material-tailwind/react";
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
@@ -16,14 +16,13 @@ const Modal = ({ open, onClose }) => {
     image: '', // Add the imagestring field
   });
 
+  const modalRef = useRef(null);
   useEffect(() => {
     const fetchProfileData = async () => {
       try {
         const response = await axios.get(`/user/getProfileJobSeekerById/${userId}`);
         const profileData = response.data.profile;
         setFormData(profileData);
-       
-
       } catch (error) {
         console.error('Error fetching profile data:', error);
       }
@@ -44,22 +43,25 @@ const Modal = ({ open, onClose }) => {
     try {
       await axios.put(`/user/updateProfileJobSeekerById/${userId}`, formData);
       console.log("Profile updated successfully");
-
       onClose();
       window.location.reload();
-
     } catch (error) {
       console.error('Error updating profile:', error);
+    }
+  };
+
+  const handleCloseModal = (e) => {
+    if (modalRef.current && !modalRef.current.contains(e.target)) {
+      onClose();
     }
   };
 
   if (!open) return null;
 
   return (
-    <div className='overlay'>
+    <div className='overlay' onClick={handleCloseModal}>
       <div className='modalContainer '>
-        <div className='modalRight  bg-gray-300'>
-          <button className='closeBtn' onClick={onClose}>X</button>
+        <div className='modalRight  bg-gray-300' ref={modalRef}>
           <div className='content'>
             <Typography variant="h6" color="gray" className="mb-4">Update Profile</Typography>
             <div className="grid grid-cols-2 gap-4 mb-2">

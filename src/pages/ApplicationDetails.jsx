@@ -96,72 +96,76 @@ const ApplicationDetails = () => {
 
   return (
     <>
-    <Navbarjs/>
-    <div className="flex justify-center items-center h-screen bg-gray-100  pt-2">
-    <div className="max-w-lg bg-white rounded-lg sha/$dow-lg  space-y-6 p-8 w-2/3">
-      <h2 className="text-2xl font-bold text-gray-80">Application Details</h2>
-      {applicationDetails && (
-        <div className="space-y-2 ml-5 text-xl">
-            <div className="flex items-center">
-          <Typography variant="paragraph" color="blue-gray" className="mr-2">
-                                        <GrAid />
-                                    </Typography>
-            <p className="ml-2 text-gray-800 font-semibold">Job Offer Title:</p>
-            <p className="text-gray-600 ml-5">{jobOfferTitle}</p>
+    <div className="bg-gray-100">
+      <Navbarjs />
+      <div className='items-center justify-center flex pt-6'>
+        <div className="bg-white rounded-lg shadow-lg space-y-8 p-8 max-w-screen-md mb-4">
+  
+          <h2 className="text-2xl font-bold text-gray-80">Application Details</h2>
+          {applicationDetails && (
+            <div className="space-y-2 ml-5 text-xl">
+              <div className="flex items-center">
+                <Typography variant="paragraph" color="blue-gray" className="mr-2">
+                  <GrAid />
+                </Typography>
+                <p className="ml-2 text-gray-800 font-semibold">Job Offer Title:</p>
+                <p className="text-gray-600 ml-5">{jobOfferTitle}</p>
+              </div>
+              <div className="flex items-center ">
+                <Typography variant="paragraph" color="blue-gray">
+                  <GrScheduleNew />
+                </Typography>
+                <p className="ml-2 text-gray-800 font-semibold">Date:</p>
+                <p className="text-gray-600 ml-5"> {formattedDate(applicationDetails.applicationDate)}</p>
+              </div>
+  
+              <div className="flex items-center">
+                <Typography variant="paragraph" color="blue-gray" className="mr-2">
+                  <GrCurrency />
+                </Typography>
+                <p className="ml-2 text-gray-800 font-semibold">Salary Information:</p>
+                <p className="text-gray-600 ml-5">{applicationDetails.salaire}</p>
+              </div>
+              <div className="flex items-center">
+                <Typography variant="paragraph" color="blue-gray">
+                  <GrScheduleNew />
+                </Typography>
+                <p className="ml-2 text-gray-800 font-semibold">Disponibility:</p>
+                <p className="text-gray-600 ml-5">{applicationDetails.disponibilite}</p>
+              </div>
+              <div className="flex items-start">
+                <Typography variant="paragraph" color="blue-gray" className="mr-2">
+                  <GrAid />
+                </Typography>
+                <p className="ml-2 text-gray-800 font-semibold">Motivation:</p>
+              </div>
+              <div className="text-gray-600 w-full break-words max-w-[calc(100%-8rem)]">{applicationDetails.motivation}</div>
+            </div>
+          )}
+  
+          <div className="flex justify-center">
+            <Link
+              to={`/updateApplication/${id}`}
+              className={`bg-red-800 text-white px-4 py-2 rounded-md inline-block ${isApplyDisabled ? 'pointer-events-none opacity-50' : ''}`}
+            >
+              Update Application
+            </Link>
           </div>
-          <div className="flex items-center ">
-          <Typography variant="paragraph" color="blue-gray">
-                                        <GrScheduleNew />
-                                    </Typography>
-            <p className="ml-2 text-gray-800 font-semibold">Date:</p>
-            <p className="text-gray-600 ml-5"> {formattedDate(applicationDetails.applicationDate)}</p>
-          </div>
-        
-          <div className="flex items-center">
-          <Typography variant="paragraph" color="blue-gray" className="mr-2">
-                                        <GrCurrency />
-                                    </Typography>
-            <p className="ml-2 text-gray-800 font-semibold">Salary Information:</p>
-            <p className="text-gray-600 ml-5">{applicationDetails.salaire}</p>
-          </div>
-          <div className="flex items-center">
-          <Typography variant="paragraph" color="blue-gray">
-                                        <GrScheduleNew />
-                                    </Typography>
-            <p className="ml-2 text-gray-800 font-semibold">Disponibility:</p>
-            <p className="text-gray-600 ml-5">{applicationDetails.disponibilite}</p>
-          </div>
-          <div className="flex items-center">
-          <Typography variant="paragraph" color="blue-gray" className="mr-2">
-                                        <GrAid />
-                                    </Typography>
-            <p className="ml-2 text-gray-800 font-semibold">Motivation:</p>
-            <p className="text-gray-600 ml-5">{applicationDetails.motivation}</p>
+          <div className="flex justify-end">
+            <Link
+              to={`/applications`}
+              className="inline-block p-1 text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+            >
+              <svg className="w-6 h-6 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
+              </svg>
+            </Link>
           </div>
         </div>
-      )}
-      <div className="flex justify-center">
-        <Link
-          to={`/updateApplication/${id}`}
-          className={`bg-red-800 text-white px-4 py-2 rounded-md inline-block ${isApplyDisabled ? 'pointer-events-none opacity-50' : ''}`}
-        >
-          Update Application
-        </Link>
-      </div>
-      <div className="flex justify-end">
-        <Link
-          to={`/applications`}
-          className="inline-block p-1 text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-        >
-          <svg className="w-6 h-6 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
-            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
-          </svg>
-        </Link>
       </div>
     </div>
-    
-  </div>
   </>
+  
   );
 };
 

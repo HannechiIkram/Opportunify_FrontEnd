@@ -207,7 +207,7 @@ if (!data.phoneNumber) {
 } else if (!/^\d+$/.test(data.phoneNumber)) {
   newErrors.phoneNumber = "Phone number should contain only digits";
   formIsValid = false;
-} else if (data.phoneNumber.length < 8) {
+} else if (data.phoneNumber.length < 8 ){
   newErrors.phoneNumber = "Phone number should be at least 8 digits long";
   formIsValid = false;
 } else if (data.phoneNumber.length > 12) {
@@ -335,7 +335,7 @@ if (!data.phoneNumber) {
             </Typography>
             <Input
               size="lg"
-              placeholder="*****"
+              placeholder="***"
               className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
               labelProps={{
                 className: "before:content-none after:content-none",
@@ -634,4 +634,4 @@ if (!data.phoneNumber) {
   
 }
 
-export default SignUp;
+export default SignUp; 

@@ -33,7 +33,7 @@ function App() {
       {!!(pathname === '/nav0' ||
    pathname === '/profile/:userId' ||
    pathname === '/navbar-jobseeker' ||
-   pathname === '/redirect-company' || 
+  
    pathname === '/navbar' || 
    pathname === '/nav1' || 
    pathname === '/add-event' || 

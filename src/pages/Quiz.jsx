@@ -24,7 +24,7 @@ const QuizList = () => {
   return (
     <>
     <Navbarjs/>
-    <div className="container mx-auto mt-8 pt-12 ml-20">
+    <div className="container mx-auto mt-8 pt-32">
       <h1 className="text-3xl font-bold text-gray-900 mb-4">Quiz List </h1>
       <div className="grid grid-cols-3 gap-4">
         {quizzes.map((quiz) => (

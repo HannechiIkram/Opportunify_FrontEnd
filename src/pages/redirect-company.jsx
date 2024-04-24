@@ -19,7 +19,7 @@ export function RedirectCompany() {
     navigate("/applicationsList");
   };
   const handleClick3 = () => {
-    navigate("/Job_offerConsultCopy");
+    navigate("/Job_offerConsult");
   };
 
  

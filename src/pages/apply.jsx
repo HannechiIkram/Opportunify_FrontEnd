@@ -68,10 +68,9 @@ const Apply = () => {
                 const config = {
                     headers: {
                         'Content-Type': 'multipart/form-data',
-                        Authorization: `Bearer ${accessToken}`, // Use backticks and curly braces for string interpolation
+                        Authorization: `Bearer ${accessToken}`,
                     },
                 };
-                
           
                 await axios.post('http://localhost:3000/applications/apply', postData, config);
                 // Redirection vers la page /applications après la soumission réussie
@@ -82,7 +81,7 @@ const Apply = () => {
             }
         }
     };
-
+    
     // Fonction pour valider le formulaire
    const formIsValid = () => {
         let errors = {};
@@ -103,15 +102,16 @@ const Apply = () => {
         <Navbarjs/>
         <div className="container relative mx-auto">
             <div className="relative flex content-center justify-center pt-12 pb-32">
-                <div className="container mx-auto mt-8 max-w-screen-md w-1/2">
-                    <Card className='mt-8 bg-gray-400 bg-opacity-20 rounded-lg shadow-l'>
+                <div className="container mx-auto mt-4 max-w-screen-md ">
+                    <Card className='mt-8 bg-gray-400 bg-opacity-20 rounded-lg shadow-l '>
                         <CardHeader className='bg-red-800' contentPosition="none">
                             <Typography color="white" variant="h5">
                                 Your Form
                             </Typography>
                         </CardHeader>
-                        <CardBody>
-                            <form onSubmit={handleSubmit} className="px-4 py-8 grid grid-cols-1 gap-6 md:grid-cols-2">
+                        <CardBody >
+                            <form onSubmit={handleSubmit}>
+                                <div  className="px-4 py-8 grid grid-cols-2 gap-6 md:grid-cols-2 ">
                                 <input type="hidden" name="offerId" value={offerId} />
                                
                                 <div>
@@ -120,7 +120,7 @@ const Apply = () => {
                                 </div>
                                 <div>
                                     <Typography htmlFor="text" className="block text-sm font-medium text-gray-900 dark:text-white">Salary Informations</Typography>
-                                    <Input type="text" name="salaire"  className="input-style" placeholder="Salary Informations" required />
+                                    <Input type="text" name="salaire"  className="input-style " placeholder="Salary Informations" required />
                                 </div>
                                 <div>
                                     <label htmlFor="cv" className="block text-sm font-medium text-gray-900 dark:text-white">Upload Resume</label>
@@ -130,15 +130,17 @@ const Apply = () => {
                                     <label htmlFor="coverLetter" className="block text-sm font-medium text-gray-900 dark:text-white">Upload Cover Letter</label>
                                     <input type="file" name="coverLetter" onChange={handleFileChange} className="input-style"  />
                                 </div>
-                                <div>
+                                </div>
+                                <div className='px-4'>
                                     <Typography htmlFor="text" className="block text-sm font-medium text-gray-900 dark:text-white">Motivation</Typography>
-                                    <textarea id="motivation" name="motivation" rows="8" className={`block p-2.5 w-96 text-sm text-gray-900 bg-gray-100 rounded-lg border ${errors.motivation ? 'border-red-500 focus:border-red-500' : 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'} dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500`} placeholder="Write your thoughts here..." value={formData.motivation} onChange={handleChange} required></textarea>
+                                    <textarea id="motivation" name="motivation" rows="8" className={`block min-w-full text-sm text-gray-900 bg-gray-100 rounded-lg border ${errors.motivation ? 'border-red-500 focus:border-red-500' : 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'} dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500`} placeholder="Write a motivation paragraph" value={formData.motivation} onChange={handleChange} required></textarea>
                                     {errors.motivation && <span className="text-red-500">{errors.motivation}</span>}   
                                 </div>
+                                
                                 <div className="col-span-2 mt-8 flex justify-center">
                                     <Button type="submit" color="red" className="bg-red-800">Submit Application</Button>
                                 </div>
-                            </form>
+                                </form>
                         </CardBody>
                     </Card>
                 </div>
