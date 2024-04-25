@@ -311,7 +311,6 @@ console.log("Headers:", config.headers);
             <p className='text-gray-800'>Date: {formattedDate(applications.applicationDate)}</p>
               <p> {applications.applicationId}</p>
               <p className='text-gray-800'>Email: {applications.email}</p>
-              <p className='text-gray-800'>offerId: {applications.offerId}</p>
               <p className='text-gray-800'>Salary Inormations: {applications.salaire}</p>
 
               <p className='text-gray-800'>Disponibility: {applications.disponibilite}</p>

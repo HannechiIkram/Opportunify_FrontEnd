@@ -69,11 +69,10 @@ export function SignIn() {
       if (userRole === 'admin') {
         Navigate("/dashboard");
       } else if (userRole === 'company') {
-        Navigate(`/Profilecompany/${pId}`);
-       // Navigate(`/redirect-company`);
+        Navigate(`/redirect-company`);
 
       } else if (userRole === 'job_seeker') {
-        Navigate(`/profile/${userId}`);      }
+        Navigate(`/redirect-job-seeker`);      }
     } catch (error) {
       console.error('Email or password is wrong', error.response.data);
       if (error.response.status === 429) {

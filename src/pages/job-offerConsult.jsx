@@ -230,6 +230,16 @@ return (
                     
                     
           
+                    
+        
+                  </li>
+                  
+                  
+                ))}
+                
+              </ul>
+              
+              <div className="w-1/2 p-4 mt-18"> {/* Deuxième moitié de la page pour les détails de l'offre sélectionnée */}
           {selectedOffer && (
             <Card className={`mt-8 max-h-full overflow-y-auto ${expandedOfferId ? 'block' : 'hidden'}`}>
               <div className="p-4">
@@ -287,18 +297,10 @@ return (
             </Card>
           )}
            
-        
-                  </li>
-                  
-                  
-                ))}
-                
-              </ul>
-              
-        
+        </div>
       </div>
       
-      <div><Appap/></div>
+      <div className="flex justify-center"><Appap/></div>
     </>
 );
 

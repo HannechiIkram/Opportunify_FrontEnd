@@ -34,8 +34,10 @@ import EvaluationList from "./pages/Evaluation";
 import QuizList from "./pages/Quiz";
 import { JobofferConsult} from "./pages/jobOffers";
 
-import ApplicationsPerOffer from "@/pages/applications-per-offer";
 
+/////samar
+import ApplicationsPerOffer from "@/pages/applications-per-offer";
+import RedirectJobSeeker from "@/pages/redirect-jobseeker";
 
 import SideNav from "@/pages/dashboard/sidenav";
 import Nav0 from "@/widgets/layout/navbar0";
@@ -58,6 +60,12 @@ export const routes = [
     name: "Add-event",
     path: "/add-event",
     element: <Add_event/>,
+  },
+  
+  {
+    name: "RedirectJobSeeker",
+    path: "/redirect-job-seeker",
+    element: <RedirectJobSeeker/>,
   },
   {
     name: "applications-per-offer",

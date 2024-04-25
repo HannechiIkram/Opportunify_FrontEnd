@@ -16,7 +16,7 @@ export function RedirectCompany() {
     navigate("/Job_offer");
   };
   const handleClick2 = () => {
-    navigate("/applicationsList");
+    navigate("/evaluation");
   };
   const handleClick3 = () => {
     navigate("/Job_offerConsult");
@@ -41,18 +41,20 @@ export function RedirectCompany() {
             <button onClick={handleClick1} className='  w-[200px] rounded-md font-medium bg-red-800 my-6 mx-auto px-6 py-3 text-white'>Post Job Offer</button>
 
           </div>
+
           <div className='w-full shadow-xl flex flex-col p-4 my-4 rounded-lg hover:scale-105 duration-300 ml-10 mt-10'>
             <img className="w-20 mx-auto mt-[-3rem] bg-transparent" src={applicationlist} alt="/" />
-            <h2 className="Lato text-[#2b2b2b] text-2xl text-center py-8">Explore Candidate Applications</h2>
+            <h2 className="Lato text-[#2b2b2b] text-2xl text-center py-8">Save your quiz and make it available to candidates</h2>
             <div className="text-center font-medium">
-              <p className="Lato py-2 border-b mx-8 mt-8">Discover a Diverse Array of Skilled Professionals to Find the Perfect Fit for Your Team</p>
-              <p className="Lato py-2 border-b mx-8 mt-8">Explore a Wide Range of Potential Matches Among Talented Professionals,</p>
-              <p className="Lato py-2 border-b mx-8 mt-8"> Each with Unique Skills and Experiences, to Find the Ideal Candidate for Your Company's Needs</p>
+              <p className="Lato py-2 border-b mx-8 mt-8">Easily create your own quiz to assess candidates or test knowledge</p>
+              <p className="Lato py-2 border-b mx-8 mt-8">Add questions and answer choices.</p>
+              <p className="Lato py-2 border-b mx-8 mt-8"> Customize the quiz settings, such as time limit or scoring.</p>
             </div>
-            <button onClick={handleClick2}className="Lato bg-black text-white w-[200px] rounded-md font-medium my-6 mx-auto px-6 py-3">Find Candidates</button>
+            <button onClick={handleClick2}className="Lato bg-black text-white w-[200px] rounded-md font-medium my-6 mx-auto px-6 py-3">Create a Quiz</button>
           </div>
+
           <div className="w-full shadow-xl  mr-60 ml-10 flex flex-col p-4 md:my-0 my-8 rounded-lg hover:scale-105 duration-300">
-            <img className="w-20 mx-auto mt-[-3rem]  mr-60 bg-transparent" src={joboffer2} alt="/" />
+            <img className="w-20 mx-auto mt-[-3rem] bg-transparent" src={joboffer2} alt="/" />
             <h2 className="Lato text-[#2b2b2b] text-2xl text-center py-8">Browse my published job offers on Opportunify!</h2>
             <div className="text-center font-medium">
               <p className="Lato py-2 border-b mx-8 mt-8">Explore your repository of posted job offers crafted with precision </p>
