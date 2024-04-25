@@ -284,15 +284,7 @@ const togglechat = () => {
                             className="hidden"
                           />
                         </label>
-                        {/* Conditionally render the button based on whether a file is selected 
-                        {selectedFile && (
-                          <button
-                            onClick={openPictureModal}
-                            className="bg-white text-black px-4 py-2 rounded-md mt-2"
-                          >
-                            Are you sure?
-                          </button>
-                        )}*/}
+                     
                       </div>
                 <div>
    </div>

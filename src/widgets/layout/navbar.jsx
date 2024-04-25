@@ -1,6 +1,6 @@
 import axios from 'axios'; // Import Axios library
 import { Link, useNavigate } from "react-router-dom";
-
+import {Profilecompany}from "@/pages";
 import React from "react";
 import {
   Navbar as TNavbar,
@@ -29,20 +29,10 @@ import {
   HomeIcon,
   KeyIcon
 } from "@heroicons/react/24/solid";
-
+import { IoMdContact } from "react-icons/io";
 // profile menu component
 const profileMenuItems = [
-  {
-    label: "My Profile",
-    icon: UserCircleIcon,
-    path:""
 
-  },
-  {
-    label: "Edit Profile",
-    icon: Cog6ToothIcon,
-    path:"/profile"
-  },
   {
     label: "Inbox",
     icon: InboxArrowDownIcon,
@@ -286,6 +276,12 @@ const navListItems = [
     path:"/redirect-company"
 
   },
+  {
+    label: "My Profile",
+    icon: IoMdContact,
+    path: `/Profilecompany/${localStorage.getItem('pId')}` // Dynamically construct the path
+
+  },
   
   
 /*
@@ -318,6 +314,7 @@ function NavList() {
 }
  
 export function Navbar() {
+  
   const [isNavOpen, setIsNavOpen] = React.useState(false);
  
   const toggleIsNavOpen = () => setIsNavOpen((cur) => !cur);

@@ -29,20 +29,11 @@ import {
   HomeIcon,
   KeyIcon
 } from "@heroicons/react/24/solid";
-
+import { IoMdContact } from "react-icons/io";
 // profile menu component
 const profileMenuItems = [
-  {
-    label: "My Profile",
-    icon: UserCircleIcon,
-    path:""
 
-  },
-  {
-    label: "Edit Profile",
-    icon: Cog6ToothIcon,
-    path:"/profile"
-  },
+
   {
     label: "Inbox",
     icon: InboxArrowDownIcon,
@@ -293,6 +284,12 @@ const navListItems = [
     path:"/applications"
 
   },
+  {
+    label: "My Profile",
+    icon: IoMdContact,
+    path: `/profile/${localStorage.getItem('userId')}`
+  }
+  
 /*
   {
     label: "Docs",
