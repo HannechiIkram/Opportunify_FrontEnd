@@ -19,8 +19,8 @@ export function Appap() {
             Authorization: `Bearer ${accessToken}`,
           },
         };
-  
-        const response = await axios.get('/job_offer/getall', config);
+  ////samar aprés modification
+        const response = await axios.get('/job_offer/company/joboffers', config);
         const jobOffers = response.data;
 
         // Count the number of job offers for each title

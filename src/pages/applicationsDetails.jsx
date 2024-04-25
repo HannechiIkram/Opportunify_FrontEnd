@@ -302,9 +302,13 @@ console.log("Headers:", config.headers);
           <div style={{ fontSize: '24px', fontWeight: 'bold' }} className="mt-4 bg-red-800 rounded-lg p-3 text-white border border-red-700 text-center">Here there are the details of application</div>
 
           <div className="mt-8">
-            <Link to="/applicationsList" className="text-blue-600 hover:underline ml-40">
-              did you want to back to list?
+
+            <Link to={{
+    pathname: `/applications-per-offer/${applications.offerId}` }} className="text-blue-600 hover:underline ml-40">
+              do you want to get back?
             </Link>
+
+            
           </div>
 
 
@@ -313,8 +317,8 @@ console.log("Headers:", config.headers);
             <p className='text-gray-800'>Date: {formattedDate(applications.applicationDate)}</p>
               <p> {applications.applicationId}</p>
               <p className='text-gray-800'>Email: {applications.email}</p>
-              
               <p className='text-gray-800'>Salary Inormations: {applications.salaire}</p>
+
               <p className='text-gray-800'>Disponibility: {applications.disponibilite}</p>
               <p className='text-gray-800 w-full break-words max-w-[calc(100%-8rem)] text-center ml-6'>Motivation: {applications.motivation}</p>
               <br></br>

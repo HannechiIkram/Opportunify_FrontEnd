@@ -35,7 +35,9 @@ import QuizList from "./pages/Quiz";
 
 
 
-
+/////samar
+import ApplicationsPerOffer from "@/pages/applications-per-offer";
+import RedirectJobSeeker from "@/pages/redirect-jobseeker";
 
 import SideNav from "@/pages/dashboard/sidenav";
 import Nav0 from "@/widgets/layout/navbar0";
@@ -47,7 +49,10 @@ import Chatbot from "./pages/Generatemessage";
 import JobofferConsult from "./pages/jobOffers";
 
 
+
 import Chat from "./pages/Chat";
+
+
 export const routes = [
   {
     name: "navbar-jobseeker",
@@ -60,7 +65,18 @@ export const routes = [
     element: <Add_event/>,
   },
   
- 
+  {
+    name: "RedirectJobSeeker",
+    path: "/redirect-job-seeker",
+    element: <RedirectJobSeeker/>,
+  },
+  {
+    name: "applications-per-offer",
+    path: "/applications-per-offer/:offerId",
+    element: <ApplicationsPerOffer/>,
+  },
+  
+  
   {
     name: "navbar0",
     path: "/nav0",
