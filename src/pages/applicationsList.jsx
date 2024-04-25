@@ -87,9 +87,19 @@ const ApplicationsList = () => {
     setCopiedText(text);
   };
 
+
+
+ 
+
   const indexOfLastApplication = currentPage * applicationsPerPage;
   const indexOfFirstApplication = indexOfLastApplication - applicationsPerPage;
-  const currentApplications = searchResults.slice(indexOfFirstApplication, indexOfLastApplication);
+  let currentApplications;
+  if (Array.isArray(searchResults)) {
+    currentApplications = searchResults.slice(indexOfFirstApplication, indexOfLastApplication);
+  } else {
+    currentApplications = applications.slice(indexOfFirstApplication, indexOfLastApplication);
+  }
+
 
   return (
     <>
@@ -149,6 +159,24 @@ const ApplicationsList = () => {
             </div>
           ))}
         </div>
+
+        <div className="mt-8 flex justify-center">
+  <button 
+    onClick={() => setCurrentPage(currentPage - 1)} 
+    disabled={currentPage === 1} // Désactiver le bouton précédent sur la première page
+    className="px-3 py-1 rounded-md mx-1 bg-gray-200 text-black"
+  >
+    Previous
+  </button>
+  <button 
+    onClick={() => setCurrentPage(currentPage + 1)} 
+    disabled={currentApplications.length < applicationsPerPage} // Désactiver le bouton suivant lorsque la dernière page est atteinte
+    className="px-3 py-1 rounded-md mx-1 bg-gray-200 text-black"
+  >
+    Next
+  </button>
+</div>
+
       </div>
     </>
   );
