@@ -225,24 +225,7 @@ Add             </button>
           
 
             </form>
-            <div className="chatbot-container">
-      <div className="messages">
-        {messages.map((msg, index) => (
-          <div key={index} className={msg.sender === "bot" ? "bot" : "user"}>
-            {msg.text}
-          </div>
-        ))}
-      </div>
-      <div className="input-container">
-        <input
-          type="text"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder="Type your message..."
-        />
-        <button onClick={handleSendMessage}>Send</button>
-      </div>
-    </div>
+           
       </div>
     </div>
   </>

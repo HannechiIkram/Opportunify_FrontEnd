@@ -381,8 +381,7 @@ const handleRejectUser1 = async (email) => {
   ) : (
     <UserIcon className="w-7 h-7 text-black" />
   )}
-   <button onClick={handleAcceptUser1}>Accept User</button>
-      <button onClick={handleRejectUser1}>Reject User</button>
+   
      
                   </div>
       </div>
