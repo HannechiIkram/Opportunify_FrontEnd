@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import ModalConfirmation from './ModalConfirmation';
+import { GrAid, GrTrash , GrUp , GrClock} from "react-icons/gr";
 import { Navbarjs } from "@/widgets/layout";
 import { format } from 'date-fns';
 import { FaCheckCircle, FaTimesCircle, FaEye } from 'react-icons/fa';
@@ -202,7 +203,7 @@ const Applications = () => {
                         </div>
                       )}
                       {!application.accepted && !application.rejected && (
-                        <div className="flex items-center text-yellow-500 mr-2">
+                        <div className="flex items-center text-yellow-800 mr-2">
                           <FaEye className="h-5 w-5 mr-1" />
                           Under review
                         </div>

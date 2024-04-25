@@ -32,7 +32,7 @@ import { Tables } from "./pages/dashboard/tables";
 
 import EvaluationList from "./pages/Evaluation";
 import QuizList from "./pages/Quiz";
-import { JobofferConsult} from "./pages/jobOffers";
+
 
 
 
@@ -42,6 +42,8 @@ import Nav0 from "@/widgets/layout/navbar0";
 import Nav1 from "@/widgets/layout/navbar1";
 import Navbar from "@/widgets/layout/navbar";
 import Navbarjs from "@/widgets/layout/navbarjobseeker";
+import JobofferConsult from "./pages/jobOffers";
+
 
 export const routes = [
   {

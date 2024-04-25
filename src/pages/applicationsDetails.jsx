@@ -25,6 +25,8 @@ const ApplicationDetails = () => {
   const [comment, setComment] = useState('');
   const [comments, setComments] = useState([]);
   const [buttonState, setButtonState] = useState({ accept: true, reject: true });
+  const [isAccepted, setIsAccepted] = useState(applications?.status === 'accepted');
+  const [isRejected, setIsRejected] = useState(applications?.status === 'rejected');
 
   useEffect(() => {
     const fetchApplicationDetails = async () => {
@@ -95,6 +97,9 @@ const ApplicationDetails = () => {
     } catch (error) {
       console.error('Error accepting application:', error);
     }
+
+    setIsAccepted(true);
+  
   };
 
   const handleConfirmReject = async () => {
@@ -123,6 +128,7 @@ const ApplicationDetails = () => {
     } catch (error) {
       console.error('Error rejecting application:', error);
     }
+    setIsRejected(true);
   };
 
   const handleRatingChange = (newRating) => {
@@ -316,8 +322,9 @@ console.log("Headers:", config.headers);
 <Button color="white" onClick={() => handleExportCoverLetter(applications.coverLetter)}>Export Cover Letter </Button></p>
              <br></br>
               
-                <Button color="gray" onClick={handleAccept} >Accept</Button>
-                <Button color="red" onClick={handleReject} >Reject</Button>
+             <Button color="gray" onClick={handleAccept} disabled={isAccepted || isRejected}>Accept</Button>
+
+             <Button color="red" onClick={handleReject} disabled={isAccepted || isRejected}>Reject</Button>
               
               <div>
                 <Rating

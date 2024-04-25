@@ -94,6 +94,8 @@ const handleUpdate = async () => {
       [name]: value,
     }));
 
+
+    
         // Fonction pour valider le formulaire
    const formIsValid = () => {
     let errors = {};
@@ -111,7 +113,7 @@ const handleUpdate = async () => {
     <>
  <Navbarjs/>
 
- <div className="container mx-auto pt-8">
+ <div className="container mx-auto pt-12">
   <h1 className="text-2xl text-white font-bold mb-4 bg-red-800 px-4 py-4 rounded-lg">Update Application</h1>
   <div className="grid grid-cols-2 gap-4 bg-gray-100 p-4">
 
@@ -129,12 +131,6 @@ const handleUpdate = async () => {
       <Input type="text" name="salaire" value={formData.salaire} onChange={handleChange} placeholder="Salaire" />
     </div>
 
-    <div>
-      <Typography variant="small" color="blue-gray" className="mb-1 mt-1 font-medium">
-        Resume
-      </Typography>
-      <Input type="text" name="coverLetter" value={formData.coverLetter} onChange={handleChange} placeholder="Cover Letter" />
-    </div>
 
     <div>
       <Typography variant="small" color="blue-gray" className="mb-1 mt-1 font-medium">
@@ -143,12 +139,7 @@ const handleUpdate = async () => {
       <Input type="file" name="cv" onChange={handleChange} />
     </div>
 
-    <div>
-      <Typography variant="small" color="blue-gray" className="mb-1 mt-1 font-medium">
-        Cover Letter
-      </Typography>
-      <Input type="text" name="cv" value={formData.cv} onChange={handleChange} placeholder="CV" />
-    </div>
+  
 
     <div>
       <Typography variant="small" color="blue-gray" className="mb-1 mt-1 font-medium">
