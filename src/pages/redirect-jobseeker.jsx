@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
-import { Footer } from '@/widgets/layout';
+import { Footer, Navbar1, Navbarjs } from '@/widgets/layout';
 import { Navbar } from "@/widgets/layout";
 
 export function RedirectJobSeeker() {
@@ -27,7 +27,8 @@ export function RedirectJobSeeker() {
  
   return (
     <>
-<Navbar/>  
+          <Navbarjs/>
+
     <div className='w-full py-[1rem] px-4  justify-content-center  '>
       <div className="w-full py-[10rem] px-4 ">
         <div className="max-w-[1240px] mx-auto grid md:grid-cols-3 gap-8">
