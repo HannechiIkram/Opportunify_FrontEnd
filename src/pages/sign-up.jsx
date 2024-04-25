@@ -6,6 +6,7 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 import TermsAndConditions from './TermsAndConditions';
 import { Footer } from '@/widgets/layout';
 import PhoneInput from 'react-phone-input-2';
+import RoleBasedComponent from '../pages/RoleBasedComponent ';
 
 
 import { useNavigate } from "react-router-dom";
@@ -623,7 +624,9 @@ if (!data.phoneNumber) {
 
       </Card>
     </div>
-  
+    <RoleBasedComponent requiredRoles={['job_seeker', 'company']}>
+        <p>Section réservée aux utilisateurs</p>
+      </RoleBasedComponent>
     </div>
 
 </div>

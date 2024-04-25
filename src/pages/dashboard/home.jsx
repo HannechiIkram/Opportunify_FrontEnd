@@ -10,7 +10,8 @@ import DashboardCard03 from './partials/dashboard/DashboardCard03';
 import DashboardCard04 from './partials/dashboard/DashboardCard04';
 import DashboardCard05 from './partials/dashboard/DashboardCard05';
 import DashboardCard06 from './partials/dashboard/DashboardCard06';
-import DashboardCard09 from './partials/dashboard/DashboardCard09';
+import RoleBasedComponent from '../RoleBasedComponent ';
+
 import Banner from './partials/Banner';
 
 import { useState, useEffect } from "react";
@@ -114,7 +115,9 @@ function HomeDashboard() {
     <DashboardCard04 /> 
     <DashboardCard05 /> 
     <DashboardCard06 /> 
-
+    <RoleBasedComponent requiredRoles={['admin']}>
+        <p>Section réservée aux administrateurs</p>
+      </RoleBasedComponent>
 
             </div>
           </div>

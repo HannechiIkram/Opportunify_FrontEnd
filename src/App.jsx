@@ -1,5 +1,7 @@
-import { Routes, Route, Navigate, useLocation,BrowserRouter as Router } from "react-router-dom";
+import { Routes, Route, Navigate ,useLocation,BrowserRouter as Router } from "react-router-dom";
 import { Navbar } from "@/widgets/layout";
+import ProtectedRoute from '@/context/ProtectedRoute';
+
 import routes from "@/routes";
 import axios from "axios";
 import { Toaster } from "react-hot-toast";
@@ -10,8 +12,7 @@ import HomeDashboard from "./pages/dashboard/home"
 import Home from "./pages/dashboard/home"
 // teb3in user roles and permissions
 import Unauthorized from "./pages/unauthorized";
-import { Job_offer } from "./pages";
-import ProtectedRoute from '@/context/ProtectedRoute';
+import { Job_offer, SignUp } from "./pages";
 import { UserProvider, useUser } from './context/usercontext';
 import ApplicationDetails from "./pages/ApplicationDetails";
 import UpdateApplication from "./pages/UpdateApplication";
@@ -68,11 +69,17 @@ function App() {
 
 
 
-        <Route path="/dashboard" element={<ProtectedRoute element={<Home />} requiredRole="admin" />} />
   <Route path="/job_offer" element={<ProtectedRoute element={<Job_offer />} requiredRole="company" />} />
       </Routes>
       
-     
+<Routes>
+  <Route path="/" element={<Home />} />
+
+  {/* Protégez vos routes avec un Route contenant un ProtectedRoute */} 
+ 
+
+  <Route path="/user" element={<ProtectedRoute requiredRoles={['job_seeker', 'company']} element={<SignUp />} />} />
+</Routes>
     </UserProvider>
   );
   

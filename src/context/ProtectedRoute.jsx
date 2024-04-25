@@ -1,18 +1,23 @@
-import { Route, Navigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { useUser } from './usercontext';
 
-const ProtectedRoute = ({ element, requiredRole }) => {
-  const { userRole } = useUser();
+const ProtectedRoute = ({ element, requiredRoles = [] }) => {
+  const { user } = useUser();
 
-  if (!userRole) {
-    return <Navigate to="/login" replace />;
+  if (!user) {
+    // Redirigez vers la page de connexion si aucun utilisateur n'est connecté
+    return <Navigate to="/sign-in" replace />;
   }
 
-  if (userRole !== requiredRole) {
+  const userRole = user.role;
+
+  // Si le rôle de l'utilisateur n'est pas dans les rôles requis, rediriger vers "unauthorized"
+  const hasRequiredRole = requiredRoles.includes(userRole);
+  if (!hasRequiredRole) {
     return <Navigate to="/unauthorized" replace />;
   }
 
-  return element;
+  return element; // L'utilisateur a le rôle requis, retournez l'élément sécurisé
 };
 
 export default ProtectedRoute;

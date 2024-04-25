@@ -56,9 +56,12 @@ export function SignIn() {
       // Assuming successful registration, you can redirect the user or display a success message
       console.log('Authentification successful:', response.data);
       console.log('Authentication successful:', response.data);
-
+      const userRole = response.data?.user?.role || "unknown"; // Ensure `user` and `role` are defined
+      function setUserRole(userRole) {
+        sessionStorage.setItem("userRole", userRole);
+      }
+      
       // Extract user role from response
-      const userRole = response.data.user.role;
    //  const userId =response.data.jobSeekerId;
      const userId =response.data.profileId;
      const pId=response.data.company_profileId;
