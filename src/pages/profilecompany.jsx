@@ -51,8 +51,7 @@ export function Profilecompany() {
 
   const togglechat = () => {
     setShowchat((prev) => !prev); // Bascule entre affichage et non-affichage du chat
-
-
+  }
   const [selectedFile, setSelectedFile] = useState(null);
 
   // Function to handle file change event
@@ -290,5 +289,5 @@ updateeeee
     </>
   );
 }
-}
+
 export default Profilecompany;
