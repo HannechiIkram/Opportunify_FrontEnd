@@ -106,8 +106,6 @@ export const routes = [
     path: "/create",
     element: <CreateUserPage />,
   },
-
-
   {
     name: "Profilecompany",
     path: "/Profilecompany/:pId", // Corrected path definition
