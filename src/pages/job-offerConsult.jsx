@@ -19,7 +19,6 @@ import { Navbar } from '@/layout/index.js';
 
 
 import "react-toastify/dist/ReactToastify.css";
-import { ToastContainer, toast } from "react-toastify";
 
 export function Job_offerConsult() {
     const [expandedOfferId, setExpandedOfferId] = useState(null);
@@ -142,14 +141,8 @@ return (
     <Navbar/>
      <div className="container relative mx-auto">
             <div className="relative flex content-center justify-center pt-24 pb-8">
-               
-   </div>
-   </div>
-
-   <div className="w-1/2 p-4 gap-2 flex inline-text"> {/* Barre de recherche */}
-              <Typography variant="medium" color="blue-gray" className="font-medium">
-                Search by title
-              </Typography>
+            <div className="w-1/2 p-4 gap-2 flex inline-text"> {/* Barre de recherche */}
+              
               <Input
     type="text"
     placeholder="Enter job title to search"
@@ -162,18 +155,27 @@ return (
               <Button onClick={handleSearch} className=" text-black bg-gray-300 w-1/4" >
                 Search
               </Button>
-            </div>
+            
+            </div> 
+           
+   </div>
+   <div className="p-4">
+        <div className="text-center">
+   <Typography color="blue-gray" className=" text-lg font-normal mb-4">
+                All Job Offers created by your company
+              </Typography> 
+              </div>
+              </div>
+              
+   </div>
+
+  
 
 
             
-      <div className="flex">
-        <div className="w-1/2 p-4" style={{ overflowY: "auto" }}> {/* Ajout de la barre de défilement verticale */}
-          <div className="custom-scrollbar" style={{ height: "400px", overflowY: "auto", border: "1px solid #ccc" }}>
+      <div className="flex justify-center">
            
-            <Card className="mt-8 max-h-full">
-              <Typography variant="paragraph" color="blue-gray" className="text-lg font-normal mb-4">
-                All Job Offers created by your company
-              </Typography>
+              
               <ul>
                 {jobOffers.map((jobOffer) => (
                   <li key={jobOffer._id} className="shadow-xl bg-[#f5f5f5] p-4 ml-auto mr-auto mb-10 rounded-lg hover:scale-105 duration-300">
@@ -212,26 +214,22 @@ return (
                       </Typography>
                     </div>
                     <div className="flex items-center"> {/* Nouveau div pour les boutons */}
-                      <Button color="blue-gray" onClick={() => handleSeeMore(jobOffer._id)}>
-                        {expandedOfferId === jobOffer._id ? "See Less" : "See More"}
+                      <Button className='bg-gray-600 text-white px-4 py-2 rounded-md inline-block mt-2' onClick={() => handleSeeMore(jobOffer._id)}>
+                        {expandedOfferId === jobOffer._id ? "See Less" : "Consult Offer"}
                       </Button>
-                      <Button color="red" onClick={() => handleDelete(jobOffer._id)}>
+                      <Button className='bg-red-800 text-white px-4 py-2 rounded-md inline-block mt-2' onClick={() => handleDelete(jobOffer._id)}>
                         Delete
                       </Button>
-                      <Button className="bg-[#ececec] text-black">
+                      <Button className='bg-black text-white px-4 py-2 rounded-md inline-block mt-2'>
                         <Link to={`/Job_offerUpdate/${jobOffer._id}`}>
                                         Update
                                </Link>
                                              </Button>
                      
                     </div>
-                  </li>
-                ))}
-              </ul>
-            </Card>
-          </div>
-        </div>
-        <div className="w-1/2 p-4 mt-18"> {/* Deuxième moitié de la page pour les détails de l'offre sélectionnée */}
+                    
+                    
+          
           {selectedOffer && (
             <Card className={`mt-8 max-h-full overflow-y-auto ${expandedOfferId ? 'block' : 'hidden'}`}>
               <div className="p-4">
@@ -289,8 +287,17 @@ return (
             </Card>
           )}
            
-        </div>
+        
+                  </li>
+                  
+                  
+                ))}
+                
+              </ul>
+              
+        
       </div>
+      
       <div><Appap/></div>
     </>
 );

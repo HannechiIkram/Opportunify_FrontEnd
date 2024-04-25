@@ -16,7 +16,7 @@ import ThumbDownAltIcon from '@mui/icons-material/ThumbDownAlt';
 import { FaCheckCircle, FaTimesCircle, FaEye } from 'react-icons/fa';
 import { useParams } from 'react-router-dom';
 
-const ApplicationsList = () => {
+const ApplicationsPerOffer = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [likedApplications, setLikedApplications] = useState([]);
@@ -25,10 +25,9 @@ const ApplicationsList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const applicationsPerPage = 5;
 
-  const navigate = useNavigate();
-
   const { offerId } = useParams(); // Retrieve offerId from the URL
   const [applications, setApplications] = useState([]);
+  const navigate = useNavigate();
 
   // Function to fetch applications by offerId
   useEffect(() => {
@@ -51,11 +50,8 @@ const ApplicationsList = () => {
               // Make the API request using axios
               const response = await axios.get(`http://localhost:3000/applications/applicationperoffer/${offerId}`, config);
               
-              if (Array.isArray(response.data)) {
+             
                 setApplications(response.data);
-            } else {
-                console.error('Received data is not an array:', response.data);
-            }
           } catch (error) {
               console.error('Error fetching applications:', error);
           }
@@ -122,7 +118,7 @@ const ApplicationsList = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg-grid-cols-3 gap-8">
-          {currentApplications.map((application) => (
+          {applications.map((application) => (
             <div key={application._id} className="bg-white rounded-lg shadow-lg overflow-hidden">
               <div className="p-4">
                 <p className="text-center mb-2">Email: {application.email}</p>
@@ -170,4 +166,4 @@ const ApplicationsList = () => {
   );
 };
 
-export default ApplicationsList;
+export default ApplicationsPerOffer;
