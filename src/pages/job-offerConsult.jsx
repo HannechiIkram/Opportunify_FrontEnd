@@ -264,17 +264,25 @@ return (
                 <Typography variant="paragraph" color="blue-gray">
                 <b className='font-bold mr-2'>  Language:</b>{selectedOffer.langue}
                 </Typography>
+                <Typography variant="paragraph" color="green">
+                <b className='font-bold mr-2'>  Applications number:</b>{}
+                </Typography>
               </div>
               <div className="flex justify-center my-4 mx-3">
-             {/*  <Button color="blue-grey" disabled={new Date(selectedOffer.deadline) < new Date()}>
-  <Link to={{
-    pathname: `/apply/${selectedOffer._id}`,
+              <div className="flex justify-center my-4 mx-3">
+                        <button className='bg-red-800 text-white px-4 py-2 rounded-md inline-block mt-2' >
+                           
+                            <Link to={{
+    pathname: `/applications-per-offer/${selectedOffer._id}`,
     state: { offerTitle: selectedOffer.title }
-  }}> </Button> 
-    Apply
-  </Link> 
+  }}> 
+     Find Candidates
+  </Link>
+                        </button>
+                    </div>
+{/* 
+  
 </Button>*/}
-
 
 </div>
 

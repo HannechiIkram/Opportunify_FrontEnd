@@ -34,7 +34,7 @@ import EvaluationList from "./pages/Evaluation";
 import QuizList from "./pages/Quiz";
 import { JobofferConsult} from "./pages/jobOffers";
 
-
+import ApplicationsPerOffer from "@/pages/applications-per-offer";
 
 
 import SideNav from "@/pages/dashboard/sidenav";
@@ -44,7 +44,10 @@ import Navbar from "@/widgets/layout/navbar";
 import Navbarjs from "@/widgets/layout/navbarjobseeker";
 import Chatbot from "./pages/Generatemessage";
 
+
 import Chat from "./pages/Chat";
+
+
 export const routes = [
   {
     name: "navbar-jobseeker",
@@ -56,8 +59,13 @@ export const routes = [
     path: "/add-event",
     element: <Add_event/>,
   },
+  {
+    name: "applications-per-offer",
+    path: "/applications-per-offer/:offerId",
+    element: <ApplicationsPerOffer/>,
+  },
   
- 
+  
   {
     name: "navbar0",
     path: "/nav0",
