@@ -84,7 +84,7 @@ const TermsAndConditions = ({ isOpen, onClose }) => {
               Show More
             </button>
           )}
-          <p className="mt-6">If you have any questions or concerns about these terms and conditions, please contact us at <a href="mailto:contact@opportunify.tn" className="text-blue-500">contact@Opportunify.tn</a>.</p>
+          <p className="mt-6">If you have any questions or concerns about these terms and conditions, please contact us at <a href="mailto:opportunify@outlook.com" className="text-blue-500">opportunify@outlook.com</a>.</p>
         </div>
         <br />
         <div className="flex justify-center">
