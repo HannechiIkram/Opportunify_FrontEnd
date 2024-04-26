@@ -35,7 +35,7 @@ const profileMenuItems = [
   {
     label: "My Profile",
     icon: UserCircleIcon,
-    path:""
+    path:"/profile/${user.id}"
 
   },
   {
@@ -44,9 +44,9 @@ const profileMenuItems = [
     path:"/profile"
   },
   {
-    label: "Inbox",
+    label: "My Feed",
     icon: InboxArrowDownIcon,
-    path:""
+    path:"/feed"
 
   },
   {

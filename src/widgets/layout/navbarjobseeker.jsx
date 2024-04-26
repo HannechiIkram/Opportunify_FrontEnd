@@ -29,13 +29,14 @@ import {
   HomeIcon,
   KeyIcon
 } from "@heroicons/react/24/solid";
+const userId=localStorage.getItem('userId'); 
 
 // profile menu component
 const profileMenuItems = [
   {
     label: "My Profile",
     icon: UserCircleIcon,
-    path:""
+    path:"/profile/$userId"
 
   },
   {
@@ -44,9 +45,9 @@ const profileMenuItems = [
     path:"/profile"
   },
   {
-    label: "Inbox",
+    label: "My feed",
     icon: InboxArrowDownIcon,
-    path:""
+    path:"/feed"
 
   },
   {
