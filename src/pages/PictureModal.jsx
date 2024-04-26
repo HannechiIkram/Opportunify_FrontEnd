@@ -5,7 +5,9 @@ const PictureModal = ({ isOpen, onClose, onConfirm }) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center overflow-x-hidden overflow-y-auto outline-none focus:outline-none">
+      <div className="fixed inset-0 bg-black opacity-50"></div>
       <div className="relative w-auto max-w-md p-6 bg-white rounded-lg shadow-lg">
+
         {/* Modal header */}
         <div className="text-xl font-semibold mb-4 text-red-900">Confirm Upload</div>
         {/* Modal content */}
@@ -20,7 +22,7 @@ const PictureModal = ({ isOpen, onClose, onConfirm }) => {
           </button>
           <button
             onClick={onConfirm}
-            className=" text-white px-4 bg-green-900 py-2 rounded"
+            className=" text-black px-4 bg-blue-gray-200 py-2 rounded"
           >
             Confirm
           </button>

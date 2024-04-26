@@ -360,21 +360,7 @@ const togglechat = () => {
     <BiSolidCake className="mr-2 text-white" />
     <p className="text-white font-medium">{formatBirthdate(profile.birthdate)}</p>
   </div>
-  {/*
-              <div className="mb-12"></div>
-
-
-              <Button variant="filled" onClick={handleButtonClick}>
-                      More info ?
-                    </Button>
-                  
-                    {showBirthdate && (
-  <div className="flex items-center gap-2">
-    <BiSolidCake className="mr-2 text-gray-600" />
-    <p className="text-gray-600 font-medium">{formatBirthdate(profile.birthdate)}</p>
-  </div>
-  
-                    )}   */}
+ 
   <hr className="my-2" />
               <div className="mb-12"></div>
               <div className="flex items-center gap-2">

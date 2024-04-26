@@ -11,11 +11,10 @@ import { BsFacebook } from "react-icons/bs";
 import { AiFillGithub } from "react-icons/ai";
 
 import Chat from '../pages/Chat';
-
-
+import Divider from '@mui/material/Divider';
 import PictureModal from "./PictureModal.jsx";
 import { AiFillEdit } from "react-icons/ai";
-import ModalUpdatePcompany from "./ModalupdatePcompany.jsx"
+import ModalupdatePcompany from "./ModalupdatePcompany.jsx";
 
 export function Profilecompany() {
   const [isHovered, setIsHovered] = useState(false); // State variable to track hover state
@@ -28,6 +27,8 @@ export function Profilecompany() {
   const toggleSocialMedia = () => {
     setShowSocialMedia(!showSocialMedia);
   };
+
+  const [openModal, setOpenModal] = useState(false); // Fix: Initialize openModal state
 
   useEffect(() => {
     const fetchProfileCompany = async () => {
@@ -42,13 +43,13 @@ export function Profilecompany() {
     fetchProfileCompany();
   }, [pId]);
   const formatPhoneNumber = (phoneNumber) => {
-    // Supprimer tout ce qui n'est pas un chiffre
+    // Remove any non-digit characters
     const cleaned = ('' + phoneNumber).replace(/\D/g, '');
-    // Appliquer le formatage en ajoutant un espace après chaque groupe de trois chiffres
-    const formatted = cleaned.replace(/(\d{3})(\d{2})(\d{3})(\d{3})/,'$1 $2 $3 $4');
+    // Apply formatting by adding spaces after every two digits
+    const formatted = cleaned.replace(/(\d{2})(\d{3})(\d{3})/, '$1 $2 $3');
     return formatted;
   };
-
+ 
   const togglechat = () => {
     setShowchat((prev) => !prev); // Bascule entre affichage et non-affichage du chat
   }
@@ -93,6 +94,7 @@ export function Profilecompany() {
 
   };
 
+  const [showMore, setShowMore] = useState(false);
 
   return (
     <>
@@ -146,16 +148,17 @@ export function Profilecompany() {
                         <Typography variant="paragraph" color="gray" className="!mt-0 font-normal">{profile.email}</Typography>
                     
                       </div>
-                      <div className="ml-auto">
-                      <button >
-updateeeee
-</button>
-  </div>
+                    
+                      <div className="ml-auto   mt-10">
+                        <button onClick={() => setOpenModal(true)}>
+                           <AiFillEdit className="text-black bg-white ml-1 rounded text-xl " /></button> {/* Fix: Use setOpenModal */}
+                      
+    </div>
      </div>
                     <div className="mt-10 mb-10 flex lg:flex-col justify-between lg:justify-end lg:mb-0 lg:px-4 flex-wrap lg:-mt-5">
   <div className="flex gap-4 -mt-10 ml-4">
-    <Button className="bg-red-900 text-white font-bold rounded-full">Connect</Button>
-    <Button className="bg-red-900 text-white Lato rounded-full">Message</Button>
+    <Button className="  font-bold  text-red-900 bg-blue-gray-100 rounded-full">Connect</Button>
+    <Button className="bg-blue-gray-100 text-red-900 Lato rounded-full">Message</Button>
   </div>
 </div>
 
@@ -190,11 +193,11 @@ updateeeee
                     <hr className="my-2" />
                     <div className="flex items-center gap-2">
                       <AiTwotonePhone className="-mt-px h-4 w-4 text-blue-gray-500" />
-                      <Typography className="font-medium text-blue-gray-500">+{formatPhoneNumber(profile.phoneNumber)}</Typography>
+                      <Typography className="font-medium text-blue-gray-500">{formatPhoneNumber(profile.phoneNumber)}</Typography>
                     </div>    
                     <hr className="my-2" />
                     <div className="flex  mt-2">
-          <Button className=" bg-[#cececedd]  text-black" onClick={toggleSocialMedia}>Check Social Media</Button>
+          <Button className=" bg-[#B22222] text-white" onClick={toggleSocialMedia}>Check Social Media</Button>
         </div>
         {showSocialMedia && (
           <div className="container mx-auto p-4 ">
@@ -242,14 +245,20 @@ updateeeee
         )}
         </div>
 </div>
-<div className="container mx-auto w-2/3 bg-white   shadow-md rounded-2xl">
-            <div className="flex items-center mt-4">
-
-
-
-
-              </div>
-</div>
+<div className="container mx-auto w-2/3 bg-white shadow-md rounded-2xl">
+      <div className="flex items-center mt-8 mb-2">
+        <h1 className="text-2xl font-bold mt-1 mx-6 text-[#B22222]">Infos</h1>
+        <Divider sx={{ height: 8, backgroundColor: ' 	#B22222', flexGrow: 1, borderRadius: '8px' }} className="mr-12" />
+      </div>
+      <div className="ml-8 mt-4 text-blue-gray-700">
+        {showMore ? profile.description : profile.description.slice(0, 100)}
+        {profile.description.length > 100 && (
+          <Button onClick={() => setShowMore(!showMore)} className='bg-[#B22222]'>
+            {showMore ? 'Show Less' : 'Show More'}
+          </Button>
+        )}
+      </div>
+    </div>
 
                 </div>
               </div>
@@ -269,7 +278,8 @@ updateeeee
 />
 
 <div>
-         
+<ModalupdatePcompany isOpen={openModal} onClose={() => setOpenModal(false)} />
+
        </div>
         <div>
           <Footer />
@@ -285,6 +295,7 @@ updateeeee
   </div>
 )}
         </div>
+
       </div>
     </>
   );
