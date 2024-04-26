@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import {
   Input,
@@ -14,6 +13,7 @@ import 'react-phone-input-2/lib/style.css';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
+import dayjs from 'dayjs'; // For date manipulation
 
 import { Footer } from '@/widgets/layout';
  
@@ -22,10 +22,7 @@ import TermsAndConditions from './TermsAndConditions';
 
 export function RegisterJobseeker() {
   const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
-  const handleImageChange1 = (e) => {
-    const file = e.target.files[0];
-    setData({ ...data, image: file });
-  };
+
 
 const handleTermsAndConditionsClick = () => {
   Navigate('/terms-and-conditions');
@@ -43,7 +40,7 @@ const handleTermsAndConditionsClick = () => {
     password: "",
     confirmPassword: '',
     role_jobseeker: "",
-    image:"" , // Store the selected image file
+   
 
   });
   const [errors, setErrors] = useState({
@@ -137,32 +134,25 @@ const handleTermsAndConditionsClick = () => {
           setErrors({ ...errors, address: 'Address must be at least 5 characters' });
         }
         break;
-      case 'birthdate':
-        const minimumDate = getMinimumDate();
-
-        if (!value) {
-          setErrors({ ...errors, birthdate: "Please enter your birthday" });
-        }
-        else if(value > minimumDate) {
-          setErrors({ ...errors, birthdate: "You must be at least 18 years old." });
-
-        }
-       
-
-        break;
-        case 'role_jobseeker':
-          if (!value) {
-            setErrors({ ...errors, role_jobseeker: "Please choose your role sa a jobseeker" });
+        case 'birthdate':
+          const isDateValid = dayjs(value).isValid();
+          const isFutureDate = dayjs(value).isAfter(dayjs());
+          const minAge = dayjs().subtract(18, 'years');
+          const isOldEnough = dayjs(value).isBefore(minAge);
+  
+          if (!isDateValid) {
+            setErrors({ ...errors, birthdate: "Invalid date format" });
+          } else if (isFutureDate) {
+            setErrors({ ...errors, birthdate: "Date cannot be in the future" });
+          } else if (!isOldEnough) {
+            setErrors({ ...errors, birthdate: "You must be at least 18 years old" });
           }
           break;
       default:
         break;
     }
   };
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    setData({ ...data, image: file });
-  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     
@@ -193,23 +183,11 @@ const handleTermsAndConditionsClick = () => {
       }
     
   };
+
   
 
-  // Function to calculate the current date in 'YYYY-MM-DD' format
-  const getCurrentDate = () => {
-    const currentDate = new Date();
-    return currentDate.toISOString().split('T')[0];
-  };
+  
 
-  // Function to calculate the date exactly 18 years ago in 'YYYY-MM-DD' format
-  const getMinimumDate = () => {
-    const minDate = new Date();
-    // Subtract 18 years from the current date
-    minDate.setFullYear(minDate.getFullYear() - 18);
-    return minDate.toISOString().split('T')[0];
-  };
-
-   
   return (
     <>
     <Navbar1/>
@@ -264,28 +242,24 @@ const handleTermsAndConditionsClick = () => {
                 {errors.lastname && <Typography variant="small" color="red">{errors.lastname}</Typography>}
               </div>
               <div className="mb-1 flex flex-col gap-6">
-      <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
-        Your Birthdate
-      </Typography>
-      <Input
-        type="date"
-        size="lg"
-        
-        name='birthdate'
-        placeholder="YYYY-MM-DD"
-        className="!border-t-blue-gray-200 focus:!border-t-gray-900"
-        value={data.birthdate}
-        onChange={(e) =>{handleInputChange(e);setData({ ...data, birthdate: e.target.value })}}
-       
-        max={getCurrentDate()}
-        min={getMinimumDate()}
-      
-      />
-      {errors.birthdate && <Typography variant="small" color="red">{errors.birthdate}</Typography>}
-
-    </div>
-    
-
+            <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
+              Your Birthdate
+            </Typography>
+            <Input
+              type="date"
+              size="lg"
+              placeholder="YYYY-MM-DD"
+              className="!border-t-blue-gray-200 focus:!border-t-gray-900"
+              value={data.birthdate}
+              onChange={handleInputChange}
+              name="birthdate"
+            />
+            {errors.birthdate && (
+              <Typography variant="small" color="red">
+                {errors.birthdate}
+              </Typography>
+            )}
+          </div>
               <div className="mb-1 flex flex-col gap-6">
                 <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
                   Your Email
@@ -369,7 +343,7 @@ const handleTermsAndConditionsClick = () => {
                 </Typography>
                 <Input
                   size="lg"
-                  placeholder="*****"
+                  placeholder="***"
                   className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
                   labelProps={{
                     className: "before:content-none after:content-none",
@@ -407,7 +381,7 @@ const handleTermsAndConditionsClick = () => {
           )}
         </div>
         
-        
+ 
 
 
 
