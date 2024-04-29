@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    environment {
+        NODE_VERSION = '14.18.0'
+    }
+
     stages {
         stage('Install dependencies') {
             steps {
@@ -16,6 +20,7 @@ pipeline {
                 script {
                     // Perform unit tests
                     // Placeholder for actual unit test commands
+                    // If tests fail, set currentBuild.result = 'FAILURE'
                     currentBuild.result = 'SUCCESS'
                 }
             }
@@ -24,8 +29,8 @@ pipeline {
         stage('Build application') {
             steps {
                 script {
-                    // Build the application using npm run dev
-                    sh 'npm run dev'
+                    // Build the application using npm
+                    sh 'npm run build'
                 }
             }
         }
