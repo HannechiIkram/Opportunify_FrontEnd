@@ -40,16 +40,16 @@ pipeline {
                 }
             }
         }
-
-        stage('SonarQube Analysis') {
-            steps {
-                script {
-                    // Perform SonarQube analysis
-                    // Placeholder for actual SonarQube analysis commands
-                    currentBuild.result = 'SUCCESS'
-                }
-            }
-        }
+stage('SonarQube Analysis') {
+steps{
+script {
+def scannerHome = tool 'scanner'
+withSonarQubeEnv {
+sh "${scannerHome}/bin/sonar-scanner"
+}
+}
+}
+}
     }
 
     post {
