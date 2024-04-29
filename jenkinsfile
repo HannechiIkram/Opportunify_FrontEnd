@@ -21,7 +21,8 @@ pipeline {
             }
         }
 
-      
+     
+
         stage('Building images (node and mongo)') {
             steps {
                 script {
