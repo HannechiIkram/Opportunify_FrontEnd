@@ -9,13 +9,8 @@ pipeline {
         stage('Install dependencies') {
             steps {
                 script {
-                    try {
-                        // Install dependencies using npm
-                        sh 'npm install'
-                    } catch (Exception e) {
-                        currentBuild.result = 'FAILURE'
-                        throw e
-                    }
+                    // Install dependencies using npm
+                    sh 'npm install'
                 }
             }
         }
@@ -23,20 +18,52 @@ pipeline {
         stage('Unit Test') {
             steps {
                 script {
-                    try {
-                        // Perform unit tests
-                        // Placeholder for actual unit test commands
-                        // If tests fail, set currentBuild.result = 'FAILURE'
-                        currentBuild.result = 'SUCCESS'
-                    } catch (Exception e) {
-                        currentBuild.result = 'FAILURE'
-                        throw e
-                    }
+                    // Perform unit tests
+                    // Placeholder for actual unit test commands
+                    // If tests fail, set currentBuild.result = 'FAILURE'
+                    currentBuild.result = 'SUCCESS'
                 }
             }
         }
 
-        // Add error handling to other stages similarly
+        stage('Build application') {
+            steps {
+                script {
+                    // Build the application using npm
+                    sh 'npm run build'
+                }
+            }
+        }
+
+        stage('Building images (node and mongo)') {
+            steps {
+                script {
+                    // Build Docker images for Node.js and MongoDB
+                    // Placeholder for actual Docker build commands
+                    currentBuild.result = 'SUCCESS'
+                }
+            }
+        }
+
+        stage('Deploy to Nexus') {
+            steps {
+                script {
+                    // Deploy artifacts to Nexus repository manager
+                    // Placeholder for actual deployment commands
+                    currentBuild.result = 'SUCCESS'
+                }
+            }
+        }
+
+        stage('SonarQube Analysis') {
+            steps {
+                script {
+                    // Perform SonarQube analysis
+                    // Placeholder for actual SonarQube analysis commands
+                    currentBuild.result = 'SUCCESS'
+                }
+            }
+        }
     }
 
     post {
