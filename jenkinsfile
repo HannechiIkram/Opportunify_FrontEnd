@@ -26,7 +26,6 @@ pipeline {
             }
         }
 
-    
 
         stage('Deploy to Nexus') {
             steps {
@@ -38,6 +37,13 @@ pipeline {
             }
         }
 
+        stage('Building images (node and mongo)') {
+            steps {
+                script {
+                    sh('docker-compose build')
+                }
+            }
+        }
         stage('SonarQube Analysis') {
             steps {
                 script {
