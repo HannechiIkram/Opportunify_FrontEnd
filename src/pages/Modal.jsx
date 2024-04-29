@@ -15,7 +15,19 @@ const Modal = ({ open, onClose }) => {
     role_jobseeker: '',
     image: '', // Add the imagestring field
   });
+  const [errors, setErrors] = useState({
+    name: '',
+    email: '',
+    lastname: '',
+    birthdate: '',
+    phone: '',
+    address: '',
+    role_jobseeker: '',
+    image: '', // Add the imagestring field
+  });
 
+
+ 
   const modalRef = useRef(null);
   useEffect(() => {
     const fetchProfileData = async () => {
@@ -36,7 +48,40 @@ const Modal = ({ open, onClose }) => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+
+    // Validate input
+    let errorMessage = '';
+    switch (name) {
+      case 'name':
+        errorMessage = value.trim() ? '' : 'Name cannot be empty';
+        break;
+      case 'lastname':
+        errorMessage = value.trim() ? '' : 'Lastname cannot be empty';
+        break;
+      case 'birthdate':
+        errorMessage = value.trim() ? '' : 'Birthdate cannot be empty';
+        break;
+        case 'phone':
+          if (value.trim() === '') {
+            errorMessage = 'Phone number cannot be empty';
+          } else if (!/^\d+$/.test(value)) {
+            errorMessage = 'Phone number must contain only digits';
+          } else if (value.trim().length > 11) {
+            errorMessage = 'Phone number cannot exceed 11 digits';
+          } else {
+            errorMessage = '';
+          }
+          break;
+      case 'address':
+        errorMessage = value.trim() ? '' : 'Address cannot be empty';
+        break;
+      default:
+        break;
+    }
+
+    setErrors({ ...errors, [name]: errorMessage });
   };
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -70,40 +115,46 @@ const Modal = ({ open, onClose }) => {
                 Name
               </Typography>
               <Input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Name" className="input-style bg-blue-gray-100 " required/>
+              {errors.name && <Typography variant="small" color="red">{errors.name}</Typography>}
             </div>
             <div>
               <Typography variant="small" color="blue-gray" className="mb-1 mt-1 font-medium">
                LastName
               </Typography>
               <Input type="text" name="lastname" value={formData.lastname} onChange={handleChange} placeholder="lastname" className="input-style" required />
-            </div>
-            </div>
+              {errors.lastname && <Typography variant="small" color="red">{errors.lastname}</Typography>}
 
+            </div>
+            </div>
+{/*
             <div className='mb-4'>
               <Typography variant="small" color="blue-gray" className="mb-1 mt-1 font-medium">
                 Email
               </Typography>
               <Input type="email" name="email" value={formData.email} onChange={handleChange} placeholder="Email" className="input-style" required/>
             </div>
+  */}
          
-            {/*
             <div>
               <Typography variant="small" color="blue-gray" className="mb-1 mt-1 font-medium">
                 Birthdate
               </Typography>
           <Input type="date" name="birthdate" value={formData.birthdate} onChange={handleChange} placeholder="Birthdate" />
-  </div>   */}
+          {errors.birthdate && <Typography variant="small" color="red">{errors.birthdate}</Typography>}
+             </div>
             <div className='mb-4'>
               <Typography variant="small" color="blue-gray" className="mb-1 mt-1 font-medium" >
                 Phone
               </Typography>
               <Input type="tel" name="phone" value={formData.phone} onChange={handleChange} placeholder="Phone" className="input-style" required />
+              {errors.phone && <Typography variant="small" color="red">{errors.phone}</Typography>}
             </div>
             <div className='mb-4'> 
               <Typography variant="small" color="blue-gray" className="mb-1 mt-1 font-medium">
                 Address
               </Typography>
               <Input type="text" name="address" value={formData.address} onChange={handleChange} placeholder="Address" className="input-style" required />
+              {errors.address && <Typography variant="small" color="red">{errors.address}</Typography>}
             </div>
             <div className='mb-4'>
   <Typography variant="small" color="blue-gray" className="mb-1 mt-1 font-medium">

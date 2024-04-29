@@ -162,6 +162,17 @@ const fetchApplicationsCountsForAllOffers = async () => {
 useEffect(() => {
   fetchApplicationsCountsForAllOffers();
 }, [jobOffers]);
+const formatDeadlineDate = (deadline) => {
+  // Create a new Date object from the deadline string
+  const deadlineDate = new Date(deadline);
+  // Use Date methods to get the desired date format
+  const formattedDeadline = deadlineDate.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+  return formattedDeadline;
+};
 
 return (  
     <>
@@ -211,7 +222,9 @@ return (
                         {jobOffer.title} 
                       </Typography>
                       <div>
-                        
+                      <Typography variant="paragraph" color="blue-gray">
+                          Created: {formatDistanceToNow(new Date(jobOffer.createdAt), { addSuffix: true })}
+                        </Typography>
                       </div>
                     </div>
                     <div className="flex items-center mb-2">
@@ -237,7 +250,7 @@ return (
                         <GrScheduleNew />
                       </Typography>
                       <Typography variant="paragraph" color="blue-gray" className="mr-2">
-                        deadline: {jobOffer.deadline}
+                       Deadline: {formatDeadlineDate(jobOffer.deadline)}
                       </Typography>
                     </div>
                     <div className="flex items-center"> {/* Nouveau div pour les boutons */}
@@ -285,8 +298,8 @@ return (
                 <b className='font-bold mr-2'>  Salary:</b> {selectedOffer.salary_informations}
                 </Typography>
                 <Typography variant="paragraph" color="blue-gray">
-                <b className='font-bold mr-2'>  Deadline: </b>{selectedOffer.deadline}
-                </Typography>
+                <b className='font-bold mr-2'>  Deadline: </b> {formatDeadlineDate(selectedOffer.deadline)}
+                </Typography>  
                 <Typography variant="paragraph" color="blue-gray">
                 <b className='font-bold mr-2'>  Description:</b> {selectedOffer.description}
                 </Typography>
