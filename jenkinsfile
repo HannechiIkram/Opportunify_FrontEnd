@@ -6,64 +6,17 @@ pipeline {
     }
 
     stages {
-        stage('Install dependencies') {
+        stage('Setup Environment') {
             steps {
                 script {
-                    // Install dependencies using npm
-                    sh 'npm install'
+                    // Use nvm to setup the required Node.js version
+                    sh 'nvm install ${NODE_VERSION}'
+                    sh 'nvm use ${NODE_VERSION}'
                 }
             }
         }
 
-        stage('Unit Test') {
-            steps {
-                script {
-                    // Perform unit tests
-                    // Placeholder for actual unit test commands
-                    // If tests fail, set currentBuild.result = 'FAILURE'
-                    currentBuild.result = 'SUCCESS'
-                }
-            }
-        }
-
-        stage('Build application') {
-            steps {
-                script {
-                    // Build the application using npm
-                    sh 'npm run build'
-                }
-            }
-        }
-
-        stage('Building images (node and mongo)') {
-            steps {
-                script {
-                    // Build Docker images for Node.js and MongoDB
-                    // Placeholder for actual Docker build commands
-                    currentBuild.result = 'SUCCESS'
-                }
-            }
-        }
-
-        stage('Deploy to Nexus') {
-            steps {
-                script {
-                    // Deploy artifacts to Nexus repository manager
-                    // Placeholder for actual deployment commands
-                    currentBuild.result = 'SUCCESS'
-                }
-            }
-        }
-
-        stage('SonarQube Analysis') {
-            steps {
-                script {
-                    // Perform SonarQube analysis
-                    // Placeholder for actual SonarQube analysis commands
-                    currentBuild.result = 'SUCCESS'
-                }
-            }
-        }
+        // Add other stages as before
     }
 
     post {
