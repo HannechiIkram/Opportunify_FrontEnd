@@ -9,10 +9,32 @@ import { AiOutlineIdcard } from "react-icons/ai";
 import { AiFillTwitterCircle } from "react-icons/ai";
 import { BsFacebook } from "react-icons/bs";
 import { AiFillGithub } from "react-icons/ai";
+import PostsList from '@/Containers/PostsList';
+import Modal from './Modal.jsx';
+import { Card, Container } from '@mui/material';
+import AddPost from '@/Containers/AddPost';
 
 export function Profilecompany() {
   const { pId } = useParams();
   const [profile, setProfile] = useState(null);
+   const [posts, setPosts] = useState([]);
+   const [displayPostForm, setDisplayPostForm] = useState(false);
+   const toggleDisplayPostForm = () => {
+     setDisplayPostForm((prev) => !prev);
+   };
+   const [openModal, setOpenModal] = useState(false);
+
+    const handledeletePost = (postId) => {
+      axios.delete(`/status/${postId}`).then((data) => {
+        setPosts(posts.filter((e) => e._id !== postId));
+      });
+    };
+
+      const handleAddPost = (postData) => {
+        setPosts((prev) => [...posts, postData]);
+      };
+
+
   const [showSocialMedia, setShowSocialMedia] = useState(false);
   const toggleSocialMedia = () => {
     setShowSocialMedia(!showSocialMedia);
@@ -22,10 +44,23 @@ export function Profilecompany() {
       try {
         const response = await axios.get(`/user/getProfileCompanyById/${pId}`);
         setProfile(response.data.profile); // Assuming response.data contains profile company information
+        return response.data.profile._id;
       } catch (error) {
         console.error('Error fetching profile company:', error);
       }
     };
+
+    const fetchPosts = async (id) => {
+      try {
+        const response = await axios.get(`/status/profile-posts/${id}`);
+        setPosts(response.data);
+      } catch (error) {
+        console.error('Error fetching user:', error);
+      }
+    };
+     fetchProfileCompany().then((id) => {
+       fetchPosts(id);
+     });
 
     fetchProfileCompany();
   }, [pId]);
@@ -181,6 +216,36 @@ export function Profilecompany() {
               </div>
               </div>
             </section>
+
+            <div className="flex justify-end">
+                  <Button
+                    style={{ backgroundColor: '#b41615' }}
+                    onClick={toggleDisplayPostForm}
+                  >
+                    Add new post
+                  </Button>
+                </div>
+         
+          <div>
+                {displayPostForm && (
+          <Container className=" bg-gray-100">
+            <Card sx={{ border: '1px solid #f9f9f9', pt: '1rem' }}>
+              <AddPost currentProfile={profile} handleAddPost={handleAddPost} />
+            </Card>
+          </Container>
+        )}
+        <PostsList
+          posts={posts}
+          profile={profile}
+          handledeletePost={handledeletePost}
+        ></PostsList>
+
+        <div>
+         
+          <Modal open={openModal} onClose={() => setOpenModal(false)} />
+        </div>
+
+      </div>
             
           </div>
         ) : (
