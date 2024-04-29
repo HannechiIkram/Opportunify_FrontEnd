@@ -23,5 +23,8 @@ services:
     depends_on:
       - db
     volumes:
-      - mongo-data:
-        type: volume
+      - mongo-data:/path/to/mongo-data
+
+volumes:
+  mongo-data:
+    driver: local
