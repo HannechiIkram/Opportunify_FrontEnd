@@ -1,8 +1,9 @@
 pipeline {
     agent any
 
+ 
     environment {
-        NODE_VERSION = '14.18.0'
+        NODE_VERSION = '12.22.9'
     }
 
     stages {
