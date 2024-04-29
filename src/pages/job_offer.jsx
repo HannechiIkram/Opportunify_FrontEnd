@@ -1,25 +1,8 @@
-
 import 'react-day-picker/dist/style.css';
 import { Card, Typography, Button, Input, Textarea,TabPanel} from "@material-tailwind/react";
 import axios from "axios";
-import React, { useState, useEffect  } from "react";
+import React, { useState } from "react";
 import { FaAngleRight } from "react-icons/fa6";
-
-import { Breadcrumbs } from "@material-tailwind/react";
-import { Link } from 'react-router-dom';
-import { Tooltip } from "@material-tailwind/react";
-import {Job_offerConsult} from "./job-offerConsult.jsx";
-import {Job_offerUpdate} from "./job-offerUpdate.jsx";
-import LinkedInIcon from '@mui/icons-material/LinkedIn';
-import FacebookIcon from '@mui/icons-material/Facebook';
-import InstagramIcon from '@mui/icons-material/Instagram';
-
-import {
-  Popover,
-  PopoverHandler,
-  PopoverContent,
- 
-} from "@material-tailwind/react";
 import { Navbar } from '@/layout/index.js';
 
 export function Job_offer() {
@@ -28,7 +11,7 @@ export function Job_offer() {
     description: "",
     qualifications: "",
     responsibilities: "",
-    Lieu:"",
+    lieu:"",
     langue:"",
     workplace_type: "",
     field: "",
@@ -40,97 +23,112 @@ export function Job_offer() {
     description: "",
     qualifications: "",
     responsibilities: "",
-    Lieu: "",
+    lieu: "",
     langue: "",
     workplace_type: "",
     field: "",
     salary_informations: "",
     deadline: "",
   });
-  const [updatedFormData, setUpdatedFormData] = useState({
-    title: "",  });
-    const [showSuccessPopover, setShowSuccessPopover] = useState(false);
-  const [jobOffers, setJobOffers] = useState([]);
-  const [expandedOfferId, setExpandedOfferId] = useState(null);
-  const [searchtitle, setSearchtitle] = useState(""); // New state for search workplace_type
-
-  const [selectedOfferId, setSelectedOfferId] = useState(null); // New state for selected job offer
-
-
-
-
-
 
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-  
-    if (e.target.name === "title") {
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        title: e.target.value.trim() ? "" : "Title cannot be empty",
-      }));
-    }
-  
-    // Clear the error message when the input becomes valid
-    if (e.target.name === "lieu" && errors.lieu) {
-      setErrors((prevErrors) => ({ ...prevErrors, lieu: "" }));
-    }
-  
-    if (e.target.name === "langue" && errors.langue) {
-      setErrors((prevErrors) => ({ ...prevErrors, langue: "" }));
-    }
-    if (e.target.name === "description" && errors.description) {
-      setErrors((prevErrors) => ({ ...prevErrors, description: "" }));
-    }
-    
-    if (e.target.name === "qualifications" && errors.qualifications) {
-      setErrors((prevErrors) => ({ ...prevErrors, qualifications: "" }));
-    }
+    validateInput(e.target.name, e.target.value);
+  };
 
-    if (e.target.name === "responsibilities" && errors.responsibilities) {
-      setErrors((prevErrors) => ({ ...prevErrors, responsibilities: "" }));
-    }
-    
-    if (e.target.name === "workplace_type" && errors.workplace_type) {
-      setErrors((prevErrors) => ({ ...prevErrors, workplace_type: "" }));
-    }
-    
-    if (e.target.name === "deadline" && errors.deadline) {
-      setErrors((prevErrors) => ({ ...prevErrors, deadline: "" }));
-    }
-    
-    if (e.target.name === "field" && errors.field) {
-      setErrors((prevErrors) => ({ ...prevErrors, field: "" }));
-    }
-    
-    if (e.target.name === "salary_informations" && errors.salary_informations) {
-      setErrors((prevErrors) => ({ ...prevErrors, salary_informations: "" }));
+  const validateInput = (name, value) => {
+    switch (name) {
+      case "title":
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          title: value.length >= 5 ? "" : "Title must be at least 5 characters long",
+        }));
+        break;
+      case "lieu":
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          lieu: value.length >= 5 ? "" : "Job location must be at least 5 characters long",
+        }));
+        break;
+      case "description":
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          description: value.length >= 10 ? "" : "Description must be at least 10 characters long",
+        }));
+        break;
+      case "qualifications":
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          qualifications: value.trim() ? "" : "Qualifications cannot be empty",
+        }));
+        break;
+      case "responsibilities":
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          responsibilities: value.trim() ? "" : "Responsibilities cannot be empty",
+        }));
+        break;
+        case "responsibilities":
+          setErrors((prevErrors) => ({
+            ...prevErrors,
+            responsibilities: value.trim() ? "" : "Responsibilities cannot be empty",
+          }));
+          break;
+      case "langue":
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          langue: value.trim() ? "" : "Language cannot be empty",
+        }));
+        break;
+      case "workplace_type":
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          workplace_type: value.trim() ? "" : "Workplace type cannot be empty",
+        }));
+        break;
+      case "field":
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          field: value.trim() ? "" : "Field cannot be empty",
+        }));
+        break;
+        case "salary_informations":
+          const salaryRegex = /^\d{3,}\s*(\$|DT|€)$/;
+          setErrors((prevErrors) => ({
+            ...prevErrors,
+            salary_informations: salaryRegex.test(value) ? "" : "Salary information must contain at least 3 numbers followed by a currency symbol ($, DT or €)",
+          }));
+          break;
+          case "deadline":
+            setErrors((prevErrors) => ({
+              ...prevErrors,
+              deadline: value ? "" : "Deadline cannot be empty",
+            }));
+            break;
+      default:
+        break;
     }
   };
+  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+    // Validate all fields before submitting the form
+    Object.keys(formData).forEach((name) => validateInput(name, formData[name]));
+    // Check if there are any errors
+    if (Object.values(errors).some((error) => error)) {
+      console.error("Form validation failed");
+      return;
+    }
     try {
       const accessToken = localStorage.getItem("accessToken");
-  
       if (!accessToken) {
         throw new Error("Access token not found");
       }
-  
-      // Include the access token in the request headers for adding a job offer
-      const config = {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      };
-  
-      // Add the new job offer
+      const config = { headers: { Authorization: `Bearer ${accessToken}` } };
       const response = await axios.post("/job_offer/add", formData, config);
       console.log("Job offer added successfully:", response.data);
-  
-      // Fetch updated job offers after adding a new one
       const updatedJobOffersResponse = await axios.get("/job_offer/company/joboffers", config);
-      setJobOffers(updatedJobOffersResponse.data);
       window.location.href = "/Job_offerConsult";
     } catch (error) {
       console.error(
@@ -139,6 +137,7 @@ export function Job_offer() {
       );
     }
   };
+
   
   // Fonction pour récupérer tous les offres d'emploi
 /*const fetchJobOffers = async () => {

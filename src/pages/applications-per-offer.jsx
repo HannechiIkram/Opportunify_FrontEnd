@@ -116,7 +116,9 @@ const ApplicationsPerOffer = () => {
             onChange={handleSearch} // OnChange event to update search term
           />
         </div>
-
+        {applications.length === 0 ? ( // Check if there are no applications
+        <p className="text-center text-gray-700 text-lg">There is no application for your job offer yet.</p>
+      ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg-grid-cols-3 gap-8">
           {applications.map((application) => (
             <div key={application._id} className="bg-white rounded-lg shadow-lg overflow-hidden">
@@ -161,6 +163,7 @@ const ApplicationsPerOffer = () => {
             </div>
           ))}
         </div>
+           )}
       </div>
     </>
   );

@@ -17,6 +17,17 @@ function ModalupdatePcompany({ isOpen, onClose }) {
     linkedin: '',
   });
 
+  const [errors, setErrors] = useState({
+    name: '',
+    address: '',
+    phoneNumber: '',
+    domainOfActivity: '',
+    matriculeFiscale: '',
+    description: '',
+    facebook: '',
+    twitter: '',
+    linkedin: '',
+  });
   useEffect(() => {
     const fetchProfileJob = async () => {
       try {
@@ -34,10 +45,76 @@ function ModalupdatePcompany({ isOpen, onClose }) {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+    
+    // Validate input
+    let errorMessage = '';
+    switch (name) {
+      case 'name':
+        if (!/^[a-zA-Z]+$/.test(value.trim())) {
+          errorMessage = 'Name must contain only alphabetic letters';
+        } else if (value.trim().length < 5) {
+          errorMessage = 'Name must be at least 5 characters long';
+        } else {
+          errorMessage = '';
+        }
+        break;
+      case 'address':
+        if (!/^[a-zA-Z]+$/.test(value.trim())) {
+          errorMessage = 'address must contain only alphabetic letters';
+        } else if (value.trim().length < 5) {
+          errorMessage = 'address must be at least 5 characters long';
+        } else {
+          errorMessage = '';
+        }
+        break;       
+      case 'domainOfActivity':
+        errorMessage = value.trim() ? '' : 'domainOfActivity cannot be empty';
+        break;
+        case 'matriculeFiscale':
+          if (value.trim() === '') {
+            errorMessage = 'matriculeFiscale cannot be empty';
+          } else if (!/^\d+$/.test(value)) {
+            errorMessage = 'matriculeFiscale must contain only digits';
+          } else if (value.trim().length > 9) {
+            errorMessage = 'matriculeFiscale cannot exceed 9 digits';
+          } else {
+            errorMessage = '';
+          }
+          break;
+          break;
+          case 'phoneNumber':
+            if (value.trim() === '') {
+              errorMessage = 'Phone number cannot be empty';
+            } else if (!/^\d+$/.test(value)) {
+              errorMessage = 'Phone number must contain only digits';
+            } else if (value.trim().length > 9) {
+              errorMessage = 'Phone number cannot exceed 9 digits';
+            } else {
+              errorMessage = '';
+            }
+            break;
+          case 'description':
+            if (!/^[a-zA-Z]+$/.test(value.trim())) {
+              errorMessage = 'address must contain only alphabetic letters';
+            } else if (value.trim().length < 5) {
+              errorMessage = 'address must be at least 5 characters long';
+            } else {
+              errorMessage = '';
+            }
+            break;       
+      case 'twitter':
+        errorMessage = value.trim() ? '' : 'twitter cannot be empty';
+        break;
+      default:
+        break;
+    }
+
+    setErrors({ ...errors, [name]: errorMessage });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
     try {
       const response = await axios.put(`/user/updateProfileCompany/${pId}`, formData);
       console.log(response.data); // Log response data
@@ -46,7 +123,10 @@ function ModalupdatePcompany({ isOpen, onClose }) {
 
     } catch (error) {
       console.error('Error updating profile:', error);
-      // Handle error
+      // Set validation errors received from the backend
+      if (error.response && error.response.data && error.response.data.errors) {
+        setErrors(error.response.data.errors);
+      }
     }
   };
 
@@ -82,6 +162,7 @@ function ModalupdatePcompany({ isOpen, onClose }) {
                         onChange={handleChange}
                         className="input-style"
                       />
+                      {errors.name && <Typography variant="small" color="red">{errors.name}</Typography>}
                     </div>
                     <div className="flex flex-col gap-6">
                     <Typography variant="small" color="blue-gray" className=" font-medium" >
@@ -95,6 +176,7 @@ function ModalupdatePcompany({ isOpen, onClose }) {
                         onChange={handleChange}
                         className="input-style"
                       />
+          {errors.address && <Typography variant="small" color="red">{errors.address}</Typography>}
                     </div>
                     <div className="flex flex-col gap-6">
                     <Typography variant="small" color="blue-gray" className=" mt-1 font-medium" >
@@ -108,6 +190,7 @@ function ModalupdatePcompany({ isOpen, onClose }) {
                         onChange={handleChange}
                         className="input-style"
                       />
+                        {errors.phoneNumber && <Typography variant="small" color="red">{errors.phoneNumber}</Typography>}
                     </div>
                     <div className="flex flex-col gap-6">
                     <Typography variant="small" color="blue-gray" className=" mt-1 font-medium" >
@@ -121,6 +204,7 @@ function ModalupdatePcompany({ isOpen, onClose }) {
                         onChange={handleChange}
                         className="input-style"
                       />
+                 {errors.domainOfActivity && <Typography variant="small" color="red">{errors.domainOfActivity}</Typography>}
                     </div>
                     <div className="flex flex-col gap-6">
                     <Typography variant="small" color="blue-gray" className=" mt-1 font-medium" >
@@ -134,6 +218,7 @@ function ModalupdatePcompany({ isOpen, onClose }) {
                         onChange={handleChange}
                         className="input-style"
                       />
+              {errors.matriculeFiscale && <Typography variant="small" color="red">{errors.matriculeFiscale}</Typography>}
                     </div>
                     <div className="flex flex-col gap-6">
                     <Typography variant="small" color="blue-gray" className="mt-1 font-medium" >
@@ -147,7 +232,10 @@ function ModalupdatePcompany({ isOpen, onClose }) {
                         onChange={handleChange}
                         className="input-style"
                       />
+    {errors.description && <Typography variant="small" color="red">{errors.description}</Typography>}
+
                     </div>
+                    {/*
                     <div className="flex flex-col gap-6">
                     <Typography variant="small" color="blue-gray" className=" mt-1 font-medium" >
                         Facebook:
@@ -160,7 +248,10 @@ function ModalupdatePcompany({ isOpen, onClose }) {
                         onChange={handleChange}
                         className="input-style"
                       />
+                          {errors.socialMedia.facebook && <Typography variant="small" color="red">{errors.socialMedia.facebook}</Typography>}
+
                     </div>
+      */}
                     <div className="flex flex-col gap-6">
                     <Typography variant="small" color="blue-gray" className=" mt-1 font-medium" >
                         Twitter:
@@ -173,6 +264,7 @@ function ModalupdatePcompany({ isOpen, onClose }) {
                         onChange={handleChange}
                         className="input-style"
                       />
+                     {errors.twitter && <Typography variant="small" color="red">{errors.twitter}</Typography>}
                     </div>
                     <div className="flex flex-col gap-6">
                     <Typography variant="small" color="blue-gray" className="mt-1 font-medium" >
@@ -186,11 +278,12 @@ function ModalupdatePcompany({ isOpen, onClose }) {
                         onChange={handleChange}
                         className="input-style"
                       />
+                          {errors.linkedin && <Typography variant="small" color="red">{errors.socialMedia.linkedin}</Typography>}
                     </div>
                   </div>
-                  <div className="flex items-center justify-end p-6 border-t border-solid border-blue-gray-200 rounded-b -mt-14">
+                  <div className="flex items-center justify-end p-6 border-t border-solid border-blue-gray-200 rounded-b ">
                     <button
-                      className="bg-red-500 text-white background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150 "
+                      className="bg-red-500 text-white background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear rounded  transition-all duration-150 "
                       type="button"
                       onClick={onClose}
                     >
