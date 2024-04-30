@@ -10,7 +10,7 @@ function JobOfferDetails() {
     const { id } = useParams(); // Récupérer l'ID de l'offre d'emploi depuis l'URL
     const [jobOffer, setJobOffer] = useState(null);
     const [isApplyDisabled, setIsApplyDisabled] = useState(false);
-
+ 
     useEffect(() => {
         const fetchJobOffer = async () => {
             try {
@@ -53,7 +53,6 @@ function JobOfferDetails() {
         const date = new Date(dateString);
         return format(date, 'dd-MM-yyyy');
       };
-    
     return (
         <>
         <Navbarjs/>
@@ -93,6 +92,8 @@ function JobOfferDetails() {
            <GrReturn/>
           </button>
         </div>
+      
+
                 </Card>
             ) : (
                 <Typography color="blue-gray">Loading...</Typography>

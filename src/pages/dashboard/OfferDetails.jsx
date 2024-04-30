@@ -93,45 +93,45 @@ function OfferDetailsPage() {
 
   const handleCloseModal = () => {
     setShowModal(false);
-  };
-  const handleSendEmail = async () => {
-    if (offer) {
-      const offerDetails = `
-        Title: ${offer.title}
-        Description: ${offer.description}
-        Qualifications: ${offer.qualifications}
-        Responsibilities: ${offer.responsibilities}
-        Location: ${offer.lieu}
-        Workplace Type: ${offer.workplace_type}
-        Salary Information: ${offer.salary_informations}
-      `;
+  };const handleSendEmail = async () => {
+  if (offer) {
+    // Construct HTML email content
+    const offerDetails = `
+      <h2>Job Offer: ${offer.title}</h2>
+      <p><strong>Description:</strong> ${offer.description}</p>
+      <p><strong>Qualifications:</strong> ${offer.qualifications}</p>
+      <p><strong>Responsibilities:</strong> ${offer.responsibilities}</p>
+      <p><strong>Location:</strong> ${offer.lieu}</p>
+      <p><strong>Workplace Type:</strong> ${offer.workplace_type}</p>
+      <p><strong>Salary Information:</strong> ${offer.salary_informations}</p>
+    `;
 
-      try {
-        const accessToken = localStorage.getItem("accessToken");
+    try {
+      const accessToken = localStorage.getItem("accessToken");
 
-        await axios.post(
-          'http://localhost:3000/job_offer/send',
-          {
-            recipientEmail,
-            message, // Le message personnalisé
-            offerDetails, // Les détails de l'offre
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-              'Content-Type': 'application/json'
-            }
+      await axios.post(
+        'http://localhost:3000/job_offer/send',
+        {
+          recipientEmail,
+          message, // Custom message
+          offerDetails, // Offer details with HTML formatting
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            'Content-Type': 'application/json'
           }
-        );
+        }
+      );
 
-        toast.success("Email envoyé avec succès!");
-        setShowModal(false);
-      } catch (error) {
-        console.error('Erreur lors de l\'envoi de l\'e-mail:', error);
-        toast.error("Échec de l'envoi de l'e-mail.");
-      }
+      toast.success("Email sent successfully!");
+      setShowModal(false);
+    } catch (error) {
+      console.error('Error sending email:', error);
+      toast.error("Failed to send email.");
     }
-  };
+  }
+};
 
   
   
@@ -181,16 +181,16 @@ className="card mx-auto mb-30 ml-80" style={{ position: 'absolute', bottom: '170
   {offer ? (
     <div>
       <h2>{offer.title}</h2>
+
       <p>Description: {offer.description}</p>
       <p>Qualifications: {offer.qualifications}</p>
       <p>Responsibilities: {offer.responsibilities}</p>
-      <p>Lieu: {offer.lieu}</p>
-      <p>Langue: {offer.langue}</p>
+      <p>City: {offer.lieu}</p>
+      <p>Language: {offer.langue}</p>
       <p>Workplace Type: {offer.workplace_type}</p>
       <p>Field: {offer.field}</p>
       <p>Salary Information: {offer.salary_informations}</p>
-      <p>Deadline: {offer.deadline}</p>
-      <p>Created At: {offer.createdAt}</p>
+      
       {/* Render additional fields as needed */}
     </div>
   ) : (
