@@ -251,12 +251,7 @@ export function Profilecompany() {
         <Divider sx={{ height: 8, backgroundColor: ' 	#B22222', flexGrow: 1, borderRadius: '8px' }} className="mr-12" />
       </div>
       <div className="ml-8 mt-4 text-blue-gray-700">
-        {showMore ? profile.description : profile.description.slice(0, 100)}
-        {profile.description.length > 100 && (
-          <Button onClick={() => setShowMore(!showMore)} className='bg-[#B22222]'>
-            {showMore ? 'Show Less' : 'Show More'}
-          </Button>
-        )}
+      
       </div>
     </div>
 

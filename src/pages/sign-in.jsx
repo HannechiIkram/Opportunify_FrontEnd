@@ -92,7 +92,17 @@ export function SignIn() {
       } else if (error.response.status === 401) {
         // Display email or password wrong notification
         toast.error('Email or password is incorrect.');
-      } else {
+
+      } else if (error.response?.status === 403) {
+        toast.error("User is rejected and cannot log in"); // Stocker le message d'erreur spécifique
+      }  else if (error.response?.status === 404) {
+        toast.error("User is blocked"); // Stocker le message d'erreur spécifique
+      } 
+      
+      
+      
+      
+      else {
         // Display generic authentication failed notification
         toast.error('Email or password is wrong');
       }
@@ -117,6 +127,8 @@ export function SignIn() {
   
   return (
     <>
+           <ToastContainer position="top-center" autoClose={5000} />
+
     <Navbar1/>
       <section style={{ display: 'flex', justifyContent: 'center' }}className="ml-10 mr-10 mt-4 lg:mt-8 flex gap-4 items-center" >
         <div className="w-full lg:w-2/5">
