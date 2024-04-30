@@ -183,12 +183,12 @@ export function Offers() {
             </th>
             <th className="border-black py-3 px-6 text-left text-black text-[13px] font-bold cursor-pointer">
               <Typography variant="small" className="border-black uppercase ttext-black text-[13px] font-bold">
-              lieu
+              City
               </Typography>
             </th>
             <th className="border-black py-3 px-6 text-left text-black text-[13px] font-bold cursor-pointer">
               <Typography variant="small" className="border-black uppercase ttext-black text-[13px] font-bold">
-              langue
+              language
               </Typography>
             </th>
           

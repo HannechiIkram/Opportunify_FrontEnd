@@ -371,42 +371,12 @@ const handleSignupClick = () => {
     <section className="relative bg-white py-24 px-4">
        
        
-       <PageTitle section="Contact Us" heading="Want to work with us?">
-         <div className="flex justify-center items-center">
+       <PageTitle section="Contact Us" heading="Scan this QR code to visit our facebook page">
+         <div className="flex justify-center items-center mt-3">
         <QRCode value={signInPageURL} size={256} />
       </div>
-         Complete this form and we will get back to you in 24 hours.
        </PageTitle>
-       <form className="mx-auto w-full mt-12 lg:w-5/12">
-         <div className="mb-8 flex gap-8">
-           <Input variant="outlined" size="lg" label="Full Name" />
-           <Input variant="outlined" size="lg" label="Email Address" />
-         </div>
-         <Textarea variant="outlined" size="lg" label="Message" rows={8} />
-         <Checkbox
-           label={
-             <Typography
-               variant="small"
-               color="gray"
-               className="flex items-center font-normal"
-             >
-               I agree the
-               <a
-                 href="#"
-                 className="font-medium transition-colors hover:text-gray-900"
-               >
-                 &nbsp;Terms and Conditions
-               </a>
-             </Typography>
-           }
-           containerProps={{ className: "-ml-2.5" }}
-         />
-         <Button  size="lg" className="bg-red-800 mt-8 text-white px-4 py-2 rounded mr-4"  fullWidth>
-         Send Message
-         </Button>
-        
-
-       </form>
+      
    </section>
    <div className="bg-white">
   

@@ -89,7 +89,7 @@ function CreateUserPage() {
         },
       };
 
-      const response = await axios.post("/user/createUser", formData, config);
+      const response = await axios.post("/user/registeruser", formData, config);
       console.log("User created:", response.data);
       navigate('/dashboard');
     } catch (error) {
