@@ -369,11 +369,7 @@ const handleSignupClick = () => {
 
     <section className="relative bg-white py-24 px-4">
 
-       <PageTitle section="Contact Us" heading="Scan this QR code to visit our facebook page">
-         <div className="flex justify-center items-center mt-3">
-        <QRCode value={signInPageURL} size={256} />
-      </div>
-       </PageTitle>
+      
       
        <PageTitle section="Contact Us" heading="Want to work with us?">
          <div className="flex justify-center items-center ">
