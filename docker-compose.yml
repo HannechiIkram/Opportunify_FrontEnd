@@ -1,4 +1,5 @@
 version: '3.8'
+
 services:
   db:
     image: mongo:4.2
@@ -8,7 +9,7 @@ services:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
     ports:
-      - "27017:27017"
+      - 27017:27017
     volumes:
       - ./data/dump:/dump
 
@@ -22,7 +23,8 @@ services:
     depends_on:
       - db
     volumes:
-      - mongo-data:/path/in/container
+      - mongo-data:/path/to/mongo-data
 
 volumes:
   mongo-data:
+    driver: local

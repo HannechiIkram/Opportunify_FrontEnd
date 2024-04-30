@@ -169,7 +169,23 @@ const Applications = () => {
       setCurrentPage(pageNumber);
     }
   };
-  
+
+
+  const [status, setStatus] = useState('');
+  useEffect(() => {
+    const fetchApplications = async () => {
+      try {
+        const response = await axios.get(`http://localhost:3000/applications/search/${status}`);
+        setApplications(response.data);
+      } catch (error) {
+        console.error('Error fetching applications by status:', error);
+      }
+    };
+
+    if (status === 'accepted' || status === 'rejected') {
+      fetchApplications();
+    }
+  }, [status]);
   return (
     <>
       <Navbarjs/>
@@ -183,7 +199,13 @@ const Applications = () => {
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(new Date(e.target.value))}
               />
+
+
+<button type="button" class=" ml-4 text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800" onClick={() => setStatus('accepted')}>Accepted Applications</button>
+      <button type="button" class="text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900" onClick={() => setStatus('rejected')}>Rejected Applications</button>
             </div>
+         
+
             <div className="flex flex-wrap justify-center pt-8">
               {currentApplications.map(application => (
                 <div key={application._id} className="m-4 bg-gray-100 rounded-md w-96 shadow-lg overflow-hidden h-auto">

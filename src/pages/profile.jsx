@@ -210,12 +210,21 @@ const [tempDescription, setTempDescription] = useState('');
 const [selectedTechnology, setSelectedTechnology] = useState('');
   const [technologies, setTechnologies] = useState([]);
 
-  const handleSelectChange = (event) => {
-    setSelectedTechnology(event.target.value);
-    if (event.target.value !== '') {
-      addTechnology(event.target.value);
+  const handleSelectChange = async (event) => {
+    const selectedTech = event.target.value;
+    if (selectedTech !== '') {
+      try {
+        const response = await axios.put(`/user/profileJobSeeker_technologies/${userId}`, {
+          technologies: [...technologies, selectedTech] // Add the selected technology to the array
+        });
+        console.log(response.data.message); // Log success message
+        setTechnologies(prevTech => [...prevTech, selectedTech]); // Update state with the selected technology
+      } catch (error) {
+        console.error('Error:', error.message); // Log error message
+      }
     }
   };
+  
 
   const addTechnology = (tech) => {
     setTechnologies([...technologies, tech]);
@@ -235,6 +244,7 @@ const [selectedTechnology, setSelectedTechnology] = useState('');
 const togglechat = () => {
   setShowchat((prev) => !prev); // Bascule entre affichage et non-affichage du chat
 };
+
   return (
     <>
     <div  className="">
@@ -302,10 +312,9 @@ const togglechat = () => {
   <div className="ml-auto">
     <button 
       onClick={() => setOpenModal(true)} 
-      className="modalButton bg-black px-6 py-2 border shadow-md ml-4 rounded-full">
+      className="modalButton  px-6 py-2 border shadow-md ml-4 rounded-full">
       <span className="flex items-center">
-        <AiFillEdit className="text-white ml-1" />
-      </span>
+      <AiFillEdit className="text-black bg-white ml-1 rounded text-xl " />      </span>
     </button>
   </div>
 </div>
@@ -313,8 +322,8 @@ const togglechat = () => {
 
 <div className="mt-10 mb-10 flex lg:flex-col justify-between lg:justify-end lg:mb-0 lg:px-4 flex-wrap lg:-mt-5">
   <div className="flex gap-4 -mt-10 ml-4">
-    <Button className="bg-black text-white font-bold rounded-full">Connect</Button>
-    <Button className="bg-black text-white Lato rounded-full">Message</Button>
+  <Button className="  font-bold  text-red-900 bg-blue-gray-100 rounded-full">Connect</Button>
+    <Button className="bg-blue-gray-100 text-red-900 Lato rounded-full">Message</Button>
   </div>
 </div>
 
@@ -360,21 +369,7 @@ const togglechat = () => {
     <BiSolidCake className="mr-2 text-white" />
     <p className="text-white font-medium">{formatBirthdate(profile.birthdate)}</p>
   </div>
-  {/*
-              <div className="mb-12"></div>
-
-
-              <Button variant="filled" onClick={handleButtonClick}>
-                      More info ?
-                    </Button>
-                  
-                    {showBirthdate && (
-  <div className="flex items-center gap-2">
-    <BiSolidCake className="mr-2 text-gray-600" />
-    <p className="text-gray-600 font-medium">{formatBirthdate(profile.birthdate)}</p>
-  </div>
-  
-                    )}   */}
+ 
   <hr className="my-2" />
               <div className="mb-12"></div>
               <div className="flex items-center gap-2">
@@ -471,16 +466,18 @@ const togglechat = () => {
         </select>
   
         <div className="flex flex-wrap">
-      {technologies.map((tech, index) => (
-        <button
-          key={index}
-          className="mt-2 mr-2 bg-gray-900 text-white font-bold rounded-full px-4 flex items-center mb-2"
-          style={{ backgroundColor: getRandomColor() }} // Assign a random color
-        >
-          {tech} {technologyEmojiMap[tech]}
-        </button>
-      ))}
-    </div>
+        {profile.technologies.map((tech, index) => (
+              <button
+      key={index}
+      className="mt-2 mr-2 bg-gray-900 text-white font-bold rounded-full px-4 flex items-center mb-2"
+      style={{ backgroundColor: getRandomColor() }} // Assign a random color
+    >
+      {technologyEmojiMap[tech]} {tech}
+    </button>
+  ))}
+</div>
+
+
 </div>
 
               </div>

@@ -149,8 +149,7 @@ const handleSignupClick = () => {
     </ReactTyped>
   </div>  
   <a
-      href="/redirect-sign-up'"
-      target="_blank"
+      href="/redirect-sign-up"
     >
       <button  onClick={handleSignupClick} className='bg-red-800 w-[200px] rounded-md font-medium my-6 mx-auto py-3 text-white'>Get Started</button>
     </a>
@@ -299,10 +298,10 @@ const handleSignupClick = () => {
      
 
 
-
+<br></br>
 
               <ul>
-                {jobOffers.slice(0, 4).map((jobOffer) => (
+                {jobOffers.slice(0, 2).map((jobOffer) => (
                   <li key={jobOffer._id} className="shadow-xl bg-[#f5f5f5] p-4 ml-auto mr-auto mb-10 rounded-lg hover:scale-105 duration-300">
                     <div className="flex justify-between items-center"> {/* Utilize Flexbox with justify-content: space-between */}
                       <Typography variant="title" color="gray" className="mb-2 " style={{ fontSize: '24px', fontWeight: 'bold' }}>
@@ -369,14 +368,51 @@ const handleSignupClick = () => {
 
 
     <section className="relative bg-white py-24 px-4">
-       
-       
+
        <PageTitle section="Contact Us" heading="Scan this QR code to visit our facebook page">
          <div className="flex justify-center items-center mt-3">
         <QRCode value={signInPageURL} size={256} />
       </div>
        </PageTitle>
       
+       <PageTitle section="Contact Us" heading="Want to work with us?">
+         <div className="flex justify-center items-center ">
+        <QRCode value={signInPageURL} size={256} />
+      </div>
+      <div className="mt-12 mb-20">
+         Scan our QRCODE to join our facebook page
+         </div>
+       </PageTitle>
+       <form className="mx-auto w-full mt-12 lg:w-5/12 border border-gray-300 rounded-lg shadow-lg p-8">
+  <div className="font-bold mb-12 text-lg">Complete this form and we will get back to you in 24 hours.</div>
+  <div className="mb-8 flex gap-8">
+    <Input variant="outlined" size="lg" label="Full Name" />
+    <Input variant="outlined" size="lg" label="Email Address" />
+  </div>
+  <Textarea variant="outlined" size="lg" label="Message" rows={8} />
+  <Checkbox
+    label={
+      <Typography
+        variant="small"
+        color="gray"
+        className="flex items-center font-normal"
+      >
+        I agree the
+        <a
+          href="#"
+          className="font-medium transition-colors hover:text-gray-900"
+        >
+          &nbsp;Terms and Conditions
+        </a>
+      </Typography>
+    }
+    containerProps={{ className: "-ml-2.5" }}
+  />
+  <Button size="lg" className="bg-red-800 mt-8 text-white px-4 py-2 rounded mr-4" fullWidth>
+    Send Message
+  </Button>
+</form>
+
    </section>
    <div className="bg-white">
   

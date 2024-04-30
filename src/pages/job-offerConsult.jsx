@@ -131,10 +131,48 @@ const handleSearch = async () => {
 
 // Autres parties de votre code inchangées...
 
-const handleApply = (offerId) => {
-  history.push(`/apply?offerId=${offerId}`);
+const [applicationsCount, setApplicationsCount] = useState({});
+
+const fetchApplicationsCount = async (offerId) => {
+  try {
+      const accessToken = localStorage.getItem("accessToken");
+      const config = {
+          headers: {
+              Authorization: `Bearer ${accessToken}`,
+          },
+      };
+      const response = await axios.get(`/job_offer/applications/count/${offerId}`, config);
+      return response.data; // Suppose que le backend renvoie directement le nombre d'applications
+  } catch (error) {
+      console.error('Failed to fetch applications count:', error.response ? error.response.data : error.message);
+      return 0; // En cas d'erreur, renvoyer 0 ou un autre valeur par défaut
+  }
 };
 
+// Fonction pour récupérer le nombre d'applications pour toutes les offres
+const fetchApplicationsCountsForAllOffers = async () => {
+  const counts = {};
+  for (const offer of jobOffers) {
+      const count = await fetchApplicationsCount(offer._id);
+      counts[offer._id] = count;
+  }
+  setApplicationsCount(counts);
+};
+
+useEffect(() => {
+  fetchApplicationsCountsForAllOffers();
+}, [jobOffers]);
+const formatDeadlineDate = (deadline) => {
+  // Create a new Date object from the deadline string
+  const deadlineDate = new Date(deadline);
+  // Use Date methods to get the desired date format
+  const formattedDeadline = deadlineDate.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+  return formattedDeadline;
+};
 
 return (  
     <>
@@ -184,7 +222,9 @@ return (
                         {jobOffer.title} 
                       </Typography>
                       <div>
-                        
+                      <Typography variant="paragraph" color="blue-gray">
+                          Created: {formatDistanceToNow(new Date(jobOffer.createdAt), { addSuffix: true })}
+                        </Typography>
                       </div>
                     </div>
                     <div className="flex items-center mb-2">
@@ -210,7 +250,7 @@ return (
                         <GrScheduleNew />
                       </Typography>
                       <Typography variant="paragraph" color="blue-gray" className="mr-2">
-                        deadline: {jobOffer.deadline}
+                       Deadline: {formatDeadlineDate(jobOffer.deadline)}
                       </Typography>
                     </div>
                     <div className="flex items-center"> {/* Nouveau div pour les boutons */}
@@ -258,8 +298,8 @@ return (
                 <b className='font-bold mr-2'>  Salary:</b> {selectedOffer.salary_informations}
                 </Typography>
                 <Typography variant="paragraph" color="blue-gray">
-                <b className='font-bold mr-2'>  Deadline: </b>{selectedOffer.deadline}
-                </Typography>
+                <b className='font-bold mr-2'>  Deadline: </b> {formatDeadlineDate(selectedOffer.deadline)}
+                </Typography>  
                 <Typography variant="paragraph" color="blue-gray">
                 <b className='font-bold mr-2'>  Description:</b> {selectedOffer.description}
                 </Typography>
@@ -273,8 +313,10 @@ return (
                 <b className='font-bold mr-2'>  Language:</b>{selectedOffer.langue}
                 </Typography>
                 <Typography variant="paragraph" color="green">
-                <b className='font-bold mr-2'>  Applications number:</b>{}
-                </Typography>
+                <b className='font-bold mr-2'>Applications number:</b>{applicationsCount[selectedOffer._id]?.count}
+
+</Typography>
+
               </div>
               <div className="flex justify-center my-4 mx-3">
               <div className="flex justify-center my-4 mx-3">
