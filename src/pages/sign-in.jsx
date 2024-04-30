@@ -63,17 +63,27 @@ export function SignIn() {
      const userId =response.data.profileId;
      const pId=response.data.company_profileId;
       // Store user role in session storage
+      // Store pId in localStorage
+     // Extract user role and pId from response      
+     // Store pId in local storage
+     localStorage.setItem('pId', pId);
+    localStorage.setItem('userId', userId);
+// Store userId in session storage
+//sessionStorage.setItem('userId', userId);
+
       setUserRole(userRole);
 
       // Redirect based on user role
       if (userRole === 'admin') {
         Navigate("/dashboard");
+
       } else if (userRole === 'company') {
-        Navigate(`/Profilecompany/${pId}`);
-       // Navigate(`/redirect-company`);
+       Navigate(`/redirect-company`);
 
       } else if (userRole === 'job_seeker') {
-        Navigate(`/profile/${userId}`);      }
+        Navigate(`/redirect-job-seeker`);    
+        }
+        
     } catch (error) {
       console.error('Email or password is wrong', error.response.data);
       if (error.response.status === 429) {

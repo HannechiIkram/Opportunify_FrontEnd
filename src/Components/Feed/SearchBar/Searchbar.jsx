@@ -5,14 +5,32 @@ import { Link } from 'react-router-dom';
 function SearchBar() {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
+  let timeoutId = null;
 
-  const handleSearch = async () => {
+  const handleSearch = async (query) => {
     try {
-      const response = await axios.get(`/search/users?query=${searchQuery}`);
+      const response = await axios.get(`/search/users?query=${query}`, {
+        headers: {
+          Authorization: localStorage.getItem('accessToken'),
+        },
+      });
+      console.log('Search results:', response.data); // Log the response data
       setSearchResults(response.data);
     } catch (error) {
       console.error('Error fetching users:', error);
     }
+  };
+
+  const delayedSearch = (query) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => handleSearch(query), 300); // 300 milliseconds delay
+  };
+
+  const handleChange = (event) => {
+    const { value } = event.target;
+    console.log('Search query:', value); 
+    setSearchQuery(value);
+    delayedSearch(value);
   };
 
   return (
@@ -27,11 +45,11 @@ function SearchBar() {
           className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
           placeholder="Search profiles..."
           value={searchQuery}
-          onChange={(event) => setSearchQuery(event.target.value)}
+          onChange={handleChange} // Trigger search on input change
         />
         <button
           type="button"
-          onClick={handleSearch}
+          onClick={() => handleSearch(searchQuery)} // Trigger search on button click
           className="absolute inset-y-0 right-2.5 top-1/2 transform -translate-y-1/2 bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-4 py-2 text-white"
         >
           Search

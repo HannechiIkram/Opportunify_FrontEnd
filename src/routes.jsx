@@ -32,16 +32,26 @@ import { Tables } from "./pages/dashboard/tables";
 
 import EvaluationList from "./pages/Evaluation";
 import QuizList from "./pages/Quiz";
-import { JobofferConsult} from "./pages/jobOffers";
 
 
 
+/////samar
+import ApplicationsPerOffer from "@/pages/applications-per-offer";
+import RedirectJobSeeker from "@/pages/redirect-jobseeker";
 
 import SideNav from "@/pages/dashboard/sidenav";
 import Nav0 from "@/widgets/layout/navbar0";
 import Nav1 from "@/widgets/layout/navbar1";
 import Navbar from "@/widgets/layout/navbar";
 import Navbarjs from "@/widgets/layout/navbarjobseeker";
+
+import Chatbot from "./pages/Generatemessage";
+import JobofferConsult from "./pages/jobOffers";
+
+
+
+import Chat from "./pages/Chat";
+
 import Feed from "./pages/Feed";
 import ProfileDetailPage from "./Components/Consult profile/ProfileDetailPage";
 
@@ -56,7 +66,19 @@ export const routes = [
     path: '/add-event',
     element: <Add_event />,
   },
-
+  
+  {
+    name: "RedirectJobSeeker",
+    path: "/redirect-job-seeker",
+    element: <RedirectJobSeeker/>,
+  },
+  {
+    name: "applications-per-offer",
+    path: "/applications-per-offer/:offerId",
+    element: <ApplicationsPerOffer/>,
+  },
+  
+  
   {
     name: 'navbar0',
     path: '/nav0',
@@ -107,7 +129,6 @@ export const routes = [
     path: '/create',
     element: <CreateUserPage />,
   },
-
   {
     name: 'Profilecompany',
     path: '/Profilecompany/:pId', // Corrected path definition
@@ -253,6 +274,17 @@ export const routes = [
     name: 'profile-details',
     path: '/profile-details', // Include the dynamic parameter ":id"
     element: <ProfileDetailPage />,
+  },
+  {name: "chat",
+path:"/chat",
+element: <Chat/>,
+},
+
+  {
+
+    name:"chat",
+    path:"/chat_bot",
+    element:<Chatbot/>,
   },
 ];
 

@@ -16,8 +16,7 @@ import ThumbDownAltIcon from '@mui/icons-material/ThumbDownAlt';
 import { FaCheckCircle, FaTimesCircle, FaEye } from 'react-icons/fa';
 import { useParams } from 'react-router-dom';
 
-const ApplicationsList = () => {
-  const [applications, setApplications] = useState([]);
+const ApplicationsPerOffer = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [likedApplications, setLikedApplications] = useState([]);
@@ -26,28 +25,41 @@ const ApplicationsList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const applicationsPerPage = 5;
 
+  const { offerId } = useParams(); // Retrieve offerId from the URL
+  const [applications, setApplications] = useState([]);
   const navigate = useNavigate();
 
+  // Function to fetch applications by offerId
   useEffect(() => {
-    const fetchApplications = async () => {
-      try {
-        const accessToken = localStorage.getItem('accessToken');
-        if (!accessToken) {
-          console.error('Access token not found');
-          return;
-        }
+      const fetchApplications = async () => {
+          try {
+              // Retrieve the access token from localStorage
+              const accessToken = localStorage.getItem("accessToken");
+              if (!accessToken) {
+                  console.error("Access token not found");
+                  return;
+              }
 
-        const config = { headers: { Authorization: `Bearer ${accessToken}` } };
-        const response = await axios.get('http://localhost:3000/applications/getall', config);
-        setApplications(response.data);
-        setSearchResults(response.data); // Set initial search results to all applications
-      } catch (error) {
-        console.error('Error fetching applications:', error);
-      }
-    };
+              // Set up headers for authorization
+              const config = {
+                  headers: {
+                      Authorization: `Bearer ${accessToken}`,
+                  },
+              };
 
-    fetchApplications();
-  }, []);
+              // Make the API request using axios
+              const response = await axios.get(`http://localhost:3000/applications/applicationperoffer/${offerId}`, config);
+              
+             
+                setApplications(response.data);
+          } catch (error) {
+              console.error('Error fetching applications:', error);
+          }
+      };
+
+      // Call the function with the current offerId
+      fetchApplications();
+  }, [offerId]);
 
   const handleSearch = (e) => {
     const term = e.target.value.toLowerCase();
@@ -87,19 +99,9 @@ const ApplicationsList = () => {
     setCopiedText(text);
   };
 
-
-
- 
-
   const indexOfLastApplication = currentPage * applicationsPerPage;
   const indexOfFirstApplication = indexOfLastApplication - applicationsPerPage;
-  let currentApplications;
-  if (Array.isArray(searchResults)) {
-    currentApplications = searchResults.slice(indexOfFirstApplication, indexOfLastApplication);
-  } else {
-    currentApplications = applications.slice(indexOfFirstApplication, indexOfLastApplication);
-  }
-
+  const currentApplications = searchResults.slice(indexOfFirstApplication, indexOfLastApplication);
 
   return (
     <>
@@ -116,7 +118,7 @@ const ApplicationsList = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg-grid-cols-3 gap-8">
-          {currentApplications.map((application) => (
+          {applications.map((application) => (
             <div key={application._id} className="bg-white rounded-lg shadow-lg overflow-hidden">
               <div className="p-4">
                 <p className="text-center mb-2">Email: {application.email}</p>
@@ -159,27 +161,9 @@ const ApplicationsList = () => {
             </div>
           ))}
         </div>
-
-        <div className="mt-8 flex justify-center">
-  <button 
-    onClick={() => setCurrentPage(currentPage - 1)} 
-    disabled={currentPage === 1} // Désactiver le bouton précédent sur la première page
-    className="px-3 py-1 rounded-md mx-1 bg-gray-200 text-black"
-  >
-    Previous
-  </button>
-  <button 
-    onClick={() => setCurrentPage(currentPage + 1)} 
-    disabled={currentApplications.length < applicationsPerPage} // Désactiver le bouton suivant lorsque la dernière page est atteinte
-    className="px-3 py-1 rounded-md mx-1 bg-gray-200 text-black"
-  >
-    Next
-  </button>
-</div>
-
       </div>
     </>
   );
 };
 
-export default ApplicationsList;
+export default ApplicationsPerOffer;

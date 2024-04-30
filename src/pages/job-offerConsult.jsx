@@ -19,7 +19,6 @@ import { Navbar } from '@/layout/index.js';
 
 
 import "react-toastify/dist/ReactToastify.css";
-import { ToastContainer, toast } from "react-toastify";
 
 export function Job_offerConsult() {
     const [expandedOfferId, setExpandedOfferId] = useState(null);
@@ -132,24 +131,45 @@ const handleSearch = async () => {
 
 // Autres parties de votre code inchangées...
 
-const handleApply = (offerId) => {
-  history.push(`/apply?offerId=${offerId}`);
+const [applicationsCount, setApplicationsCount] = useState({});
+
+const fetchApplicationsCount = async (offerId) => {
+  try {
+      const accessToken = localStorage.getItem("accessToken");
+      const config = {
+          headers: {
+              Authorization: `Bearer ${accessToken}`,
+          },
+      };
+      const response = await axios.get(`/job_offer/applications/count/${offerId}`, config);
+      return response.data; // Suppose que le backend renvoie directement le nombre d'applications
+  } catch (error) {
+      console.error('Failed to fetch applications count:', error.response ? error.response.data : error.message);
+      return 0; // En cas d'erreur, renvoyer 0 ou un autre valeur par défaut
+  }
 };
 
+// Fonction pour récupérer le nombre d'applications pour toutes les offres
+const fetchApplicationsCountsForAllOffers = async () => {
+  const counts = {};
+  for (const offer of jobOffers) {
+      const count = await fetchApplicationsCount(offer._id);
+      counts[offer._id] = count;
+  }
+  setApplicationsCount(counts);
+};
+
+useEffect(() => {
+  fetchApplicationsCountsForAllOffers();
+}, [jobOffers]);
 
 return (  
     <>
     <Navbar/>
      <div className="container relative mx-auto">
             <div className="relative flex content-center justify-center pt-24 pb-8">
-               
-   </div>
-   </div>
-
-   <div className="w-1/2 p-4 gap-2 flex inline-text"> {/* Barre de recherche */}
-              <Typography variant="medium" color="blue-gray" className="font-medium">
-                Search by title
-              </Typography>
+            <div className="w-1/2 p-4 gap-2 flex inline-text"> {/* Barre de recherche */}
+              
               <Input
     type="text"
     placeholder="Enter job title to search"
@@ -162,18 +182,27 @@ return (
               <Button onClick={handleSearch} className=" text-black bg-gray-300 w-1/4" >
                 Search
               </Button>
-            </div>
+            
+            </div> 
+           
+   </div>
+   <div className="p-4">
+        <div className="text-center">
+   <Typography color="blue-gray" className=" text-lg font-normal mb-4">
+                All Job Offers created by your company
+              </Typography> 
+              </div>
+              </div>
+              
+   </div>
+
+  
 
 
             
-      <div className="flex">
-        <div className="w-1/2 p-4" style={{ overflowY: "auto" }}> {/* Ajout de la barre de défilement verticale */}
-          <div className="custom-scrollbar" style={{ height: "400px", overflowY: "auto", border: "1px solid #ccc" }}>
+      <div className="flex justify-center">
            
-            <Card className="mt-8 max-h-full">
-              <Typography variant="paragraph" color="blue-gray" className="text-lg font-normal mb-4">
-                All Job Offers created by your company
-              </Typography>
+              
               <ul>
                 {jobOffers.map((jobOffer) => (
                   <li key={jobOffer._id} className="shadow-xl bg-[#f5f5f5] p-4 ml-auto mr-auto mb-10 rounded-lg hover:scale-105 duration-300">
@@ -212,26 +241,32 @@ return (
                       </Typography>
                     </div>
                     <div className="flex items-center"> {/* Nouveau div pour les boutons */}
-                      <Button color="blue-gray" onClick={() => handleSeeMore(jobOffer._id)}>
-                        {expandedOfferId === jobOffer._id ? "See Less" : "See More"}
+                      <Button className='bg-gray-600 text-white px-4 py-2 rounded-md inline-block mt-2' onClick={() => handleSeeMore(jobOffer._id)}>
+                        {expandedOfferId === jobOffer._id ? "See Less" : "Consult Offer"}
                       </Button>
-                      <Button color="red" onClick={() => handleDelete(jobOffer._id)}>
+                      <Button className='bg-red-800 text-white px-4 py-2 rounded-md inline-block mt-2' onClick={() => handleDelete(jobOffer._id)}>
                         Delete
                       </Button>
-                      <Button className="bg-[#ececec] text-black">
+                      <Button className='bg-black text-white px-4 py-2 rounded-md inline-block mt-2'>
                         <Link to={`/Job_offerUpdate/${jobOffer._id}`}>
                                         Update
                                </Link>
                                              </Button>
                      
                     </div>
+                    
+                    
+          
+                    
+        
                   </li>
+                  
+                  
                 ))}
+                
               </ul>
-            </Card>
-          </div>
-        </div>
-        <div className="w-1/2 p-4 mt-18"> {/* Deuxième moitié de la page pour les détails de l'offre sélectionnée */}
+              
+              <div className="w-1/2 p-4 mt-18"> {/* Deuxième moitié de la page pour les détails de l'offre sélectionnée */}
           {selectedOffer && (
             <Card className={`mt-8 max-h-full overflow-y-auto ${expandedOfferId ? 'block' : 'hidden'}`}>
               <div className="p-4">
@@ -264,17 +299,27 @@ return (
                 <Typography variant="paragraph" color="blue-gray">
                 <b className='font-bold mr-2'>  Language:</b>{selectedOffer.langue}
                 </Typography>
+                <Typography variant="paragraph" color="green">
+                <b className='font-bold mr-2'>Applications number:</b>{applicationsCount[selectedOffer._id]?.count}
+
+</Typography>
+
               </div>
               <div className="flex justify-center my-4 mx-3">
-             {/*  <Button color="blue-grey" disabled={new Date(selectedOffer.deadline) < new Date()}>
-  <Link to={{
-    pathname: `/apply/${selectedOffer._id}`,
+              <div className="flex justify-center my-4 mx-3">
+                        <button className='bg-red-800 text-white px-4 py-2 rounded-md inline-block mt-2' >
+                           
+                            <Link to={{
+    pathname: `/applications-per-offer/${selectedOffer._id}`,
     state: { offerTitle: selectedOffer.title }
-  }}> </Button> 
-    Apply
-  </Link> 
+  }}> 
+     Find Candidates
+  </Link>
+                        </button>
+                    </div>
+{/* 
+  
 </Button>*/}
-
 
 </div>
 
@@ -283,7 +328,8 @@ return (
            
         </div>
       </div>
-      <div><Appap/></div>
+      
+      <div className="flex justify-center"><Appap/></div>
     </>
 );
 

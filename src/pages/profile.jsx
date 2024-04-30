@@ -13,6 +13,8 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { AiTwotonePhone } from "react-icons/ai";
 import Modal from "./Modal.jsx";
+import Chat from '../pages/Chat';
+
 import PictureModal from "./PictureModal.jsx";
 import { AiFillEdit } from "react-icons/ai";
 import  "./Modal.css";
@@ -30,6 +32,8 @@ export function Profile() {
 
   const [showPictureModal, setShowPictureModal] = useState(false);
   const [isHovered, setIsHovered] = useState(false); // State variable to track hover state
+  const [showchat, setShowchat] = useState(false); // Pour contrôler la visibilité du chatbot
+
   // Function to open modal
   const openPictureModal = () => {
     setShowPictureModal(true);
@@ -83,6 +87,7 @@ export function Profile() {
   };
   
   const [isInputFocused, setInputFocused] = useState(false);
+
   const [showBirthdate, setShowBirthdate] = useState(false);
 
   const handleButtonClick = () => {
@@ -227,7 +232,9 @@ const [selectedTechnology, setSelectedTechnology] = useState('');
       'GitHub': '💻','GitLab': '🔒', 'Bitbucket': '🔑', 'JIRA': '📋', 'WebSockets': '🧦','REST API': '📡','GraphQL': '🔗','OAuth': '🔒','JSON': '📝','Regular Expressions': '🔍','Agile': '🏃‍♂️','Scrum': '🏉','Kanban': '📑','Waterfall': '🚰','DevOps': '⚙️','CI/CD': '🚀','TDD': '🔴🔵','BDD': '🟢🔵',
   }
 // Update the temporary input value instead of directly updating the description state
-
+const togglechat = () => {
+  setShowchat((prev) => !prev); // Bascule entre affichage et non-affichage du chat
+};
   return (
     <>
     <div  className="">
@@ -277,15 +284,7 @@ const [selectedTechnology, setSelectedTechnology] = useState('');
                             className="hidden"
                           />
                         </label>
-                        {/* Conditionally render the button based on whether a file is selected 
-                        {selectedFile && (
-                          <button
-                            onClick={openPictureModal}
-                            className="bg-white text-black px-4 py-2 rounded-md mt-2"
-                          >
-                            Are you sure?
-                          </button>
-                        )}*/}
+                     
                       </div>
                 <div>
    </div>
@@ -361,21 +360,7 @@ const [selectedTechnology, setSelectedTechnology] = useState('');
     <BiSolidCake className="mr-2 text-white" />
     <p className="text-white font-medium">{formatBirthdate(profile.birthdate)}</p>
   </div>
-  {/*
-              <div className="mb-12"></div>
-
-
-              <Button variant="filled" onClick={handleButtonClick}>
-                      More info ?
-                    </Button>
-                  
-                    {showBirthdate && (
-  <div className="flex items-center gap-2">
-    <BiSolidCake className="mr-2 text-gray-600" />
-    <p className="text-gray-600 font-medium">{formatBirthdate(profile.birthdate)}</p>
-  </div>
-  
-                    )}   */}
+ 
   <hr className="my-2" />
               <div className="mb-12"></div>
               <div className="flex items-center gap-2">
@@ -547,6 +532,17 @@ const [selectedTechnology, setSelectedTechnology] = useState('');
 
       <div className="bg-white">
         <Footer />
+        <Button
+  onClick={togglechat}
+  
+>
+  {showchat ? 'X' : 'Chat'}
+</Button>
+{showchat && (
+  <div className="fixed bottom-12 right-4 w-72 h-96 bg-white shadow-lg rounded-lg flex flex-col">
+    <Chat />
+  </div>
+)}
       </div>
      <div>
 

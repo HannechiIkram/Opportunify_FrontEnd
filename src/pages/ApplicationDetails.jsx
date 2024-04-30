@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useParams,useNavigate, Link } from 'react-router-dom';
 import { Card, Typography, Button, Input } from "@material-tailwind/react";
 import { GrScheduleNew } from "react-icons/gr";
-import { GrAid } from "react-icons/gr";
+import { GrAid , GrReturn } from "react-icons/gr";
 import { GrCurrency } from "react-icons/gr";
 import { Navbar } from '@/layout';
 import { Navbarjs } from '@/widgets/layout';
@@ -151,14 +151,14 @@ const ApplicationDetails = () => {
               Update Application
             </Link>
           </div>
-          <div className="flex justify-end">
+          <div className=" justify-end">
             <Link
               to={`/applications`}
               className="inline-block p-1 text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
             >
-              <svg className="w-6 h-6 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+              <GrReturn/>
                 <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
-              </svg>
+             
             </Link>
           </div>
         </div>

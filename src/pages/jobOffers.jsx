@@ -4,12 +4,11 @@ import { Card, Typography, Button, Input } from "@material-tailwind/react";
 import { FiMapPin } from "react-icons/fi";
 import { Link, useNavigate } from 'react-router-dom';
 import { GrScheduleNew } from "react-icons/gr";
-import { GrAid } from "react-icons/gr";
+import { GrAid, GrTrash , GrUp , GrDown } from "react-icons/gr";
 import { GrCurrency } from "react-icons/gr";
 import { formatDistanceToNow } from "date-fns";
 import { Navbarjs } from '@/widgets/layout';
-import { format } from 'date-fns'; 
-
+import { format } from 'date-fns';
 
 export function JobofferConsult() {
     const [expandedOfferId, setExpandedOfferId] = useState(null);
@@ -20,6 +19,15 @@ export function JobofferConsult() {
     const navigate = useNavigate();
     const [currentPage, setCurrentPage] = useState(1);
     const [offersPerPage] = useState(5); // Nombre d'offres par page
+
+    const [searchCriteria, setSearchCriteria] = useState({
+        title: "",
+        workplaceType: "",
+        location: "",
+        field: ""
+    });
+
+    const [sortBySalary, setSortBySalary] = useState(false);
 
     useEffect(() => {
         const fetchJobOffers = async () => {
@@ -45,32 +53,37 @@ export function JobofferConsult() {
         fetchJobOffers();
     }, []);
 
-    // Fonction pour gérer la recherche en temps réel
-    const handleSearch = async (e) => {
-        setSearchTitle(e.target.value); // Met à jour le contenu du champ de recherche
-        try {
-            const accessToken = localStorage.getItem("accessToken");
-            if (!accessToken) {
-                throw new Error("Access token not found");
+    useEffect(() => {
+        const handleSearch = async () => {
+            try {
+                const accessToken = localStorage.getItem("accessToken");
+                if (!accessToken) {
+                    throw new Error("Access token not found");
+                }
+
+                const config = {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                };
+
+                const response = await axios.get('/job_offer/search', {
+                    params: searchCriteria,
+                    ...config
+                });
+                setSearchResults(response.data);
+            } catch (error) {
+                console.error('Failed to fetch job offers based on criteria:', error.response ? error.response.data : error.message);
             }
+        };
 
-            const config = {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                },
-            };
-
-            const response = await axios.get(`/job_offer/search/title/${e.target.value}`, config); // Effectue la recherche avec le titre actuel
-            setSearchResults(response.data); // Met à jour les résultats de recherche
-        } catch (error) {
-            console.error('Failed to fetch job offers based on title:', error.response ? error.response.data : error.message);
-        }
-    };
+        handleSearch();
+    }, [searchCriteria]);
 
     const formattedDate = (dateString) => {
         const date = new Date(dateString);
         return format(date, 'dd-MM-yyyy');
-      };
+    };
 
     const handleSeeMore = (offerId) => {
         setExpandedOfferId((prevId) => (prevId === offerId ? null : offerId));
@@ -80,161 +93,208 @@ export function JobofferConsult() {
     const handleShowDetails = (offerId) => {
         navigate(`/job-offer-details/${offerId}`);
     };
-  
 
-    // Index de la dernière offre sur la page actuelle
+    const handleRemoveCriteria = (criterion) => {
+        setSearchCriteria(prevCriteria => ({
+            ...prevCriteria,
+            [criterion]: ""
+        }));
+    };
+
+    const handleClearCriteria = () => {
+        setSearchCriteria({
+            title: "",
+            workplaceType: "",
+            location: "",
+            field: ""
+        });
+    };
+
+    const handleSortBySalary = () => {
+        setSortBySalary(!sortBySalary);
+    };
+
+    let sortedOffers = [...jobOffers];
+    if (sortBySalary) {
+        sortedOffers.sort((a, b) => {
+            return a.salary - b.salary;
+        });
+    }
+
+    const totalOffersCount = searchResults.length > 0 ? searchResults.length : jobOffers.length;
     const indexOfLastOffer = currentPage * offersPerPage;
-    // Index de la première offre sur la page actuelle
     const indexOfFirstOffer = indexOfLastOffer - offersPerPage;
-    // Offres sur la page actuelle
-    const currentOffers = searchTitle ? searchResults : jobOffers.slice(indexOfFirstOffer, indexOfLastOffer);
+    const currentOffers = searchResults.length > 0 ? searchResults.slice(indexOfFirstOffer, indexOfLastOffer) : sortedOffers.slice(indexOfFirstOffer, indexOfLastOffer);
 
-    // Changer de page
     const paginate = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
 
     return (
         <>
-        <Navbarjs/>
-            <div className="container relative mx-auto pt-8"></div>
-
-            <div className="flex justify-center items-center mt-8">
-                <Typography variant="medium" color="blue-gray" className="font-medium mr-4">
-                    Search by title
-                </Typography>
-                <input
-                    type="text"
-                    placeholder="Enter job title to search"
-                    name="searchtitle"
-                    value={searchTitle}
-                    onChange={handleSearch} // Utilisez la fonction handleSearch pour la recherche en temps réel
-                    className="block w-80 px-4 py-2 text-sm text-gray-900 placeholder-gray-500 bg-gray-100 border border-gray-600 rounded-lg shadow-sm focus:outline-none focus:ring-black focus:border-gay-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:border-gray-500"
-                />
-            </div>
-
-            <div className="">
-                <div className="relative flex content-center justify-center ">
-                    <div className='items-center flex flex-wrap justify-center mt-2'>
-                        {currentOffers.map((jobOffer) => (
-                            <div key={jobOffer._id} className="shadow-xl m-4 bg-gray-100 rounded-md lex items-center justify-center mt-2 overflow-hidden  h-auto">
-                                <div className="flex items-center justify-center mt-2">
-                                    <Typography variant="title" color="#ff6666" className="mb-2 " style={{ fontSize: '24px', fontWeight: 'bold' }}>
-                                        {jobOffer.title}
-                                    </Typography>
-                                    <div>
-                                    </div>
-                                </div>
-                                <div className="flex items-center mb-2">
-                                    <Typography variant="paragraph" color="blue-gray" className="mr-2">
-                                        <FiMapPin />
-                                    </Typography>
-                                    <Typography variant="paragraph" color="blue-gray" className="mr-8">
-                                        {jobOffer.lieu}
-                                    </Typography>
-                                    <Typography variant="paragraph" color="blue-gray" className="mr-2">
-                                        <GrAid />
-                                    </Typography>
-                                    <Typography variant="paragraph" color="blue-gray" className="mr-8">
-                                        {jobOffer.workplace_type}
-                                    </Typography>
-                                    <Typography variant="paragraph" color="blue-gray" className="mr-2">
-                                        <GrCurrency />
-                                    </Typography>
-                                    <Typography variant="paragraph" color="blue-gray" className="mr-8">
-                                        {jobOffer.salary_informations}
-                                    </Typography>
-                                    <Typography variant="paragraph" color="blue-gray">
-                                        <GrScheduleNew />
-                                    </Typography>
-                                    <Typography variant="paragraph" color="blue-gray" className="mr-2">
-                                        deadline: {formattedDate(jobOffer.deadline)}  
-                                    </Typography>
-                                </div>
-                                <div className="flex items-center justify-center mb-4">
-                                    <Button color="blue-grey" onClick={() => handleShowDetails(jobOffer._id)}>
-                                        Show Details
-                                    </Button>
-                                </div>
-                                <div className="flex items-center"></div>
+            <Navbarjs />
+            <div className="container mx-auto pt-8 flex">
+                {/* Partie des filtres */}
+                <div className="w-1/4 pr-4">
+                    <Card shadow="xl" className="p-4 bg-gray-50">
+                        <div className="mb-4">
+                            <Typography variant="title" color="gray">Search Filters:</Typography>
+                            <div className="flex flex-wrap mt-2">
+                                {/* Titre */}
+                                <span className="inline-block bg-red-700 text-white rounded-full px-3 py-1 text-sm font-semibold cursor-pointer m-1">
+                                    {searchCriteria.title}
+                                </span>
+                                {/* Autres critères */}
+                                {Object.entries(searchCriteria).map(([key, value]) => {
+                                    if (key !== "title" && value) {
+                                        return (
+                                            <span
+                                                key={key}
+                                                className="inline-block bg-gray-400 text-gray-800 rounded-full px-3 py-1 text-sm font-semibold cursor-pointer m-1"
+                                                onClick={() => handleRemoveCriteria(key)}
+                                            >
+                                                {value} &times;
+                                            </span>
+                                        );
+                                    }
+                                    return null;
+                                })}
                             </div>
-                        ))}
+                            <Button className="mt-2 bg-gray-500" title="Clear Filters" onClick={handleClearCriteria}>
+                                <GrTrash />
+                            </Button>
+                        </div>
+                        <div className="mb-4">
+                            <Typography variant="paragraph" color="gray">Title:</Typography>
+                            <Input
+                                type="text"
+                                placeholder="Search by title"
+                                value={searchCriteria.title}
+                                onChange={(e) => setSearchCriteria({ ...searchCriteria, title: e.target.value })}
+                            />
+                        </div>
+                        <div className="mb-4">
+                            <Typography variant="paragraph" color="gray">Location:</Typography>
+                            <Input
+                                type="text"
+                                placeholder="Location"
+                                value={searchCriteria.location}
+                                onChange={(e) => setSearchCriteria({ ...searchCriteria, location: e.target.value })}
+                            />
+                        </div>
+                        <div className="mb-4">
+                            <Typography variant="paragraph" color="gray">Job Field:</Typography>
+                            <Input
+                                type="text"
+                                placeholder="Field"
+                                value={searchCriteria.field}
+                                onChange={(e) => setSearchCriteria({ ...searchCriteria, field: e.target.value })}
+                            />
+                        </div>
+                        <div className="mb-4">
+                            <Typography variant="paragraph" color="gray">Workplace Type:</Typography>
+                            <div className="flex flex-wrap">
+                                {["Remote", "On-site", "Hybrid"].map(type => (
+                                    <Button
+                                        key={type}
+                                        color={searchCriteria.workplaceType === type ? "red" : "gray-400"}
+                                        onClick={() => setSearchCriteria({ ...searchCriteria, workplaceType: type })}
+                                        className="mr-2 mb-2 "
+                                    >
+                                        {type}
+                                    </Button>
+                                ))}
+                            </div>
+                        </div>
+                    </Card>
+                </div>
+
+                {/* Partie des offres */}
+                <div className="w-3/4">
+                    <div className="relative flex content-center justify-center">
+                        <div className='items-center flex flex-wrap justify-center mt-2'>
+                            {currentOffers.map((jobOffer) => (
+                                <div key={jobOffer._id} className="shadow-xl m-4 bg-gray-100 rounded-md lex items-center justify-center mt-2 overflow-hidden  h-auto">
+                                    <div className="flex items-center justify-center mt-2">
+                                        <Typography variant="title" color="#ff6666" className="mb-2 " style={{ fontSize: '24px', fontWeight: 'bold' }}>
+                                            {jobOffer.title}
+                                        </Typography>
+                                        <div>
+                                        </div>
+                                    </div>
+                                    <div className="flex items-center mb-2">
+                                        <Typography variant="paragraph" color="blue-gray" className="mr-2">
+                                            <FiMapPin />
+                                        </Typography>
+                                        <Typography variant="paragraph" color="blue-gray" className="mr-8">
+                                            {jobOffer.lieu}
+                                        </Typography>
+                                        <Typography variant="paragraph" color="blue-gray" className="mr-2">
+                                            <GrAid />
+                                        </Typography>
+                                        <Typography variant="paragraph" color="blue-gray" className="mr-8">
+                                            {jobOffer.workplace_type}
+                                        </Typography>
+                                        <Typography variant="paragraph" color="blue-gray" className="mr-2">
+                                            <GrCurrency />
+                                        </Typography>
+                                        <Typography variant="paragraph" color="blue-gray" className="mr-8">
+                                            {jobOffer.salary_informations}
+                                        </Typography>
+                                        <Typography variant="paragraph" color="blue-gray">
+                                            <GrScheduleNew />
+                                        </Typography>
+                                        <Typography variant="paragraph" color="blue-gray" className="mr-2">
+                                            deadline: {formattedDate(jobOffer.deadline)}
+                                        </Typography>
+                                    </div>
+                                    <div className="flex items-center justify-center mb-4">
+                                        <Button color="blue-grey" onClick={() => handleShowDetails(jobOffer._id)}>
+                                            Show Details
+                                        </Button>
+                                    </div>
+                                    <div className="flex items-center"></div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                    <div className="flex justify-center mt-4">
+                        <ul className="flex list-none">
+                            {currentPage > 1 && (
+                                <li>
+                                    <button
+                                        onClick={() => paginate(currentPage - 1)}
+                                        className={`px-3 py-1 rounded-md mx-1 bg-gray-200 text-black`}
+                                    >
+                                        Previous
+                                    </button>
+                                </li>
+                            )}
+                            {Array.from({ length: Math.ceil(totalOffersCount / offersPerPage) }).map((_, index) => (
+                                <li key={index}>
+                                    <button
+                                        onClick={() => paginate(index + 1)}
+                                        className={`px-3 py-1 rounded-md mx-1 ${currentPage === index + 1 ? 'bg-red-700 text-white' : 'bg-gray-200 text-black'}`}
+                                    >
+                                        {index + 1}
+                                    </button>
+                                </li>
+                            ))}
+                            {currentPage < Math.ceil(totalOffersCount / offersPerPage) && (
+                                <li>
+                                    <button
+                                        onClick={() => paginate(currentPage + 1)}
+                                        className={`px-3 py-1 rounded-md mx-1  text-black`}
+                                    >
+                                        Next
+                                    </button>
+                                </li>
+                            )}
+                        </ul>
                     </div>
                 </div>
-                <div className="w-1/2 p-4 mt-18">
-                    {selectedOffer && (
-                        <Card className={`mt-8 max-h-full overflow-y-auto ${expandedOfferId ? 'block' : 'hidden'}`}>
-                            <div className="p-4">
-                                <Typography variant="title" className="mb-2 text-blue-gray " style={{ fontSize: '26px', fontWeight: 'bold' }}>
-                                    {selectedOffer.title}
-                                </Typography>
-                                <Typography variant="paragraph" color="blue-gray">
-                                    <b className='font-bold mr-2'>   Location:</b> {selectedOffer.lieu}
-                                </Typography>
-                                <Typography variant="paragraph" color="blue-gray">
-                                    <b className='font-bold mr-2'>Workplace type:</b> {selectedOffer.workplace_type}
-                                </Typography>
-                                <Typography variant="paragraph" color="blue-gray">
-                                    <b className='font-bold mr-2'>  Salary:</b> {selectedOffer.salary_informations}
-                                </Typography>
-                                <Typography variant="paragraph" color="blue-gray">
-                                    <b className='font-bold mr-2'>  Deadline: </b>{selectedOffer.deadline}
-                                </Typography>
-                                <Typography variant="paragraph" color="blue-gray">
-                                    <b className='font-bold mr-2'>  Description:</b> {selectedOffer.description}
-                                </Typography>
-                                <Typography variant="paragraph" color="blue-gray">
-                                    <b className='font-bold mr-2'>  Qualifications:</b> {selectedOffer.qualifications}
-                                </Typography>
-                                <Typography variant="paragraph" color="blue-gray">
-                                    <b className='font-bold mr-2'>  Field: </b>{selectedOffer.field}
-                                </Typography>
-                                <Typography variant="paragraph" color="blue-gray">
-                                    <b className='font-bold mr-2'>  Language:</b>{selectedOffer.langue}
-                                </Typography>
-                            </div>
-                            <div className="flex justify-center my-4 mx-3"></div>
-                        </Card>
-                    )}
-                </div>
             </div>
-            <div className="flex justify-center mt-4">
-                <ul className="flex list-none">
-                    {/* Bouton Précédent */}
-                    {currentPage > 1 && (
-                        <li>
-                            <button
-                                onClick={() => paginate(currentPage - 1)}
-                                className={`px-3 py-1 rounded-md mx-1 bg-gray-200 text-black`}
-                            >
-                                Previous
-                            </button>
-                        </li>
-                    )}
-                    {/* Boutons de pagination */}
-                    {Array.from({ length: Math.ceil(jobOffers.length / offersPerPage) }).map((_, index) => (
-                        <li key={index}>
-                            <button
-                                onClick={() => paginate(index + 1)}
-                                className={`px-3 py-1 rounded-md mx-1 ${currentPage === index + 1 ? 'bg-red-700 text-white' : 'bg-gray-200 text-black'}`}
-                            >
-                                {index + 1}
-                            </button>
-                        </li>
-                    ))}
-                    {/* Bouton Suivant */}
-                    {currentPage < Math.ceil(jobOffers.length / offersPerPage) && (
-                        <li>
-                            <button
-                                onClick={() => paginate(currentPage + 1)}
-                                className={`px-3 py-1 mb-10 rounded-md mx-1  text-black`}
-                            >
-                                Next
-                            </button>
-                        </li>
-                    )}
-                </ul>
-            </div>
+
         </>
     );
 }

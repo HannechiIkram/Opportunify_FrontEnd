@@ -1,4 +1,5 @@
 import SearchBar from "@/Components/Feed/SearchBar/Searchbar";
+import Status from "@/Components/Feed/SearchBar/Status";
 import JobListContainer from "@/Components/Jobs/JobsContainer";
 import { Navbar } from "@/layout";
 import React from "react";
@@ -14,7 +15,7 @@ function Feed() {
           <SearchBar />
         </div>
         <div className="grid gap-4 grid-cols-2 p-5">
-        put the status here
+        <Status />
           <JobListContainer />
         </div>
       </>
