@@ -2,6 +2,8 @@
 import { PageTitle, Footer, Navbar1 } from "@/widgets/layout";
 import { ReactTyped } from "react-typed";
 import company from "./company.png";
+import L from 'leaflet';
+
 import jobseeker from "./jobseeker.png";
 import 'react-day-picker/dist/style.css';
 import { motion } from 'framer-motion';
@@ -119,6 +121,7 @@ const handleSignupClick = () => {
     const handleStartTrial1 = () => {
       Navigate("/sign-up"); // Navigate to the signup page using navigate function
     };
+    
   return (
     <>
     <Navbar1/>
@@ -408,7 +411,6 @@ const handleSignupClick = () => {
     Send Message
   </Button>
 </form>
-
    </section>
    <div className="bg-white">
   

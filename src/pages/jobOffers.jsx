@@ -9,8 +9,10 @@ import { GrCurrency } from "react-icons/gr";
 import { formatDistanceToNow } from "date-fns";
 import { Navbarjs } from '@/widgets/layout';
 import { format } from 'date-fns';
+import { JobOfferMap } from '../pages/JobOfferMap';
 
 export function JobofferConsult() {
+
     const [expandedOfferId, setExpandedOfferId] = useState(null);
     const [selectedOffer, setSelectedOffer] = useState(null);
     const [jobOffers, setJobOffers] = useState([]);
@@ -19,7 +21,7 @@ export function JobofferConsult() {
     const navigate = useNavigate();
     const [currentPage, setCurrentPage] = useState(1);
     const [offersPerPage] = useState(5); // Nombre d'offres par page
-
+    const [isDataLoaded, setIsDataLoaded] = useState(false); // Indicateur pour savoir si les données sont chargées
     const [searchCriteria, setSearchCriteria] = useState({
         title: "",
         workplaceType: "",
@@ -28,7 +30,31 @@ export function JobofferConsult() {
     });
 
     const [sortBySalary, setSortBySalary] = useState(false);
+    const [selectedPosition, setSelectedPosition] = useState(null);
 
+/*   <div className="container mx-auto pt-8">
+        {validJobOffers.map((jobOffer) => (
+          <Card key={jobOffer._id} className="p-4">
+            <Typography variant="title">{jobOffer.title}</Typography>
+            <Typography variant="paragraph">{jobOffer.location}</Typography>
+            <Button
+              onClick={() => handleShowOnMap(jobOffer.latitude, jobOffer.longitude)}
+            >
+              Voir sur la carte
+            </Button>
+            <Button
+              onClick={() => navigate(`/job-offer-details/${jobOffer._id}`)}
+            
+              Voir les détails
+            </Button>
+          </Card>
+        ))}
+
+        <JobOfferMap
+          jobOffers={validJobOffers}
+          selectedPosition={selectedPosition}
+        />
+      </div> */
     useEffect(() => {
         const fetchJobOffers = async () => {
             try {
@@ -44,7 +70,11 @@ export function JobofferConsult() {
                 };
 
                 const response = await axios.get('/job_offer/getall', config);
+                console.log("Job Offers fetched:", response.data); // Vérifier les données récupérées
+
                 setJobOffers(response.data);
+                setIsDataLoaded(true); // Marqueur indiquant que les données sont chargées
+
             } catch (error) {
                 console.error('Failed to fetch job offers:', error.response ? error.response.data : error.message);
             }
@@ -129,7 +159,19 @@ export function JobofferConsult() {
     const paginate = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
-
+    
+    
+    const handleShowOnMap = (latitude, longitude) => {
+        if (latitude !== undefined && longitude !== undefined) {
+          setSelectedPosition([latitude, longitude]);
+        } else {
+          console.error('Coordonnées non valides');
+        }
+      };
+    
+      const validJobOffers = jobOffers.filter(
+        (offer) => offer.latitude !== undefined && offer.longitude !== undefined
+      );
     return (
         <>
             <Navbarjs />
@@ -253,7 +295,8 @@ export function JobofferConsult() {
                                             Show Details
                                         </Button>
                                     </div>
-                                    <div className="flex items-center"></div>
+                                 
+                                             <div className="flex items-center"></div>
                                 </div>
                             ))}
                         </div>
@@ -291,6 +334,7 @@ export function JobofferConsult() {
                                 </li>
                             )}
                         </ul>
+                   
                     </div>
                 </div>
             </div>
