@@ -4,7 +4,7 @@
 
 
 import  OfferDetailsPage  from "./pages/dashboard/OfferDetails";
-
+import JobOfferMap from "./pages/JobOfferMap"
 
 
 
@@ -278,7 +278,11 @@ export const routes = [
   {name: "chat",
 path:"/chat",
 element: <Chat/>,
+},  {name: "JobOfferMap",
+path:"/JobOfferMap",
+element: <JobOfferMap/>,
 },
+
 
   {
 

@@ -22,7 +22,7 @@ function DashboardCard04() {
   const [locationDistributionData, setLocationDistributionData] = useState([]);
 
 
-  useEffect(() => {
+  /*useEffect(() => {
     const fetchUserName = async () => {
       try {
         const accessToken = localStorage.getItem("accessToken");
@@ -50,7 +50,7 @@ function DashboardCard04() {
 
     fetchUserName();
   }, []); // Empty dependency array ensures this runs only once on component mount
-
+*/
   const totalUsers = users.length;
   const activeUsers = users.filter((user) => !user.isBlocked).length;
   const blockedUsers = users.filter((user) => user.isBlocked).length;

@@ -47,8 +47,6 @@ export function Tables() {
   const [error, setError] = useState(null);
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
-  const [phone, setPhone] = useState('');
-  const [response, setResponse] = useState(null);
 
   const totalUsers = users.length;
   const activeUsers = users.filter(user => !user.isBlocked).length;
@@ -226,6 +224,63 @@ useEffect(() => {
     setRejectedUsers(JSON.parse(rejectedUsersFromStorage));
   }
 }, []);
+// Accepter un utilisateur
+const handleAcceptUser1 = async (email) => {
+  try {
+      const accessToken = localStorage.getItem("accessToken");
+      if (!accessToken) {
+          throw new Error("Access token not found");
+      }
+
+      const config = {
+          headers: {
+              Authorization: `Bearer ${accessToken}`,
+          },
+      };
+
+      // Route pour mettre à jour `isApproved`
+      await axios.put(`/user/approve/${email}`, {}, config);
+      
+      // Ajouter à la liste des utilisateurs acceptés
+      setAcceptedUsers([...acceptedUsers, email]);
+      toast.success('User accepted successfully');
+
+      // Mettre à jour le stockage local
+      localStorage.setItem('acceptedUsers', JSON.stringify([...acceptedUsers, email]));
+
+  } catch (error) {
+      console.error("Error accepting user:", error);
+  }
+};
+
+// Rejeter un utilisateur
+const handleRejectUser1 = async (email) => {
+  try {
+      const accessToken = localStorage.getItem("accessToken");
+      if (!accessToken) {
+          throw new Error("Access token not found");
+      }
+
+      const config = {
+          headers: {
+              Authorization: `Bearer ${accessToken}`,
+          },
+      };
+
+      // Route pour supprimer l'utilisateur
+      await axios.delete(`/user/${email}`, config);
+      
+      // Mettre à jour la liste des utilisateurs rejetés
+      setRejectedUsers([...rejectedUsers, email]);
+      toast.error('User rejected successfully');
+
+      // Mettre à jour le stockage local
+      localStorage.setItem('rejectedUsers', JSON.stringify([...rejectedUsers, email]));
+
+  } catch (error) {
+      console.error("Error rejecting user:", error);
+  }
+};
 
   
   return (<>
@@ -346,7 +401,6 @@ useEffect(() => {
                       </div>
 
 </tbody>
-
 
         </div>
 
