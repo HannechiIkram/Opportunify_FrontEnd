@@ -4,7 +4,9 @@ export * from "@/pages/sign-in";
 export * from "@/pages/sign-up";
 export * from "@/pages/userRecordingReducer";
 export * from "@/pages/userRecordingActions";
-
+export * from "@/pages/Calendar";
+export * from "@/pages/CalendarJS";
+export * from "@/pages/CreateEvent"
 export * from "@/pages/passwordReset";
 export * from "@/pages/register-jobseeker";
 //UserDetailsPage
