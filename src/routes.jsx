@@ -1,7 +1,8 @@
 
 import  OfferDetailsPage  from "./pages/dashboard/OfferDetails";
 import JobOfferMap from "./pages/JobOfferMap"
-import Notifdetails from "./pages/dashboard/components/Notifdetails"
+import Notifdetails from "./pages/dashboard/components/Notifdetails";
+import AppPerOff from "./pages/dashboard/AppPerOff";
 /* 
 import { Home, Profile, SignIn, SignUp ,ResetPassword ,RegisterJobseeker,Job_offer,
   Unauthorized,RedirectCompany,RedirectSignUp,Job_offerConsult,Job_offerUpdate,} from "@/pages";*/
@@ -66,6 +67,10 @@ export const routes = [
     name: 'Add-event',
     path: '/add-event',
     element: <Add_event />,
+  }, {
+    name: 'app',
+    path: "/byOffer/:offerId",
+    element: <AppPerOff />,
   },
   
   {

@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import ModalConfirmation from './ModalConfirmation';
-import ApplicationDetails from './applicationsDetails'; // Adjust the path as needed
-import { connect } from 'react-redux';
-import { Link, useNavigate } from "react-router-dom";
+import Sidebar from './partials/Sidebar'; // Import Sidebar component
+
+import {  useNavigate } from "react-router-dom";
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
@@ -16,7 +15,7 @@ import ThumbDownAltIcon from '@mui/icons-material/ThumbDownAlt';
 import { FaCheckCircle, FaTimesCircle, FaEye } from 'react-icons/fa';
 import { useParams } from 'react-router-dom';
 
-const ApplicationsPerOffer = () => {
+const AppPerOff = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [likedApplications, setLikedApplications] = useState([]);
@@ -105,10 +104,13 @@ const ApplicationsPerOffer = () => {
 
   return (
     <>
-      <Navbar />
-      <div className="container mx-auto pt-2 py-8">
-        <div className="flex justify-center items-center mb-8 mt-20">
-          <input
+        <Sidebar /> 
+
+      <div className="container mx-auto pt-2 py-8 ml-80">
+ <div
+className=" mb-30 ml-80"  style={{ bottom: '640px', left: '800px',position: 'fixed', left: '80%', transform: 'translateX(-50%)', width: '100%', zIndex: '999' }} 
+         
+        >          <input
             type="search"
             className="block w-80 px-4 py-2 text-sm text-gray-900 placeholder-gray-500 bg-gray-100 border border-gray-600 rounded-lg shadow-sm focus:outline-none focus:ring-black focus:border-gray-500"
             placeholder="Search application by email"
@@ -117,15 +119,24 @@ const ApplicationsPerOffer = () => {
           />
         </div>
         {applications.length === 0 ? ( // Check if there are no applications
-        <p className="text-center text-gray-700 text-lg mt-20">There is no application for your job offer yet.</p>
+        <p className="text-center text-gray-700 text-lg"   style={{ bottom: '500px', left: '200px',position: 'fixed', left: '57%', transform: 'translateX(-50%)', width: '100%', zIndex: '999' }} 
+        >There is no application for your job offer yet.</p>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg-grid-cols-3 mt-20 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg-grid-cols-3 gap-8" style={{ bottom: '250px', left: '1000px',position: 'fixed', left: '80%', transform: 'translateX(-50%)', width: '100%', zIndex: '999' }} 
+        >
           {applications.map((application) => (
             <div key={application._id} className="bg-white rounded-lg shadow-lg overflow-hidden">
               <div className="p-4">
                 <p className="text-center mb-2">Email: {application.email}</p>
-                <p className="text-center mb-2">motivation: {application.motivation}</p>
+                <p className="text-center mb-2">Disponibility: {application.disponibilite}</p>
 
+                <p className="text-center mb-2">Date of Application : {application.applicationDate}</p>
+                <p className="text-center mb-2">status: {application.status}</p>
+                <p className="text-center mb-2">Motivation: {application.motivation}</p>
+                <p className="text-center mb-2">Salary: {application.salaire}</p>
+
+
+               
                 <div className="flex justify-center mb-2">
                   {application.accepted ? (
                     <div className="flex items-center text-green-700">
@@ -140,12 +151,7 @@ const ApplicationsPerOffer = () => {
                   ) : null}
                 </div>
                 <div className="flex justify-between items-center">
-                  <button
-                    className="bg-red-700 text-white px-4 py-2 rounded-md"
-                    onClick={() => handleViewMore(application._id)}
-                  >
-                    View More
-                  </button>
+                 
                   <div className="flex space-x-2">
                     <button onClick={() => handleLike(application._id)}>
                       {likedApplications.includes(application._id) ? <FavoriteOutlinedIcon /> : <FavoriteBorderOutlinedIcon />}
@@ -168,4 +174,4 @@ const ApplicationsPerOffer = () => {
   );
 };
 
-export default ApplicationsPerOffer;
+export default AppPerOff;
