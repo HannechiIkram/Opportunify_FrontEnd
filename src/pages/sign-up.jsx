@@ -549,24 +549,7 @@ if (!data.phoneNumber) {
 
 
           </div>{/* Facebook */}
-          <div className="w-full mb-4">
-              <div className="relative center mx-auto">
-                <input
-                  type="file"
-                  id="fileInput"
-                  className="hidden"
-                  onChange={handleImageChange}
-                />
-                <label
-                  htmlFor="fileInput"
-                  className={`w-full border rounded-md p-3 text-sm text-white cursor-pointer hover:bg-black focus:outline-none focus:border-black ${
-                    data.image ? 'bg-red-800 border-red-800' : 'bg-black border-black'
-                  }`}
-                >
-                  {data.image ? 'Image Uploaded' : 'Upload Company Logo'}
-                </label>
-              </div>
-            </div>
+         
 
 
             <div className="mb-1 flex flex-col gap-6">

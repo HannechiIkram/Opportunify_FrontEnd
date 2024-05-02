@@ -376,7 +376,7 @@ export function SignIn() {
 
             <Typography variant="paragraph" className="text-center text-blue-gray-500 font-medium mt-4">
               Not registered?
-              <Link to="/sign-up" className="text-gray-900 ml-1">Create an account.</Link>
+              <Link to="/redirect-sign-up" className="text-gray-900 ml-1">Create an account.</Link>
             </Typography>
           </Card>
         </div>
