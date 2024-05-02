@@ -62,12 +62,7 @@ export function Job_offer() {
           qualifications: value.trim() ? "" : "Qualifications cannot be empty",
         }));
         break;
-      case "responsibilities":
-        setErrors((prevErrors) => ({
-          ...prevErrors,
-          responsibilities: value.trim() ? "" : "Responsibilities cannot be empty",
-        }));
-        break;
+     
         case "responsibilities":
           setErrors((prevErrors) => ({
             ...prevErrors,
