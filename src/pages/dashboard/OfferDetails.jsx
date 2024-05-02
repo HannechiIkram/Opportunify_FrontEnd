@@ -27,31 +27,23 @@ function OfferDetailsPage() {
   useEffect(() => {
     async function fetchOffer() {
       try {
-        // Check if the access token exists in localStorage
         const accessToken = localStorage.getItem("accessToken");
-  
-        // If the access token does not exist, handle the error
-        if (!accessToken) {
-          console.error("Access token not found");
-          return;
-        }
-        // Fetch offer details by ID from the backend with the access token
         const response = await axios.get(`http://localhost:3000/job_offer/get/${id}`, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
         });
   
-        // Set the offer state with the retrieved data
+        console.log("Fetched Offer:", response.data); // Afficher la réponse pour déboguer
         setOffer(response.data);
       } catch (error) {
         console.error('Error fetching job offer by ID:', error);
-        // Handle errors
       }
     }
   
     fetchOffer();
   }, [id]);
+  
  
  
   // Function to export offer details to PDF
@@ -98,15 +90,15 @@ function OfferDetailsPage() {
       const companyName = offer.company ? offer.company.name : 'Unknown Company'; // Récupérez le nom de la société ou définissez une valeur par défaut
       // Construct HTML email content
     const offerDetails = `
-      <h2>Job Offer: ${offer.title}</h2>
-      <p><strong>Company:</strong> ${companyName}</p> <!-- Afficher le nom de la société -->
+      Job Offer Title : ${offer.title}
+      Company Name : ${companyName}
 
-      <p><strong>Description:</strong> ${offer.description}</p>
-      <p><strong>Qualifications:</strong> ${offer.qualifications}</p>
-      <p><strong>Responsibilities:</strong> ${offer.responsibilities}</p>
-      <p><strong>Location:</strong> ${offer.lieu}</p>
-      <p><strong>Workplace Type:</strong> ${offer.workplace_type}</p>
-      <p><strong>Salary Information:</strong> ${offer.salary_informations}</p>
+     Description: ${offer.description}
+Qualifications:${offer.qualifications}
+   Responsibilities:  ${offer.responsibilities}
+     Location: ${offer.lieu}
+    Workplace Type :  ${offer.workplace_type}
+      Salary Information: ${offer.salary_informations}
     `;
 
     try {
@@ -184,6 +176,7 @@ className="card mx-auto mb-30 ml-80" style={{ position: 'absolute', bottom: '170
   {offer ? (
     <div>
       <h2>{offer.title}</h2>
+      <p>Company: {offer.companyName}</p> 
 
       <p>Description: {offer.description}</p>
       <p>Qualifications: {offer.qualifications}</p>
