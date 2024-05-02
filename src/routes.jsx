@@ -1,17 +1,12 @@
 
-
-
-
-
 import  OfferDetailsPage  from "./pages/dashboard/OfferDetails";
 import JobOfferMap from "./pages/JobOfferMap"
 import Notifdetails from "./pages/dashboard/components/Notifdetails"
 
+
 /* 
 import { Home, Profile, SignIn, SignUp ,ResetPassword ,RegisterJobseeker,Job_offer,
   Unauthorized,RedirectCompany,RedirectSignUp,Job_offerConsult,Job_offerUpdate,} from "@/pages";*/
-
-
 
 import { Home, Profile, SignIn, SignUp ,ResetPassword ,RegisterJobseeker,
   Job_offer,Unauthorized,RedirectCompany,RedirectSignUp,Job_offerConsult,
@@ -28,11 +23,12 @@ import CreateUserPage from "./pages/dashboard/CreateUserPage";
 import UserDetailsPage from "./pages/dashboard/UserDetailsPage"
 import Notifications from "./pages/dashboard/notifications";
 import { Tables } from "./pages/dashboard/tables";
-
+import Calendar from "./pages/Calendar";
+import CalendarJS from"./pages/CalendarJS";
 import EvaluationList from "./pages/Evaluation";
 import QuizList from "./pages/Quiz";
 
-
+import  CreateEvent from "./pages/CreateEvent";
 
 /////samar
 import ApplicationsPerOffer from "@/pages/applications-per-offer";
@@ -301,6 +297,21 @@ element: <JobOfferMap/>,
     name:"chat",
     path:"/chat_bot",
     element:<Chatbot/>,
+  },
+  {
+    name: "Calendar",
+    path: "/Calendar/:pid",
+    element: <Calendar/>,
+  },
+  {
+    name: "CreateEvent",
+    path: "/CreateEvent/:id",
+    element: <CreateEvent/>,
+  },
+  {
+    name: "CalendarJS",
+    path: "/CalendarJS/:id",
+    element: <CalendarJS/>,
   },
 ];
 
