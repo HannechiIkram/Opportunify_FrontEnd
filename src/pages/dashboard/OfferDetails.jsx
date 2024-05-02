@@ -94,10 +94,13 @@ function OfferDetailsPage() {
   const handleCloseModal = () => {
     setShowModal(false);
   };const handleSendEmail = async () => {
-  if (offer) {
-    // Construct HTML email content
+    if (offer) {
+      const companyName = offer.company ? offer.company.name : 'Unknown Company'; // Récupérez le nom de la société ou définissez une valeur par défaut
+      // Construct HTML email content
     const offerDetails = `
       <h2>Job Offer: ${offer.title}</h2>
+      <p><strong>Company:</strong> ${companyName}</p> <!-- Afficher le nom de la société -->
+
       <p><strong>Description:</strong> ${offer.description}</p>
       <p><strong>Qualifications:</strong> ${offer.qualifications}</p>
       <p><strong>Responsibilities:</strong> ${offer.responsibilities}</p>
