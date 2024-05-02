@@ -149,8 +149,8 @@ const handleSignupClick = () => {
     </ReactTyped>
   </div>  
   <a
-      href="/redirect-sign-up'"
-      target="_blank"
+      href="/redirect-sign-up"
+     
     >
       <button  onClick={handleSignupClick} className='bg-red-800 w-[200px] rounded-md font-medium my-6 mx-auto py-3 text-white'>Get Started</button>
     </a>
@@ -278,6 +278,30 @@ const handleSignupClick = () => {
       </div>
     </div>
     <br>
+  </br>
+  <br>
+  </br>
+  <br>
+  </br>
+  <br>
+  </br>
+  <br>
+  </br>
+  <br>
+  </br>
+  <br>
+  </br>
+  <br>
+  </br>
+  <br>
+  </br>
+  <br>
+  </br>
+  <br>
+  </br>
+  <br>
+  </br>
+  <br>
   </br>
   <br>
   </br>

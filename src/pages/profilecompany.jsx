@@ -63,7 +63,7 @@ export function Profilecompany() {
 
   const handleUpload = async () => {
     if (!selectedFile) {
-      alert('Please select an image file');
+      ///alert('Please select an image file');
       return;
     }
 
@@ -84,7 +84,7 @@ export function Profilecompany() {
         profile_picture: response.data.profile_picture // Assuming response contains the new profile picture URL
       }));
 
-      alert('Image uploaded successfully');
+     /// alert('Image uploaded successfully');
     } catch (error) {
       console.error('Error uploading image:', error);
       alert('Error uploading image');

@@ -27,7 +27,8 @@ import {
   PowerIcon,
   Bars2Icon,
   HomeIcon,
-  KeyIcon
+  KeyIcon,
+  BellAlertIcon
 } from "@heroicons/react/24/solid";
 import { IoMdContact } from "react-icons/io";
 // profile menu component
@@ -42,7 +43,7 @@ const profileMenuItems = [
   },
   {
     label: "Notifications",
-    icon: LifebuoyIcon,
+    icon: BellAlertIcon,
     path:"/notifications"
 
   },

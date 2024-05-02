@@ -5,7 +5,7 @@ import ModalConfirmation from './ModalConfirmation';
 import { GrAid, GrTrash , GrUp , GrClock} from "react-icons/gr";
 import { Navbarjs } from "@/widgets/layout";
 import { format } from 'date-fns';
-import { FaCheckCircle, FaTimesCircle, FaEye } from 'react-icons/fa';
+import { FaCheckCircle, FaTimesCircle, FaEye  } from 'react-icons/fa';
 
 const Applications = () => {
   const [applications, setApplications] = useState([]);
@@ -175,13 +175,22 @@ const Applications = () => {
   useEffect(() => {
     const fetchApplications = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/applications/search/${status}`);
+        const accessToken = localStorage.getItem("accessToken");
+        if (!accessToken) {
+          console.error("Access token not found");
+          return;
+        }
+        const response = await axios.get(`http://localhost:3000/applications/search/${status}`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
         setApplications(response.data);
       } catch (error) {
         console.error('Error fetching applications by status:', error);
       }
     };
-
+  
     if (status === 'accepted' || status === 'rejected') {
       fetchApplications();
     }
