@@ -1,7 +1,9 @@
 export * from "@/pages/home";
 export * from "@/pages/profile";
-export { default as SignIn } from "@/pages/sign-in";
-export  { default as SignUp }from "@/pages/sign-up";
+//export { default as SignIn } from "@/pages/sign-in";
+//export  { default as SignUp }from "@/pages/sign-up";
+export * from "@/pages/sign-in";
+export * from "@/pages/sign-up";
 export * from "@/pages/userRecordingReducer";
 export * from "@/pages/userRecordingActions";
 export * from "@/pages/Calendar";
