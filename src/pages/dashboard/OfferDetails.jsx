@@ -19,6 +19,8 @@ function OfferDetailsPage() {
   const [offer, setOffer] = useState(null); // State to store the offer details
   const { id } = useParams();
   const navigate = useNavigate(); // Use useNavigate for navigation
+  const [userName, setUserName] = useState('');
+
   const [showModal, setShowModal] = useState(false);
   const [message, setMessage] = useState('');
   const [rating, setRating] = useState(0); // State to store the rating value
@@ -85,21 +87,67 @@ function OfferDetailsPage() {
 
   const handleCloseModal = () => {
     setShowModal(false);
-  };const handleSendEmail = async () => {
+  }
+  
+  
+  const fetchUserName = async () => {
+    try {
+      // Récupérer le jeton d'accès depuis le stockage local
+      const accessToken = localStorage.getItem("accessToken");
+      if (!accessToken) {
+        throw new Error("Access token not found"); // Gérer le cas où le jeton n'est pas disponible
+      }
+  
+      // Configuration des en-têtes pour inclure le jeton d'accès
+      const config = {
+        headers: {
+          Authorization: `Bearer ${accessToken}`, // Ajoutez le jeton dans l'en-tête
+        },
+      };
+      // Effectuer la requête avec les en-têtes d'authentification
+      const response = await axios.get('/user/getUserName', config); // Utiliser le chemin correct
+  
+      // Mettre à jour l'état avec le nom de l'utilisateur
+      setUserName(response.data.userName);
+    } catch (error) {
+      if (error.message === "Access token not found") {
+        // Gérer l'absence de jeton d'accès (par exemple, rediriger vers la connexion)
+        console.error("No access token found, redirecting to login...");
+        // Logique de redirection ou autre gestion d'erreur
+      } else {
+        console.error("Error fetching user name:", error);
+      }
+    }
+  };
+  fetchUserName();// N'oubliez pas d'appeler la fonction
+
+  const handleSendEmail = async () => {
     if (offer) {
       const companyName = offer.company ? offer.company.name : 'Unknown Company'; // Récupérez le nom de la société ou définissez une valeur par défaut
       // Construct HTML email content
     const offerDetails = `
-      Job Offer Title : ${offer.title}
-      Company Name : ${companyName}
+    Subject: Exciting Career Opportunity at ${companyName}
 
-     Description: ${offer.description}
-Qualifications:${offer.qualifications}
-   Responsibilities:  ${offer.responsibilities}
-     Location: ${offer.lieu}
-    Workplace Type :  ${offer.workplace_type}
-      Salary Information: ${offer.salary_informations}
-    `;
+ Hello ,
+    
+    We are pleased to inform you of a new job opportunity at ${companyName}. We are currently seeking a ${offer.title} to join our team. As a ${offer.title},
+    you will have the opportunity to work in a dynamic and innovative environment, contributing to ${offer.description}.
+    Below, you will find the key details of the position, including the primary responsibilities, qualifications, and additional information. 
+    
+    If you are interested in applying, please review the information provided and follow the instructions at the end of this message.
+    our offer responsibilities are ${offer.responsibilities} , also our qualifications:${offer.qualifications},our office is located at  ${offer.lieu},
+    The role requires you to work   ${offer.workplace_type} ,The base salary for this position is  ${offer.salary_informations}.
+
+    We encourage you to apply if you meet the qualifications and are looking for a challenging and rewarding career. 
+    Should you have any questions or require additional information, please do not hesitate to contact us at Opportunify.Developpers@outlook.tn
+    We look forward to receiving your application and discussing the opportunity further.
+    
+    Best regards,
+    
+    ${userName},
+    Administrator,
+    Opportunify. 
+`;
 
     try {
       const accessToken = localStorage.getItem("accessToken");
