@@ -53,47 +53,49 @@ function DropdownNotifications({
         const accessToken = localStorage.getItem('accessToken');
         if (!accessToken) {
           throw new Error('Access token not found');
+        }
+  
+        const config = {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        };
+  
+        const response = await axios.get('http://localhost:3000/user/admin', config);
+        const sortedNotifications = response.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+        setNotifications(sortedNotifications);
+  
+        const newUnreadCount = sortedNotifications.filter(notification => !notification.read).length;
+        setUnreadCount(newUnreadCount);
+      } catch (error) {
+        console.error('Error fetching notifications:', error);
       }
+    };
   
-      const config = {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      };
-  
-      const response = await axios.get('http://localhost:3000/user/admin', config); // Fetch notifications
-      const sortedNotifications = response.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-      setNotifications(sortedNotifications);
-  
-      const unreadCount = sortedNotifications.filter((notification) => !notification.read).length;
-      setUnreadCount(unreadCount); // Update unread count based on server data
-    } catch (error) {
-      console.error('Error fetching notifications:', error);
-    }
-  };
-  
-  fetchNotifications(); // Fetch when component mounts or page is refreshed
+    fetchNotifications(); // Fetch the latest data after refresh
   }, []);
   
   
-  const markAllNotificationsAsReadOnServer = async () => {
-    try {
-      const accessToken = localStorage.getItem('accessToken');
-      if (!accessToken) {
-        throw new Error('Access token not found');
-      }
-  
-      const config = {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      };
-  
-      await axios.put('http://localhost:3000/mark-all-read', {}, config); // Mark all as read on the server
-    } catch (error) {
-      console.error('Error marking notifications as read:', error);
+
+const markAllNotificationsAsReadOnServer = async () => {
+  try {
+    const accessToken = localStorage.getItem('accessToken');
+    if (!accessToken) {
+      throw new Error('Access token not found');
     }
-  };
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    };
+
+    await axios.put('http://localhost:3000/user/mark-all-read', {}, config); // Marks all as read on the server
+  } catch (error) {
+    console.error('Error marking notifications as read:', error);
+  }
+};
+
 
 const markAllAsRead = () => {
   const updatedNotifications = notifications.map(notification => ({
@@ -107,7 +109,8 @@ const markAllAsRead = () => {
   setDropdownOpen(newDropdownOpen);
 
   if (newDropdownOpen) {
-    await markAllNotificationsAsReadOnServer(); // Call the server to mark as read
+    await markAllNotificationsAsReadOnServer(); // Update server-side
+    markAllAsRead(); // Update client-side state
   }
 };
 const navigateToAllNotifications = () => {
