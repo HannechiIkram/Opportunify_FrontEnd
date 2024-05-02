@@ -13,7 +13,6 @@ import Footer from "@/widgets/layout/footer";
 
 import { Navbar1 } from "@/widgets/layout";
 
-import { Navbarjs } from "@/widgets/layout";
 
 export function RedirectSignUp() {
   const navigate = useNavigate(); 
@@ -31,7 +30,6 @@ export function RedirectSignUp() {
 
     <Navbar1/>
 
-    <Navbarjs/>
 
     <div className='w-full py-[10rem] px-4  justify-content-center ml-70'>
 
