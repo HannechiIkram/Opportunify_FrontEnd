@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Typography, Button, Input } from "@material-tailwind/react";
 import { useParams, Link } from 'react-router-dom';
-
 export function CreateEvent() {
     
     const [formData, setFormData] = useState({
@@ -183,6 +182,7 @@ export function CreateEvent() {
             </div>
         </div>
     </form>
+ 
         </>
     );
     
