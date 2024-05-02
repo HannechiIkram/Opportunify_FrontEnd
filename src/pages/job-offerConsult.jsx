@@ -93,7 +93,7 @@ const handleSearch = async () => {
           },
       };
 
-      const response = await axios.get(`/job_offer/search/title/${searchtitle}`, config);
+      const response = await axios.get(`/job_offer/search/${searchtitle}`, config);
       setJobOffers(response.data);
   } catch (error) {
       console.error('Failed to fetch job offers based on title:', error.response ? error.response.data : error.message);

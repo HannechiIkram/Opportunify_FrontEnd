@@ -7,6 +7,7 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import axios from "axios";
 import "./Calendar.css";
+import { Navbarjs } from "@/widgets/layout";
 function CalendarJS() {
   const [events, setEvents] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState(null);
@@ -41,6 +42,7 @@ function CalendarJS() {
 
   return (
     <>
+     < Navbarjs />
     <div>
       <FullCalendar
         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}

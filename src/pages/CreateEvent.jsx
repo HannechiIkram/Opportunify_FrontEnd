@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Typography, Button, Input } from "@material-tailwind/react";
 import { useParams, Link } from 'react-router-dom';
+import { Navbar } from "@/widgets/layout";
 export function CreateEvent() {
     
     const [formData, setFormData] = useState({
@@ -29,12 +30,35 @@ export function CreateEvent() {
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
+        
+        // Check if the input is for the date field
+        if (name === 'date') {
+            // Get the selected date value
+            const selectedDate = new Date(value);
+            // Get the current date
+            const currentDate = new Date();
+    
+            // Check if the selected date is before the current date
+            if (selectedDate < currentDate) {
+                // If the selected date is before the current date, display an error message
+                // Update the state with the error message
+                setFormData(prevFormData => ({
+                    ...prevFormData,
+                    errorMessage: "The date should not be a past date",
+                    [name]: value, // Also update the form data with the input value
+                }));
+                return; // Exit the function to prevent setting the state with an invalid date
+            }
+        }
+    
+        // If the input is not for the date field or if the date is valid, update the form data
         setFormData({
             ...formData,
             [name]: value,
+            errorMessage: "", // Clear the error message when the input value changes
         });
     };
-
+    
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -53,6 +77,7 @@ export function CreateEvent() {
 
     return (
         <>
+        <Navbar/>
        <form onSubmit={handleSubmit}>
         <div className="container relative mx-auto">
             <div className="relative flex content-center justify-center pb-8">
@@ -93,13 +118,18 @@ export function CreateEvent() {
                                                         required
                                                         className="Input-style"
                                                     />
+                                                    {formData.errorMessage && (
+                                                   <Typography color="red">
+                                                    {formData.errorMessage}
+                                                        </Typography>
+                                                            )}
                                                 </div>
                                                 <div className="flex flex-col gap-6">
                                                     <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
                                                         Duration
                                                     </Typography>
                                                     <Input
-                                                        type="time"
+                                                        type="text"
                                                         id="duration"
                                                         name="duration"
                                                         value={formData.duration}
