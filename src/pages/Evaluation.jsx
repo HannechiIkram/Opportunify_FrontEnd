@@ -8,6 +8,9 @@ const EvaluationList = () => {
     title: '',
     description: '',
     questions: [],
+    category: '',
+    difficulty: '',
+    keywords: []
   });
   const [editingEvaluationId, setEditingEvaluationId] = useState(null);
   const [numOptions, setNumOptions] = useState(2);
@@ -96,7 +99,7 @@ const EvaluationList = () => {
   const handleCreateEvaluation = async () => {
     try {
       await axios.post('http://localhost:3000/evaluations/add', newEvaluation);
-      setNewEvaluation({ title: '', description: '', questions: [] });
+      setNewEvaluation({ title: '', description: '', questions: [], category: '', difficulty: '', keywords: [] });
       fetchEvaluations();
     } catch (error) {
       console.error('Error creating evaluation:', error);
@@ -118,7 +121,7 @@ const EvaluationList = () => {
         newEvaluation
       );
       setEditingEvaluationId(null);
-      setNewEvaluation({ title: '', description: '', questions: [] });
+      setNewEvaluation({ title: '', description: '', questions: [], category: '', difficulty: '', keywords: [] });
       fetchEvaluations();
     } catch (error) {
       console.error('Error updating evaluation:', error);
@@ -137,7 +140,7 @@ const EvaluationList = () => {
   return (
     <>
     <Navbar/>
-    <div className="container mx-auto mt-8 p-4 bg-white rounded-lg shadow-lg pt-32">
+    <div className="container mx-auto mt-8 p-4 bg-white rounded-lg shadow-lg ">
       <h1 className="text-3xl font-bold text-gray-900 mb-4">Evaluation List</h1>
       <div className="grid grid-cols-3 gap-4">
         {evaluations.map((evaluation) => (
@@ -172,7 +175,7 @@ const EvaluationList = () => {
             placeholder="Title"
             className="border rounded-md px-3 py-2 mb-2 md:mr-2"
           />
-          <input
+           <input
             type="text"
             name="description"
             value={newEvaluation.description}
@@ -180,6 +183,37 @@ const EvaluationList = () => {
             placeholder="Description"
             className="border rounded-md px-3 py-2 mb-2 md:mr-2"
           />
+                    <select
+  name="category"
+  value={newEvaluation.category}
+  onChange={handleInputChange}
+  className="border rounded-md px-3 py-2 mb-2 md:mr-2"
+>
+  <option value="">Select Category</option>
+  <option value="category1">Technical Skills</option>
+  <option value="category2">Communication Skills</option>
+  <option value="category3">Leadership Skills</option>
+</select>
+<select
+  name="difficulty"
+  value={newEvaluation.difficulty}
+  onChange={handleInputChange}
+  className="border rounded-md px-3 py-2 mb-2 md:mr-2"
+>
+  <option value="">Select Difficulty</option>
+  <option value="easy">Easy</option>
+  <option value="medium">Medium</option>
+  <option value="hard">Hard</option>
+</select>
+                     <input
+            type="text"
+            name="keywords"
+            value={newEvaluation.keywords}
+            onChange={handleInputChange}
+            placeholder="Keywords"
+            className="border rounded-md px-3 py-2 mb-2 md:mr-2"
+          />
+          
           <label htmlFor="numOptions" className="mr-2">Number of Options:</label>
           <select
             id="numOptions"

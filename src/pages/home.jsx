@@ -153,6 +153,9 @@ const handleSignupClick = () => {
   </div>  
   <a
       href="/redirect-sign-up"
+
+     
+
     >
       <button  onClick={handleSignupClick} className='bg-red-800 w-[200px] rounded-md font-medium my-6 mx-auto py-3 text-white'>Get Started</button>
     </a>
@@ -289,6 +292,35 @@ const handleSignupClick = () => {
   </br>
   <br>
   </br>
+
+  <br>
+  </br>
+  <br>
+  </br>
+  <br>
+  </br>
+  <br>
+  </br>
+  <br>
+  </br>
+  <br>
+  </br>
+  <br>
+  </br>
+  <br>
+  </br>
+  <br>
+  </br>
+  <br>
+  </br>
+  <br>
+  </br>
+  <br>
+  </br>
+  <br>
+  </br>
+ 
+
   {/*samarrrrrr*/}
   <div className='max-w-[800px] mx-auto mt-[-96px] h-[80vh] flex flex-col justify-center items-center border-4 border-red-800 rounded-lg  animate-spin-slow'>
      

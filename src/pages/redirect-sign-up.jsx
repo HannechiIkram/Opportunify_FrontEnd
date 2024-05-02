@@ -10,7 +10,11 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import Navbar0 from "@/widgets/layout/navbar0";
 import Footer from "@/widgets/layout/footer";
+
 import { Navbar1 } from "@/widgets/layout";
+
+import { Navbarjs } from "@/widgets/layout";
+
 export function RedirectSignUp() {
   const navigate = useNavigate(); 
    const handleClick1 = () => {
@@ -24,7 +28,11 @@ export function RedirectSignUp() {
   return (
     <>
 
+
     <Navbar1/>
+
+    <Navbarjs/>
+
     <div className='w-full py-[10rem] px-4  justify-content-center ml-70'>
 
       <div className='max-w-[1240px] mx-auto grid md:grid-cols-3 gap-8 ml-40'>
