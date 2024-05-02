@@ -28,6 +28,7 @@ import EvaluationList from "./pages/Evaluation";
 import QuizList from "./pages/Quiz";
 
 import  CreateEvent from "./pages/CreateEvent";
+import NotificationsPage from "./Components/NotificationPanel"
 
 /////samar
 import ApplicationsPerOffer from "@/pages/applications-per-offer";
@@ -193,7 +194,7 @@ export const routes = [
   {
     name: 'notif',
     path: '/notification',
-    element: <Notifications />,
+    element: < NotificationsPage/>,
   },
   {
     name: 'tables',
