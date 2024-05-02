@@ -22,7 +22,7 @@ function WelcomeBanner() {
 
     setGreeting(greetingMessage);
 
-   /* const fetchUserName = async () => {
+   const fetchUserName = async () => {
       try {
         // Récupérer le jeton d'accès depuis le stockage local
         const accessToken = localStorage.getItem("accessToken");
@@ -36,7 +36,6 @@ function WelcomeBanner() {
             Authorization: `Bearer ${accessToken}`, // Ajoutez le jeton dans l'en-tête
           },
         };
-        , {userName}
         // Effectuer la requête avec les en-têtes d'authentification
         const response = await axios.get('/user/getUserName', config); // Utiliser le chemin correct
     
@@ -53,7 +52,7 @@ function WelcomeBanner() {
       }
     };
 
-    fetchUserName();*/ // N'oubliez pas d'appeler la fonction
+    fetchUserName();// N'oubliez pas d'appeler la fonction
 
   }, []); // Utilisation de useEffect pour exécuter le code lors du montage du composant
 
@@ -63,7 +62,8 @@ function WelcomeBanner() {
       {/* Contenu */}
       <div className="relative">
         <h1 className="text-2xl md:text-3xl text-slate-800 dark:text-slate-100 font-bold mb-1">
-          {greeting},  👋
+          {greeting},         {userName}
+  👋
         </h1>
         <p className="dark:text-indigo-200">This is your DASHBOARD :</p>
       </div>
