@@ -288,16 +288,16 @@ className="card mx-auto mb-30 ml-80" style={{ position: 'absolute', bottom: '170
   {offer ? (
     <div>
       
-      <h2>{offer.title}</h2>
-      <p>Company: {offer.companyName}</p> 
+      <h2> Title : {offer.title}</h2>
+      <p>Company : {offer.companyName}</p> 
 
-      <p>Description: {offer.description}</p>
-      <p>Qualifications: {offer.qualifications}</p>
-      <p>Responsibilities: {offer.responsibilities}</p>
-      <p>City: {offer.lieu}</p>
-      <p>Language: {offer.langue}</p>
-      <p>Workplace Type: {offer.workplace_type}</p>
-      <p>Field: {offer.field}</p>
+      <p>Description : {offer.description}</p>
+      <p>Qualifications : {offer.qualifications}</p>
+      <p>Responsibilities : {offer.responsibilities}</p>
+      <p>City : {offer.lieu}</p>
+      <p>Language : {offer.langue}</p>
+      <p>Workplace Type : {offer.workplace_type}</p>
+      <p>Field : {offer.field}</p>
       <Typography variant="paragraph" color="blue-gray" className="mr-2">
                        Deadline: {formatDeadlineDate(offer.deadline)}
                       </Typography>

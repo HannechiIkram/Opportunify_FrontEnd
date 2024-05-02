@@ -101,7 +101,14 @@ const AppPerOff = () => {
   const indexOfLastApplication = currentPage * applicationsPerPage;
   const indexOfFirstApplication = indexOfLastApplication - applicationsPerPage;
   const currentApplications = searchResults.slice(indexOfFirstApplication, indexOfLastApplication);
-
+  const formatApplicationDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-GB', { 
+      year: 'numeric', 
+      month: 'long', 
+      day: 'numeric'
+    }); 
+  };
   return (
     <>
         <Sidebar /> 
@@ -130,7 +137,7 @@ className=" mb-30 ml-80"  style={{ bottom: '640px', left: '800px',position: 'fix
                 <p className="text-center mb-2">Email: {application.email}</p>
                 <p className="text-center mb-2">Disponibility: {application.disponibilite}</p>
 
-                <p className="text-center mb-2">Date of Application : {application.applicationDate}</p>
+                <p className="text-center mb-2">Date of Application: {formatApplicationDate(application.applicationDate)}</p> {/* Formatted date */}
                 <p className="text-center mb-2">status: {application.status}</p>
                 <p className="text-center mb-2">Motivation: {application.motivation}</p>
                 <p className="text-center mb-2">Salary: {application.salaire}</p>
