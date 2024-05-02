@@ -82,6 +82,7 @@
     "tailwind-merge": "^2.3.0",
     "twilio": "^5.0.1",
     "victory": "^37.0.1",
+    "websocket": "^1.0.34",
     "xlsx": "^0.18.5",
     "yup": "^1.4.0"
   },

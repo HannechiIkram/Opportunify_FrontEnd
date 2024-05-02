@@ -5,8 +5,7 @@
 
 import  OfferDetailsPage  from "./pages/dashboard/OfferDetails";
 import JobOfferMap from "./pages/JobOfferMap"
-
-
+import Notifdetails from "./pages/dashboard/components/Notifdetails"
 
 /* 
 import { Home, Profile, SignIn, SignUp ,ResetPassword ,RegisterJobseeker,Job_offer,
@@ -54,6 +53,7 @@ import Chat from "./pages/Chat";
 
 import Feed from "./pages/Feed";
 import ProfileDetailPage from "./Components/Consult profile/ProfileDetailPage";
+import { element } from "prop-types";
 
 export const routes = [
   {
@@ -116,6 +116,12 @@ export const routes = [
     name: 'home',
     path: '/home',
     element: <Home />,
+  },
+  
+  {
+    name: 'Notifdetails',
+    path: '/Notifdetails',
+    element: <Notifdetails />,
   },
   //Details
   {
