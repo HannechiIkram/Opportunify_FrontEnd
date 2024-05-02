@@ -48,7 +48,7 @@ import Chatbot from "./pages/Generatemessage";
 import JobofferConsult from "./pages/jobOffers";
 
 
-
+import OCRApp from "@/OCR/OCRapp";
 import Chat from "./pages/Chat";
 
 import Feed from "./pages/Feed";
@@ -60,6 +60,12 @@ export const routes = [
     name: 'navbar-jobseeker',
     path: '/navbar-jobseeker',
     element: <Navbarjs />,
+  },
+  
+  {
+    name: "OCRApp",
+    path: "/OCR",
+    element: <OCRApp/>,
   },
   {
     name: 'Add-event',
