@@ -320,11 +320,7 @@ export function Profilecompany() {
           handledeletePost={handledeletePost}
         ></PostsList>
 
-        <div>
-         
-          <Modal open={openModal} onClose={() => setOpenModal(false)} />
-        </div>
-
+     
       </div>
             
           </div>
