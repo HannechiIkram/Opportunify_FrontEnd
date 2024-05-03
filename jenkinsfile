@@ -10,7 +10,6 @@ pipeline {
     stage('Clean NPM Cache') {
             steps {
                 script {
-                    // Nettoyer le cache npm avant d'installer les dépendances
                     sh 'npm cache clean --force'
                 }
             }
@@ -19,7 +18,7 @@ pipeline {
        stage('Install dependencies') {
     steps {
         script {
-            sh 'npm install' // Supprimez --legacy-peer-deps
+            sh 'npm install' 
         }
     }
 }
