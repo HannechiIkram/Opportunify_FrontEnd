@@ -49,7 +49,7 @@
 }
 
 .modal-button.delete {
-    background-color: #ff4d4f; /* Red color for delete button */
+    background-color: black; /* Red color for delete button */
     color: white;
 }
 

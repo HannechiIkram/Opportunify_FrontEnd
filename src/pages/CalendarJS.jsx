@@ -107,8 +107,10 @@ function CalendarJS() {
       <p className="modal-text mb-4"><Typography className="block text-xl font-medium text-red-900 dark:text-white" >Location:</Typography>  {selectedEvent.extendedProps.location}</p>
       <p className="modal-text mb-4"><Typography className="block text-xl font-medium text-red-900 dark:text-white" >Event mode:</Typography> {selectedEvent.extendedProps.eventMode}</p>
       <p className="modal-text mb-4"><Typography className="block text-xl font-medium text-red-900 dark:text-white" >Description:</Typography> {selectedEvent.extendedProps.description}</p>
-      <button className="modal-button delete" onClick={handleDeleteEvent}>want to Cancel the interview?</button>
-      <button className="bg-red-900 mt-10 text-white px-6 rounded" onClick={() => modalRef.current.close()}>Close</button>
+      <div className="button-container">
+      <button className="modal-button delete " onClick={handleDeleteEvent}>Want to Cancel the interview?</button>
+      <button className="modal-button close" onClick={() => modalRef.current.close()}>Close</button>
+    </div>
     </div>
   </dialog>
 )}
