@@ -12,7 +12,9 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 import jsPDF from 'jspdf';
 import { Navbar } from "@/widgets/layout";
 import { format } from 'date-fns';
+
 import {  useNavigate } from 'react-router-dom';
+
 
 
 const ApplicationDetails = () => {
@@ -28,8 +30,14 @@ const ApplicationDetails = () => {
   const [buttonState, setButtonState] = useState({ accept: true, reject: true });
   const [isAccepted, setIsAccepted] = useState(applications?.status === 'accepted');
   const [isRejected, setIsRejected] = useState(applications?.status === 'rejected');
+
   const navigate = useNavigate(); // Use useNavigate for navigation
 
+  const [ShowInterviewButton, setShowInterviewButton] = useState();
+  
+
+
+  
   useEffect(() => {
     const fetchApplicationDetails = async () => {
       try {
@@ -67,10 +75,14 @@ const ApplicationDetails = () => {
 
   const handleAccept = async () => {
     setShowAcceptConfirmation(true);
+
     //window.location.href =`/CreateEvent/${applications._id}`;
     //navigate(`/CreateEvent/${applications._id}`);
 
   
+
+   setShowInterviewButton(true);
+
   };
 
   const handleReject = async () => {
@@ -266,7 +278,9 @@ console.log("Headers:", config.headers);
   }
 
   
-  console.log(applications.job_seeker)
+  const handleClick1 = () => {
+    navigate(`/CreateEvent/${applications._id}`);
+  };
   return (
     <>
     <Navbar/>
@@ -333,13 +347,12 @@ console.log("Headers:", config.headers);
              <br></br>
               
              <Button color="gray" onClick={handleAccept} disabled={isAccepted || isRejected}>
-           
               Accept
-              
               </Button>
 
              <Button color="red" onClick={handleReject} disabled={isAccepted || isRejected}>Reject</Button>
-              
+             {            (ShowInterviewButton)&&(  <div> <Button  onClick={handleClick1} className="mt-8 bg-blue-gray-700" >schedule interview</Button></div>
+)}
               <div>
                 <Rating
                   count={5}

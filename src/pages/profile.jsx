@@ -5,6 +5,7 @@ import {
   BriefcaseIcon,
   BuildingLibraryIcon,
 } from "@heroicons/react/24/solid";
+import { useNavigate } from "react-router-dom";
 import Banner from "./Banner.png";
 import { BiSolidCake } from "react-icons/bi";
 import { Footer, Navbar } from "@/widgets/layout";
@@ -115,7 +116,10 @@ export function Profile() {
       alert('Error uploading image');
     }
   };
-  
+  const navigate = useNavigate(); 
+  const handleClick6 = () => {
+    navigate(`/CalendarJS/${userId}`);
+  };
   const [isInputFocused, setInputFocused] = useState(false);
 
   const [showBirthdate, setShowBirthdate] = useState(false);
@@ -353,8 +357,7 @@ const togglechat = () => {
 
 <div className="mt-10 mb-10 flex lg:flex-col justify-between lg:justify-end lg:mb-0 lg:px-4 flex-wrap lg:-mt-5">
   <div className="flex gap-4 -mt-10 ml-4">
-  <Button className="  font-bold  text-red-900 bg-blue-gray-100 rounded-full">Connect</Button>
-    <Button className="bg-blue-gray-100 text-red-900 Lato rounded-full">Message</Button>
+ 
     <div className="flex justify-end">
         <BiBell
           className="text-2xl text-gray-600 cursor-pointer"
@@ -372,7 +375,9 @@ const togglechat = () => {
     {notificationMessage.map((message, index) => (
       <div key={index}>{message}</div>
     ))}
+      <div><button   onClick={handleClick6} className="font-bold  text-red-900 bg-blue-gray-100 rounded-full px-2 py-2 mt-4 ">Check calendar for more details</button></div>
   </div>
+
 )}
 
   </div>

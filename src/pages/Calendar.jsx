@@ -154,6 +154,19 @@ import interactionPlugin from "@fullcalendar/interaction";
 import axios from "axios";
 import "./Calendar.css";
 import { useParams} from 'react-router-dom';
+
+import {
+  Card,
+  CardBody,
+  CardHeader,
+  Typography,
+  Button,
+  Input,
+} from "@material-tailwind/react";
+import { Navbar } from "@/widgets/layout";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 function Calendar() {
   const [events, setEvents] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState(null);
@@ -192,8 +205,17 @@ function Calendar() {
     // Make a DELETE request to delete the interview event using the event ID
     await axios.delete(`/Interview/interview-event/${selectedEvent.extendedProps._id}`);
     console.log('Interview event deleted successfully');
-    // Close the modal or perform any other actions as needed
+    
+    // Show a success notification toast
+    toast.success('Interview event has been cancelled');
+
+    // Close the modal
     modalRef.current.close();
+
+    // Refresh the page after a short delay
+    setTimeout(() => {
+      window.location.reload();
+    }, 2000); // Refresh after 2 seconds (adjust as needed)
   } catch (error) {
     console.error('Error deleting interview event:', error);
     // Handle any errors, such as displaying an error message to the user
@@ -202,6 +224,9 @@ function Calendar() {
 
   return (
     <>
+    <Navbar />
+    <ToastContainer position="top-center" autoClose={3000} />
+
     <div>
       <FullCalendar
         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
@@ -220,15 +245,18 @@ function Calendar() {
   <dialog className="modal" ref={modalRef}>
     <div className="modal-content">
       <span className="close" onClick={() => modalRef.current.close()}>&times;</span>
-      <h2>{selectedEvent.title}</h2>
-      <p>Date: {selectedEvent.start.toLocaleString()}</p>
-      <p>Duration: {selectedEvent.extendedProps.duration}</p>
-      <p>Location: {selectedEvent.extendedProps.location}</p>
-      <p>Interviewer Email: {selectedEvent.extendedProps.intervieweremail}</p>
-      <p>Event Mode: {selectedEvent.extendedProps.eventMode}</p>
-      <p>Description: {selectedEvent.extendedProps.description}</p>
-      <button className="bg-red-900 mt-10 text-white px-6 rounded" onClick={handleDeleteEvent}>Delete</button>
-      <button className="bg-red-900 mt-10 text-white px-6 rounded" onClick={() => modalRef.current.close()}>Close</button>
+      <div className="w-full flex justify-center"><Typography variant="h4" className="block font-semibold text-red-900 dark:text-red" style={{ fontFamily: 'Roboto, sans-serif' }} >Interview for the post of: <h1 className="ml-14 text-black">{selectedEvent.extendedProps.joboffertitle}</h1> </Typography></div>
+   {/*   <h2 className="modal-title mb-4"><Typography className="block text-m font-medium text-red-900 dark:text-red " >CompanyName:</Typography>{selectedEvent.extendedProps.CompanyName}</h2>*/}
+      <h2 className="modal-title mb-4"><Typography className="block text-xl font-medium text-red-900 dark:text-red " >Interview title:</Typography>{selectedEvent.title}</h2>
+      <p className="modal-text mb-4"><Typography className="block text-xl font-medium text-red-900 dark:text-white" >Date:</Typography> {selectedEvent.start.toLocaleString()}</p>
+
+      <p className="modal-text mb-4"><Typography className="block text-xl font-medium text-red-900 dark:text-white" >Event mode:</Typography> {selectedEvent.extendedProps.eventMode}</p>
+      <p className="modal-text mb-4"><Typography className="block text-xl font-medium text-red-900 dark:text-white" >Description:</Typography> {selectedEvent.extendedProps.description}</p>
+      <div className="button-container">
+  <button className="modal-button delete" onClick={handleDeleteEvent}>want to Cancel the interview?</button>
+  <button className="modal-button close" onClick={() => modalRef.current.close()}>Close</button>
+</div>
+
     </div>
   </dialog>
 )}
