@@ -3,7 +3,8 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { Input, Button, Typography } from "@material-tailwind/react";
 import Navbar from "@/widgets/layout/navbar";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 export function Job_offerUpdate() {
   const { id } = useParams();
 
@@ -152,7 +153,7 @@ export function Job_offerUpdate() {
     const hasErrors = Object.values(errors).some((error) => error);
     if (hasErrors) {
       // If there are errors, prevent the update
-      window.alert("Please fix all errors before updating.");
+      toast.error("Please fix all errors before updating.");
       return;
     }
 

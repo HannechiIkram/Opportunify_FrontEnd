@@ -65,6 +65,8 @@ function OCRUploader() {
   return (
     <>
       <Navbarjs />
+      <ToastContainer position="top-center" autoClose={5000}  />
+
       <form className="mx-auto  w-full mt-12 lg:w-5/12 border border-gray-300 rounded-lg shadow-lg p-8">
         <div className="font-bold mb-12 flex">Upload an image or a screenshot to extract job offer information:</div>
         
