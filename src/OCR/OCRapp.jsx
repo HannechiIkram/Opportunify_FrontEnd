@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import Navbar from '@/layout/navbar';
-import { Navbar1, Navbarjs } from '@/widgets/layout';
+import { Navbar0, Navbar1, Navbarjs } from '@/widgets/layout';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 function OCRUploader() {
@@ -97,7 +97,7 @@ const handlePostJobOffer = async (e) => {
 
   return (
     <>
-      <Navbarjs />
+    <Navbar0/>
       <ToastContainer position="top-center" autoClose={5000}  />
 
       <form className="mx-auto w-full mt-12 lg:w-5/12 border border-gray-300 rounded-lg shadow-lg p-8">
