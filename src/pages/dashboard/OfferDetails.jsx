@@ -19,39 +19,36 @@ function OfferDetailsPage() {
   const [offer, setOffer] = useState(null); // State to store the offer details
   const { id } = useParams();
   const navigate = useNavigate(); // Use useNavigate for navigation
+  const [userName, setUserName] = useState('');
+  const [selectedOffer, setSelectedOffer] = useState(null);
+
   const [showModal, setShowModal] = useState(false);
   const [message, setMessage] = useState('');
   const [rating, setRating] = useState(0); // State to store the rating value
+  const [jobOffers, setJobOffers] = useState([]);
+  const [expandedOfferId, setExpandedOfferId] = useState(null);
 
   const [recipientEmail, setRecipientEmail] = useState('');
   useEffect(() => {
     async function fetchOffer() {
       try {
-        // Check if the access token exists in localStorage
         const accessToken = localStorage.getItem("accessToken");
-  
-        // If the access token does not exist, handle the error
-        if (!accessToken) {
-          console.error("Access token not found");
-          return;
-        }
-        // Fetch offer details by ID from the backend with the access token
         const response = await axios.get(`http://localhost:3000/job_offer/get/${id}`, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
         });
   
-        // Set the offer state with the retrieved data
+        console.log("Fetched Offer:", response.data); // Afficher la réponse pour déboguer
         setOffer(response.data);
       } catch (error) {
         console.error('Error fetching job offer by ID:', error);
-        // Handle errors
       }
     }
   
     fetchOffer();
   }, [id]);
+  
  
  
   // Function to export offer details to PDF
@@ -93,18 +90,67 @@ function OfferDetailsPage() {
 
   const handleCloseModal = () => {
     setShowModal(false);
-  };const handleSendEmail = async () => {
-  if (offer) {
-    // Construct HTML email content
+  }
+  
+  
+  const fetchUserName = async () => {
+    try {
+      // Récupérer le jeton d'accès depuis le stockage local
+      const accessToken = localStorage.getItem("accessToken");
+      if (!accessToken) {
+        throw new Error("Access token not found"); // Gérer le cas où le jeton n'est pas disponible
+      }
+  
+      // Configuration des en-têtes pour inclure le jeton d'accès
+      const config = {
+        headers: {
+          Authorization: `Bearer ${accessToken}`, // Ajoutez le jeton dans l'en-tête
+        },
+      };
+      // Effectuer la requête avec les en-têtes d'authentification
+      const response = await axios.get('/user/getUserName', config); // Utiliser le chemin correct
+  
+      // Mettre à jour l'état avec le nom de l'utilisateur
+      setUserName(response.data.userName);
+    } catch (error) {
+      if (error.message === "Access token not found") {
+        // Gérer l'absence de jeton d'accès (par exemple, rediriger vers la connexion)
+        console.error("No access token found, redirecting to login...");
+        // Logique de redirection ou autre gestion d'erreur
+      } else {
+        console.error("Error fetching user name:", error);
+      }
+    }
+  };
+  fetchUserName();// N'oubliez pas d'appeler la fonction
+
+  const handleSendEmail = async () => {
+    if (offer) {
+      const companyName = offer.company ? offer.company.name : 'Unknown Company'; // Récupérez le nom de la société ou définissez une valeur par défaut
+      // Construct HTML email content
     const offerDetails = `
-      <h2>Job Offer: ${offer.title}</h2>
-      <p><strong>Description:</strong> ${offer.description}</p>
-      <p><strong>Qualifications:</strong> ${offer.qualifications}</p>
-      <p><strong>Responsibilities:</strong> ${offer.responsibilities}</p>
-      <p><strong>Location:</strong> ${offer.lieu}</p>
-      <p><strong>Workplace Type:</strong> ${offer.workplace_type}</p>
-      <p><strong>Salary Information:</strong> ${offer.salary_informations}</p>
-    `;
+    Subject: Exciting Career Opportunity at ${companyName}
+
+ Hello ,
+    
+    We are pleased to inform you of a new job opportunity at ${companyName}. We are currently seeking a ${offer.title} to join our team. As a ${offer.title},
+    you will have the opportunity to work in a dynamic and innovative environment, contributing to ${offer.description}.
+    Below, you will find the key details of the position, including the primary responsibilities, qualifications, and additional information. 
+    
+    If you are interested in applying, please review the information provided and follow the instructions at the end of this message.
+    our offer responsibilities are ${offer.responsibilities} , also our qualifications:${offer.qualifications},our office is located at  ${offer.lieu},
+    The role requires you to work   ${offer.workplace_type} ,The base salary for this position is  ${offer.salary_informations}.
+
+    We encourage you to apply if you meet the qualifications and are looking for a challenging and rewarding career. 
+    Should you have any questions or require additional information, please do not hesitate to contact us at Opportunify.Developpers@outlook.tn
+    We look forward to receiving your application and discussing the opportunity further.
+    
+    Best regards,
+    
+    ${userName},
+    Administrator,
+    Opportunify. 
+`;
 
     try {
       const accessToken = localStorage.getItem("accessToken");
@@ -135,6 +181,20 @@ function OfferDetailsPage() {
 
   
   
+ // Utilisez useEffect pour effectuer la requête lorsqu'un composant est monté
+ useEffect(() => {
+  const fetchApplicationsCount = async () => {
+    try {
+      const response = await axios.get(`/job_offer/applications/count/${id}`);
+      setApplicationsCount(response.data.count); // Utilisez `response.data` pour obtenir les données de la réponse
+    } catch (err) {
+      setError(err);
+    }
+  };
+
+  fetchApplicationsCount();
+}, [id]); // Dépend de offerId
+
   // Function to handle rating change
   const handleRatingChange = (value) => {
     setRating(value);
@@ -161,7 +221,54 @@ const renderRatingEmojis = () => {
     </motion.span>
   ));
 };
+    
 
+
+const [applicationsCount, setApplicationsCount] = useState({});
+
+const fetchApplicationsCount = async (offerId) => {
+  try {
+      const accessToken = localStorage.getItem("accessToken");
+      const config = {
+          headers: {
+              Authorization: `Bearer ${accessToken}`,
+          },
+      };
+      const response = await axios.get(`/job_offer/applications/count/${offerId}`, config);
+      return response.data; // Suppose que le backend renvoie directement le nombre d'applications
+  } catch (error) {
+      console.error('Failed to fetch applications count:', error.response ? error.response.data : error.message);
+      return 0; // En cas d'erreur, renvoyer 0 ou un autre valeur par défaut
+  }
+};
+
+// Fonction pour récupérer le nombre d'applications pour toutes les offres
+const fetchApplicationsCountsForAllOffers = async () => {
+  const counts = {};
+  for (const offer of jobOffers) {
+      const count = await fetchApplicationsCount(offer._id);
+      counts[offer._id] = count;
+  }
+  setApplicationsCount(counts);
+};
+
+useEffect(() => {
+  fetchApplicationsCountsForAllOffers();
+}, [jobOffers]);
+const formatDeadlineDate = (deadline) => {
+  // Create a new Date object from the deadline string
+  const deadlineDate = new Date(deadline);
+  // Use Date methods to get the desired date format
+  const formattedDeadline = deadlineDate.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+  return formattedDeadline;
+};
+const handleRedirectToApplications = () => {
+  navigate(`/byOffer/${id}`); // Rediriger vers la page avec l'identifiant de l'offre
+};    
 
   return (
     <>
@@ -169,7 +276,7 @@ const renderRatingEmojis = () => {
       <ToastContainer position="top-center" autoClose={5000} />
 
       <div className="container  mr-40   center">
-      <h1 style={{ bottom: '620px', left: '800px',position: 'fixed', left: '50%', transform: 'translateX(-50%)', width: '100%', zIndex: '999' }} className="text-4xl mb-8 text-center text-red-700 transition-opacity duration-1000 transform hover:scale-105">
+      <h1 style={{ bottom: '620px', left: '800px',position: 'fixed', left: '50%', transform: 'translateX(-50%)', width: '100%', zIndex: '999' }} className="text-4xl mb-8  text-center text-red-700 transition-opacity duration-1000 transform hover:scale-105">
 OFFER DETAILS        </h1>  
 
         <div
@@ -180,17 +287,36 @@ className="card mx-auto mb-30 ml-80" style={{ position: 'absolute', bottom: '170
          <div className="card-body" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
   {offer ? (
     <div>
-      <h2>{offer.title}</h2>
-
-      <p>Description: {offer.description}</p>
-      <p>Qualifications: {offer.qualifications}</p>
-      <p>Responsibilities: {offer.responsibilities}</p>
-      <p>City: {offer.lieu}</p>
-      <p>Language: {offer.langue}</p>
-      <p>Workplace Type: {offer.workplace_type}</p>
-      <p>Field: {offer.field}</p>
-      <p>Salary Information: {offer.salary_informations}</p>
       
+      <h2> Title : {offer.title}</h2>
+      <p>Company : {offer.companyName}</p> 
+
+      <p>Description : {offer.description}</p>
+      <p>Qualifications : {offer.qualifications}</p>
+      <p>Responsibilities : {offer.responsibilities}</p>
+      <p>City : {offer.lieu}</p>
+      <p>Language : {offer.langue}</p>
+      <p>Workplace Type : {offer.workplace_type}</p>
+      <p>Field : {offer.field}</p>
+      <Typography variant="paragraph" color="blue-gray" className="mr-2">
+                       Deadline: {formatDeadlineDate(offer.deadline)}
+                      </Typography>
+      <p>Salary Information: {offer.salary_informations}</p>
+
+      <Typography
+  variant="paragraph"
+  color="green"
+  className="text-1xl font-bold"  // Utilisation de Tailwind pour augmenter la taille de la police
+>      <p>
+                Applications Number: 
+                <span 
+                  style={{ cursor: 'pointer', textDecoration: 'underline' }}
+                  onClick={handleRedirectToApplications} // Redirection vers la page des applications
+                >
+                  {applicationsCount}
+                </span>
+              </p>
+</Typography>
       {/* Render additional fields as needed */}
     </div>
   ) : (
@@ -208,7 +334,7 @@ className="card mx-auto mb-30 ml-80" style={{ position: 'absolute', bottom: '170
   >
     Export to PDF
   </button>
-  
+ 
  {/* Icon for sharing */}
  <FaGoogle
               className="text-black mt-5 cursor-pointer hover:text-black ml-4"
@@ -220,6 +346,7 @@ className="card mx-auto mb-30 ml-80" style={{ position: 'absolute', bottom: '170
             <span className="mr-2"></span>
             {renderRatingEmojis()}
           </div>
+         
         {showModal && (
           <div className="fixed z-10 inset-0 overflow-y-auto">
             <div className="flex items-center justify-center min-h-screen">
@@ -264,6 +391,7 @@ className="card mx-auto mb-30 ml-80" style={{ position: 'absolute', bottom: '170
                   >
                     Close
                   </button>
+                 
                 </div>
               </div>
             </div>

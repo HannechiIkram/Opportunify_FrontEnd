@@ -14,7 +14,7 @@ import { useParams } from 'react-router-dom';
 import { AiTwotonePhone } from "react-icons/ai";
 import Modal from "./Modal.jsx";
 import Chat from '../pages/Chat';
-
+import { BiBell } from "react-icons/bi"; // Importez une icône de notification, par exemple BiBell de react-icons
 import PictureModal from "./PictureModal.jsx";
 import { AiFillEdit } from "react-icons/ai";
 import  "./Modal.css";
@@ -38,14 +38,44 @@ export function Profile() {
   const openPictureModal = () => {
     setShowPictureModal(true);
   };
-
+  const { userId } = useParams();
   // Function to close modal
   const closePictureModal = () => {
     setShowPictureModal(false);
+  }; const [showNotificationMessage, setShowNotificationMessage] = useState(false); // State variable to control the visibility of the notification message
+  const [unreadNotifications, setUnreadNotifications] = useState(0);
+  const [notificationMessage, setNotificationMessage] = useState(""); // State variable to store the notification message content
+
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      try {
+        const response = await axios.get(`/Interview/notifications/${userId}`);
+        const notifications = response.data;
+        const unreadCount = notifications.filter(notification => !notification.read).length;
+        setUnreadNotifications(unreadCount);
+        // Display all notification messages
+        if (notifications.length > 0) {
+          const messages = notifications.map(notification => notification.message);
+          setNotificationMessage(messages); // Set notificationMessage to messages array
+          setShowNotificationMessage(true);
+        } else {
+          setNotificationMessage([]); // Initialize notificationMessage as an empty array
+        }
+      } catch (error) {
+        console.error('Error fetching notifications:', error);
+      }
+    };
+    fetchNotifications();
+  }, []);
+  
+
+  const handleNotificationClick = () => {
+    setShowNotificationMessage(!showNotificationMessage); // Toggle the visibility of the notification message
   };
 
+  
   const [openModal, setOpenModal] = useState(false);
-  const { userId } = useParams();
+  
   const [profile, setprofile] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
 
@@ -57,7 +87,7 @@ export function Profile() {
 
   const handleUpload = async () => {
     if (!selectedFile) {
-      alert('Please select an image file');
+      //alert('Please select an image file');
       return;
     }
   
@@ -79,7 +109,7 @@ export function Profile() {
         profile_picture: response.data.profile_picture // Assuming response contains the new profile picture URL
       }));
   
-      alert('Image uploaded successfully');
+  //    alert('Image uploaded successfully');
     } catch (error) {
       console.error('Error uploading image:', error);
       alert('Error uploading image');
@@ -249,6 +279,7 @@ const togglechat = () => {
     <>
     <div  className="">
  < Navbarjs />
+ 
  </div>
     <div>
     {profile ? (
@@ -324,6 +355,26 @@ const togglechat = () => {
   <div className="flex gap-4 -mt-10 ml-4">
   <Button className="  font-bold  text-red-900 bg-blue-gray-100 rounded-full">Connect</Button>
     <Button className="bg-blue-gray-100 text-red-900 Lato rounded-full">Message</Button>
+    <div className="flex justify-end">
+        <BiBell
+          className="text-2xl text-gray-600 cursor-pointer"
+          onClick={handleNotificationClick}
+        />
+        {unreadNotifications > 0 && (
+          <span className="bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs ml-1">
+            {unreadNotifications}
+          </span>
+        )}
+      </div>
+      {/* Render the notification message conditionally */}
+{showNotificationMessage && (
+  <div className="bg-white p-4 shadow-md mt-4">
+    {notificationMessage.map((message, index) => (
+      <div key={index}>{message}</div>
+    ))}
+  </div>
+)}
+
   </div>
 </div>
 

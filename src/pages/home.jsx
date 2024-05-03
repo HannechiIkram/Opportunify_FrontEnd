@@ -2,6 +2,8 @@
 import { PageTitle, Footer, Navbar1 } from "@/widgets/layout";
 import { ReactTyped } from "react-typed";
 import company from "./company.png";
+import L from 'leaflet';
+
 import jobseeker from "./jobseeker.png";
 import 'react-day-picker/dist/style.css';
 import { motion } from 'framer-motion';
@@ -24,7 +26,7 @@ import QRCode from 'qrcode.react';
 
 import { FaTimes } from 'react-icons/fa';
 import ShowDetailSignUP from "./showdetailsSignup";
-import { SignIn } from ".";
+
 
 
 
@@ -119,22 +121,23 @@ const handleSignupClick = () => {
     const handleStartTrial1 = () => {
       Navigate("/sign-up"); // Navigate to the signup page using navigate function
     };
+    
   return (
     <>
     <Navbar1/>
-    <div className="h-1/4 container relative mx-auto">
-  <div className="relative flex h-screen content-center items-center justify-center pt-16 pb-32">
+    <div className="h-1/4 container relative mx-auto bg-[url('/img/bloc.jpg')] bg-cover rounded">
+  <div className="relative flex h-screen content-center items-center justify-center pt-16  ">
 
            
-<div className='max-w-[800px] mt-[-96px] w-full h-screen mx-auto text-center flex flex-col justify-center mt-50'>  
-        <div>
+<div className='max-w-[800px] mt-[-96px] w-full h-screen mx-auto text-center flex flex-col justify-center mt-50  '>  
+        <div className="bg-white rounded-xl">
           <br></br>
-    <ReactTyped className='Lato  text-gray-800 font-bold p-2 text-5xl' strings={["GROW WITH OPPORTUNIFY"]} typeSpeed={40} />
+    <ReactTyped className='Lato  text-red-900 font-bold p-2 text-5xl' strings={["GROW WITH OPPORTUNIFY"]} typeSpeed={40} />
     <br />
+    <br></br>
 
-    <ReactTyped className='Lato  mx-auto py-3 text-black w-full text-4xl ' 
+    <ReactTyped className='mx-auto py-3 text-black w-full text-4xl  ' 
       strings={[
-   
         "Searching for internships?",
         "Searching for job offers?",
       ]}
@@ -145,11 +148,14 @@ const handleSignupClick = () => {
     >
 
 
-      <input type="text" />
+      <input   type="text"/>
     </ReactTyped>
   </div>  
   <a
       href="/redirect-sign-up"
+
+     
+
     >
       <button  onClick={handleSignupClick} className='bg-red-800 w-[200px] rounded-md font-medium my-6 mx-auto py-3 text-white'>Get Started</button>
     </a>
@@ -286,6 +292,35 @@ const handleSignupClick = () => {
   </br>
   <br>
   </br>
+
+  <br>
+  </br>
+  <br>
+  </br>
+  <br>
+  </br>
+  <br>
+  </br>
+  <br>
+  </br>
+  <br>
+  </br>
+  <br>
+  </br>
+  <br>
+  </br>
+  <br>
+  </br>
+  <br>
+  </br>
+  <br>
+  </br>
+  <br>
+  </br>
+  <br>
+  </br>
+ 
+
   {/*samarrrrrr*/}
   <div className='max-w-[800px] mx-auto mt-[-96px] h-[80vh] flex flex-col justify-center items-center border-4 border-red-800 rounded-lg  animate-spin-slow'>
      
@@ -408,7 +443,6 @@ const handleSignupClick = () => {
     Send Message
   </Button>
 </form>
-
    </section>
    <div className="bg-white">
   

@@ -88,7 +88,7 @@ function UserDetailsPage({ userId }) {
         };
   
         // Fetch user details with the access token included in the headers
-        const response = await axios.get(`/user/${id}`, config);
+        const response = await axios.get(`/user/hey/${id}`, config);
         setUser(response.data);
         setLoading(false);
       } catch (error) {

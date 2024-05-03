@@ -9,6 +9,10 @@ import { AiOutlineIdcard } from "react-icons/ai";
 import { AiFillTwitterCircle } from "react-icons/ai";
 import { BsFacebook } from "react-icons/bs";
 import { AiFillGithub } from "react-icons/ai";
+import PostsList from '@/Containers/PostsList';
+import Modal from './Modal.jsx';
+import { Card, Container } from '@mui/material';
+import AddPost from '@/Containers/AddPost';
 
 import Chat from '../pages/Chat';
 import Divider from '@mui/material/Divider';
@@ -21,6 +25,24 @@ export function Profilecompany() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { pId } = useParams();
   const [profile, setProfile] = useState(null);
+   const [posts, setPosts] = useState([]);
+   const [displayPostForm, setDisplayPostForm] = useState(false);
+   const toggleDisplayPostForm = () => {
+     setDisplayPostForm((prev) => !prev);
+   };
+   const [openModal, setOpenModal] = useState(false);
+
+    const handledeletePost = (postId) => {
+      axios.delete(`/status/${postId}`).then((data) => {
+        setPosts(posts.filter((e) => e._id !== postId));
+      });
+    };
+
+      const handleAddPost = (postData) => {
+        setPosts((prev) => [...posts, postData]);
+      };
+
+
   const [showSocialMedia, setShowSocialMedia] = useState(false);
   const [showchat, setShowchat] = useState(false); // Pour contrôler la visibilité du chatbot
 
@@ -28,17 +50,30 @@ export function Profilecompany() {
     setShowSocialMedia(!showSocialMedia);
   };
 
-  const [openModal, setOpenModal] = useState(false); // Fix: Initialize openModal state
+  
 
   useEffect(() => {
     const fetchProfileCompany = async () => {
       try {
         const response = await axios.get(`/user/getProfileCompanyById/${pId}`);
         setProfile(response.data.profile); // Assuming response.data contains profile company information
+        return response.data.profile._id;
       } catch (error) {
         console.error('Error fetching profile company:', error);
       }
     };
+
+    const fetchPosts = async (id) => {
+      try {
+        const response = await axios.get(`/status/profile-posts/${id}`);
+        setPosts(response.data);
+      } catch (error) {
+        console.error('Error fetching user:', error);
+      }
+    };
+     fetchProfileCompany().then((id) => {
+       fetchPosts(id);
+     });
 
     fetchProfileCompany();
   }, [pId]);
@@ -63,7 +98,7 @@ export function Profilecompany() {
 
   const handleUpload = async () => {
     if (!selectedFile) {
-      alert('Please select an image file');
+      ///alert('Please select an image file');
       return;
     }
 
@@ -84,7 +119,7 @@ export function Profilecompany() {
         profile_picture: response.data.profile_picture // Assuming response contains the new profile picture URL
       }));
 
-      alert('Image uploaded successfully');
+     /// alert('Image uploaded successfully');
     } catch (error) {
       console.error('Error uploading image:', error);
       alert('Error uploading image');
@@ -261,6 +296,36 @@ export function Profilecompany() {
               </div>
               </div>
             </section>
+
+            <div className="flex justify-end">
+                  <Button
+                    style={{ backgroundColor: '#b41615' }}
+                    onClick={toggleDisplayPostForm}
+                  >
+                    Add new post
+                  </Button>
+                </div>
+         
+          <div>
+                {displayPostForm && (
+          <Container className=" bg-gray-100">
+            <Card sx={{ border: '1px solid #f9f9f9', pt: '1rem' }}>
+              <AddPost currentProfile={profile} handleAddPost={handleAddPost} />
+            </Card>
+          </Container>
+        )}
+        <PostsList
+          posts={posts}
+          profile={profile}
+          handledeletePost={handledeletePost}
+        ></PostsList>
+
+        <div>
+         
+          <Modal open={openModal} onClose={() => setOpenModal(false)} />
+        </div>
+
+      </div>
             
           </div>
         ) : (

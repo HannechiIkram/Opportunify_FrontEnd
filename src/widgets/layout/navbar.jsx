@@ -34,9 +34,9 @@ import { IoMdContact } from "react-icons/io";
 const profileMenuItems = [
 
   {
-    label: "Inbox",
+    label: "My Feed",
     icon: InboxArrowDownIcon,
-    path:""
+    path:"/feed"
 
   },
   {

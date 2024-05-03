@@ -12,6 +12,7 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 import jsPDF from 'jspdf';
 import { Navbar } from "@/widgets/layout";
 import { format } from 'date-fns';
+import {  useNavigate } from 'react-router-dom';
 
 
 const ApplicationDetails = () => {
@@ -27,6 +28,7 @@ const ApplicationDetails = () => {
   const [buttonState, setButtonState] = useState({ accept: true, reject: true });
   const [isAccepted, setIsAccepted] = useState(applications?.status === 'accepted');
   const [isRejected, setIsRejected] = useState(applications?.status === 'rejected');
+  const navigate = useNavigate(); // Use useNavigate for navigation
 
   useEffect(() => {
     const fetchApplicationDetails = async () => {
@@ -65,6 +67,10 @@ const ApplicationDetails = () => {
 
   const handleAccept = async () => {
     setShowAcceptConfirmation(true);
+    //window.location.href =`/CreateEvent/${applications._id}`;
+    //navigate(`/CreateEvent/${applications._id}`);
+
+  
   };
 
   const handleReject = async () => {
@@ -260,7 +266,7 @@ console.log("Headers:", config.headers);
   }
 
   
-
+  console.log(applications.job_seeker)
   return (
     <>
     <Navbar/>
@@ -317,7 +323,7 @@ console.log("Headers:", config.headers);
             <p className='text-gray-800'>Date: {formattedDate(applications.applicationDate)}</p>
               <p> {applications.applicationId}</p>
               <p className='text-gray-800'>Email: {applications.email}</p>
-              <p className='text-gray-800'>Salary Inormations: {applications.salaire}</p>
+              <p className='text-gray-800'>Salary Informations: {applications.salaire}</p>
 
               <p className='text-gray-800'>Disponibility: {applications.disponibilite}</p>
               <p className='text-gray-800 w-full break-words max-w-[calc(100%-8rem)] text-center ml-6'>Motivation: {applications.motivation}</p>
@@ -326,7 +332,11 @@ console.log("Headers:", config.headers);
 <Button color="white" onClick={() => handleExportCoverLetter(applications.coverLetter)}>Export Cover Letter </Button></p>
              <br></br>
               
-             <Button color="gray" onClick={handleAccept} disabled={isAccepted || isRejected}>Accept</Button>
+             <Button color="gray" onClick={handleAccept} disabled={isAccepted || isRejected}>
+           
+              Accept
+              
+              </Button>
 
              <Button color="red" onClick={handleReject} disabled={isAccepted || isRejected}>Reject</Button>
               

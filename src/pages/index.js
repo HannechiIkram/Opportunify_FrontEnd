@@ -1,10 +1,14 @@
 export * from "@/pages/home";
 export * from "@/pages/profile";
+//export { default as SignIn } from "@/pages/sign-in";
+//export  { default as SignUp }from "@/pages/sign-up";
 export * from "@/pages/sign-in";
 export * from "@/pages/sign-up";
 export * from "@/pages/userRecordingReducer";
 export * from "@/pages/userRecordingActions";
-
+export * from "@/pages/Calendar";
+export * from "@/pages/CalendarJS";
+export * from "@/pages/CreateEvent"
 export * from "@/pages/passwordReset";
 export * from "@/pages/register-jobseeker";
 //UserDetailsPage
@@ -19,8 +23,8 @@ export * from "@/pages/dashboard/home";
 export * from "@/context/usercontext";
 import ProtectedRoute from '@/context/ProtectedRoute';
 import { fromJSON } from "postcss";
- export { default as Unauthorized } from "@/pages/unauthorized";
 
+ export { default as Unauthorized } from "@/pages/unauthorized";
 export { default as RedirectCompany } from "@/pages/redirect-company";
 export {default as RedirectSignUp} from "@/pages/redirect-sign-up";
 export {default as TermsAndConditions} from "@/pages/TermsAndConditions";

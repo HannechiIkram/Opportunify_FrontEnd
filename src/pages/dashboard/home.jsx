@@ -23,7 +23,8 @@ function HomeDashboard() {
   const [jobOffers, setJobOffers] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [users, setUsers] = useState([]);
-
+  const [notifications, setNotifications] = useState([]);
+  
   useEffect(() => {
     const fetchUsers = async () => {
       try {
@@ -66,8 +67,35 @@ function HomeDashboard() {
     fetchJobOffers();
   }, []);
 
-  
 
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      try {
+        const accessToken = localStorage.getItem('accessToken');
+        if (!accessToken) {
+          throw new Error('Access token not found'); // Check for the token
+        }
+
+        const config = {
+          headers: {
+            Authorization: `Bearer ${accessToken}`, // Ensure correct token handling
+          },
+        };
+
+        const response = await axios.get('http://localhost:3000/user/admin', config); // Correct endpoint
+        setNotifications(response.data); // Set the state with retrieved notifications
+      } catch (error) {
+        console.error('Error fetching notifications:', error);
+
+        // Redirect if the token is invalid
+        if (error.message === 'Access token not found') {
+          navigate('/login'); // Redirect to login page
+        }
+      }
+    };
+
+    fetchNotifications(); // Trigger fetch upon mounting
+  }, []);
 
   const filteredJobOffers = jobOffers.filter((offer) => {
     const { title, description, qualifications, responsibilities, lieu, langue } = offer;
@@ -107,6 +135,8 @@ function HomeDashboard() {
               </div>
             </div>
             <div className="grid grid-cols-12 gap-2">
+           
+           
               <DashboardCard01 />
               <DashboardCard02 />
               <DashboardCard03 />
@@ -114,7 +144,7 @@ function HomeDashboard() {
     <DashboardCard04 /> 
     <DashboardCard05 /> 
     <DashboardCard06 /> 
-
+   < DashboardCard09/>
 
             </div>
           </div>

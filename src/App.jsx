@@ -20,59 +20,72 @@ import Quiz from "./pages/test";
 import JobOfferDetails from "./pages/jobOfferDetails";
 import JobOfferList from "./pages/jobOffers";
 import NotificationPanel from "./Components/NotificationPanel";
+import Feed from "./pages/Feed";
+import ProfileDetailPage from "./Components/Consult profile/ProfileDetailPage";
+
 
 // redirection_roles samarr
 function App() {
   const { pathname } = useLocation();
   return (
-  
     <UserProvider>
+      {/*les paths eli mayodhherch efhom navbar par défaut (pour company)*/}
 
-{/*les paths eli mayodhherch efhom navbar par défaut (pour company)*/}
+      {!!(
+        pathname === '/nav0' ||
+        pathname === '/profile/:userId' ||
+        pathname === '/navbar-jobseeker' ||
+        pathname === '/navbar' ||
+        pathname === '/nav1' ||
+        pathname === '/add-event' ||
+        pathname === '/apply/:offerId'
+      ) && (
+        <div className="container absolute left-2/4 z-10 mx-auto -translate-x-2/4 p-4">
+          <Navbar routes={routes} />
+        </div>
+      )}
 
-      {!!(pathname === '/nav0' ||
-   pathname === '/profile/:userId' ||
-   pathname === '/navbar-jobseeker' ||
-  
-   pathname === '/navbar' || 
-   pathname === '/nav1' || 
-   pathname === '/add-event' || 
-   pathname === '/apply/:offerId'   ) && (
-    <div className="container absolute left-2/4 z-10 mx-auto -translate-x-2/4 p-4">
-      <Navbar routes={routes} />
-    </div>
-  )
-
-      }
-      
       <Routes>
         {routes.map(
           ({ path, element }, key) =>
-            element && <Route key={key} exact path={path} element={element} />
+            element && <Route key={key} exact path={path} element={element} />,
         )}
         <Route path="*" element={<Navigate to="/home" replace />} />
 
-
         <Route path="/unauthorized" component={Unauthorized} />
-        <Route path="/create" element={<ProtectedRoute element={<Home />} requiredRole="admin" />} />
-        <Route path="/dashboard" element={<ProtectedRoute element={<HomeDashboard />} requiredRole="admin" />} />
-  <Route path="/job_offer" element={<ProtectedRoute element={<Job_offer />} requiredRole="company" />} />
-  <Route path="/applicationDetails/:id" element={<ApplicationDetails />} />
-  <Route path="/updateApplication/:id" element={<UpdateApplication/>} />
-  <Route path="/apply/:offerId" element={<Apply/>} />
-  <Route path="/quiz/:quizId" element={<Quiz/>} />
-  <Route exact path="/job-offers" element={<JobOfferList/>} />
-  <Route path="/job-offer-details/:id" element={<JobOfferDetails/>} />
-  <Route path="/notifications" element={<NotificationPanel />} />
+        <Route
+          path="/create"
+          element={<ProtectedRoute element={<Home />} requiredRole="admin" />}
+        />
+        <Route
+          path="/dashboard"
+          element={<ProtectedRoute element={<HomeDashboard />} requiredRole="admin" />}
+        />
+        <Route
+          path="/job_offer"
+          element={<ProtectedRoute element={<Job_offer />} requiredRole="company" />}
+        />
+        <Route path="/applicationDetails/:id" element={<ApplicationDetails />} />
+        <Route path="/updateApplication/:id" element={<UpdateApplication />} />
+        <Route path="/apply/:offerId" element={<Apply />} />
+        <Route path="/quiz/:quizId" element={<Quiz />} />
+        <Route exact path="/job-offers" element={<JobOfferList />} />
+        <Route path="/job-offer-details/:id" element={<JobOfferDetails />} />
+        <Route path="/notifications" element={<NotificationPanel />} />
+        <Route path="/feed" element={<Feed />} />
+        
+  <Route path="/profile-details/:_id" element={<ProfileDetailPage />} />
 
 
-
-
-        <Route path="/dashboard" element={<ProtectedRoute element={<Home />} requiredRole="admin" />} />
-  <Route path="/job_offer" element={<ProtectedRoute element={<Job_offer />} requiredRole="company" />} />
+        <Route
+          path="/dashboard"
+          element={<ProtectedRoute element={<Home />} requiredRole="admin" />}
+        />
+        <Route
+          path="/job_offer"
+          element={<ProtectedRoute element={<Job_offer />} requiredRole="company" />}
+        />
       </Routes>
-      
-     
     </UserProvider>
   );
   

@@ -21,35 +21,27 @@ function DashboardCard04() {
   const [jobOffers, setJobOffers] = useState([]);
   const [locationDistributionData, setLocationDistributionData] = useState([]);
 
-
   useEffect(() => {
-    const fetchUserName = async () => {
+    const fetchUsers = async () => {
       try {
         const accessToken = localStorage.getItem("accessToken");
         if (!accessToken) {
-          throw new Error("Access token not found. Please log in again.");
+          throw new Error("Access token not found");
         }
-
         const config = {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
         };
-
-        const response = await axios.get("/user/getUserName", config); // Adjust endpoint as needed
-        setUserName(response.data.userName); // Adjust based on your backend response structure
+        const response = await axios.get("http://localhost:3000/user", config);
+        setUsers(response.data);
       } catch (error) {
-        console.error('Error fetching user name:', error);
-
-        // Optional: Handle specific error cases, like redirecting to a login page
-        if (error.message === "Access token not found. Please log in again.") {
-          // Redirect or show a specific message
-        }
+        console.error("Error fetching users:", error);
       }
     };
 
-    fetchUserName();
-  }, []); // Empty dependency array ensures this runs only once on component mount
+    fetchUsers();
+  }, []);
 
   const totalUsers = users.length;
   const activeUsers = users.filter((user) => !user.isBlocked).length;
