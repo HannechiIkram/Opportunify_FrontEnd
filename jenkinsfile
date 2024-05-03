@@ -7,7 +7,23 @@ pipeline {
     }
 
     stages {
-  
+    stage('Clean NPM Cache') {
+            steps {
+                script {
+                    // Nettoyer le cache npm avant d'installer les dépendances
+                    sh 'npm cache clean --force'
+                }
+            }
+        }
+
+        stage('Install dependencies') {
+            steps {
+                script {
+                    // Installer les dépendances en utilisant npm
+                    sh 'npm install --legacy-peer-deps' // Ignorer les conflits de pairs
+                }
+            }
+        }
 
         stage('Unit Test') {
             steps {
@@ -18,15 +34,7 @@ pipeline {
                 }
             }
         }
-      stage('Install dependencies') {
-            steps {
-                script {
-                    // Install dependencies using npm
-                    sh 'npm install'
-                }
-            }
-        }
-
+     
         stage('Deploy to Nexus') {
             steps {
                 script {
