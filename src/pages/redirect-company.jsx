@@ -10,6 +10,7 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 import { Footer } from '@/widgets/layout';
 import { Navbar } from "@/widgets/layout";
 import schedule from "/public/img/schedule.png";
+import OCRUploader from "@/OCR/OCRapp";
 export function RedirectCompany() {
   const navigate = useNavigate(); 
   const pId = localStorage.getItem('pId');
@@ -25,12 +26,18 @@ export function RedirectCompany() {
   const handleClick4 = () => {
     navigate(`/Calendar/${pId}`);
   };
+  //////temporaire
+  const handleClick5 = () => {
+    navigate("/OCR");
+  };
  
   return (
     <>
 <Navbar/>  
     <div className='w-full py-[1rem] px-4  justify-content-center  '>
       <div className="w-full py-[10rem] px-4 ">
+      <button onClick={handleClick5} className='w-[200px] rounded-md font-medium bg-red-800 my-6 mx-auto px-6 py-3 text-white' >Use OCR to post a job offer</button>
+
         <div className="max-w-[1240px] mx-auto grid md:grid-cols-4 gap-8">
         <div className='w-full shadow-xl flex flex-col p-4 my-4 rounded-lg hover:scale-105 duration-300 ml-5 mt-10 '>
             <img className="w-20 mx-auto mt-[-3rem] bg-white" src={joboffer} alt="/" />
