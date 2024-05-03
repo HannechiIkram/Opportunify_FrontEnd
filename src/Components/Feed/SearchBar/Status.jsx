@@ -79,8 +79,16 @@ const Status = ({ initialPosts }) => {
             className="bg-red-500 shadow overflow-hidden sm:rounded-lg my-4 p-6"
           >
             <div className="px-4 py-5 sm:px-6">
+              <Avatar
+                src={`http://localhost:3000/user/profileCompany_image/${localStorage.getItem(
+                  'pId',
+                )}`}
+                alt="Profile picture"
+                variant="square"
+                sx={{ width: 80, height: 80 }}
+              />
               <Typography variant="h4" component="div">
-                {post.username}
+                <a href='axios.get '> {post.username}</a>
               </Typography>
               <Typography variant="body2" color="text.secondary">
                 {new Date(post.createdAt).toUTCString()}

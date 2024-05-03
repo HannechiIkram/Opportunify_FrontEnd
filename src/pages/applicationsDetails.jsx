@@ -12,6 +12,7 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 import jsPDF from 'jspdf';
 import { Navbar } from "@/widgets/layout";
 import { format } from 'date-fns';
+import {  useNavigate } from 'react-router-dom';
 
 
 const ApplicationDetails = () => {
@@ -27,6 +28,7 @@ const ApplicationDetails = () => {
   const [buttonState, setButtonState] = useState({ accept: true, reject: true });
   const [isAccepted, setIsAccepted] = useState(applications?.status === 'accepted');
   const [isRejected, setIsRejected] = useState(applications?.status === 'rejected');
+  const navigate = useNavigate(); // Use useNavigate for navigation
 
   useEffect(() => {
     const fetchApplicationDetails = async () => {
@@ -65,7 +67,9 @@ const ApplicationDetails = () => {
 
   const handleAccept = async () => {
     setShowAcceptConfirmation(true);
-    window.location.href =`/CreateEvent/${applications._id}`;
+    //window.location.href =`/CreateEvent/${applications._id}`;
+    //navigate(`/CreateEvent/${applications._id}`);
+
   
   };
 

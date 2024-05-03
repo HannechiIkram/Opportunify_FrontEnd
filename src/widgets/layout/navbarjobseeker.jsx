@@ -27,7 +27,8 @@ import {
   PowerIcon,
   Bars2Icon,
   HomeIcon,
-  KeyIcon
+  KeyIcon,
+  BellAlertIcon
 } from "@heroicons/react/24/solid";
 import { IoMdContact } from "react-icons/io";const userId=localStorage.getItem('userId'); 
 
@@ -41,12 +42,15 @@ const profileMenuItems = [
     path:"/feed"
 
   },
+
+
   {
     label: "Notifications",
-    icon: LifebuoyIcon,
+    icon: BellAlertIcon,
     path:"/notifications"
 
   },
+
   {
     label: "Sign Out",
     icon: PowerIcon,

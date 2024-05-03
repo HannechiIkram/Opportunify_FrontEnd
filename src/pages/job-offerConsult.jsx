@@ -16,9 +16,9 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 import {Appap} from "./createPieChart.jsx";
 
 import { Navbar } from '@/layout/index.js';
-
-
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
 
 export function Job_offerConsult() {
     const [expandedOfferId, setExpandedOfferId] = useState(null);
@@ -177,6 +177,7 @@ const formatDeadlineDate = (deadline) => {
 return (  
     <>
     <Navbar/>
+    <ToastContainer position="top-center" autoClose={5000}  />
      <div className="container relative mx-auto">
             <div className="relative flex content-center justify-center pt-24 pb-8">
             <div className="w-1/2 p-4 gap-2 flex inline-text"> {/* Barre de recherche */}

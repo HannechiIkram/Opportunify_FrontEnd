@@ -62,8 +62,11 @@ function SearchBar() {
               <div className="flex-shrink-0">
                 <img
                   className="w-8 h-8 rounded-full"
-                  src={profile.profile_picture}
+                  src={`http://localhost:3000/user/profileJS_image/${profile._id}`}
                   alt="profile picture"
+                  onError={(e) => {
+                    e.target.src = `http://localhost:3000/user/profileCompany_image/${profile._id}`;
+                  }}
                 />
               </div>
               <div className="flex-1 min-w-0">
