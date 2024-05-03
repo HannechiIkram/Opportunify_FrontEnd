@@ -16,15 +16,13 @@ pipeline {
             }
         }
 
-        stage('Install dependencies') {
-            steps {
-                script {
-                    // Installer les dépendances en utilisant npm
-                    sh 'npm install --legacy-peer-deps' // Ignorer les conflits de pairs
-                }
-            }
+       stage('Install dependencies') {
+    steps {
+        script {
+            sh 'npm install' // Supprimez --legacy-peer-deps
         }
-
+    }
+}
         stage('Unit Test') {
             steps {
                 script {
