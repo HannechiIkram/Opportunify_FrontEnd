@@ -191,10 +191,7 @@ export function Profilecompany() {
     </div>
      </div>
                     <div className="mt-10 mb-10 flex lg:flex-col justify-between lg:justify-end lg:mb-0 lg:px-4 flex-wrap lg:-mt-5">
-  <div className="flex gap-4 -mt-10 ml-4">
-    <Button className="  font-bold  text-red-900 bg-blue-gray-100 rounded-full">Connect</Button>
-    <Button className="bg-blue-gray-100 text-red-900 Lato rounded-full">Message</Button>
-  </div>
+ 
 </div>
 
                
