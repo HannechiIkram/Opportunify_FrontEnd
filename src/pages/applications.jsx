@@ -214,7 +214,9 @@ const Applications = () => {
       <button type="button" class="text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900" onClick={() => setStatus('rejected')}>Rejected Applications</button>
             </div>
          
-
+            {applications.length === 0 ? ( // Check if there are no applications
+        <p className="text-center text-gray-700 text-lg mt-20">There is no applications yet.</p>
+      ) : (
             <div className="flex flex-wrap justify-center pt-8">
               {currentApplications.map(application => (
                 <div key={application._id} className="m-4 bg-gray-100 rounded-md w-96 shadow-lg overflow-hidden h-auto">
@@ -255,6 +257,7 @@ const Applications = () => {
                 </div>
               ))}
             </div>
+      )}
           </div>
           <ModalConfirmation isOpen={isConfirmationOpen} onClose={() => setIsConfirmationOpen(false)} onConfirm={handleDelete} />
         </div>

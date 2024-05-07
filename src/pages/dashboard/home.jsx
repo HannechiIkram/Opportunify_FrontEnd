@@ -112,7 +112,9 @@ function HomeDashboard() {
       return true;
     }
   });
-
+  const handleClick5 = () => {
+    navigate("/OCR");
+  };
   return (
     <div className="flex h-screen overflow-y-hidden">
       <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
@@ -134,9 +136,11 @@ function HomeDashboard() {
                 </button>                
               </div>
             </div>
+            <button onClick={handleClick5} className='w-[200px] rounded-md font-medium bg-red-800 my-6 mx-auto px-6 py-3 text-white' >Use OCR to post a job offer</button>
+
             <div className="grid grid-cols-12 gap-2">
            
-           
+
               <DashboardCard01 />
               <DashboardCard02 />
               <DashboardCard03 />

@@ -451,7 +451,7 @@ const togglechat = () => {
             </div>
                    
 
-            <div className="container mx-auto w-2/3 bg-red-900   shadow-md rounded-2xl">
+            <div className="container mx-auto w-2/3 bg-red-900   shadow-md rounded-2xl mt-12">
             <div className="flex items-center mt-4">
   <h1 className="text-2xl font-bold mr-4 text-white">About me</h1>
   <Divider sx={{ height: 8, backgroundColor: '#FFFAF0', flexGrow: 1, borderRadius: '8px' }} className="mr-12" />
@@ -505,7 +505,7 @@ const togglechat = () => {
 </div>
 </div>  
 <div>
-  <div className="container  w-1/3 bg-red-900   shadow-md rounded-2xl">
+  <div className="container  w-1/3 bg-red-900   shadow-md rounded-2xl mt-12">
             <div className="flex items-center mt-8 mb-2">
   <h1 className="text-2xl font-bold mt-1 mx-4 text-white">Technologies</h1>
   <Divider sx={{ height: 8, backgroundColor: '#FFFAF0', flexGrow: 1, borderRadius: '8px' }} className="mr-12" />

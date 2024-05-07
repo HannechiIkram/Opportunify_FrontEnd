@@ -131,7 +131,6 @@ const NotificationsPage = () => {
                   <div class="flex items-center">
                     <div class="ml-4 text-sm font-normal ">
                       <div className='flex items-center gap-4'>
-                    <img class="w-10 h-10 rounded-full" src={notification.companyimage} alt="company" /> 
                       <div class="text-sm font-semibold text-gray-900 dark:text-white">{notification.companyname}</div>
                       </div>
                       <div className='grid grid-cols-2 gap-4'>
